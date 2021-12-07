@@ -136,7 +136,11 @@ const ChooseCollection: React.FC<IProps> = observer(
                   )}
                 </div>
                 <div className={styles.cardSubtitle}>
-                  <Text tag="span">{collection.name}</Text>
+                  <Text tag="span">
+                    {collection.name.length > 24
+                      ? `${collection.name.slice(0, 24)}...`
+                      : collection.name}
+                  </Text>
                 </div>
               </div>
             ))}
