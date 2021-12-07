@@ -45,19 +45,18 @@ const RangePicker: FC<Props> = ({
   className,
   classNameWrap,
   valueSwitcher,
-  onChange = () => { },
-  onSwitcher = () => { },
+  onChange = () => {},
+  onSwitcher = () => {},
   isDebounce,
-  currency
+  currency,
 }) => {
   const [localValue, setLocalValue] = useState('');
 
   const [debouncedCallApi] = useState(() => debounce(onChange, 1000));
 
-
   useEffect(() => {
     setLocalValue(value.toString());
-  }, [value])
+  }, [value]);
 
   const handleChangeRange = useCallback(
     (val: number) => {
@@ -162,16 +161,20 @@ const RangePicker: FC<Props> = ({
           railStyle={
             isVertical
               ? {
-                width: 6,
-                backgroundColor: 'white',
-              }
+                  width: 6,
+                  backgroundColor: 'white',
+                }
               : {}
           }
         />
 
         <div className={styles.valuesWrapper}>
-          <Text weight='bold' tag='span' className={styles.min}>{min} {currency?.toUpperCase()}</Text>
-          <Text weight='bold' tag='span' className={styles.max}>{max} {currency?.toUpperCase()}</Text>
+          <Text weight="bold" tag="span" className={styles.min}>
+            {min} {currency?.toUpperCase()}
+          </Text>
+          <Text weight="bold" tag="span" className={styles.max}>
+            {max} {currency?.toUpperCase()}
+          </Text>
         </div>
 
         {isManageBtnVisible && (

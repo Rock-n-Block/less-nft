@@ -49,7 +49,10 @@ const TitleDropdown: FC<IProps> = ({ options, value, setValue, className }) => {
                       tabIndex={0}
                       role="button"
                       onKeyDown={() => {}}
-                      onClick={() => handleOptionClick(option)}
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        handleOptionClick(option);
+                      }}
                       className={styles.option}
                     >
                       {option.label}

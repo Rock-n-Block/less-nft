@@ -3,11 +3,10 @@
 .headerNavigation {
   @include flexbox;
   margin-left: auto;
-  flex-basis: 30%;
   gap: 30px;
   height: 100%;
   margin-left: auto;
-  padding: 0 15px;
+  padding: 0 30px;
 }
 
 .linkBtn {
@@ -15,7 +14,7 @@
   position: relative;
   border-radius: 0;
   &.active {
-    color: $color-actions-dark-purple
+    color: $color-actions-dark-purple;
   }
 }
 

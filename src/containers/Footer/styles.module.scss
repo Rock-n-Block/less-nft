@@ -21,7 +21,7 @@
 }
 
 .logo {
-  margin-bottom: 32px;
+  margin-bottom: 15px;
   * {
     color: $color-neutral-0 !important;
   }
@@ -58,10 +58,6 @@
 
   & > * {
     margin-bottom: 20px;
-  }
-
-  input {
-    color: $color-neutral-0;
   }
 }
 

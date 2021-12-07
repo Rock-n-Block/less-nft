@@ -34,7 +34,7 @@ const CreateAndSell: FC<Props> = observer(({ className }) => {
           );
         })}
       </div>
-      <Button color="purple" className={styles.button}>
+      <Button color="purple" className={styles.button} href="/create">
         Start selling now
       </Button>
     </div>

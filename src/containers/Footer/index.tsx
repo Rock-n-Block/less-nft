@@ -7,9 +7,7 @@ import { useMst } from 'store';
 import styles from './styles.module.scss';
 
 const Footers: React.FC = observer(() => {
-  const {
-    user,
-  } = useMst();
+  const { user } = useMst();
 
   const accountHelperObject = [
     {
@@ -47,11 +45,8 @@ const Footers: React.FC = observer(() => {
         <div className={styles.linksAndControls}>
           <div className={styles.footerLogo}>
             <Logo className={styles.logo} />
-            <Text size="xxl" weight='bold' color="black">
-              The New Creative
-            </Text>
-            <Text size="xxl" weight='bold' color="black">
-              Economy.
+            <Text size="xl" weight="bold" color="black">
+              The New Creative Economy
             </Text>
           </div>
           <div className={styles.linkBlock}>
