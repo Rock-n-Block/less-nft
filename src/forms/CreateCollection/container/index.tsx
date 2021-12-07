@@ -82,10 +82,11 @@ export default observer(({ isSingle, onClose }: any) => {
             toast.error('Create Collection failed');
           }
           console.error('Wallet Create collection failure', response);
-        })
-        .finally(() => {
           setFieldValue('isLoading', false);
-        });
+        })
+        // .finally(() => {
+        //   setFieldValue('isLoading', false);
+        // });
     },
 
     displayName: 'CreateCollectionForm',
