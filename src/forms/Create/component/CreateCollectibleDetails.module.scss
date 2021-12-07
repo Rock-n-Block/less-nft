@@ -310,6 +310,7 @@
 
 .cancelBtn {
   color: $color-state-error;
+  padding: 0 !important;
   @include forDesktopSm {
     margin-top: 16px;
   }
