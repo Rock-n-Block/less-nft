@@ -96,9 +96,9 @@ const WalletBody: FC = observer(() => {
 
 const Wallet: FC<IUserProps> = observer(({ className }) => {
   return (
-    <Popover className={cn(styles.wallet, className)}>
-      <Popover.Button>
-        <img src={wallet} alt="Avatar" />
+    <Popover className={cn(styles.wallet, className)} position="center">
+      <Popover.Button className={styles.walletImg} >
+        <img src={wallet} alt="Avatar"/>
       </Popover.Button>
       <Popover.Body>
         <WalletBody />
