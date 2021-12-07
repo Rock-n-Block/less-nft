@@ -117,7 +117,7 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                 wrapperRef={wrapRef}
                 minWidth={250}
                 minHeight={350}
-                justify={EGridJustify.center}
+                justify={EGridJustify.start}
               >
                 {nftCards
                   .filter((art) => art.id !== Number(id))

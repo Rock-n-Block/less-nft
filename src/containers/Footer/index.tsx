@@ -2,40 +2,40 @@ import { Link } from 'react-router-dom';
 import { routes } from 'appConstants';
 import { Button, Logo, Text, TextInput } from 'components';
 import { observer } from 'mobx-react';
-import { useMst } from 'store';
+// import { useMst } from 'store';
 
 import styles from './styles.module.scss';
 
 const Footers: React.FC = observer(() => {
-  const { user } = useMst();
+  // const { user } = useMst();
 
-  const accountHelperObject = [
-    {
-      label: 'Download',
-      link: routes.profile.root,
-    },
-    {
-      label: 'Demos',
-      link: `${routes.profile.root}/favourite`,
-    },
-    {
-      label: 'Support',
-      link: `${routes.profile.root}/myCollectction`,
-    },
-  ];
+  // const accountHelperObject = [
+  //   {
+  //     label: 'Download',
+  //     link: routes.profile.root,
+  //   },
+  //   {
+  //     label: 'Demos',
+  //     link: `${routes.profile.root}/favourite`,
+  //   },
+  //   {
+  //     label: 'Support',
+  //     link: `${routes.profile.root}/myCollectction`,
+  //   },
+  // ];
 
   const stacks = [
     {
-      label: 'Discover',
-      link: routes.profile.root,
+      label: 'Explore',
+      link: routes.discover.root,
     },
     {
       label: 'Connect wallet',
-      link: `${routes.profile.root}/favourite`,
+      link: routes.connectWallet.root,
     },
     {
       label: 'Create item',
-      link: `${routes.profile.root}/myCollectction`,
+      link: routes.create.root,
     },
   ];
 
@@ -63,7 +63,7 @@ const Footers: React.FC = observer(() => {
               );
             })}
           </div>
-          {user.address && (
+          {/* {user.address && (
             <div className={styles.linkBlock}>
               <Text weight="bold" size="m">
                 Info
@@ -78,7 +78,7 @@ const Footers: React.FC = observer(() => {
                 );
               })}
             </div>
-          )}
+          )} */}
           <div className={styles.footerActions}>
             <Text color="black" weight="bold" size="m">
               Join Newsletter
