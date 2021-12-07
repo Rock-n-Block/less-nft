@@ -1,0 +1,155 @@
+@import 'src/styles/helpers';
+.page {
+  @include container;
+  color: $color-neutral-100;
+}
+.section {
+  padding: 44px 0;
+}
+
+.pageTitle {
+  margin-bottom: 15px;
+
+  text-transform: uppercase;
+}
+
+.pageSubtitle {
+  margin-bottom: 45px;
+  @include epilogue;
+}
+
+.top {
+  position: relative;
+  z-index: 3;
+
+  padding-right: 128px;
+
+  display: flex;
+  align-items: center;
+
+  width: calc(100% - 352px);
+
+  @include x {
+    padding-right: 64px;
+  }
+
+  @include d {
+    padding-right: 32px;
+
+    width: calc(100% - 304px);
+  }
+
+  @include t {
+    padding: 0 0 32px;
+
+    width: 100%;
+  }
+}
+
+.title {
+  margin-right: auto;
+}
+
+.toggle {
+  position: relative;
+
+  padding: 0 11px;
+
+  width: 42px;
+  height: 42px;
+
+  svg {
+    circle {
+      fill: transparent;
+    }
+
+    ellipse {
+      fill: transparent;
+    }
+  }
+}
+
+.row {
+  margin-top: -50px;
+
+  display: flex;
+  align-items: flex-start;
+
+  @include t {
+    margin-top: 0;
+
+    flex-direction: column-reverse;
+  }
+}
+
+.wrapper {
+  padding-top: 92px;
+  padding-right: 32px;
+  flex-grow: 1;
+
+  @include x {
+    padding-right: 64px;
+  }
+
+  @include d {
+    padding-right: 32px;
+  }
+
+  @include t {
+    padding: 0;
+
+    width: 100%;
+  }
+}
+
+.filters {
+  margin-bottom: 32px;
+  padding: 32px;
+
+  width: 292px;
+
+  background: $color-bg;
+  border: 1px solid $color-neutral-10;
+  flex-shrink: 0;
+  border-radius: $border-radius;
+
+  @include d {
+    padding: 32px;
+
+    width: 304px;
+  }
+
+  @include t {
+    display: none;
+
+    width: 100%;
+  }
+
+  &.active {
+    @include t {
+      display: block;
+    }
+
+    @include m {
+      margin-top: 16px;
+    }
+  }
+}
+
+.loader {
+  margin: 32px auto 0;
+}
+
+.buttonWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.moreButton {
+  margin-top: 44px;
+  padding: 10px 32px;
+
+  font-size: 16px;
+  font-weight: 600;
+}

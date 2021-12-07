@@ -1,0 +1,165 @@
+@import 'src/styles/helpers';
+
+.artistsDesktop {
+  margin: 0 auto;
+
+  max-width: 1500px;
+  height: 650px;
+
+  line-height: 48px;
+
+  border-width: 0 0 1px 1px;
+  border-style: solid;
+  border-color: $color-neutral-80;
+  @include flexbox;
+}
+
+.title {
+  margin-bottom: 36px;
+}
+
+.categorySelector {
+  margin-bottom: 24px;
+}
+
+.categorySection {
+  position: relative;
+  z-index: 10;
+
+  padding: 8px 32px 0;
+
+  height: 100%;
+
+  background: $color-bg2;
+  border-style: solid;
+  border-color: $color-neutral-80;
+  border-right: 1px;
+  flex-basis: 33%;
+
+  &::before {
+    content: ' ';
+
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+
+    width: 300%;
+    height: 100%;
+
+    background: $color-bg2;
+    border-bottom: 1px solid $color-neutral-10;
+  }
+}
+
+.gradientTitle {
+  @include gradientText();
+}
+
+.categoryWrapper {
+  @include flexbox(flex-start, center);
+  flex-direction: column;
+}
+
+.category {
+  transition: 300ms;
+
+  &::before {
+    content: ' ';
+
+    position: absolute;
+    top: 50%;
+    left: -50px;
+
+    width: 0;
+    height: 2px;
+
+    background: $color-secondary;
+  }
+
+  &.selected {
+    position: relative;
+
+    margin-left: 50px;
+
+    color: $color-secondary;
+    color: $color-secondary;
+
+    &::before {
+      width: 40px;
+    }
+  }
+}
+
+.artistsSection {
+  position: relative;
+  padding: 8px 20px 88px 20px;
+  overflow: auto;
+  border-right: 1px solid $color-secondary;
+
+  flex-direction: column;
+
+  height: 100%;
+
+  background: $color-bg;
+  flex-basis: 33%;
+
+  & > button {
+    margin-bottom: 20px;
+  }
+  @include flexbox(flex-start, flex-start);
+}
+
+.artistDetails {
+  position: relative;
+  flex-basis: 34%;
+
+  height: 100%;
+
+  &::before {
+    content: ' ';
+
+    position: absolute;
+    top: -72px;
+    left: -1px;
+
+    width: 1px;
+    height: 72px;
+
+    background: $color-neutral-80;
+  }
+
+  &::after {
+    content: ' ';
+
+    position: absolute;
+    z-index: -1;
+    top: -129.5%;
+    left: 0;
+
+    width: 300%;
+    height: 129.5%;
+
+    background: $color-bg2;
+  }
+}
+
+.artistsMobile {
+  display: none;
+}
+
+@include forDesktopMiddle {
+  .artistsDesktop {
+    display: none;
+  }
+
+  .artistsMobile {
+    display: block;
+  }
+
+  .categorySection {
+    &::before {
+      display: none;
+    }
+  }
+}

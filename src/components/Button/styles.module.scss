@@ -1,0 +1,206 @@
+@import 'src/styles/helpers.scss';
+
+.button {
+  @include epilogue;
+  @include flexbox();
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  border-radius: 12px;
+  &:focus {
+    outline: none;
+  }
+
+  &.isFullWidth {
+    width: 100%;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  &.purple {
+    height: 40px;
+    font-weight: 600;
+    font-size: 16px;
+
+    color: $color-neutral-0;
+    background: $color-primary;
+
+    & > svg {
+      fill: $color-neutral-100;
+    }
+
+    &:hover {
+      background: $color-action-hovered;
+    }
+
+    &:active {
+      background: $color-action-pressed;
+    }
+
+    &.disabled {
+      color: $color-neutral-20;
+      background: $color-action-disabled;
+
+      & > svg {
+        fill: $color-neutral-20;
+      }
+    }
+  }
+
+  &.pink {
+    height: 40px;
+    font-weight: 600;
+    font-size: 16px;
+
+    color: #fff;
+    background: $color-state-error;
+  }
+  &.blue {
+    height: 40px;
+    font-weight: 600;
+    font-size: 16px;
+
+    color: #fff;
+    background: $color-secondary;
+  }
+
+  &.outline {
+    height: 40px;
+
+    font-weight: 600;
+    font-size: 16px;
+    color: $color-neutral-100;
+    background: none;
+    border: 1px solid $color-neutral-100;
+
+    & > svg {
+      fill: $color-neutral-0;
+    }
+
+    &:hover {
+      background: $color-action-hovered;
+      border-color: $color-action-hovered;
+      color: $color-neutral-0;
+    }
+
+    &:active {
+      background: $color-action-pressed;
+      border-color: $color-action-pressed;
+      color: $color-neutral-0;
+    }
+
+    &.disabled {
+      color: $color-neutral-40;
+      background: $color-neutral-80;
+      border-color: $color-neutral-60;
+
+      & > svg {
+        fill: $color-neutral-20;
+      }
+    }
+  }
+
+  &.dark {
+    height: 40px;
+    font-weight: 600;
+    font-size: 16px;
+
+    color: $color-neutral-0;
+    background: $color-neutral-100;
+    border: 1px solid $color-neutral-100;
+
+    & > svg {
+      fill: $color-neutral-0;
+    }
+
+    &:hover {
+      background: rgba($color-neutral-100, 0.7);
+      border-color: rgba($color-neutral-100, 0.7);
+      color: $color-neutral-0;
+    }
+
+    &:active {
+      background: rgba($color-neutral-100, 0.9);
+      border-color: rgba($color-neutral-100, 0.9);
+      color: $color-neutral-0;
+    }
+
+    &.disabled {
+      color: $color-neutral-40;
+      background: $color-neutral-80;
+      border-color: $color-neutral-60;
+
+      & > svg {
+        fill: $color-neutral-20;
+      }
+    }
+  }
+  &.black {
+    height: 40px;
+    font-weight: 600;
+    font-size: 16px;
+
+    color: $color-neutral-0;
+    background: $color-black;
+    border: 1px solid $color-black;
+
+    & > svg {
+      fill: $color-neutral-0;
+    }
+
+    &:hover {
+      background: rgba($color-black, 0.7);
+      border-color: rgba($color-black, 0.7);
+      color: $color-neutral-0;
+    }
+
+    &:active {
+      background: rgba($color-black, 0.9);
+      border-color: rgba($color-black, 0.9);
+      color: $color-neutral-0;
+    }
+
+    &.disabled {
+      color: $color-neutral-40;
+      background: $color-neutral-80;
+      border-color: $color-neutral-60;
+
+      & > svg {
+        fill: $color-neutral-20;
+      }
+    }
+  }
+}
+
+.large{
+  padding: 8px 32px;
+  @include forTablet{
+    padding: 8px 24px;
+  }
+}
+
+.small{
+  padding: 8px 16px;
+}
+
+.transparent {
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    filter: brightness(85%);
+  }
+}
+
+.icon {
+  margin-right: 10px;
+
+  height: unset;
+}
+
+.loader {
+  position: static !important;
+  margin-left: 20px;
+}

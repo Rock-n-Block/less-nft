@@ -1,0 +1,381 @@
+@import 'src/styles/helpers';
+
+.form {
+  @include flexbox(flex-start, space-between);
+  @include forDesktopBig {
+    flex-direction: column;
+  }
+}
+
+.column {
+  width: 50%;
+
+  & + & {
+    margin-left: 32px;
+    @include forDesktopBig {
+      margin-left: 0;
+    }
+  }
+
+  @include forDesktopBig {
+    width: 100%;
+  }
+
+  &Upload {
+    position: sticky;
+    top: 120px;
+    @include forDesktopBig {
+      position: static;
+    }
+  }
+}
+
+.preview {
+  position: absolute;
+  top: 0;
+  right: 80px;
+  flex-shrink: 0;
+  width: 352px;
+}
+
+.item {
+  .previewImg {
+    position: relative;
+    width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+
+    margin-bottom: 32px;
+
+    display: flex;
+    justify-content: center;
+
+    & img {
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .clearPreview {
+      position: absolute;
+      right: 0px;
+      @include flexbox;
+
+      width: 30px;
+      height: 30px;
+
+      background: $color-neutral-0;
+      border: 1px solid $color-actions-light-pink;
+
+      img {
+        transition: transform 0.2s;
+      }
+
+      &:hover {
+        img {
+          transform: rotate(90deg);
+        }
+      }
+    }
+
+    video {
+      width: 100%;
+    }
+  }
+}
+
+.note {
+  margin-top: 4px;
+
+  line-height: 160%;
+}
+
+.file {
+  position: relative;
+  cursor: pointer;
+
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 400px;
+
+  background: $color-neutral-10;
+  border: 1px dashed $color-neutral-100;
+
+  border-radius: $border-radius;
+
+  input[type='file'],
+  input[type='file']::-webkit-file-upload-button {
+    cursor: pointer;
+  }
+
+  @include forDesktopSm {
+    height: 232px;
+  }
+
+  margin-bottom: 32px;
+
+  .capture {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    padding: 0 15px;
+    @include flexbox;
+    flex-direction: column;
+    p {
+      text-align: center;
+    }
+  }
+}
+
+.load {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  font-size: 400px;
+
+  opacity: 0;
+}
+
+.icon {
+  margin-bottom: 10px;
+
+  width: 24px;
+  height: 24px;
+}
+
+.format {
+  margin-top: 10px;
+
+  line-height: 120%;
+  letter-spacing: 0.03em;
+}
+
+.category {
+  line-height: 160%;
+}
+
+.fieldset {
+  margin-top: 32px;
+  margin-bottom: 72px;
+
+  &_first {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &Title {
+    @include flexbox(center, space-between);
+    @include epilogue;
+  }
+
+  &Row {
+    margin-top: 32px;
+    @include flexbox(flex-start);
+    @include forDesktopMiddle {
+      @include flexbox(flex-start, space-between);
+      flex-wrap: wrap;
+    }
+  }
+
+  .field {
+    margin-top: 32px;
+  }
+}
+
+.addCollection {
+  padding: 32px 0;
+  border-top: 1px solid $color-neutral-10;
+  border-bottom: 1px solid $color-neutral-10;
+}
+
+.collections {
+  margin-top: 32px;
+}
+
+.fieldsetRowColumn {
+  & + & {
+    margin-left: 12px;
+    max-width: 102px;
+    @include forDesktopMiddle {
+      margin: 32px 0 0;
+      max-width: unset;
+      width: 100%;
+    }
+  }
+}
+
+.price {
+  @include flexbox(flex-start);
+  width: 100%;
+  flex-direction: column;
+
+  color: $color-neutral-100;
+
+  .dropdown {
+    margin-right: -2px;
+  }
+
+  .inputs {
+    @include flexbox(flex-start, flex-start);
+    width: 100%;
+
+    .priceInput {
+      width: 100%;
+      margin-left: 5px;
+    }
+  }
+
+  .postfix {
+    margin-top: 4px;
+    width: 100%;
+    @include flexbox(center, space-between);
+    @include epilogue;
+    line-height: 160%;
+  }
+}
+
+.label {
+  @include epilogue;
+  margin-bottom: 8px;
+
+  line-height: 160%;
+  text-transform: capitalize;
+
+  color: $color-neutral-100;
+  opacity: 0.7;
+}
+
+.fee {
+  margin-top: 4px;
+  @include flexbox(normal, normal);
+  flex-direction: column;
+
+  line-height: 160%;
+}
+
+.tokenProperties {
+  margin-top: 16px;
+  @include flexbox(flex-start);
+  flex-direction: column;
+  width: calc(100% - 48px);
+}
+
+.tokenProperty {
+  @include flexbox(flex-start);
+  width: 100%;
+  position: relative;
+
+  &Name {
+    width: 100%;
+    margin-right: 12px;
+  }
+
+  &Value {
+    width: 100%;
+  }
+
+  & + & {
+    margin-top: 32px;
+  }
+}
+
+.btns {
+  margin-top: 32px;
+  @include flexbox(center, space-between);
+  @include forDesktopSm {
+    flex-direction: column;
+  }
+}
+
+.button {
+  @include epilogue;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 160%;
+}
+
+.submitBtn {
+  max-width: 410px;
+  width: 100%;
+}
+
+.cancelBtn {
+  color: $color-state-error;
+  @include forDesktopSm {
+    margin-top: 16px;
+  }
+}
+
+.btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  @include flexbox;
+  &_add {
+    border-color: $color-actions-dark-green;
+    transition: all 0.2s ease;
+    &:hover {
+      background: $color-actions-dark-green;
+      svg {
+        path {
+          fill: $color-neutral-0;
+        }
+      }
+
+      transition: all 0.2s ease;
+    }
+  }
+  &_remove {
+    border-color: $color-actions-light-grey;
+    background: $color-actions-light-grey;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $color-actions-red;
+
+      transition: all 0.2s ease;
+    }
+  }
+}
+
+.detailsBtns {
+  position: absolute;
+  right: -40px;
+  bottom: 6px;
+
+  &Double {
+    @include flexbox(center, center);
+    flex-direction: column-reverse;
+    gap: 24px;
+    transform: translateY(56px);
+  }
+}
+
+.refresh {
+  margin-left: 10px;
+  cursor: pointer;
+
+  transform: rotate(360deg);
+  transition: transform 0.5s;
+  &:active {
+    transform: rotate(0deg);
+    transition: 0s;
+  }
+}
+
+.clean {
+  @include forDesktopBig {
+    margin-bottom: 16px;
+  }
+}

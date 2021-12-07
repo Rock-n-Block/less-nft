@@ -1,0 +1,22 @@
+@import 'src/styles/helpers';
+
+.liveAuction {
+  @include container;
+  overflow: hidden;
+  padding-bottom: 25px;
+  .title {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  button {
+    top: -64px;
+  }
+}
+
+.noItems {
+  text-align: center;
+}
+.liveCard {
+  margin-right: 15px;
+}

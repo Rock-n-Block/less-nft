@@ -1,0 +1,52 @@
+@import 'src/styles/helpers';
+
+.card {
+  width: 160px;
+  height: 104px;
+  padding: 8px 16px;
+  border-radius: $border-radius;
+
+  cursor: pointer;
+
+  border: 2px solid $color-neutral-10;
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+}
+.cardImg {
+  width: 110px;
+  overflow: hidden;
+}
+
+.plus {
+  align-self: flex-start;
+
+  width: 32px;
+  height: 32px;
+}
+
+.active {
+  border-color: $color-primary;
+
+  .cardSubtitle {
+    span {
+      color: $color-primary;
+    }
+  }
+}
+
+.cardSubtitle {
+  width: 100%;
+  @include epilogue;
+  padding-top: 12px;
+  span {
+    @include multiplyRowsEllipsis(3);
+  }
+}
+
+.subtitle {
+  padding-top: 8px;
+}

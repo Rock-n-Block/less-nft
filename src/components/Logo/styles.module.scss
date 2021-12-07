@@ -1,0 +1,27 @@
+@import 'src/styles/helpers';
+
+.logo {
+  @include flexbox;
+  transition: 200ms;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+// .logoImage {
+//   margin-right: 8px;
+
+//   width: 24px;
+
+//   img {
+//     width: 100%;
+//   }
+// }
+
+.logo .logoText {
+  @include sora;
+  @include forTablet{
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,135 @@
+@import 'src/styles/helpers';
+
+.wrap {
+  position: relative;
+  @include flexbox;
+}
+
+.label {
+  @include epilogue;
+  margin-bottom: 8px;
+
+  line-height: 160%;
+  text-transform: capitalize;
+
+  color: $color-neutral-10;
+  opacity: 0.7;
+}
+
+.input {
+  padding: 8px 16px;
+
+  width: 100%;
+  height: 42px;
+
+  color: $color-neutral-100;
+  background: none;
+  border-radius: 12px;
+  border: 2px solid $color-neutral-40;
+  position: relative;
+
+  transition: border-color 0.2s;
+
+  @include poppins;
+  @include caption-bold-1;
+
+  @include placeholder {
+    color: $color-neutral-40;
+  }
+
+  &:hover {
+    border-color: $color-actions-light-blue;
+    box-shadow: 0 1px 6px rgba(119, 126, 144, 0.48);
+  }
+
+  &:focus {
+    border-color: $color-neutral-60;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+
+    color: $color-neutral-80;
+    border-color: $color-neutral-80;
+    @include placeholder {
+      color: $color-neutral-80;
+    }
+  }
+
+  &.error {
+    color: $color-state-error;
+    border: 2px solid $color-state-error;
+    box-shadow: 0 1px 6px rgba(119, 126, 144, 0.48);
+    @include placeholder {
+      color: $color-state-error;
+    }
+  }
+
+  &.withIcon {
+    padding-left: 50px;
+  }
+}
+
+.field .wrap .inputButton {
+  padding: 0;
+  position: absolute;
+  right: 1px;
+  top: 1px;
+
+  width: 38px;
+  height: 40px;
+
+  transform: rotate(180deg);
+
+  & > img {
+    filter: brightness(400) saturate(0%);
+  }
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 19px;
+  z-index: 1;
+
+  transform: translateY(-50%);
+
+  &.disabled {
+    fill: $color-neutral-80;
+  }
+}
+
+.input_prefix {
+  padding-left: 70px;
+}
+
+.prefix {
+  position: absolute;
+  top: calc(50%);
+  left: 2px;
+  transform: translateY(-50%);
+  padding-left: 16px;
+  color: $color-neutral-100;
+}
+
+.suffix {
+  position: absolute;
+  top: calc(50% - 12px);
+  right: 24px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  color: $color-neutral-100 !important;
+  -webkit-box-shadow: 0 0 0 1000px none inset !important;
+
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: $color-neutral-100 !important;
+}

@@ -1,0 +1,24 @@
+@import 'src/styles/helpers';
+
+.top {
+  text-align: center;
+  padding-bottom: 45px;
+  padding-top: 25px;
+  border-bottom: 1px solid $color-neutral-10;
+  @include m {
+    padding: 0px 10px 32px;
+  }
+}
+
+.title {
+  width: 100%;
+  margin-top: 29px;
+
+  @include flexbox;
+}
+
+.info {
+  margin-top: 16px;
+
+  @include flexbox;
+}

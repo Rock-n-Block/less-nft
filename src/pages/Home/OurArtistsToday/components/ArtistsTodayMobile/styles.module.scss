@@ -1,0 +1,37 @@
+@import 'src/styles/helpers';
+
+.mobileOurArtist {
+  padding: 30px 0 0 0;
+
+  line-height: 34px;
+  overflow: auto;
+  background: $color-bg;
+  min-height: 400px;
+  max-height: 600px;
+}
+
+.gradientTitle {
+  @include gradientText;
+  margin: 0 auto;
+
+  width: fit-content;
+}
+
+.tabs {
+  margin-top: 20px;
+
+  height: 75px;
+}
+
+.tab {
+  width: 170px;
+}
+
+.artistsWrapper {
+  position: relative;
+  padding: 32px;
+
+  & > * {
+    margin-top: 20px;
+  }
+}

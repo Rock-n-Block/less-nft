@@ -1,0 +1,88 @@
+// common styles
+body {
+  @include poppins;
+
+  font-size: 14px;
+
+  color: $color-neutral-0;
+
+  background: $color-bg;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+}
+
+svg,
+img {
+  vertical-align: middle;
+}
+
+.desktop {
+  &-hide {
+    @include d {
+      display: none !important;
+    }
+  }
+
+  &-show {
+    display: none !important;
+
+    @include d {
+      display: block !important;
+    }
+  }
+
+  &-text-right {
+    @include d {
+      text-align: right;
+    }
+  }
+}
+
+.tablet {
+  &-hide {
+    @include t {
+      display: none !important;
+    }
+  }
+
+  &-show {
+    display: none !important;
+
+    @include t {
+      display: block !important;
+    }
+  }
+}
+
+.mobile {
+  &-hide {
+    @include m {
+      display: none !important;
+    }
+  }
+
+  &-show {
+    display: none !important;
+
+    @include m {
+      display: block !important;
+    }
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+

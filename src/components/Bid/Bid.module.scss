@@ -1,0 +1,82 @@
+@import 'src/styles/helpers';
+
+.title {
+  margin-bottom: 32px;
+}
+
+.info {
+  margin-bottom: 32px;
+
+  @include body-2;
+
+  strong {
+    font-weight: 500;
+  }
+}
+
+.stage {
+  margin-bottom: 16px;
+
+  @include body-bold-1;
+}
+
+.row {
+  padding-top: 12px;
+
+  display: flex;
+  align-items: center;
+}
+
+.input_row {
+  padding-top: 12px;
+
+  display: flex;
+  align-items: center;
+
+  font-weight: 500;
+
+  border-bottom: 1px solid $color-neutral-60;
+}
+
+.input {
+  width: 100%;
+
+  input {
+    padding: 0;
+
+    font-size: 16px;
+    line-height: 24px;
+
+    border: none;
+    border-radius: 0;
+  }
+}
+
+.col {
+  @include body-2;
+
+  &:first-child {
+    //color: $purple2;
+  }
+
+  &:nth-child(2) {
+    margin-left: auto;
+    padding-left: 16px;
+
+    font-weight: 500;
+
+    //color: $neutrals8;
+  }
+}
+
+.btns {
+  margin-top: 32px;
+}
+
+.button {
+  width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}

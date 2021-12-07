@@ -1,0 +1,34 @@
+@import 'src/styles/helpers';
+
+.randomCard {
+  max-width: 500px;
+  width: 100%;
+  background: #ffffff;
+  border-radius:10px;
+  z-index: 2;
+}
+
+.artWrapper {
+  max-width: 500px;
+  max-height: 500px;
+  aspect-ratio: 1/1;
+  width: 100%;
+}
+
+.art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: $border-radius;
+}
+
+.info {
+  color: $color-neutral-40;
+  padding: 22px;
+}
+
+.name {
+  max-width: 260px;
+  margin-bottom: 5px;
+  @include epilogue;
+}

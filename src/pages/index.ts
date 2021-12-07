@@ -1,0 +1,12 @@
+export { default as Home } from './Home';
+export { default as Discover } from './Discover';
+export { default as Nft } from './Nft';
+export { default as ProfileEdit } from './ProfileEdit';
+export { default as Profile } from './Profile';
+export { default as Activity } from './Activity';
+export { default as CreateToken } from './CreateToken';
+export { default as UploadVariants } from './UploadVariants';
+export { default as CollectionPage } from './CollectionPage';
+export { default as ConnectWallet } from './ConnectWallet';
+export { default as LostPage404 } from './LostPage404';
+export { default as ComingSoon } from './ComingSoon';

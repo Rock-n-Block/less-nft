@@ -1,0 +1,93 @@
+@import 'src/styles/helpers';
+
+.line {
+  display: flex;
+  margin-bottom: 32px;
+
+  strong {
+    white-space: nowrap;
+    font-weight: 500;
+  }
+}
+
+.icon {
+  position: relative;
+  @include flexbox;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  margin-right: 16px;
+  border-radius: 50%;
+  transition: all 0.2s;
+
+  svg {
+    fill: $color-neutral-80;
+    transition: fill 0.2s;
+  }
+
+  .loader {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+  }
+}
+
+.details {
+  flex-grow: 1;
+}
+
+.info {
+  @include body-bold-2;
+}
+
+.switch {
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.row {
+  @include flexbox(center, normal);
+  & + & {
+    margin-top: 12px;
+  }
+
+  &:last-child {
+    border-bottom: 1px solid $color-neutral-60;
+  }
+
+  .input {
+    width: 100%;
+  }
+}
+
+.col {
+  @include body-2;
+
+  &:nth-child(2) {
+    margin-left: auto;
+    padding-left: 30px;
+    font-weight: 500;
+  }
+}
+
+.btns {
+  margin-top: 32px;
+}
+
+.button {
+  width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}
+
+.prefix {
+  @include flexbox(center, flex-start);
+  padding-left: 16px;
+  width: 92px;
+  height: 38px;
+  border-right: 2px solid $color-neutral-40;
+}

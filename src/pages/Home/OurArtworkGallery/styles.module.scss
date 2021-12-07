@@ -1,0 +1,57 @@
+@import 'src/styles/helpers';
+
+.ourArtworkGallery {
+  position: relative;
+  @include container;
+  padding-top: 88px;
+
+  @include forDesktopSm {
+    padding-top: 20px;
+  }
+}
+
+.title {
+  width: 100%;
+  margin-bottom: 30px;
+  @include flexbox;
+}
+
+.gradientTitle {
+  @include gradientText;
+}
+
+.artCardsWrapper {
+  @include flexbox();
+  flex-wrap: wrap;
+
+  margin: -16px;
+
+  & > * {
+    margin: 16px;
+  }
+}
+
+.viewMoreBtnWrapper,
+.loader {
+  @include flexbox;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: unset;
+}
+
+.loader {
+  bottom: 15px;
+}
+
+.viewMoreBtn {
+  width: 150px;
+}
+
+@include forDesktopSm {
+  .ourArtworkGallery {
+    padding: 20px;
+  }
+
+}

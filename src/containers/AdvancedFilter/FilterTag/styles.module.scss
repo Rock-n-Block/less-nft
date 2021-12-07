@@ -1,0 +1,19 @@
+@import '../../../styles//helpers.scss';
+
+.filterTag {
+  padding: 2px 10px;
+  border-radius: $border-radius;
+
+  width: fit-content;
+
+  background: $color-dark;
+  @include flexbox(center, space-between);
+
+  img {
+    margin-left: 5px;
+  }
+
+  &.selected {
+    background: red;
+  }
+}

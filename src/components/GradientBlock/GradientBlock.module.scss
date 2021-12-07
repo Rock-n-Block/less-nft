@@ -1,0 +1,21 @@
+@import 'src/styles/helpers';
+
+.gradient {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  filter: blur(250px);
+}
+
+.orange {
+  background-color: #ff6365;
+}
+.purple {
+  background-color: #6f45ff;
+}
+.left{
+  left: 0;
+}
+.right{
+  right: 0;
+}

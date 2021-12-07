@@ -1,0 +1,121 @@
+@import 'src/styles/helpers';
+.upload {
+}
+.section {
+  text-align: center;
+  margin-top: 44px;
+  margin-bottom: 91px;
+}
+
+.top {
+  margin: 0 auto 45px;
+  padding: 0 32px;
+}
+
+.title {
+  line-height: 120%;
+  margin-bottom: 16px;
+}
+
+.info {
+  line-height: 160%;
+}
+
+.list {
+  padding: 32px 32px 32px;
+  border-top: 1px solid $color-neutral-20;
+
+  @include flexbox(center);
+  gap: 32px;
+  @include forTablet {
+    flex-direction: column;
+    padding-top: 45px;
+  }
+}
+
+.item {
+  width: 100%;
+  max-width: 616px;
+  padding: 61px 0;
+  @include flexbox();
+  flex-direction: column;
+  background: $color-neutral-10;
+  border-radius: $border-radius;
+  cursor: pointer;
+  @include forTablet {
+    flex-direction: column;
+  }
+}
+
+.preview {
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 6;
+
+  img {
+    width: 100%;
+    max-width: 169px;
+
+    border-radius: 8px;
+  }
+}
+
+.button {
+  width: 173px;
+}
+
+.note {
+  padding: 0 32px;
+  @include epilogue;
+
+  line-height: 160%;
+  @include forTablet {
+    flex-direction: column;
+  }
+}
+
+.prewiew_anim {
+  position: relative;
+  // left: 10px;
+}
+
+.anim_item {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@for $i from 1 through 3 {
+  .anim_item:nth-child(#{$i + 1}) {
+    z-index: $i;
+    top: $i * 10px;
+    left: $i * -10px;
+    opacity: ($i + 1) / 10;
+    animation: move#{$i * 10}px 4s linear infinite;
+  }
+}
+
+@for $i from 1 through 3 {
+  @keyframes move#{$i * 10}px {
+    0% {
+      top: 0;
+      left: 0;
+    }
+
+    20% {
+      top: $i * 10px;
+      left: $i * -10px;
+    }
+
+    70% {
+      top: 0px;
+      left: 0px;
+    }
+
+    100% {
+      top: 0px;
+      left: 0px;
+      opacity: 0;
+    }
+  }
+}

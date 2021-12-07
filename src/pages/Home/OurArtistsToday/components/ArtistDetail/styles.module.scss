@@ -1,0 +1,58 @@
+@import 'src/styles/helpers';
+
+.artistDetail {
+  position: relative;
+
+  height: 100%;
+}
+
+.addressAndName {
+  :not(:last-child) {
+    margin-right: 20px;
+  }
+  @include flexbox(center, flex-start);
+}
+
+.image {
+  width: 256px;
+  height: 256px;
+}
+
+.gradientText {
+  @include gradientText;
+}
+
+.detailsSection {
+  padding: 32px;
+
+  line-height: 33px;
+}
+
+.artistDescription {
+  overflow: auto;
+  max-height: 170px;
+  line-height: 26px;
+  word-break: break-word;
+}
+
+.artistDetailsControls {
+  @include flexbox(center, space-between);
+  position: absolute;
+  bottom: 60px;
+
+  width: 80%;
+}
+
+.viewArtworkBtn {
+  @include flexbox();
+  color: $color-secondary;
+}
+
+// misc
+.arrowPic {
+  margin: 0 10px;
+}
+
+.iconLink {
+  margin-right: 20px;
+}

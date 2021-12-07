@@ -1,0 +1,51 @@
+@import 'src/styles/helpers';
+
+.ourArtworkGallery {
+  @include container;
+  margin-top: 188px;
+  margin-bottom: 126px;
+}
+
+.title {
+  width: 100%;
+  @include flexbox;
+}
+
+.gradientTitle {
+  @include gradientText;
+}
+
+.cardsWrapper {
+  margin-top: 40px;
+  @include flexbox(flex-start, space-between);
+  flex-wrap: wrap;
+}
+
+.howItWorksCard {
+  @include flexbox(center, flex-start);
+  flex-direction: column;
+
+  width: 292px;
+}
+
+.viewMoreBtnWrapper {
+  @include flexbox;
+}
+
+.viewMoreBtn {
+  width: 150px;
+}
+
+@include forTablet {
+  .ourArtworkGallery {
+    padding-top: 20px;
+  }
+
+  .howItWorksCard {
+    margin-bottom: 70px;
+  }
+}
+
+.button{
+  margin: 0 auto;
+}

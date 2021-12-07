@@ -1,0 +1,20 @@
+@import 'src/styles/helpers';
+
+.subtitle {
+  margin-bottom: 12px;
+}
+
+.box {
+  margin-bottom: 20px;
+}
+.input + .subtitle {
+  margin-top: 20px;
+}
+
+.prefix {
+  @include flexbox(center, flex-start);
+  padding-left: 16px;
+  width: 92px;
+  height: 38px;
+  border-right: 2px solid $color-neutral-40;
+}

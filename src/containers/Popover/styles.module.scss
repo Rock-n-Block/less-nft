@@ -1,0 +1,7 @@
+@import 'src/styles/helpers';
+
+.popoverContainer {
+  position: relative;
+  @include flexbox;
+  height: 100%;
+}

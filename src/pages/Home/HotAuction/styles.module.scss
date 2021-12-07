@@ -1,0 +1,37 @@
+@import 'src/styles/helpers';
+
+.hotAuction {
+  margin: 0 auto;
+  padding-top: 88px;
+
+  max-width: 1500px;
+}
+
+.gradientTitle {
+  @include gradientText;
+}
+
+.hotAuctionCarousel {
+  margin-top: 50px;
+  min-height: 650px;
+}
+
+@include forDesktopMiddle {
+  .hotAuctionCarousel {
+    min-height: 450px;
+  }
+}
+
+@include forDesktopSm {
+  .hotAuction {
+    padding: 30px;
+  }
+
+  .hotAuctionCarousel {
+    margin-top: 10px;
+  }
+
+  .hotAuctionTitle {
+    text-align: center;
+  }
+}

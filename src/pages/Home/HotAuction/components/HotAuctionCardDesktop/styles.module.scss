@@ -1,0 +1,52 @@
+@import 'src/styles/helpers';
+
+.desktopCard {
+  @include flexbox;
+  margin: 0 auto;
+
+  max-width: 1500px;
+  height: 580px;
+
+  border: 1px solid $color-neutral-20;
+
+  .descriptionControls {
+    @include flexbox(flex-start, space-between);
+    padding: 30px;
+
+    flex-direction: column;
+
+    height: 100%;
+    flex-basis: 33%;
+  }
+
+  .description {
+    & > * {
+      margin-bottom: 10px;
+    }
+  }
+
+  .imageWrapper {
+    height: 100%;
+    flex-basis: 33%;
+    width: 33vw;
+    border-left: 1px solid $color-neutral-20;
+    box-sizing: border-box;
+
+    & > img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .priceAndBidders {
+    @include flexbox(normal, space-between);
+    flex-direction: column;
+    position: relative;
+    padding: 30px;
+
+    height: 100%;
+
+    background: $color-bg2;
+    flex-basis: 34%;
+  }
+}

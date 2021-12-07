@@ -1,0 +1,137 @@
+@import 'src/styles/helpers';
+
+.dropdown {
+  position: relative;
+  z-index: 3;
+
+  color: $color-neutral-100;
+
+  &.active {
+    z-index: 10;
+
+    .head {
+      .arrow {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .body {
+      visibility: visible;
+
+      opacity: 1;
+
+      transform: translateY(0);
+    }
+  }
+}
+
+.head {
+  position: relative;
+
+  padding: 8px 48px 8px 16px;
+  border-radius: $border-radius;
+
+  height: 42px;
+  @include epilogue;
+  font-size: 16px;
+  line-height: 160%;
+
+  cursor: pointer;
+
+  // @include dark {
+  border: 2px solid $color-neutral-10;
+
+  transition: box-shadow 0.2s;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  // }
+
+  &:hover {
+    border-color: $color-actions-light-blue;
+    box-shadow: 0 1px 6px rgba(119, 126, 144, 0.48);
+  }
+}
+
+.selection {
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform: translateY(-50%);
+}
+
+.body {
+  position: absolute;
+  top: calc(100% + 2px);
+  right: 0;
+  left: 0;
+
+  padding: 8px 0;
+
+  visibility: hidden;
+
+  background: $color-bg;
+  opacity: 0;
+  border: 2px solid $color-neutral-10;
+  border-radius: $border-radius;
+
+  transition: all 0.2s;
+  transform: translateY(3px);
+  // }
+}
+
+.option {
+  @include flexbox(center, flex-start);
+  padding: 8px 16px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &:hover,
+  &.selectioned {
+    color: $color-action-hovered;
+  }
+
+  .selected {
+    color: $color-action-pressed;
+  }
+}
+
+.text {
+  margin-left: 10px;
+}
+
+.image {
+  width: 24px;
+  height: 24px;
+}
+
+.input {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.71429;
+
+  color: $color-neutral-0;
+  background-color: transparent;
+  @include placeholder {
+    color: $color-neutral-40;
+  }
+}

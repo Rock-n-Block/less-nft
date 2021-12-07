@@ -1,0 +1,154 @@
+@import 'src/styles/helpers';
+
+.profileEdit {
+  margin: 0 auto;
+}
+
+.container {
+  @include container;
+}
+
+.row {
+  @include flexbox(flex-start);
+  @include m {
+    flex-direction: column;
+  }
+}
+
+.col {
+  width: 100%;
+
+  &:first-child {
+    padding-right: 32px;
+    border-right: 1px solid $color-neutral-10;
+    @include m {
+      padding: 0;
+      border-right: none;
+    }
+  }
+
+  &:last-child {
+    padding-left: 32px;
+    @include m {
+      padding: 0;
+
+      .item {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.user {
+  padding: 44px 0 32px 0;
+  @include flexbox(flex-start, flex-start);
+  border-bottom: 1px solid $color-neutral-10;
+  @include d {
+    //max-width: 416px;
+  }
+  @include m {
+    padding: 32px 0;
+  }
+}
+
+.avatar {
+  margin-right: 32px;
+
+  width: 128px;
+  height: 128px;
+  flex-shrink: 0;
+
+  @include m {
+    width: 80px;
+    height: 80px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.details {
+  max-width: 256px;
+
+  @include m {
+    max-width: 100%;
+  }
+}
+
+.stage {
+  @include sora;
+  margin-bottom: 8px;
+}
+
+.fileInfo {
+  margin-bottom: 16px;
+}
+
+.text {
+  @include epilogue;
+  margin-bottom: 16px;
+
+  font-size: 16px;
+  line-height: 160%;
+
+  color: $color-neutral-20;
+}
+
+.item {
+  padding: 32px 0 45px;
+
+  @include m {
+    margin: 0;
+
+    width: 100%;
+    padding: 32px 0 32px;
+    border-bottom: 1px solid $color-neutral-10;
+  }
+
+  & > .button {
+    margin-top: 32px;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 40px;
+
+    @include d {
+      margin-bottom: 0;
+    }
+
+    @include m {
+      margin-bottom: 32px;
+    }
+  }
+}
+
+.category {
+  @include sora;
+  margin-bottom: 24px;
+
+  font-size: 20px;
+  line-height: 120%;
+}
+
+.fieldset {
+  & > .field {
+    &:not(:last-child) {
+      margin-bottom: 32px;
+    }
+  }
+}
+
+.submitButton {
+  margin-top: 32px;
+
+  width: 259px;
+  @include m {
+    margin: 32px auto 0;
+    width: 311px;
+  }
+}

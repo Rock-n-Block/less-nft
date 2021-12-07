@@ -1,0 +1,77 @@
+@import '../../styles/helpers.scss';
+
+.scrollProvider {
+  overflow-x: auto;
+  position: relative;
+
+  &.scrollTips {
+  }
+}
+.scrollTip {
+  position: absolute;
+  content: ' ';
+  width: 10px;
+  height: 80%;
+  background: $color-primary;
+  filter: blur(4px);
+  top: 10%;
+}
+
+.tabContainer {
+  position: relative;
+  overflow-x: auto;
+}
+
+.tabWrapper {
+  width: max-content;
+  @include flexbox(center, space-around);
+  @include forTablet {
+    border-bottom: 1px solid $color-neutral-10;
+  }
+
+  .tab {
+    position: relative;
+    @include flexbox;
+    height: 100%;
+
+    &::before {
+      content: ' ';
+
+      position: absolute;
+      bottom: 0;
+
+      width: 0;
+      height: 2px;
+
+      background: $color-primary;
+
+      transition: 150ms ease-out;
+    }
+
+    svg {
+      display: block;
+      margin-right: 10px;
+    }
+
+    &.selected {
+      p {
+        color: $color-secondary;
+      }
+      path {
+        fill: $color-secondary;
+      }
+    }
+  }
+}
+
+.tabIcon {
+  //filter: brightness(100);
+
+  margin-right: 10px;
+  height: 26px;
+  width: auto;
+}
+
+.scrollProvider::-webkit-scrollbar {
+  display: none;
+}

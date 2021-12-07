@@ -1,0 +1,27 @@
+@import 'src/styles/helpers';
+
+.text {
+  margin-bottom: 32px;
+}
+
+.info {
+  margin-bottom: 12px;
+}
+
+.btns {
+  margin-top: 32px;
+}
+
+.button {
+  width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}
+
+.field {
+  & + & {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,59 @@
+@import "src/styles/helpers";
+
+.body {
+  position: absolute;
+  top: 100%;
+  min-width: 200px;
+
+  z-index: 999;
+  padding: 16px;
+  background: $color-neutral-0;
+  opacity: 0;
+  /* Pop Up */
+  box-shadow: $color-box-shadow;
+  animation: showUser 0.4s forwards;
+  border-radius: $border-radius;
+
+  .triangle {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border: 16px solid transparent;
+    border-bottom: 16px solid $color-neutral-0;
+    top: -24px;
+  }
+
+  &.right {
+    right: 0;
+
+    & .triangle {
+      right: 5px;
+    }
+  }
+  &.center {
+    left: 50%;
+    transform: translateX(-50%);
+
+    & .triangle {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  .left {
+    left: 0;
+
+    & .triangle{
+      left: 5px;
+    }
+  }
+}
+
+@keyframes showUser {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

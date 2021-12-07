@@ -1,0 +1,98 @@
+@import "src/styles/helpers.scss";
+
+.viewsAndControls {
+  width: 100%;
+  margin-top: 10px;
+  @include flexbox(center, space-between);
+}
+
+.viewsData {
+  margin-right: 32px;
+}
+
+.controls {
+  margin-left: auto;
+  @include flexbox;
+  gap: 10px;
+
+  & > button {
+    min-width: 38px;
+  }
+}
+
+.optionBtn {
+  position: relative;
+}
+
+.likeButton {
+  @include flexbox($align: center);
+  padding: 0 10px;
+  min-width: 75px !important;
+  svg {
+    margin-right: 5px;
+  }
+  & p{
+   line-height: 1;
+   position: relative;
+   top: 2px;
+  }
+  &Active {
+    svg {
+      path {
+        fill: red;
+      }
+    }
+  }
+}
+.copyButton {
+  @include flexbox;
+  padding: 0 10px;
+}
+@include forTablet {
+  .viewsAndControls {
+    display: block;
+  }
+
+  .controls {
+    margin-top: 10px;
+    justify-content: flex-start;
+  }
+}
+
+.actions {
+  &Item {
+    @include flexbox(center, flex-start);
+    padding: 12px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 29px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: $color-neutral-100;
+    img {
+      margin-right: 7px;
+    }
+    & + & {
+      border-top: 1px solid $color-neutral-10;
+    }
+    &:hover {
+      &.blue {
+        background: rgba($color-primary, 0.4);
+      }
+      &.red {
+        background: rgba($color-state-error, 0.4);
+      }
+    }
+  }
+}
+
+.button {
+  position: relative;
+  min-width: 38px;
+}
+
+.dots {
+  position: absolute;
+  left: calc(50% - 6px);
+  top: calc(50% - 13px);
+}

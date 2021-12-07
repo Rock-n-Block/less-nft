@@ -1,0 +1,46 @@
+@import "src/styles/helpers";
+
+.control {
+  @include container;
+  margin: 40px auto;
+  padding: 0 !important;
+}
+
+.control .container {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.breadcrumbs {
+  display: flex;
+}
+
+.item {
+  &:not(:last-child) {
+    margin-right: 33px;
+
+    &::after {
+      content: "";
+      margin-left: 33px;
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-width: 0 2px 2px 0;
+      border-color: $color-neutral-40;
+      border-style: solid;
+      border-radius: 0 0 1.5px 0;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.link {
+  color: $color-neutral-80;
+
+  transition: color 0.2s;
+
+  &:hover {
+    color: $color-action-hovered;
+  }
+}

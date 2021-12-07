@@ -1,0 +1,56 @@
+@import 'src/styles/helpers';
+
+.artistLabel {
+  width: 100%;
+  height: 60px;
+  @include flexbox(center, space-between);
+}
+
+.avatarContainer {
+  position: relative;
+  @include flexbox;
+  line-height: 26px;
+
+  & > img {
+    margin-right: 16px;
+
+    width: 56px;
+    height: 56px;
+
+    border-radius: 50%;
+  }
+}
+
+.selected {
+  color: $color-secondary;
+}
+
+.isVerified {
+  position: absolute;
+  left: 38px;
+  bottom: 0;
+
+  width: 12px;
+  height: 12px;
+
+  background: $color-primary;
+  border: 1.5px solid $color-neutral-80;
+  border-radius: 50%;
+
+  &::before {
+    content: ' ';
+
+    position: absolute;
+    left: 3px;
+    bottom: 3px;
+
+    width: 3px;
+    height: 6px;
+
+    border-width: 0 1px 1px 0;
+    border-style: solid;
+    border-color: $color-neutral-0;
+
+    transform: rotate(45deg);
+  }
+}

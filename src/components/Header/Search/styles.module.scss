@@ -1,0 +1,59 @@
+@import 'src/styles/helpers';
+
+.search {
+  position: relative;
+  width: 100%;
+
+  &.desktop {
+    max-width: 450px;
+  }
+
+  &Input {
+    input {
+      background: $color-neutral-3;
+      border: 2px solid $color-actions-dark-grey;
+    }
+  }
+}
+
+.searchDropdown {
+  width: 100%;
+  box-sizing: border-box;
+  top: 100%;
+  position: absolute;
+  background: $color-bg;
+  box-shadow: $color-box-shadow;
+  height: 0;
+  transition: 200ms;
+  z-index: 1;
+  border-radius: 0 0 $border-radius $border-radius;
+
+  &.desktop {
+    width: 500px;
+  }
+
+  &.isVisible {
+    padding: 24px;
+    height: unset;
+  }
+}
+
+.searchLoader {
+  position: absolute;
+  top: 50%;
+  right: 0;
+}
+
+.searchResults {
+  margin-top: 26px;
+}
+
+.searchItem {
+  &:not(:first-child) {
+    margin-top: 26px;
+  }
+}
+
+.viewResults {
+  margin-top: 26px;
+}

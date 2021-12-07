@@ -1,0 +1,52 @@
+@import 'src/styles/helpers';
+
+.banner {
+  @include container;
+  margin-top: 53px;
+  @include flexbox(center, space-between);
+  gap: 12px;
+  @include forDesktopMiddle {
+    flex-direction: column;
+    gap: 36px;
+  }
+}
+
+.info {
+  @include flexbox(flex-start);
+  flex-direction: column;
+  @include forDesktopMiddle {
+    align-items: center;
+  }
+}
+
+.title {
+  @include flexbox(flex-start);
+  flex-direction: column;
+  text-transform: uppercase;
+  gap: 16px;
+
+  &Row {
+    font-size: 40px !important;
+  }
+  &Gradient{
+    @include gradientText;
+  }
+
+  @include forDesktopMiddle {
+    align-items: center;
+  }
+}
+
+.description {
+  margin-top: 12px;
+  max-width: 460px;
+  @include forDesktopMiddle {
+    text-align: center;
+  }
+}
+
+.buttons {
+  margin-top: 34px;
+  @include flexbox;
+  gap: 20px;
+}

@@ -1,0 +1,112 @@
+@import 'src/styles/helpers';
+
+.container {
+  @include flexbox(flex-start, space-between);
+  @include forDesktopSm {
+    display: block;
+  }
+}
+
+.box {
+  width: 50%;
+  padding-right: 30px;
+  & + & {
+    padding-right: 0;
+    padding-left: 30px;
+  }
+  &:first-of-type {
+    border-right: 1px solid $color-neutral-10;
+  }
+  &_title {
+    font-weight: 500;
+    color: $color-neutral-100;
+    font-size: 18px;
+    line-height: 29px;
+
+    @include epilogue;
+    @include forDesktopSm {
+      margin-bottom: 16px;
+    }
+  }
+
+  @include forDesktopSm {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+
+    & + & {
+      padding-right: 0px;
+      padding-left: 0px;
+      padding-top: 32px;
+      border-top: 1px solid $color-neutral-10;
+    }
+    &:first-of-type {
+      border-right: none;
+      padding-bottom: 32px;
+    }
+  }
+}
+
+.item {
+  @include flexbox(center, space-between);
+  padding: 16px 25px 16px 16px;
+  background: $color-neutral-10;
+  cursor: pointer;
+  margin-top: 16px;
+  color: $color-neutral-100;
+  transition: 0.3s;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 29px;
+  border-radius: $border-radius;
+  position: relative;
+
+  @include forDesktopSm {
+    height: 103px;
+    margin-top: 0;
+    padding: 0 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &_wrapper {
+    @include flexbox(center);
+    @include forDesktopSm {
+      flex-direction: column;
+      text-align: center;
+    }
+    img {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+      @include forDesktopSm {
+        margin-right: 0;
+      }
+    }
+  }
+
+  & > img {
+    position: absolute;
+    opacity: 0;
+    right: 25px;
+  }
+  &_active {
+    background: $color-dark;
+    color: $color-neutral-0;
+    & > img {
+      opacity: 1;
+    }
+  }
+  &_wallet {
+    &:hover {
+      background: $color-dark;
+      color: $color-neutral-0;
+    }
+  }
+}
+
+@include forDesktopSm {
+  .wallets {
+    @include autoGrid(200px);
+  }
+}

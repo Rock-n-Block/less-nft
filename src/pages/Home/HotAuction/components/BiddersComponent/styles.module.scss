@@ -1,0 +1,49 @@
+@import 'src/styles/helpers';
+
+.bidderContainer {
+  overflow: auto;
+  margin-top: 10px;
+  height: 250px;
+}
+
+.comp {
+  margin-top: 20px;
+}
+
+.bidderContainer::-webkit-scrollbar {
+  width: 2px;
+}
+
+.bidderContainer::-webkit-scrollbar-track {
+  background: rgba(102, 214, 218, 0.4);
+}
+
+.bidderContainer::-webkit-scrollbar-thumb {
+  background: $color-action-default;
+}
+
+.bidderWrapper {
+  @include flexbox(center, flex-start);
+  margin-bottom: 10px;
+
+  line-height: 160%;
+}
+.bidder {
+  &Img {
+    @include flexbox();
+    margin-right: 10px;
+    overflow: hidden;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    img {
+      max-width: 100%;
+    }
+  }
+  &Name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,34 @@
+@import 'src/styles/helpers';
+
+.resourceForGettingStarted {
+  @include container;
+  margin-top: 188px;
+  margin-bottom: 46px;
+}
+
+.box {
+  margin-top: 64px;
+  @include flexbox(flex-start);
+  gap: 35px;
+  flex-wrap: wrap;
+}
+
+.resourcesBlock {
+  .resourcesImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $border-radius;
+  }
+  .resourcesImageWrapper {
+    max-width: 312px;
+    max-height: 312px;
+    aspect-ratio: 1/1;
+    width: 100%;
+  }
+  .resourcesText {
+    margin-top: 16px;
+    max-width: 274px;
+    width: 100%;
+  }
+}

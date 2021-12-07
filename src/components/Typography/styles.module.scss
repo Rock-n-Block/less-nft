@@ -1,0 +1,220 @@
+@import "../../styles/helpers.scss";
+
+.type_h1 {
+  font-size: 80px;
+  @include forTablet {
+    font-size: 40px;
+  }
+}
+
+.type_h2 {
+  font-size: 40px;
+  line-height: 120%;
+  @include forTablet {
+    font-size: 28px;
+  }
+}
+
+.type_h3 {
+  font-size: 36px;
+  @include forTablet {
+    font-size: 28px;
+  }
+}
+
+.type_h4 {
+  font-size: 28px;
+  @include forTablet {
+    font-size: 20px;
+  }
+}
+
+.type_h5 {
+  font-size: 20px;
+  @include forTablet {
+    font-size: 16px;
+  }
+}
+.type_h6 {
+  font-size: 16px;
+  @include forTablet {
+    font-size: 14px;
+  }
+}
+
+.type_h1,
+.type_h2,
+.type_h3,
+.type_h4,
+.type_h5,
+.type_h6 {
+  @include sora;
+}
+
+.align_center {
+  text-align: center;
+}
+
+.align_left {
+  text-align: left;
+}
+
+.align_right {
+  text-align: right;
+}
+
+.align_inherit {
+  text-align: inherit;
+}
+
+.size_xxxs {
+  font-size: 10px;
+}
+
+.size_xxs {
+  font-size: 11px;
+}
+
+.size_xs {
+  font-size: 12px;
+}
+
+.size_s {
+  font-size: 14px;
+}
+
+.size_m {
+  font-size: 16px;
+}
+
+.size_l {
+  font-size: 18px;
+  @include forTablet {
+    font-size: 16px;
+  }
+}
+
+.size_xl {
+  font-size: 20px;
+  @include forTablet {
+    font-size: 18px;
+  }
+}
+
+.size_xxl {
+  font-size: 24px;
+  @include forTablet {
+    font-size: 20px;
+  }
+}
+
+.size_xxxl {
+  font-size: 32px;
+  @include forTablet {
+    font-size: 24px;
+  }
+}
+
+.size_xxxxl {
+  font-size: 48px;
+  @include forTablet {
+    font-size: 32px;
+  }
+}
+.size_inherit {
+  font-size: inherit;
+}
+
+.color_error {
+  color: $color-state-error;
+}
+
+.color_white {
+  color: $color-neutral-0;
+}
+
+.color_black {
+  color: $color-neutral-100;
+}
+
+.color_darkenGray {
+  color: $color-neutral-80;
+}
+
+.color_gray {
+  color: $color-neutral-60;
+}
+
+.color_middleGray {
+  color: $color-neutral-40;
+}
+
+.color_lightGray {
+  color: $color-neutral-20;
+}
+
+.color_secondary {
+  color: $color-secondary;
+}
+
+.color_primary {
+  color: $color-primary;
+}
+
+.color_purple {
+  color: $color-purple;
+}
+
+.color_red {
+  color: $color-state-error;
+}
+
+.color_inherit {
+  color: inherit;
+}
+
+.weight_normal {
+  font-weight: 400;
+}
+
+.weight_medium {
+  font-weight: 500;
+}
+
+.weight_bold {
+  font-weight: 700;
+}
+
+.weight_inherit {
+  font-weight: inherit;
+}
+
+.ellipsis {
+  max-width: fit-content;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+@import "src/styles/helpers";
+
+.tooltip {
+  .rc-tooltip-arrow {
+    //display: none;
+  }
+
+  .rc-tooltip-inner {
+    background: $color-neutral-80;
+    border-radius: 0;
+    color: $color-neutral-0;
+  }
+
+  * {
+    @include epilogue;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0.03em;
+    color: $color-neutral-0;
+  }
+}

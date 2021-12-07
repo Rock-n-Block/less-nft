@@ -1,0 +1,96 @@
+@import "src/styles/helpers";
+@import "src/styles/mixins/media.scss";
+
+.header {
+  top: 0;
+  z-index: 1000;
+  transition: top 0.4s;
+  width: 100%;
+  height: 65px;
+}
+
+.searchDesktop {
+  margin-left: 30px;
+}
+
+.headerInner {
+  height: 100%;
+  position: relative;
+  @include container;
+  @include flexbox(center, flex-start);
+}
+
+.burger {
+  width: 40px;
+  height: 40px;
+  display: none;
+}
+
+.flex {
+  @include flexbox;
+}
+
+.headerSearch {
+  margin-left: 40px;
+
+  width: 300px;
+}
+
+.headerConnectBtn {
+  margin-left: auto;
+  border-radius: 0;
+
+  @include forTablet{
+    padding: 4px 12px;
+    font-size: 14px !important;
+  }
+}
+
+.profileInfo {
+  @include flexbox;
+  gap: 30px;
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-200%);
+  transition: $transition;
+  z-index: 99;
+  width: 50%;
+  height: 100vh;
+  justify-content: flex-start;
+  @include box-shadow;
+
+  @include b(541) {
+    width: 100%;
+  }
+}
+
+.mobileMenuOpen {
+  transform: translateX(0);
+}
+
+@include forDesktopMiddle {
+  .burger {
+    display: block;
+  }
+  .searchDesktop,
+  .headerLinks,
+  .headerSearch {
+    display: none;
+  }
+
+  .profileInfo {
+    margin-left: auto;
+  }
+
+  .headerInner {
+    padding: 20px 10px;
+    @include forTablet{
+      gap: 10px;
+    }
+  }
+
+}

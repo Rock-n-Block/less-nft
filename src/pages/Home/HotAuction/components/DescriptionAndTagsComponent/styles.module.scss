@@ -1,0 +1,67 @@
+@import "src/styles/helpers";
+
+.tag {
+  padding: 2px 17px;
+
+  background: $color-neutral-10;
+
+  &Wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  &Title {
+    margin-right: 24px;
+  }
+}
+
+.descriptionBody {
+  position: relative;
+  max-height: 100px;
+  height: auto;
+  overflow: hidden;
+  transition: $transition;
+  margin-bottom: 10px;
+
+  .hover {
+    &Text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      pointer-events: none;
+      padding: 10px 0;
+      @include flexbox;
+      height: 30px;
+      transition: opacity $transition;
+      background: linear-gradient(0deg, $color-bg 0%, rgba($color-bg, 0.9) 95%, transparent 100%);
+      cursor: pointer;
+
+      &.showHoverNotification {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .cursor {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        left: 70%;
+      }
+    }
+  }
+
+  &:hover {
+    max-height: 1000px;
+
+    .hover {
+      &Text {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+  }
+}

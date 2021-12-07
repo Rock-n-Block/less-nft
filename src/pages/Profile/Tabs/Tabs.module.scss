@@ -1,0 +1,6 @@
+@import 'src/styles/helpers.scss';
+
+.tab {
+  @include autoGrid;
+  margin-bottom: 32px;
+}
