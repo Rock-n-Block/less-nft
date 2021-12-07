@@ -140,8 +140,8 @@ export const exchangeAddrs = {
   [chainsEnum['Binance-Smart-Chain']]: !is_production
     ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5'
     : '',
-  [chainsEnum.Ethereum]: !is_production ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5' : '',
-  [chainsEnum.Polygon]: !is_production ? '0x0d669902B1E2Dc2E7b229D5d9b3D15c3D719d3c1' : '',
+  [chainsEnum.Ethereum]: !is_production ? '0x0d669902B1E2Dc2E7b229D5d9b3D15c3D719d3c1' : '',
+  [chainsEnum.Polygon]: !is_production ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5' : '',
 };
 
 export const contracts: IContracts = {
