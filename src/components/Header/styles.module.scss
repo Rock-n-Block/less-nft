@@ -1,5 +1,5 @@
-@import "src/styles/helpers";
-@import "src/styles/mixins/media.scss";
+@import 'src/styles/helpers';
+@import 'src/styles/mixins/media.scss';
 
 .header {
   top: 0;
@@ -40,7 +40,7 @@
   margin-left: auto;
   border-radius: 0;
 
-  @include forTablet{
+  @include forTablet {
     padding: 4px 12px;
     font-size: 14px !important;
   }
@@ -48,7 +48,7 @@
 
 .profileInfo {
   @include flexbox;
-  gap: 30px;
+  gap: 20px;
 }
 
 .mobileMenu {
@@ -88,9 +88,8 @@
 
   .headerInner {
     padding: 20px 10px;
-    @include forTablet{
+    @include forTablet {
       gap: 10px;
     }
   }
-
 }
