@@ -147,7 +147,7 @@ const Swap: React.FC = observer(() => {
           className={styles.button}
           onClick={handleSubmitConvert}
           loading={isLoading}
-          disabled={+payInput > +currentBalance || +payInput <= 0}
+          disabled={+payInput > +currentBalance || +payInput <= 0 || isLoading}
           color="blue"
         >
           Convert
