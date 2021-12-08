@@ -380,3 +380,21 @@
     margin-bottom: 16px;
   }
 }
+
+.unlock {
+  margin-top: 32px;
+  margin-bottom: 8px;
+  input {
+    color: rgba($color-neutral-100, 0.7);
+  }
+}
+
+.royalties {
+  input {
+    padding-right: 20px !important;
+  }
+}
+
+.suffix {
+  color: $color-neutral-100;
+}

@@ -2,7 +2,7 @@ import { INetwork } from '@amfi/connect-wallet/dist/interface';
 import { bnbLogo, ethLogo, metamaskImg, polygonLogo, walletConnectImg } from 'assets/img';
 import { chainsEnum, IConnectWallet, IContracts } from 'typings';
 
-import { bep20Abi, erc20Abi, nftAbi, wbnbTestnetAbi, wethTestnetAbi } from './abi';
+import { bep20Abi, erc20Abi, nftAbi, wbnbTestnetAbi, wethTestnetAbi, wMaticTestnetAbi } from './abi';
 
 export const is_production = false;
 
@@ -205,8 +205,8 @@ export const contracts: IContracts = {
         abi: erc20Abi,
       },
       testnet: {
-        address: '0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7',
-        abi: wethTestnetAbi,
+        address: '0xCF1177e9f54eE20C6E80570D678462363d56C1E5',
+        abi: wMaticTestnetAbi,
       },
     },
   },

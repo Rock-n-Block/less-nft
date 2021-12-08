@@ -10,7 +10,7 @@
 
 .linksAndControls {
   @include flexbox(flex-start, space-between);
-  padding-top: 64px;
+  padding-top: 24px;
   border-top: 1px solid $color-neutral-30;
 }
 
@@ -54,7 +54,7 @@
 .footerActions {
   flex-basis: 25%;
 
-  margin-bottom: 60px;
+  margin-bottom: 24px;
 
   & > * {
     margin-bottom: 20px;

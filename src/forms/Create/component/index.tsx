@@ -26,8 +26,6 @@ import ChooseCollection from './ChooseCollection';
 
 import styles from './CreateCollectibleDetails.module.scss';
 
-const royaltiesOptions = ['10', '20', '30'];
-
 interface IRate {
   rate: string;
   symbol: string;
@@ -47,7 +45,7 @@ export interface ICreateForm {
   description: string;
   price: number;
   minimalBid: number;
-  creatorRoyalty: '10' | '20' | '30';
+  creatorRoyalty: number;
   collection: number;
   details: IProperti[];
   selling: boolean;
@@ -55,10 +53,11 @@ export interface ICreateForm {
   cover: string;
   coverPreview: string;
   format: 'image' | 'video' | 'audio';
-
+  unlockOncePurchased: boolean;
   preview: string;
   sellMethod: string;
   isLoading: boolean;
+  digitalKey: string;
 }
 
 const sellMethods: IRadioButton[] = [
@@ -415,21 +414,30 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     </div>
                   )}
                   <div className={styles.fieldsetRowColumn}>
-                    <Text className={styles.label} size="m" weight="medium">
+                    <Text className={cn(styles.label)} size="m" weight="medium">
                       Royalties <RequiredMark />
                     </Text>
                     <Field
                       render={() => (
-                        <Dropdown
-                          name="Royalties"
-                          setValue={(value) => setFieldValue('creatorRoyalty', value)}
-                          options={royaltiesOptions}
-                          className={styles.dropdown}
-                          value={`${values.creatorRoyalty}%`}
+                        <TextInput
+                          name="creatorRoyalty"
+                          type="number"
+                          placeholder="e.g. 10"
+                          value={`${values.creatorRoyalty}`}
+                          className={styles.royalties}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                           suffix="%"
+                          suffixClassName={styles.suffix}
+                          positiveOnly
+                          required
                         />
                       )}
                     />
+
+                    {touched.creatorRoyalty && errors.creatorRoyalty && (
+                      <Text color="red">{errors.creatorRoyalty}</Text>
+                    )}
                   </div>
                 </div>
                 <div className={styles.fee}>
@@ -512,6 +520,46 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                 </div>
               </div>
             </div>
+            <div className={styles.item}>
+              <H6 className={styles.fieldsetTitle}>
+                Unlock once purchased
+                <Field
+                  render={() => (
+                    <Switch
+                      name="unlockOncePurchased"
+                      value={values.unlockOncePurchased}
+                      setValue={() => {
+                        setFieldValue('unlockOncePurchased', !values.unlockOncePurchased);
+                      }}
+                    />
+                  )}
+                />
+              </H6>
+
+              {values.unlockOncePurchased && (
+                <>
+                  <Text className={styles.unlock} size="m" weight="medium">
+                    Digital key, code to redeem or link to a file...
+                  </Text>
+                  <Field
+                    name="digitalKey"
+                    render={() => (
+                      <TextInput
+                        label=""
+                        name="digitalKey"
+                        value={values.digitalKey}
+                        placeholder="Select file...."
+                        onChange={handleChange}
+                        type="text"
+                      />
+                    )}
+                  />
+                  {touched.description && errors.description && (
+                    <Text color="red">{errors.description}</Text>
+                  )}
+                </>
+              )}
+            </div>
             <div className={cn(styles.fieldset, styles.addCollection)}>
               <H6 className={styles.fieldsetTitle}>
                 <div>
@@ -519,6 +567,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                   <IconRefresh className={styles.refresh} onClick={() => setIsRefresh(true)} />
                 </div>
                 <Switch
+                  name="addToCollection"
                   value={addToCollection}
                   setValue={() => setAddToCollection(!addToCollection)}
                 />
@@ -537,7 +586,13 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
               <Button
                 className={cn('button', styles.button, styles.submitBtn)}
                 onClick={onSubmit}
-                disabled={values.isLoading || !values.collection}
+                disabled={
+                  values.isLoading ||
+                  !values.collection ||
+                  (values.sellMethod === 'fixedPrice' && !values.price) ||
+                  (values.sellMethod === 'openForBids' && !values.minimalBid) ||
+                  !!Object.keys(errors).length
+                }
               >
                 Create item
               </Button>
