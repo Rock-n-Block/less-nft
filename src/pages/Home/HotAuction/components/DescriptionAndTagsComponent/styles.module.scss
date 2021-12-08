@@ -1,4 +1,4 @@
-@import "src/styles/helpers";
+@import 'src/styles/helpers';
 
 .tag {
   padding: 2px 17px;
@@ -64,4 +64,125 @@
       }
     }
   }
+}
+
+.unlock {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 40px;
+  padding: 0 24px;
+  background: $color-primary;
+  border-radius: 12px;
+  gap: 24px;
+  cursor: pointer;
+  margin-top: 24px;
+
+  text-align: center;
+  color: $color-neutral-0;
+  // transition: all $animation-timing-default ease;
+
+  &:hover {
+    background: $color-action-hovered;
+  }
+
+  &Button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 4px;
+  }
+
+  &.opened {
+    background: #fcfcfd;
+    height: 100%;
+    padding: 20px 24px;
+
+    border: 1px solid #eaeaea;
+    box-sizing: border-box;
+    border-radius: 16px;
+
+    cursor: default;
+
+    color: $color-neutral-40;
+
+    .unlockButton {
+      background: none;
+      box-shadow: 0 0 0 2px $color-neutral-10 inset;
+      color: $color-neutral-100;
+      padding: 5px 24px;
+      border-radius: 12px;
+      height: 40px;
+
+      cursor: pointer;
+      &:hover {
+        background: $color-primary;
+        box-shadow: none !important;
+        color: $color-neutral-0;
+
+        svg {
+          path {
+            &:first-of-type {
+              fill: #fcfcfd;
+              &:last-of-type {
+                fill: unset;
+                stroke: #fcfcfd;
+              }
+            }
+            &:last-child {
+              stroke: #fcfcfd;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.digitalKey {
+  position: relative;
+}
+
+.copy {
+  margin-left: 8px;
+  position: absolute;
+  top: 0;
+  right: -20px;
+  cursor: pointer;
+
+  svg {
+    fill: $color-primary;
+    transition: fill $animation-timing-default;
+  }
+
+  &:hover {
+    svg {
+      fill: $color-action-hovered;
+    }
+  }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px solid black;
+  visibility: hidden;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  min-width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 6px;
+
+  position: absolute;
+  z-index: 1;
+}
+.copy:hover .tooltiptext {
+  visibility: visible;
 }

@@ -40,6 +40,7 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
     isUserCanRemoveFromSale,
     isWrongChain,
     isUserCanChangePrice,
+    isUserCanSeeUnlockableContent
   } = useGetUserAccessForNft(nft, user.id, user.address);
 
   const togglePreview = useCallback(
@@ -191,6 +192,8 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
           className={styles.description}
           tags={nft?.tags || []}
           body={nft?.description || ''}
+          digitalKey={nft?.digital_key || ''}
+          isUserCanSeeUnlockableContent={isUserCanSeeUnlockableContent}
         />
       </div>
     </div>

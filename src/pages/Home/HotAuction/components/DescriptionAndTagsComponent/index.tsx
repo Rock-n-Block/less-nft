@@ -1,43 +1,60 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
 import { Text } from 'components';
-
+import copyToClipboard from 'copy-to-clipboard';
 import styles from './styles.module.scss';
 import { ITag } from '../../../../../typings';
-import { Cursor } from 'assets/img';
+import { Cursor, IconLock, IconUnlock, IconCopy } from 'assets/img';
 
 type Props = {
   className?: string;
   tags: ITag[];
   body: string;
+  digitalKey?: string;
+  isUserCanSeeUnlockableContent?: boolean;
 };
 
-const DescriptionAndTagsComponent: FC<Props> = ({ className, tags, body }) => {
-
+const DescriptionAndTagsComponent: FC<Props> = ({
+  className,
+  tags,
+  body,
+  digitalKey,
+  isUserCanSeeUnlockableContent,
+}) => {
   const textRef = useRef<any>(null);
   const [showHover, setShowHover] = useState(true);
+  const [isUnlockOpened, setIsUnlockOpened] = useState(false);
+  const [copyContent, setCopyContent] = useState(false);
 
-  useEffect(()=>{
-   
-    if(textRef.current){
-      if(textRef.current.offsetHeight >= 100){
+  const handleUnlock = useCallback(() => {
+    setIsUnlockOpened(!isUnlockOpened);
+  }, [isUnlockOpened]);
+
+  const handleCopy = (content: string) => {
+    copyToClipboard(content);
+    setCopyContent(true);
+  };
+
+  useEffect(() => {
+    if (textRef.current) {
+      if (textRef.current.offsetHeight >= 100) {
         setShowHover(true);
-      }else{
+      } else {
         setShowHover(false);
       }
     }
-  }, [textRef, body])
+  }, [textRef, body]);
 
   return (
     <div className={className}>
       <div className={styles.descriptionBody} ref={textRef}>
         <div className={`${styles.hoverText} ${showHover && styles.showHoverNotification}`}>
           <Text>Hover to read more</Text>
-          <Cursor aria-label='hover' className={styles.cursor} />
+          <Cursor aria-label="hover" className={styles.cursor} />
         </div>
         {body}
       </div>
       {tags.length && (
-
         <div className={styles.tagWrapper}>
           <Text size="m" className={styles.tagTitle}>
             Tags:
@@ -48,10 +65,50 @@ const DescriptionAndTagsComponent: FC<Props> = ({ className, tags, body }) => {
             </div>
           ))}
         </div>
+      )}
 
+      {isUserCanSeeUnlockableContent && (
+        <div
+          role="button"
+          className={cn(styles.unlock, { [styles.opened]: isUnlockOpened })}
+          onClick={isUnlockOpened ? undefined : handleUnlock}
+          onKeyDown={() => {}}
+          tabIndex={0}
+        >
+          <div
+            role="button"
+            className={styles.unlockButton}
+            onClick={isUnlockOpened ? handleUnlock : undefined}
+            onKeyDown={() => {}}
+            tabIndex={0}
+          >
+            {isUnlockOpened ? <IconUnlock /> : <IconLock />}
+            <span>{isUnlockOpened ? 'Hide' : 'Get'} unlockable content</span>
+          </div>
+
+          {isUnlockOpened && !!digitalKey && (
+            <div className={styles.digitalKey}>
+              {digitalKey.length > 100 ? `${digitalKey.slice(0, 100)}...` : digitalKey}
+              <div
+                role="button"
+                className={styles.copy}
+                onKeyDown={() => {}}
+                tabIndex={0}
+                onClick={() => handleCopy(digitalKey || '')}
+                onMouseLeave={() => setCopyContent(false)}
+              >
+                <IconCopy />
+                <div className={styles.tooltip}>
+                  <span className={styles.tooltiptext}>
+                    {copyContent ? 'Success!' : 'Copy unlockable content'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
-
-}
+};
 export default DescriptionAndTagsComponent;

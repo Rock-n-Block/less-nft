@@ -79,6 +79,7 @@ export interface INft {
   currency: ICurrency;
   description: string;
   details: TNullable<any>;
+  digital_key: string;
   highest_bid: TNullable<IBidder>;
   highest_bid_USD: TNullable<string | number>;
   history: IHistoryItem[];
