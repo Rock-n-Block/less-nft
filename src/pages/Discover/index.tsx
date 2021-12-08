@@ -205,7 +205,9 @@ const Discover = observer(() => {
                         key={id}
                         imageMain={media}
                         name={name}
-                        price={price || (highest_bid && toFixed(highest_bid.amount)) || minimal_bid}
+                        price={
+                          price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid
+                        }
                         asset={currency.symbol.toUpperCase()}
                         inStockNumber={available}
                         author={creator.name}
