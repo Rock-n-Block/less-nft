@@ -40,7 +40,7 @@ const Checkout: React.FC = observer(() => {
           walletService
             .sendTransaction(data.initial_tx)
             .then((res: any) => {
-              toast.success('success');
+              toast.success('Successful purchase of nft');
               storeApi
                 .trackTransaction(res.transactionHash, sell.nft.tokenId, sell.nft.sellerId)
                 .then(() => {
