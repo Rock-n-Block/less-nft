@@ -179,7 +179,7 @@ const Discover = observer(() => {
                 wrapperRef={cardsRef}
                 minWidth={250}
                 minHeight={350}
-                justify={EGridJustify.start}
+                justify={EGridJustify.center}
                 depenednciesForChange={[isFilterOpen]}
               >
                 {!!nftCards.length &&
