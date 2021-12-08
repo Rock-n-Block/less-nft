@@ -7,8 +7,11 @@ import { useMst } from 'store';
 import * as Yup from 'yup';
 
 import Profile, { IProfile } from '../component';
+import { useHistory } from 'react-router-dom';
+import { routes } from 'appConstants';
 
 const ProfileForm: React.FC = () => {
+  const history = useHistory();
   const { user } = useMst();
 
   const props: IProfile = {
@@ -53,6 +56,7 @@ const ProfileForm: React.FC = () => {
         .then(({ data }) => {
           toast.success('Profile updated');
           user.update(data);
+          history.push(routes.profile.link(user.id));
         })
         .catch(({ response }) => {
           toast.error('Profile update failed');
