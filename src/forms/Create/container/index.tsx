@@ -110,7 +110,7 @@ export default observer(({ isSingle }: any) => {
             .sendTransaction(data.initial_tx)
             .on('transactionHash', (txHash: string) => {
               toast.info(<ToastContentWithTxHash txHash={txHash} />);
-              history.push(`${routes.profile.link(user.id)}?tab=owned`);
+              history.push(`${routes.profile.link(user.id)}?tab=created`);
             })
             .then(() => {
               toast.success('Token Created');

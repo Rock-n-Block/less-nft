@@ -430,6 +430,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                           suffix="%"
                           suffixClassName={styles.suffix}
                           positiveOnly
+                          integer
                           required
                         />
                       )}

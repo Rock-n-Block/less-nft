@@ -116,7 +116,7 @@ export const chains: {
         },
       },
     },
-    explorer: is_production ? '' : '',
+    explorer: is_production ? '' : 'https://mumbai.polygonscan.com/',
   },
 };
 

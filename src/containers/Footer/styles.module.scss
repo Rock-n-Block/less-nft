@@ -2,16 +2,17 @@
 
 .footerContent {
   margin: 0 auto;
-  @include container;
+  // @include container;
   padding-bottom: 22px;
+  border-top: 1px solid $color-neutral-30;
 
   // max-width: 1500px;
 }
 
 .linksAndControls {
   @include flexbox(flex-start, space-between);
+  @include container;
   padding-top: 24px;
-  border-top: 1px solid $color-neutral-30;
 }
 
 .footerLogo {

@@ -3,6 +3,7 @@
 .liveAuction {
   @include container;
   overflow: hidden;
+  padding-top: 24px;
   padding-bottom: 25px;
   .title {
     text-align: center;
