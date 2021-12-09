@@ -119,7 +119,6 @@ const PlaceBid: React.FC = () => {
         isFullWidth
         onClick={handlePlaceBid}
         disabled={(sell.nft.minimalBid && +bid <= +sell.nft.minimalBid) || +userWillPay > +balance}
-        color="blue"
       >
         Place a Bid
       </Button>

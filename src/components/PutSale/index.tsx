@@ -171,7 +171,6 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
           onClick={fetchStore}
           className={cn('button', styles.button)}
           loading={isLoading}
-          color="blue"
           isFullWidth
         >
           Put on sale
