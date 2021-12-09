@@ -167,3 +167,13 @@
     }
   }
 }
+
+.unlockButton {
+  background: $color-primary;
+  color: $color-neutral-0;
+  padding: 8px 24px;
+  border-radius: 12px;
+  width: fit-content;
+  @include flexbox;
+  gap: 10px;
+}

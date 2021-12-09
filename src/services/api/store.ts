@@ -61,9 +61,7 @@ export default {
     return axios.post(`/store/buy/?network=${localStorage.lessnft_nft_chainName}`, data);
   },
   getLiked: (address: string, page: number) =>
-    axios.get(
-      `store/liked/${address}/?network=${localStorage.lessnft_nft_chainName}&page=${page}`,
-    ),
+    axios.get(`store/liked/${address}/?network=${localStorage.lessnft_nft_chainName}&page=${page}`),
   getCreated: (address: string, page: number) =>
     axios.get(`store/created/${address}/${page}/?network=${localStorage.lessnft_nft_chainName}`),
   getCollectibles: (address: string, page: string) =>
@@ -221,7 +219,7 @@ export default {
   getRandomToken: () =>
     axios.get(`/store/get_random_token/`, {
       params: {
-        network: localStorage.lessnft_nft_chainName,
+        network: localStorage.lessnft_nft_chainName || '',
       },
     }),
   rejectTransaction: (data: any) => axios.post('/store/remove-reject/', data),
