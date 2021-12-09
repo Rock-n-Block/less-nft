@@ -429,8 +429,10 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                           onBlur={handleBlur}
                           suffix="%"
                           suffixClassName={styles.suffix}
+                          moreThanZero
                           positiveOnly
-                          integer
+                          // min={0}
+                          // max={80}
                           required
                         />
                       )}
