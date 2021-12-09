@@ -166,7 +166,7 @@ const ViewsAndControlsComponent: FC<Props> = ({
         {inStock ? <Text size="m" color="gray">{`In Stock: ${inStock}`}</Text> : null}
         <div className={styles.controls}>
           <Button
-            className={cx(styles.likeButton, { [styles.likeButtonActive]: isLike })}
+            className={cx(styles.button, styles.likeButton, { [styles.likeButtonActive]: isLike })}
             onClick={handleLike}
             color="outline"
           >
@@ -176,7 +176,7 @@ const ViewsAndControlsComponent: FC<Props> = ({
             </Text>
           </Button>
           <Copyable valueToCopy={`${window.location.origin}${routes.nft.link(nft?.id || '')}`}>
-            <Button color="outline" className={styles.copyButton}>
+            <Button color="outline" className={cx(styles.copyButton, styles.button)}>
               <Share />
             </Button>
           </Copyable>

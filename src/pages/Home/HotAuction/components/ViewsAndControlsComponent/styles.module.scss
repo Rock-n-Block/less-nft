@@ -18,6 +18,10 @@
   & > button {
     min-width: 38px;
   }
+
+  .button{
+    border-color: $color-neutral-10;
+  }
 }
 
 .optionBtn {
