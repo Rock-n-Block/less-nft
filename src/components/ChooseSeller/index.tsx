@@ -29,7 +29,7 @@ const ChooseSeller: React.FC = () => {
           height:
             sell.chooseSeller.sellers.length > 8
               ? '280px'
-              : `${sell.chooseSeller.sellers.length * 56}px`,
+              : `${sell.chooseSeller.sellers.length * 65}px`,
         }}
       >
         {sell.chooseSeller.sellers.map((seller) => (
