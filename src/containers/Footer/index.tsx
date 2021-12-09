@@ -56,7 +56,7 @@ const Footers: React.FC = observer(() => {
             {stacks.map(({ label, link }) => {
               return (
                 <Link to={link} key={label}>
-                  <Button className={styles.button} color="transparent">
+                  <Button padding="0" className={styles.button} color="transparent">
                     <Text color="lightGray">{label}</Text>
                   </Button>
                 </Link>

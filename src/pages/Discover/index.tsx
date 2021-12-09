@@ -15,7 +15,7 @@ import {
   Text,
 } from 'components';
 import { AdvancedFilter } from 'containers';
-import { useFetchNft, useFilters, useInfiniteScroll, useScrollDown, useWindowSize } from 'hooks';
+import { useFetchNft, useFilters, useInfiniteScroll, useWindowSize } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { userApi } from 'services';
 import { useMst } from 'store';
@@ -95,7 +95,7 @@ const Discover = observer(() => {
   const filtersRef = useRef<TNullable<HTMLDivElement>>(null);
   const anchorRef = useInfiniteScroll(page, allPages, handlePage, isLoading || isNftsLoading);
 
-  useScrollDown(filtersRef, '0px', '64px');
+  // useScrollDown(filtersRef, '0px', '64px');
   return (
     <div className={styles.discover}>
       {width <= mobileBreakPoint && (
@@ -179,7 +179,7 @@ const Discover = observer(() => {
                 wrapperRef={cardsRef}
                 minWidth={250}
                 minHeight={350}
-                justify={EGridJustify.center}
+                justify={EGridJustify.start}
                 depenednciesForChange={[isFilterOpen]}
               >
                 {!!nftCards.length &&

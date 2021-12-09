@@ -28,7 +28,10 @@ const Banner: FC = observer(() => {
             <Text tag="span" size="inherit" className={styles.titleRow} color="black">
               Discover priceless digital art and collect{' '}
               <Text tag="span" size="inherit" className={cx(styles.titleRow, styles.titleGradient)}>
-                NFTs
+                NFT
+                <Text tag="span" size="inherit" className={styles.titleRow_small}>
+                  s
+                </Text>
               </Text>
             </Text>
           </H4>
