@@ -33,7 +33,7 @@ const Banner: FC = observer(() => {
             </Text>
           </H4>
           <Text className={styles.description} size="xl" color="gray">
-            Welcome to the world of priceless digital art. explore the best art from hand-picked
+            Welcome to the world of priceless digital art. Explore the best art from hand-picked
             digital artist out there and find the hidden gem.
           </Text>
           <div className={styles.buttons}>
