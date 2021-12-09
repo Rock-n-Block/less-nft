@@ -25,7 +25,7 @@ export interface IHistoryOwner {
   instagram?: TNullable<string>;
   is_verificated: boolean;
   site?: TNullable<string>;
-  twitter: TNullable<string>
+  twitter: TNullable<string>;
 }
 
 export interface IHistoryItem {
@@ -79,7 +79,7 @@ export interface INft {
   currency: ICurrency;
   description: string;
   details: TNullable<any>;
-  digital_key: string;
+  digital_key: TNullable<string>;
   highest_bid: TNullable<IBidder>;
   highest_bid_USD: TNullable<string | number>;
   history: IHistoryItem[];
@@ -111,6 +111,7 @@ export interface INft {
   };
   currency_service_fee: number;
   views: number;
+  has_digital_key: boolean;
 }
 
 export interface ITag {
