@@ -7,7 +7,7 @@ import { PinkHeart } from 'assets/img';
 import cx from 'classnames';
 import { ArtCardAuthor, Button, Tag, Text } from 'components';
 import { IBidder } from 'typings';
-import { numberFormatter, sliceString } from 'utils';
+import { numberFormatter, sliceString, toFixed } from 'utils';
 
 import styles from './styles.module.scss';
 
@@ -165,7 +165,7 @@ const ArtCard: FC<Props> = ({
         <div className={styles.flexContainer}>
           {!isCollection && price && !!inStockNumber && (
             <Text className={styles.artCardPrice} size="m">
-              {`${price} ${asset}`}{' '}
+              {`${toFixed(price, 3)} ${asset}`}{' '}
               {bids?.length ? <span className={styles.bidText}>(Highest Bid)</span> : null}
             </Text>
           )}
