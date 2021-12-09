@@ -2,10 +2,20 @@
 
 .item {
   @include flexbox(center, space-between);
+  & + & {
+    margin-top: 10px;
+  }
+  @include forDesktopSm {
+    display: block;
+  }
+
   font-size: 16px;
   line-height: 26px;
   &Wrapper {
     @include flexbox(center);
+    @include forDesktopSm {
+      justify-content: flex-start;
+    }
   }
   &Img {
     @include flexbox();

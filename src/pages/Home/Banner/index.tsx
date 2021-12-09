@@ -23,7 +23,6 @@ const Banner: FC = observer(() => {
       />
       <div className={styles.inner}>
         <div className={styles.info}>
-          <GradientBlock color="orange" align="left" />
           <H4 className={styles.title}>
             <Text tag="span" size="inherit" className={styles.titleRow} color="black">
               Discover priceless digital art and collect{' '}
