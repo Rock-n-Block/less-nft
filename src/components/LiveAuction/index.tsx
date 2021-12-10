@@ -55,7 +55,7 @@ const LiveAuction: React.FC<IProps> = ({ className }) => {
           minimal_bid,
           asset: currency.symbol,
           inStockNumber: available,
-          author: creator.name,
+          author: creator?.name,
           authorAvatar: creator.avatar,
           authorId: creator.id,
           likesNumber: like_count,

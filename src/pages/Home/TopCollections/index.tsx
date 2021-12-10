@@ -53,18 +53,19 @@ const TopCollections: FC<Props> = ({ className }) => {
             gridTemplateRows: `repeat(${collections.length > 5 ? 5 : collections.length}, 1fr)`,
           }}
         >
-          {collections.map((collection, index) => (
-            <CollectionCard
-              key={index}
-              avatar={collection.collection.avatar}
-              isVerified={collection.is_verified}
-              id={collection.collection.id}
-              index={index + 1}
-              name={collection.collection.name}
-              price={collection.price}
-              profitIncrease={collection.difference || '0'}
-            />
-          ))}
+          {collections.length &&
+            collections.map((collection, index) => (
+              <CollectionCard
+                key={index}
+                avatar={collection.collection.avatar}
+                isVerified={collection.is_verified}
+                id={collection.collection.id}
+                index={index + 1}
+                name={collection.collection.name}
+                price={collection.price}
+                profitIncrease={collection.difference || '0'}
+              />
+            ))}
         </ol>
       </div>
       {/*<Button className={styles.goRankingBtn}>Go to Rankings</Button>*/}
