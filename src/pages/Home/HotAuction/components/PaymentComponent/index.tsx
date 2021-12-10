@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 // import { growth as growthImg } from 'assets/img';
 import BigNumber from 'bignumber.js/bignumber';
 import cx from 'classnames';
@@ -40,8 +40,9 @@ const PaymentComponent: FC<Props> = observer(
 
     const [isApproved, setApproved] = React.useState<boolean>(false);
     const [isApproving, setApproving] = React.useState<boolean>(false);
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+    const [isEndingAuction, setIsEndingAuction] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const ExchangeAddress = exchangeAddrs[localStorage.lessnft_nft_chainName as chainsEnum];
 
     const currentPrice = React.useMemo(() => {
@@ -88,7 +89,7 @@ const PaymentComponent: FC<Props> = observer(
 
     const handleApproveToken = React.useCallback(() => {
       if (nft) {
-      setApproving(true);
+        setApproving(true);
         walletService
           .approveToken(nft.currency.symbol.toUpperCase(), 18, ExchangeAddress)
           .then(() => {
@@ -136,6 +137,7 @@ const PaymentComponent: FC<Props> = observer(
 
     const handleEndAuction = React.useCallback(() => {
       if (nft) {
+        setIsEndingAuction(true);
         storeApi
           .verificateBet(nft.id)
           .then((response: any) => {
@@ -148,11 +150,22 @@ const PaymentComponent: FC<Props> = observer(
               }
             } else {
               storeApi.endAuction(nft?.id).then(({ data }: any) =>
-                walletService.sendTransaction(data.initial_tx).then(() => {
-                  if (onUpdateNft) {
-                    onUpdateNft();
-                  }
-                }),
+                walletService
+                  .sendTransaction(data.initial_tx)
+                  .then(() => {
+                    if (onUpdateNft) {
+                      onUpdateNft();
+                    }
+                    toast.success('Auction ended');
+                  })
+                  .catch(() => {
+                    toast.error({
+                      message: 'Something went wrong',
+                    });
+                  })
+                  .finally(() => {
+                    setIsEndingAuction(false);
+                  }),
               );
             }
           })
@@ -160,6 +173,7 @@ const PaymentComponent: FC<Props> = observer(
             toast.error({
               message: 'Something went wrong',
             });
+            setIsEndingAuction(false);
           });
       }
     }, [nft, walletService, onUpdateNft]);
@@ -224,7 +238,13 @@ const PaymentComponent: FC<Props> = observer(
               </Button>
             ) : null}
             {isUserCanEndAuction ? (
-              <Button padding="custom" onClick={handleEndAuction} className={styles.purchaseButton}>
+              <Button
+                padding="custom"
+                onClick={handleEndAuction}
+                className={styles.purchaseButton}
+                disabled={isEndingAuction}
+                loading={isEndingAuction}
+              >
                 End Auction
               </Button>
             ) : null}
