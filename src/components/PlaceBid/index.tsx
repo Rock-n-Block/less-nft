@@ -118,7 +118,11 @@ const PlaceBid: React.FC = () => {
         loading={isLoading}
         isFullWidth
         onClick={handlePlaceBid}
-        disabled={(sell.nft.minimalBid && +bid <= +sell.nft.minimalBid) || +userWillPay > +balance}
+        disabled={
+          (sell.nft.minimalBid && +bid <= +sell.nft.minimalBid) ||
+          +quantity > +sell.nft.tokenAvailable ||
+          +userWillPay > +balance
+        }
       >
         Place a Bid
       </Button>
