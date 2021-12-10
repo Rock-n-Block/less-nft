@@ -113,7 +113,7 @@
       box-shadow: 0 0 0 2px $color-neutral-10 inset;
       color: $color-neutral-100;
       padding: 5px 24px;
-      border-radius: 12px;
+      border-radius: $border-radius;
       height: 40px;
 
       cursor: pointer;

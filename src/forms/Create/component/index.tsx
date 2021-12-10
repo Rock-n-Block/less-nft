@@ -58,6 +58,9 @@ export interface ICreateForm {
   sellMethod: string;
   isLoading: boolean;
   digitalKey: string;
+  isTimedAuction: boolean;
+  startAuction: string;
+  endAuction: string;
 }
 
 const sellMethods: IRadioButton[] = [
@@ -88,6 +91,8 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     const [rates, setRates] = useState<IRate[]>([]);
     const [addToCollection, setAddToCollection] = useState(true);
     const [isRefresh, setIsRefresh] = useState(true);
+    const startAuctionOptions = ['Right after listing', 'After 1 hour', 'After 6 hours'];
+    const endAuctionOptions = ['1 Day', '3 Days', '1 Week'];
     const serviceFee = 3; // TODO: remove after get service fee request
     const stringRecieveValue =
       (parseFloat(`${values.price || values.minimalBid}`) * (100 - serviceFee)) / 100 || 0;
@@ -431,8 +436,6 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                           suffixClassName={styles.suffix}
                           moreThanZero
                           positiveOnly
-                          // min={0}
-                          // max={80}
                           required
                         />
                       )}
@@ -523,6 +526,70 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                 </div>
               </div>
             </div>
+            {values.sellMethod === 'openForBids' && (
+              <div className={cn(styles.item, styles.itemAuc)}>
+                <H6 className={styles.fieldsetTitle}>
+                  Make timed auction
+                  <Field
+                    render={() => (
+                      <Switch
+                        name="isTimedAuction"
+                        value={values.isTimedAuction}
+                        setValue={() => {
+                          setFieldValue('isTimedAuction', !values.isTimedAuction);
+                        }}
+                      />
+                    )}
+                  />
+                </H6>
+
+                {values.isTimedAuction && (
+                  <>
+                    <div className={styles.startEndAuc}>
+                      <div className={styles.startEndAucItem}>
+                        <Text className={cn(styles.label)} size="m" weight="medium">
+                          Starting Date <RequiredMark />
+                        </Text>
+                        <Field
+                          name="startAuction"
+                          render={() => (
+                            <Dropdown
+                              name="startAuction"
+                              setValue={(value) => setFieldValue('startAuction', value)}
+                              options={startAuctionOptions}
+                              className={styles.startEndAucDropdown}
+                              value={values.startAuction}
+                            />
+                          )}
+                        />
+                      </div>
+
+                      <div className={styles.startEndAucItem}>
+                        <Text className={cn(styles.label)} size="m" weight="medium">
+                          Expiration Date <RequiredMark />
+                        </Text>
+                        <Field
+                          name="endAuction"
+                          render={() => (
+                            <Dropdown
+                              name="endAuction"
+                              setValue={(value) => setFieldValue('endAuction', value)}
+                              options={endAuctionOptions}
+                              className={styles.startEndAucDropdown}
+                              value={values.endAuction}
+                            />
+                          )}
+                        />
+                      </div>
+                    </div>
+                    <Text className={styles.startEndAucText} size="m" weight="medium">
+                      Any bid placed in the last 10 minutes extends the auction by 10 minutes. Learn
+                      more how timed auctions work
+                    </Text>
+                  </>
+                )}
+              </div>
+            )}
             <div className={styles.item}>
               <H6 className={styles.fieldsetTitle}>
                 Unlock once purchased

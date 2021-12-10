@@ -185,6 +185,7 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
             isUserCanEnterInAuction={isUserCanEnterInAuction}
             isUserCanPutOnSale={isUserCanPutOnSale}
             isOwner={isOwner}
+            className={styles.payment}
           />
         ) : null}
         <AuthorComponent creator={nft?.creator} owners={nft?.owners} />

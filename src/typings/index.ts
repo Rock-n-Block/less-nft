@@ -111,6 +111,8 @@ export interface INft {
   };
   currency_service_fee: number;
   views: number;
+  start_auction: TNullable<string>;
+  end_auction: TNullable<string>;
 }
 
 export interface ITag {
