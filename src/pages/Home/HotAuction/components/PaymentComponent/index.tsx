@@ -110,7 +110,8 @@ const PaymentComponent: FC<Props> = observer(
         fee: nft?.service_fee,
         price: nft?.price,
         currency: nft?.currency.symbol,
-        tokenAvailable: nft?.auction_amount,
+        tokenAvailable: nft?.available,
+        aucTokenAvailable: nft?.auction_amount || 0,
         sellers: nft?.sellers.filter((seller) => seller.id !== user.id),
         media: nft?.media,
         minimalBid:

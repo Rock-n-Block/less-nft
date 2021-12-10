@@ -27,6 +27,7 @@ const NftForSale = types.model({
   minimalBid: types.maybeNull(types.optional(types.number, 0)),
   currency: types.optional(types.string, ''),
   tokenAvailable: types.optional(types.number, 0),
+  aucTokenAvailable: types.optional(types.number, 0),
   media: types.optional(types.string, ''),
   royalty: types.optional(types.number, 0),
   collection: types.optional(NftCollection, {
@@ -52,7 +53,7 @@ const PlaceBid = types
         parent.nft.tokenName &&
         parent.nft.fee &&
         parent.nft.currency &&
-        parent.nft.tokenAvailable &&
+        parent.nft.aucTokenAvailable &&
         parent.nft.media &&
         parent.nft.minimalBid &&
         self.isOpen
