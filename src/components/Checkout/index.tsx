@@ -17,6 +17,7 @@ const Checkout: React.FC = observer(() => {
     user,
   } = useMst();
   const { walletService } = useWalletConnectorContext();
+  const tokenAvailable = sell?.nft?.sellers?.filter((sellerItem) => sell.nft.sellerId === sellerItem.id)[0].quantity
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [quantity, setQuantity] = React.useState('1');
@@ -72,9 +73,9 @@ const Checkout: React.FC = observer(() => {
 
   const userWillPay = React.useMemo(() => {
     return new BigNumber(sell.nft.price || 0)
-      .multipliedBy(+quantity > sell.nft.tokenAvailable ? sell.nft.tokenAvailable : quantity || 1)
+      .multipliedBy(+quantity > tokenAvailable ? tokenAvailable : quantity || 1)
       .plus(sell.nft.feeCurrency);
-  }, [sell.nft.price, quantity, sell.nft.tokenAvailable, sell.nft.feeCurrency]);
+  }, [sell.nft.price, quantity, tokenAvailable, sell.nft.feeCurrency]);
 
   return (
     <div className={styles.container}>
@@ -136,7 +137,7 @@ const Checkout: React.FC = observer(() => {
             loading={isLoading}
             isFullWidth
             onClick={handleBuyToken}
-            disabled={+quantity > +sell.nft.tokenAvailable || +userWillPay > +balance}
+            disabled={!quantity || +quantity > +tokenAvailable || +userWillPay > +balance}
           >
             Pay Now
           </Button>

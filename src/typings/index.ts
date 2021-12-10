@@ -73,6 +73,7 @@ export interface IOwner extends Omit<IBaseInfo, 'address'> {
 export interface INft {
   USD_price: number;
   available: number;
+  auction_amount: number;
   bids: IBidder[];
   collection: IBaseInfo;
   creator: IBaseInfo;

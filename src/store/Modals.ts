@@ -1,10 +1,18 @@
-import {types, getSnapshot, applySnapshot, getParent} from 'mobx-state-tree';
+import { types, getSnapshot, applySnapshot, getParent } from 'mobx-state-tree';
 
 const NftCollection = types.model({
   address: types.string,
   avatar: types.string,
   id: types.union(types.string, types.number),
   name: types.string,
+});
+
+const Seller = types.model({
+  avatar: types.string,
+  id: types.union(types.string, types.number),
+  name: types.string,
+  price: types.number,
+  quantity: types.number,
 });
 
 const NftForSale = types.model({
@@ -27,14 +35,7 @@ const NftForSale = types.model({
     id: 0,
     name: '',
   }),
-});
-
-const Seller = types.model({
-  avatar: types.string,
-  id: types.union(types.string, types.number),
-  name: types.string,
-  price: types.number,
-  quantity: types.number,
+  sellers: types.optional(types.array(Seller), [])
 });
 
 const PlaceBid = types
@@ -190,13 +191,11 @@ const Swap = types
     isOpen: types.optional(types.boolean, false),
     main: types.string,
     wrap: types.string,
-    refresh: types.boolean
+    refresh: types.boolean,
   })
   .views((self) => ({
     get getIsOpen() {
-      if (
-        self.isOpen
-      ) {
+      if (self.isOpen) {
         return true;
       }
       return false;
@@ -206,7 +205,7 @@ const Swap = types
     close: () => {
       self.isOpen = false;
     },
-    open: (main:string, wrap:string, refresh:boolean) => {
+    open: (main: string, wrap: string, refresh: boolean) => {
       self.isOpen = true;
       self.main = main;
       self.wrap = wrap;
@@ -214,7 +213,7 @@ const Swap = types
     },
     setRefresh: (refresh: boolean) => {
       self.refresh = refresh;
-    }
+    },
   }));
 
 const SellModals = types
@@ -374,5 +373,5 @@ export const Modals = types.model({
   transfer: Transfer,
   report: Report,
   change: Change,
-  swap: Swap
+  swap: Swap,
 });

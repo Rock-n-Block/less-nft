@@ -110,7 +110,8 @@ const PaymentComponent: FC<Props> = observer(
         fee: nft?.service_fee,
         price: nft?.price,
         currency: nft?.currency.symbol,
-        tokenAvailable: nft?.available,
+        tokenAvailable: nft?.auction_amount,
+        sellers: nft?.sellers.filter((seller) => seller.id !== user.id),
         media: nft?.media,
         minimalBid:
           +new BigNumber(nft?.highest_bid?.amount || 0).toFixed() || nft?.minimal_bid || 0,
@@ -119,7 +120,7 @@ const PaymentComponent: FC<Props> = observer(
         collection: nft?.collection,
         royalty: nft?.royalty,
       });
-    }, [nft, modals.sell]);
+    }, [nft, modals.sell, user.id]);
 
     const handleBuyNft = React.useCallback(() => {
       handleSetNft();
