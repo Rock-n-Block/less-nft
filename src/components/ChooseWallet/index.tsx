@@ -10,13 +10,15 @@ import styles from './ChooseWallet.module.scss';
 
 const ChooseWallet: React.FC = () => {
   const { connect } = useWalletConnectorContext();
-  const [activeChain, setActiveChain] = React.useState<chainsEnum>(
-    chains[chainsEnum.Ethereum].name,
-  );
+  // const [activeChain, setActiveChain] = React.useState<chainsEnum>(chains[chainsEnum.Polygon].name);
 
-  const hancleChangeActiveChain = React.useCallback((name: chainsEnum) => {
-    setActiveChain(name);
-  }, []);
+  // const hancleChangeActiveChain = React.useCallback((name: chainsEnum) => {
+  //   setActiveChain(name);
+  // }, []);
+
+  const activeChain = chains[chainsEnum.Polygon].name
+
+  const filteredChains = [chains[chainsEnum.Polygon]]
 
   return (
     <div className={styles.container}>
@@ -25,12 +27,13 @@ const ChooseWallet: React.FC = () => {
           Available Blockchain
         </Text>
         <div className={styles.wallets}>
-          {Object.values(chains).map((blockchain) => (
+          {/* {Object.values(chains).map((blockchain) => ( */}
+          {filteredChains.map((blockchain) => (
             <div
               className={cn(styles.item, {
                 [styles.item_active]: blockchain.name === activeChain,
               })}
-              onClick={() => hancleChangeActiveChain(blockchain.name)}
+              // onClick={() => hancleChangeActiveChain(blockchain.name)}
               onKeyDown={() => {}}
               role="button"
               tabIndex={0}
