@@ -2,42 +2,40 @@ import { Link } from 'react-router-dom';
 import { routes } from 'appConstants';
 import { Button, Logo, Text, TextInput } from 'components';
 import { observer } from 'mobx-react';
-import { useMst } from 'store';
+// import { useMst } from 'store';
 
 import styles from './styles.module.scss';
 
 const Footers: React.FC = observer(() => {
-  const {
-    user,
-  } = useMst();
+  // const { user } = useMst();
 
-  const accountHelperObject = [
-    {
-      label: 'Download',
-      link: routes.profile.root,
-    },
-    {
-      label: 'Demos',
-      link: `${routes.profile.root}/favourite`,
-    },
-    {
-      label: 'Support',
-      link: `${routes.profile.root}/myCollectction`,
-    },
-  ];
+  // const accountHelperObject = [
+  //   {
+  //     label: 'Download',
+  //     link: routes.profile.root,
+  //   },
+  //   {
+  //     label: 'Demos',
+  //     link: `${routes.profile.root}/favourite`,
+  //   },
+  //   {
+  //     label: 'Support',
+  //     link: `${routes.profile.root}/myCollectction`,
+  //   },
+  // ];
 
   const stacks = [
     {
-      label: 'Discover',
-      link: routes.profile.root,
+      label: 'Explore',
+      link: routes.discover.root,
     },
     {
       label: 'Connect wallet',
-      link: `${routes.profile.root}/favourite`,
+      link: routes.connectWallet.root,
     },
     {
       label: 'Create item',
-      link: `${routes.profile.root}/myCollectction`,
+      link: routes.create.root,
     },
   ];
 
@@ -47,11 +45,8 @@ const Footers: React.FC = observer(() => {
         <div className={styles.linksAndControls}>
           <div className={styles.footerLogo}>
             <Logo className={styles.logo} />
-            <Text size="xxl" weight='bold' color="black">
-              The New Creative
-            </Text>
-            <Text size="xxl" weight='bold' color="black">
-              Economy.
+            <Text size="xl" weight="bold" color="black">
+              The New Creative Economy
             </Text>
           </div>
           <div className={styles.linkBlock}>
@@ -61,14 +56,14 @@ const Footers: React.FC = observer(() => {
             {stacks.map(({ label, link }) => {
               return (
                 <Link to={link} key={label}>
-                  <Button className={styles.button} color="transparent">
+                  <Button padding="0" className={styles.button} color="transparent">
                     <Text color="lightGray">{label}</Text>
                   </Button>
                 </Link>
               );
             })}
           </div>
-          {user.address && (
+          {/* {user.address && (
             <div className={styles.linkBlock}>
               <Text weight="bold" size="m">
                 Info
@@ -83,7 +78,7 @@ const Footers: React.FC = observer(() => {
                 );
               })}
             </div>
-          )}
+          )} */}
           <div className={styles.footerActions}>
             <Text color="black" weight="bold" size="m">
               Join Newsletter
@@ -95,7 +90,7 @@ const Footers: React.FC = observer(() => {
           </div>
         </div>
         <div className={styles.copyrightBlock}>
-          <Text color="gray">Copyright © 2021 UI8 LLC. All rights reserved</Text>
+          <Text color="gray">Copyright © 2021 Lessnft LLC. All rights reserved</Text>
         </div>
       </div>
     </footer>

@@ -101,7 +101,6 @@ const Transfer: React.FC<ITransferProps> = ({ className }) => {
           onClick={transferToken}
           loading={isLoading}
           disabled={+amount > transfer.available}
-          color="blue"
         >
           Continue
         </Button>

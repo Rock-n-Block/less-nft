@@ -23,7 +23,7 @@ const TradingHistoryPrice: FC<Props> = ({ className, amount, currency, type }) =
           <img src={currency.image} alt={currency.name} />
         </div>
         <Text description={amount?.toString()} style={{ textTransform: 'uppercase' }} size="m">
-          {`${amount === null ? '???' : toFixed(amount, 5)} ${currency?.symbol.toUpperCase()}`}
+          {`${amount === null ? 0 : toFixed(amount, 5)} ${currency?.symbol.toUpperCase()}`}
         </Text>
       </>
     )}

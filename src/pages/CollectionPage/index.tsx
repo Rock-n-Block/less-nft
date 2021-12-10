@@ -90,7 +90,7 @@ const CollectionPage: React.FC = () => {
                       key={id}
                       imageMain={media}
                       name={name}
-                      price={price || highest_bid || minimal_bid}
+                      price={price || (highest_bid && highest_bid.amount) || minimal_bid}
                       asset={currency.symbol.toUpperCase()}
                       inStockNumber={available}
                       author={creator.name}

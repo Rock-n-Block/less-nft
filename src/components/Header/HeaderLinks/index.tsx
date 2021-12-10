@@ -79,7 +79,7 @@ const HeaderLinks: FC<IHeaderLinksProps> = observer(({ className, toggleMenu }) 
   const nav = useMemo(
     () => [
       {
-        title: 'Discover',
+        title: 'Explore',
         active: location.pathname.includes(routes.discover.root),
         disabled: false,
         isNested: true,

@@ -59,7 +59,7 @@ const Favorited: FC<IProps> = memo(
                 bids,
                 is_liked,
               } = artCard;
-              const artPrice = price || (highest_bid && toFixed(highest_bid.amount)) || minimal_bid;
+              const artPrice = price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid;
               return (
                 <ArtCard
                   artId={id}

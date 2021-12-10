@@ -28,6 +28,7 @@ interface Props {
   isButton?: boolean;
   integer?: boolean;
   positiveOnly?: boolean;
+  moreThanZero?: boolean;
   max?: number;
   min?: number;
 }
@@ -35,6 +36,7 @@ interface Props {
 const TextInput: React.FC<Props> = ({
   integer = false,
   positiveOnly = false,
+  moreThanZero = false,
   className,
   label,
   suffix,
@@ -64,6 +66,9 @@ const TextInput: React.FC<Props> = ({
   const getRegex = () => {
     if (integer) {
       return positiveOnly ? /^[+]?[1-9]\d*$/ : /^[-+]?[1-9]\d*$/;
+    }
+    if (moreThanZero) {
+      return positiveOnly ? /^[+]?[0-9]\d*$/ : /^[-+]?[0-9]\d*$/;
     }
     return positiveOnly ? /^[+]?([.]\d+|\d+[.]?\d*)$/ : /^[-+]?([.]\d+|\d+[.]?\d*)$/;
   };

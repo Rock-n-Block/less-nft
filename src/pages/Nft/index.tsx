@@ -117,7 +117,7 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                 wrapperRef={wrapRef}
                 minWidth={250}
                 minHeight={350}
-                justify={EGridJustify.center}
+                justify={EGridJustify.start}
               >
                 {nftCards
                   .filter((art) => art.id !== Number(id))
@@ -127,6 +127,8 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                       media: image,
                       name,
                       price,
+                      highest_bid,
+                      minimal_bid,
                       available: inStockNumber,
                       creator: { name: author },
                       creator: { avatar: authorAvatar },
@@ -135,6 +137,7 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                       like_count: likesNumber,
                       currency: { symbol: asset },
                     } = art;
+                    const artPrice = price || (highest_bid && highest_bid.amount) || minimal_bid || 0
                     return (
                       <ArtCard
                         key={`nft_card_${art.id}`}
@@ -142,7 +145,7 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                         artId={artId}
                         imageMain={image}
                         name={name}
-                        price={price}
+                        price={artPrice}
                         asset={asset}
                         inStockNumber={inStockNumber}
                         author={author}

@@ -58,7 +58,7 @@
     object-fit: cover;
     object-position: 50% 50%;
     transition: .1s linear;
-    border-radius: $border-radius;
+    border-radius: $border-radius $border-radius 0 0;
 
     @include forDesktopSm{
       object-fit: contain;

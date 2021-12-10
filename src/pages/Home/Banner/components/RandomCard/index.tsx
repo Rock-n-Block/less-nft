@@ -1,29 +1,36 @@
-import {FC, useCallback, useEffect, useState} from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import {Link} from 'react-router-dom';
-import {Text, ArtCardAuthor, EllipsisText} from 'components';
-import {storeApi} from "services";
-import {INft} from "typings";
-import {routes} from "appConstants";
+import { Link } from 'react-router-dom';
+import { Text, ArtCardAuthor, EllipsisText } from 'components';
+import { storeApi } from 'services';
+import { INft } from 'typings';
+import { routes } from 'appConstants';
 
-const RandomCard: FC = () => {
+interface IProps {
+  setRandomCardImg: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const RandomCard: FC<IProps> = ({ setRandomCardImg }) => {
   const [token, setToken] = useState<INft | null>(null);
   const getRandomToken = useCallback(() => {
-    storeApi.getRandomToken().then(({data}) => {
+    storeApi.getRandomToken().then(({ data }) => {
       setToken(data);
-    })
-  }, [])
+      setRandomCardImg(data.media);
+    });
+  }, [setRandomCardImg]);
+
   useEffect(() => {
     getRandomToken();
-  }, [getRandomToken])
+  }, [getRandomToken]);
+
   if (!token) {
-    return <></>
+    return <></>;
   }
   return (
     <div className={styles.randomCard}>
       <Link to={routes.nft.link(token.id)}>
         <div className={styles.artWrapper}>
-          <img className={styles.art} src={token.media} alt={token.name} width={512} height={492}/>
+          <img className={styles.art} src={token.media} alt={token.name} width={512} height={492} />
         </div>
       </Link>
 

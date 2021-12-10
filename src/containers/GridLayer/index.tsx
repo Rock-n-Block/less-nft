@@ -59,6 +59,7 @@ const GridLayer: FC<PropsWithChildren<IGridLayerProps>> = ({
       await setColumns(newColumns);
     }
 
+
     setCardStyles((prevStyle: ICardStyles) => ({
       ...prevStyle,
       width: (winWidth - gap * (columns - 1)) / columns,
@@ -100,7 +101,7 @@ const GridLayer: FC<PropsWithChildren<IGridLayerProps>> = ({
           top: Math.trunc(idx / columns) * (cardStyles.height + gap),
         };
         return (
-          <WrappedItem key={child?.toString()} position={position}>
+          <WrappedItem key={`${position.left}-${position.top}-${child?.toString}`} position={position}>
             {child}
           </WrappedItem>
         );

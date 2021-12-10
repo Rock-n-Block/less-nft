@@ -7,6 +7,7 @@ import { INft, OptionType } from 'typings';
 import TabHeader from '../TabHeader';
 
 import s from '../Tabs.module.scss';
+import { toFixed } from 'utils';
 
 interface IProps {
   likeAction: (id: string | number) => Promise<any>;
@@ -65,7 +66,7 @@ const Artworks: FC<IProps> = ({
             bids,
             is_liked,
           } = artCard;
-          const artPrice = price || (highest_bid && highest_bid.amount) || minimal_bid;
+          const artPrice = price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid;
           return (
             <ArtCard
               artId={id}

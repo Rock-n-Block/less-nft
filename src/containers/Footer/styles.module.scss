@@ -2,16 +2,14 @@
 
 .footerContent {
   margin: 0 auto;
-  @include container;
   padding-bottom: 22px;
-
-  // max-width: 1500px;
+  border-top: 1px solid $color-neutral-30;
 }
 
 .linksAndControls {
   @include flexbox(flex-start, space-between);
-  padding-top: 64px;
-  border-top: 1px solid $color-neutral-30;
+  @include container;
+  margin-top: 24px;
 }
 
 .footerLogo {
@@ -21,7 +19,7 @@
 }
 
 .logo {
-  margin-bottom: 32px;
+  margin-bottom: 15px;
   * {
     color: $color-neutral-0 !important;
   }
@@ -54,14 +52,10 @@
 .footerActions {
   flex-basis: 25%;
 
-  margin-bottom: 60px;
+  margin-bottom: 24px;
 
   & > * {
     margin-bottom: 20px;
-  }
-
-  input {
-    color: $color-neutral-0;
   }
 }
 

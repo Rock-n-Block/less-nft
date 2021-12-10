@@ -110,6 +110,13 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
     return false;
   }, [nft, isOwner, userId, isWrongChain]);
 
+  const isUserCanSeeUnlockableContent = React.useMemo(() => {
+    if (userId && nft && isOwner && nft.has_digital_key) {
+      return true;
+    }
+    return false;
+  }, [nft, isOwner, userId]);
+
   const isUserCanPutOnSale = React.useMemo(() => {
     if (userId && nft && !isWrongChain && isOwner) {
       if (nft.standart === 'ERC721' && !nft.is_selling && !nft.is_auc_selling) {
@@ -135,5 +142,6 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
     isUserCanPutOnSale,
     isUserCanEndAuction,
     isUserCanChangePrice,
+    isUserCanSeeUnlockableContent,
   };
 };

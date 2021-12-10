@@ -23,7 +23,7 @@ export default observer(({ isSingle }: any) => {
     description: '',
     price: 0,
     minimalBid: 0,
-    creatorRoyalty: '10',
+    creatorRoyalty: 10,
     collection: 25,
     details: [{ name: '', amount: '' }],
     selling: true,
@@ -34,6 +34,8 @@ export default observer(({ isSingle }: any) => {
     preview: '',
     sellMethod: 'fixedPrice',
     isLoading: false,
+    unlockOncePurchased: false,
+    digitalKey: '',
   };
   const FormWithFormik = withFormik<any, ICreateForm>({
     enableReinitialize: true,
@@ -51,6 +53,7 @@ export default observer(({ isSingle }: any) => {
         is: 'fixedPrice',
         then: Yup.number().min(0.0001),
       }),
+      creatorRoyalty: Yup.number().min(0, 'Minimal royalties equal to 0!').max(80, 'Too much!'),
     }),
     handleSubmit: (values, { setFieldValue }) => {
       setFieldValue('isLoading', true);
@@ -70,7 +73,7 @@ export default observer(({ isSingle }: any) => {
       } else {
         formData.append('minimal_bid', values.minimalBid.toString());
       }
-      formData.append('creator_royalty', values.creatorRoyalty);
+      formData.append('creator_royalty', values.creatorRoyalty.toString());
       formData.append('collection', values.collection.toString());
 
       if (values.details[0].name) {
@@ -96,6 +99,9 @@ export default observer(({ isSingle }: any) => {
         formData.append('cover', values.cover);
       }
       formData.append('format', values.format);
+      if (values.unlockOncePurchased) {
+        formData.append('digital_key', values.digitalKey);
+      }
 
       storeApi
         .createToken(formData)
@@ -104,7 +110,7 @@ export default observer(({ isSingle }: any) => {
             .sendTransaction(data.initial_tx)
             .on('transactionHash', (txHash: string) => {
               toast.info(<ToastContentWithTxHash txHash={txHash} />);
-              history.push(`${routes.profile.link(user.id)}?tab=owned`);
+              history.push(`${routes.profile.link(user.id)}?tab=created`);
             })
             .then(() => {
               toast.success('Token Created');

@@ -1,7 +1,7 @@
 import { FC, useCallback, useRef, useState } from 'react';
-import { Close, Zoom } from 'assets/img';
+import { Close, Zoom, IconLock } from 'assets/img';
 import cx from 'classnames';
-import { EllipsisText, H2, Skeleton } from 'components';
+import { EllipsisText, H2, Skeleton, Text } from 'components';
 import { useGetUserAccessForNft, useNoScroll } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import AuthorComponent from 'pages/Home/HotAuction/components/AuthorComponent';
@@ -40,6 +40,7 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
     isUserCanRemoveFromSale,
     isWrongChain,
     isUserCanChangePrice,
+    isUserCanSeeUnlockableContent,
   } = useGetUserAccessForNft(nft, user.id, user.address);
 
   const togglePreview = useCallback(
@@ -97,8 +98,9 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
                 <div
                   className={`${styles.previewImage} ${showPreview && styles.active}`}
                   style={{
-                    transform: `translate(${imagePosition?.left || 0}px, ${imagePosition?.top || 0
-                      }px)`,
+                    transform: `translate(${imagePosition?.left || 0}px, ${
+                      imagePosition?.top || 0
+                    }px)`,
                   }}
                 >
                   <img
@@ -143,7 +145,7 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
               <audio controls>
                 <source
                   src={nft.animation}
-                // type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+                  // type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
                 />
                 <track kind="captions" />
               </audio>
@@ -187,10 +189,20 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
           />
         ) : null}
         <AuthorComponent creator={nft?.creator} owners={nft?.owners} />
+        {nft?.has_digital_key && !isUserCanSeeUnlockableContent && (
+          <div className={styles.unlockButton}>
+            <IconLock />
+            <Text color="white" tag="span">
+              This token has unlockable content
+            </Text>
+          </div>
+        )}
         <DescriptionAndTagsComponent
           className={styles.description}
           tags={nft?.tags || []}
           body={nft?.description || ''}
+          digitalKey={nft?.digital_key || ''}
+          isUserCanSeeUnlockableContent={isUserCanSeeUnlockableContent}
         />
       </div>
     </div>

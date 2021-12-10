@@ -8,7 +8,7 @@
   pointer-events: none;
   background-color: $color-neutral-0;
   @include box-shadow($blur: 50px);
-  @include flexbox(flex-start, flex-start);
+  @include flexbox(center, flex-start);
   gap: 8px;
 }
 

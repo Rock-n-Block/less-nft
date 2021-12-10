@@ -45,8 +45,7 @@ const Swap: React.FC = observer(() => {
   }, [swap]);
 
   const handleSubmitConvert = useCallback(() => {
-    const weiValue =
-      localStorage.lessnft_nft_chainName === WalletConnect.calcTransactionAmount(payInput, 18);
+    const weiValue = WalletConnect.calcTransactionAmount(payInput, 18);
     setLoading(true);
 
     if (swappingCurrency[0] === 'main') {
@@ -66,23 +65,24 @@ const Swap: React.FC = observer(() => {
           swap.setRefresh(false);
           setLoading(false);
         });
+    } else {
+      walletConnector.walletService
+        .createTransaction('withdraw', [weiValue], swap.wrap as TWrapped)
+        .then(async (data: any) => {
+          // setRefresh(true);
+          swap.setRefresh(true);
+          close();
+          toast.info(<ToastContentWithTxHash txHash={data.transactionHash} />);
+        })
+        .catch((err: any) => {
+          console.error('error', err);
+        })
+        .finally(() => {
+          // setRefresh(false);
+          swap.setRefresh(false);
+          setLoading(false);
+        });
     }
-    walletConnector.walletService
-      .createTransaction('withdraw', [weiValue], swap.wrap as TWrapped)
-      .then(async (data: any) => {
-        // setRefresh(true);
-        swap.setRefresh(true);
-        close();
-        toast.info(<ToastContentWithTxHash txHash={data.transactionHash} />);
-      })
-      .catch((err: any) => {
-        console.error('error', err);
-      })
-      .finally(() => {
-        // setRefresh(false);
-        swap.setRefresh(false);
-        setLoading(false);
-      });
   }, [payInput, swappingCurrency, walletConnector.walletService, swap, close]);
   const handlePayInput = useCallback((value: string) => {
     setPayInput(value);
@@ -147,7 +147,7 @@ const Swap: React.FC = observer(() => {
           className={styles.button}
           onClick={handleSubmitConvert}
           loading={isLoading}
-          disabled={+payInput > +currentBalance || +payInput <= 0}
+          disabled={+payInput > +currentBalance || +payInput <= 0 || isLoading}
           color="blue"
         >
           Convert

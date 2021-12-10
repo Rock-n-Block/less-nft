@@ -6,13 +6,14 @@ interface ISwitchProps {
   className?: string;
   value: boolean;
   setValue: (foo: boolean) => void;
+  name?: string;
 }
 
-const Switch: React.FC<ISwitchProps> = ({ className, value, setValue }) => {
+const Switch: React.FC<ISwitchProps> = ({ className, value, setValue, name }) => {
   return (
-    <label htmlFor="toogle" className={cn(styles.switch, className)}>
+    <label htmlFor={name || 'toogle'} className={cn(styles.switch, className)}>
       <input
-        id="toogle"
+        id={name || 'toogle'}
         className={styles.input}
         type="checkbox"
         checked={value}

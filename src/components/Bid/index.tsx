@@ -45,7 +45,7 @@ const Bid: React.FC<IBidProps> = observer(
       storeApi
         .createBid(id, +bidValue, +quantity, currency)
         .then(() => {
-          toast.success('Bid Placed')
+          toast.success('Bid Placed');
           // walletConnector.walletService
           //   .sendTransaction(data.initial_tx)
           //   .catch((e: any) => console.error('Bid modal sendTranscation', e));

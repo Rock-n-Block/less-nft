@@ -12,9 +12,7 @@ const ToastContentWithTxHash: React.FC<IProps> = ({ txHash }) => {
       {/* TODO: change 'Binance' | 'KardiaChain' to supportedChains */}
       <Text color="gray">Transaction submitted</Text>
       <a
-        href={`${
-          chains[localStorage.lessnft_nft_chainName as 'Binance' | 'KardiaChain'].explorer
-        }/tx/${txHash}`}
+        href={`${chains[localStorage.lessnft_nft_chainName as 'Polygon'].explorer}/tx/${txHash}`}
         target="_blank"
         rel="noopener noreferrer"
       >
