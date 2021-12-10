@@ -90,7 +90,7 @@ const Footers: React.FC = observer(() => {
           </div>
         </div>
         <div className={styles.copyrightBlock}>
-          <Text color="gray">Copyright © 2021 UI8 LLC. All rights reserved</Text>
+          <Text color="gray">Copyright © 2021 Lessnft LLC. All rights reserved</Text>
         </div>
       </div>
     </footer>
