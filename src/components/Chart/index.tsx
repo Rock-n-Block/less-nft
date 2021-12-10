@@ -7,6 +7,7 @@ import styles from './Chart.module.scss';
 import { Text } from 'components';
 import BigNumber from 'bignumber.js/bignumber';
 import { useDifference } from 'hooks';
+import { toFixed } from 'utils';
 
 type Props = {
   data: TPriceHistoryItem[];
@@ -77,7 +78,8 @@ const ChartComponent: FC<Props> = ({ data, period, className, currency }) => {
           Avg. Price
         </Text>
         <Text size="xxl" weight="bold" className={styles.averageValue}>
-          {+selectedPointPrice || lastPointPrice} {currency?.symbol.toUpperCase()}
+          {selectedPointPrice ? toFixed(selectedPointPrice, 3) : lastPointPrice}{' '}
+          {currency?.symbol.toUpperCase()}
           <Text tag="span" color={isDifferencePositive ? 'secondary' : 'red'} weight="medium">
             {isDifferencePositive ? `+${difference}` : difference}%
           </Text>
