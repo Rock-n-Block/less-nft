@@ -11,7 +11,7 @@ import {
   wMaticTestnetAbi,
 } from './abi';
 
-export const is_production = false;
+export const is_production = true;
 
 export const chains: {
   [key: string]: {
@@ -210,7 +210,7 @@ export const contracts: IContracts = {
     },
     WMATIC: {
       mainnet: {
-        address: '0xAF984E23EAA3E7967F3C5E007fbe397D8566D23d',
+        address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
         abi: erc20Abi,
       },
       testnet: {
