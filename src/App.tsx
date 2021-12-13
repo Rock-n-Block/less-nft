@@ -17,7 +17,7 @@ const App = () => {
     <>
       <ToastContainer limit={3} pauseOnFocusLoss={false} />
       <GoogleReCaptchaProvider
-        reCaptchaKey="6LfRLJscAAAAAEsnpB4vjDK-ZZABY6blkCiXk49v"
+        reCaptchaKey="6LdzuZIdAAAAAP5iCwbXEmve62Q5OPvPUmK1dWnh"
         language="en"
       >
         <Provider value={rootStore}>
