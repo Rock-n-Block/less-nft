@@ -87,7 +87,7 @@ const Search: VFC<Props> = ({ isDesktop = true, className, classNameDropdown }) 
                     is_selling,
                   } = nft;
                   return (
-                    <li className={styles.searchItem} key={`${nft.creator}-${nft.name}`}>
+                    <li className={styles.searchItem} key={`${nft?.creator}-${nft?.name}`}>
                       <Link to={routes.nft.link(id)} onClick={() => setInputValue('')} key={index}>
                         <SearchTag
                           image={media}

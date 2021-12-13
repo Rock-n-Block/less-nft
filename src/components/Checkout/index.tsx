@@ -17,7 +17,10 @@ const Checkout: React.FC = observer(() => {
     user,
   } = useMst();
   const { walletService } = useWalletConnectorContext();
-  const tokenAvailable = sell?.nft?.sellers?.filter((sellerItem) => sell.nft.sellerId === sellerItem.id)[0].quantity
+  const tokenAvailable =
+    sell?.nft?.standart === 'ERC721'
+      ? sell?.nft?.tokenAvailable
+      : sell?.nft?.sellers?.filter((sellerItem) => sell.nft.sellerId === sellerItem.id)[0].quantity;
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [quantity, setQuantity] = React.useState('1');

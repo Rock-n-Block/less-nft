@@ -12,6 +12,7 @@ export { default as useFetchTags } from './useFetchTags';
 export { default as useNoScroll } from './useNoScroll';
 export { default as usePopover } from './usePopover';
 export { default as useScrollDown } from './useScrollDown';
+export { default as useFetchRelated } from './useFetchRelated';
 export * from './useInfiniteScroll';
 export * from './useFetchNft';
 export * from './useFetchHotAuction';

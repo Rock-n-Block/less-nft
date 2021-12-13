@@ -2,7 +2,14 @@ import { INetwork } from '@amfi/connect-wallet/dist/interface';
 import { bnbLogo, ethLogo, metamaskImg, polygonLogo, walletConnectImg } from 'assets/img';
 import { chainsEnum, IConnectWallet, IContracts } from 'typings';
 
-import { bep20Abi, erc20Abi, nftAbi, wbnbTestnetAbi, wethTestnetAbi, wMaticTestnetAbi } from './abi';
+import {
+  bep20Abi,
+  erc20Abi,
+  nftAbi,
+  wbnbTestnetAbi,
+  wethTestnetAbi,
+  wMaticTestnetAbi,
+} from './abi';
 
 export const is_production = false;
 
@@ -116,7 +123,7 @@ export const chains: {
         },
       },
     },
-    explorer: is_production ? '' : 'https://mumbai.polygonscan.com/',
+    explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
   },
 };
 
@@ -141,7 +148,9 @@ export const exchangeAddrs = {
     ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5'
     : '',
   [chainsEnum.Ethereum]: !is_production ? '0x0d669902B1E2Dc2E7b229D5d9b3D15c3D719d3c1' : '',
-  [chainsEnum.Polygon]: !is_production ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5' : '',
+  [chainsEnum.Polygon]: !is_production
+    ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5'
+    : '0x533a2e15a8c1aa96b47681c0af6cba7de724f48f',
 };
 
 export const contracts: IContracts = {
@@ -201,7 +210,7 @@ export const contracts: IContracts = {
     },
     WMATIC: {
       mainnet: {
-        address: '0xAF984E23EAA3E7967F3C5E007fbe397D8566D23d',
+        address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
         abi: erc20Abi,
       },
       testnet: {

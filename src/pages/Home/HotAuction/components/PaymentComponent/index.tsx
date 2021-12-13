@@ -110,7 +110,8 @@ const PaymentComponent: FC<Props> = observer(
         fee: nft?.service_fee,
         price: nft?.price,
         currency: nft?.currency.symbol,
-        tokenAvailable: nft?.auction_amount,
+        tokenAvailable: nft?.available,
+        aucTokenAvailable: nft?.auction_amount || 0,
         sellers: nft?.sellers.filter((seller) => seller.id !== user.id),
         media: nft?.media,
         minimalBid:
@@ -127,10 +128,6 @@ const PaymentComponent: FC<Props> = observer(
       if (nft?.standart === 'ERC721' && !Array.isArray(nft.owners)) {
         modals.sell.checkout.open(nft.owners.id);
       } else {
-        console.log(
-          nft?.sellers.filter((seller) => seller.id !== user.id),
-          'nft?.sellers.filter((seller) => seller.id !== user.id)',
-        );
         modals.sell.chooseSeller.open(nft?.sellers.filter((seller) => seller.id !== user.id));
       }
     }, [nft, modals.sell, handleSetNft, user.id]);

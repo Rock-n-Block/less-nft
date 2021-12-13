@@ -223,4 +223,6 @@ export default {
       },
     }),
   rejectTransaction: (data: any) => axios.post('/store/remove-reject/', data),
+  getRelated: (id: string | number) =>
+    axios.get(`store/related/${id}/?network=${localStorage.lessnft_nft_chainName}`),
 };
