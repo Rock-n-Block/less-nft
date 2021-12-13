@@ -9,6 +9,7 @@ import CollectionCard from './CollectionCard';
 import TitleDropdown from './TitleDropdown';
 
 import styles from './styles.module.scss';
+import BigNumber from 'bignumber.js';
 
 type Props = {
   className?: string;
@@ -62,7 +63,7 @@ const TopCollections: FC<Props> = ({ className }) => {
                 id={collection.collection.id}
                 index={index + 1}
                 name={collection.collection.name}
-                price={collection.price}
+                price={new BigNumber(collection.price).isEqualTo(0) ? '< $0.01' : collection.price}
                 profitIncrease={collection.difference || '0'}
               />
             ))}
