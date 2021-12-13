@@ -81,7 +81,11 @@ class Connector extends React.Component<
                   });
 
                   localStorage.lessnft_nft_token = login.data.key;
-                  this.props.history.push(routes.home.root);
+                  if (this.props.history.location.pathname === '/') {
+                    document.location.reload();
+                  } else {
+                    this.props.history.push(routes.home.root);
+                  }
                 }
                 localStorage.lessnft_nft_chainName = chainName;
                 localStorage.lessnft_nft_providerName = providerName;

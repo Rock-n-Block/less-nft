@@ -66,10 +66,10 @@ const ChooseCollection: React.FC<IProps> = observer(
           const filteredCollections = newCollections.filter(
             (collection: any) => !collection.is_default,
           );
+          setCollections(filteredCollections);
           const defCollectionId = newCollections.find(
             (collection: any) => collection.is_default,
           ).id;
-          setCollections(filteredCollections);
           setDefaultCollectionId(defCollectionId);
 
           // handleCollectionChange(newCollections[0].id);
