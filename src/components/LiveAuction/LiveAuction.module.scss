@@ -20,4 +20,9 @@
 }
 .liveCard {
   margin-right: 15px;
+  div{
+    &:hover{
+      transform: none;
+    }
+  }
 }
