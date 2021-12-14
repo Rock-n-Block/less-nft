@@ -85,6 +85,9 @@
       font-size: 16px;
     }
   }
+  &_edit {
+    transform: translateY(2px);
+  }
 }
 .user_buttons {
   @include flexbox;
