@@ -6,6 +6,17 @@
   border-top: 1px solid $color-neutral-30;
 }
 
+.absolute{
+  position: absolute;
+  bottom:0;
+  left: 0;
+  right: 0;
+
+  @include m {
+    position: relative
+  }
+}
+
 .linksAndControls {
   @include flexbox(flex-start, space-between);
   @include container;

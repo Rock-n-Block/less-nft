@@ -6,12 +6,15 @@ import { observer } from 'mobx-react-lite';
 import { createAndSellNftHelperObject } from './helperObject';
 
 import styles from './styles.module.scss';
+import { useMst } from 'store';
+import { routes } from 'appConstants';
 
 type Props = {
   className?: string;
 };
 
 const CreateAndSell: FC<Props> = observer(({ className }) => {
+  const { user } = useMst();
   return (
     <div className={cx(styles.ourArtworkGallery, className)}>
       <div className={styles.title}>
@@ -34,7 +37,11 @@ const CreateAndSell: FC<Props> = observer(({ className }) => {
           );
         })}
       </div>
-      <Button color="purple" className={styles.button} href="/create">
+      <Button
+        color="purple"
+        className={styles.button}
+        href={user.address ? routes.create.root : routes.connectWallet.root}
+      >
         Start selling now
       </Button>
     </div>
