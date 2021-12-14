@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
-import { ArtCard, Carousel, H3, H4 } from 'components/index';
+import { ArtCard, Carousel, H3, Text } from 'components/index';
 import { useGetSlideToShow } from 'hooks';
 import { storeApi } from 'services';
 
@@ -112,7 +112,9 @@ const LiveAuction: React.FC<IProps> = ({ className }) => {
           })}
         </Carousel>
       ) : (
-        <H4 className={styles.noItems}>No Active Auctions</H4>
+        <Text size="xl" className={styles.noItems}>
+          There are no artowrks in this collection yet
+        </Text>
       )}
     </div>
   );
