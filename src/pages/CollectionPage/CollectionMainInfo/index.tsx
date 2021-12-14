@@ -93,10 +93,11 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
                 isButton
                 handleUpload={handleFileUpload}
                 isLoading={isFileLoading}
+                className={s.user_button}
               >
                 <div className={s.user_button}>
                   <img src={iconEdit} alt="" />
-                  <Text tag="span" color="white" weight="medium">
+                  <Text tag="span" color="white" weight="medium" className={s.user_edit}>
                     Edit Banner
                   </Text>
                 </div>
