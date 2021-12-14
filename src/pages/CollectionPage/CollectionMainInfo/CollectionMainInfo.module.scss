@@ -78,6 +78,7 @@
   padding: 6px 33px;
   font-weight: 600;
   font-size: 16px;
+  gap: 8px;
   @include flexbox;
   @include forTablet {
     padding: 6px 12px;
