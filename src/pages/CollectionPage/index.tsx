@@ -42,7 +42,7 @@ const CollectionPage: React.FC = () => {
     <section className={s.page}>
       <div className={s.page_user}>
         <CollectionMainInfo
-          cover={collection.avatar}
+          cover={collection.cover}
           avatar={collection.avatar}
           name={collection.name}
           address={collection.address}

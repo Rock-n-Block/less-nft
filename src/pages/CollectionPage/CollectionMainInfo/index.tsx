@@ -8,7 +8,7 @@ import { zeroAddress } from 'appConstants';
 import s from './CollectionMainInfo.module.scss';
 import { TNullable } from 'typings';
 import { useMst } from 'store';
-import { userApi } from 'services';
+import { storeApi } from 'services';
 import { toast } from 'react-toastify';
 
 interface ICollectionMainInfo {
@@ -41,8 +41,8 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
       const fileData = new FormData();
       fileData.append('cover', file);
       fileData.append('id', id.toString());
-      userApi
-        .setUserCover(fileData)
+      storeApi
+        .setCollectionCover(fileData)
         .then(({ data }) => {
           toast.success('Cover uploaded');
           setCollectionCover(data);
