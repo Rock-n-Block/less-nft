@@ -135,13 +135,6 @@ export default {
         currency ? `&currency=${currency}` : ''
       }`,
     ),
-  setCollectionCover: (file: any, id: string) => {
-    const data = new FormData();
-    data.append('id', id);
-    data.append('auth_token', localStorage.dds_token);
-    data.append('cover', file);
-    return axios.post(`/store/set_cover/?network=${localStorage.lessnft_nft_chainName}`, data);
-  },
   createBid: (id: string | number, amount: number, quantity: number, currency: string) =>
     axios.post(`/store/bids/make_bid/?network=${localStorage.lessnft_nft_chainName}`, {
       // auth_token: localStorage.dds_token,
@@ -225,4 +218,10 @@ export default {
   rejectTransaction: (data: any) => axios.post('/store/remove-reject/', data),
   getRelated: (id: string | number) =>
     axios.get(`store/related/${id}/?network=${localStorage.lessnft_nft_chainName}`),
+  setCollectionCover: (data: any) => {
+    return axios.post(
+      `/store/set_cover/?network=${localStorage.lessnft_nft_chainName}`,
+      data,
+    );
+  },
 };
