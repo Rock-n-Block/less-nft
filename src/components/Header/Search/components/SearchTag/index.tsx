@@ -32,7 +32,14 @@ const SearchTag: VFC<Props> = ({
         <Text size="m" weight="medium">
           {title}
         </Text>
-        <Text size="m" color="darkenGray">{`On sale for ${price} ${asset}`}</Text>
+        <Text size="m" color="darkenGray">
+        {/* eslint-disable */}
+          {isSelling
+            ? (isAuction
+              ? `On auction for ${price} ${asset}`
+              : `On sale for ${price} ${asset}`)
+            : 'Not sale'}
+        </Text>
       </div>
     </div>
     <div className={styles.searchTagInfo}>
