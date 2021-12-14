@@ -13,6 +13,7 @@ import { SearchTag } from './components';
 import styles from './styles.module.scss';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { iconSearch } from 'assets/img';
+import { toFixed } from 'utils';
 
 type Props = {
   className?: string;
@@ -58,7 +59,7 @@ const Search: VFC<Props> = ({ isDesktop = true, className, classNameDropdown }) 
         <TextInput
           onChange={handleInput}
           value={inputValue}
-          placeholder="Search by tags, themes, artists, etc"
+          placeholder="Search by arts"
           type="text"
           className={styles.searchInput}
           icon={iconSearch}
@@ -80,6 +81,8 @@ const Search: VFC<Props> = ({ isDesktop = true, className, classNameDropdown }) 
                     media,
                     name,
                     price,
+                    highest_bid,
+                    minimal_bid,
                     currency: { symbol },
                     total_supply,
                     is_auc_selling,
@@ -92,7 +95,12 @@ const Search: VFC<Props> = ({ isDesktop = true, className, classNameDropdown }) 
                         <SearchTag
                           image={media}
                           title={name}
-                          price={price || '?'}
+                          price={
+                            price ||
+                            (highest_bid && toFixed(highest_bid.amount, 3)) ||
+                            minimal_bid ||
+                            ''
+                          }
                           asset={symbol}
                           isAuction={is_auc_selling}
                           inStock={total_supply}

@@ -1,7 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { routes } from 'appConstants';
 import { is_production } from 'config';
 import { observer } from 'mobx-react';
 import { userApi } from 'services';
@@ -83,8 +82,6 @@ class Connector extends React.Component<
                   localStorage.lessnft_nft_token = login.data.key;
                   if (this.props.history.location.pathname === '/') {
                     document.location.reload();
-                  } else {
-                    this.props.history.push(routes.home.root);
                   }
                 }
                 localStorage.lessnft_nft_chainName = chainName;

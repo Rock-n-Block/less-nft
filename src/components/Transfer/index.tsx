@@ -15,6 +15,7 @@ interface ITransferProps {
 const Transfer: React.FC<ITransferProps> = ({ className }) => {
   const {
     modals: { transfer },
+    user,
   } = useMst();
   const { walletService } = useWalletConnectorContext();
   const [inputValue, setInputValue] = useState('');
@@ -100,7 +101,9 @@ const Transfer: React.FC<ITransferProps> = ({ className }) => {
           className={cn('button', styles.button)}
           onClick={transferToken}
           loading={isLoading}
-          disabled={+amount > transfer.available}
+          disabled={
+            +amount > transfer.available || user.address.toLowerCase() === inputValue.toLowerCase()
+          }
         >
           Continue
         </Button>
