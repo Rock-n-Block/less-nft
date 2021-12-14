@@ -47,6 +47,8 @@ const CollectionPage: React.FC = () => {
           name={collection.name}
           address={collection.address}
           description={collection.description}
+          creator={collection.creator.id}
+          id={collection.id}
         />
       </div>
 
