@@ -4,7 +4,7 @@ import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { routes } from 'appConstants';
 import cx from 'classnames';
-import { ArtCard, Control, GiantCard, H3 } from 'components';
+import { ArtCard, Control, GiantCard, H3, Text } from 'components';
 // import { LoadMore } from 'containers';
 import GridLayer, { EGridJustify } from 'containers/GridLayer';
 import { useFetchRelated } from 'hooks';
@@ -107,17 +107,16 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
             allPages={allPages}
             handleLoadMore={handleLoadMore}
           > */}
-          <div ref={wrapRef} className={styles.artCardsWrapper}>
-            <GridLayer
-              gap={40}
-              wrapperRef={wrapRef}
-              minWidth={250}
-              minHeight={350}
-              justify={EGridJustify.start}
-            >
-              {Array.isArray(nftCards) &&
-                nftCards.length &&
-                nftCards
+          {Array.isArray(nftCards) && nftCards.length ? (
+            <div ref={wrapRef} className={styles.artCardsWrapper}>
+              <GridLayer
+                gap={40}
+                wrapperRef={wrapRef}
+                minWidth={250}
+                minHeight={350}
+                justify={EGridJustify.start}
+              >
+                {nftCards
                   .filter((art) => art.id !== Number(id))
                   .map((art) => {
                     const {
@@ -155,8 +154,13 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                       />
                     );
                   })}
-            </GridLayer>
-          </div>
+              </GridLayer>
+            </div>
+          ) : (
+            <Text size="xl" className={styles.noItems}>
+              There are no artowrks in this collection yet
+            </Text>
+          )}
           {/* </LoadMore> */}
         </div>
       </div>
