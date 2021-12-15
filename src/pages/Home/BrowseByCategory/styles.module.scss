@@ -1,6 +1,6 @@
 @import 'src/styles/helpers';
 
-.resourceForGettingStarted {
+.browseByCategory {
   @include container;
   margin-top: 188px;
   margin-bottom: 46px;
@@ -11,6 +11,10 @@
   @include flexbox(flex-start);
   gap: 35px;
   flex-wrap: wrap;
+}
+
+.tag {
+  border: 1px solid #e3e4eb;
 }
 
 .resourcesBlock {

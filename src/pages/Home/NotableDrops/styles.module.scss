@@ -1,0 +1,17 @@
+@import 'src/styles/helpers';
+
+.notableDrops {
+  @include container;
+  margin-top: 150px;
+}
+
+.drops{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.drop {
+  max-width: 350px;
+  width: 100%;
+}

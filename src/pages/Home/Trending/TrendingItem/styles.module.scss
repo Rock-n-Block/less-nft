@@ -1,0 +1,50 @@
+@import 'src/styles/helpers';
+
+.trading {
+  position: relative;
+  max-width: 350px;
+  @include flexbox;
+  flex-direction: column;
+  border-radius: $border-radius;
+  width: 100%;
+  border: 1px solid $color-neutral-9;
+  box-sizing: border-box;
+
+  .button {
+    margin-top: 35px;
+    border-color: $color-neutral-0;
+    color: $color-neutral-0;
+    padding: 1px 8px;
+    line-height: 160%;
+  }
+
+  .description {
+    margin-top: 10px;
+    text-align: center;
+  }
+}
+
+.creatorWrapper{
+  position: relative;
+}
+
+.creatorAvatar{
+  position: absolute;
+  top: calc(50% - 24px);
+  left: calc(50% - 24px);
+}
+
+.creatorName {
+  display: flex;
+  gap: 10px;
+}
+
+.info {
+  @include flexbox;
+  flex-direction: column;
+  padding: 30px 35px;
+}
+
+.avatar {
+  width: 100%;
+}
