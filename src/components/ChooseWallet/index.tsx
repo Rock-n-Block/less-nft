@@ -16,10 +16,6 @@ const ChooseWallet: React.FC = () => {
     setActiveChain(name);
   }, []);
 
-  const filteredChains = Object.values(chains).filter(
-    (chain: any) => chain.name !== chains[chainsEnum['Binance-Smart-Chain']].name,
-  );
-
   return (
     <div className={styles.container}>
       <div className={styles.box}>
@@ -27,8 +23,7 @@ const ChooseWallet: React.FC = () => {
           Available Blockchain
         </Text>
         <div className={styles.wallets}>
-          {/* {Object.values(chains).map((blockchain) => ( */}
-          {filteredChains.map((blockchain) => (
+          {Object.values(chains).map((blockchain) => (
             <div
               className={cn(styles.item, {
                 [styles.item_active]: blockchain.name === activeChain,

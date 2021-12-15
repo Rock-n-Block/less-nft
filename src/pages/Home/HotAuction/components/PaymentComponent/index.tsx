@@ -71,6 +71,10 @@ const PaymentComponent: FC<Props> = observer(
 
     const handleCheckAllowance = React.useCallback(() => {
       if (nft) {
+        if (!nft.currency) {
+          setApproved(false);
+          return;
+        }
         if (nft.currency.symbol.toUpperCase() === nft.network.native_symbol.toUpperCase()) {
           setApproved(true);
           return;
@@ -109,7 +113,7 @@ const PaymentComponent: FC<Props> = observer(
         tokenName: nft?.name,
         fee: nft?.service_fee,
         price: nft?.price,
-        currency: nft?.currency.symbol,
+        currency: nft?.currency?.symbol || '',
         tokenAvailable: nft?.available,
         aucTokenAvailable: nft?.auction_amount || 0,
         sellers: nft?.sellers.filter((seller) => seller.id !== user.id),
@@ -216,13 +220,13 @@ const PaymentComponent: FC<Props> = observer(
               <Text color="lightGray">Highest Bid</Text>
             ) : null}
             <div className={styles.priceAndGrowth}>
-              {currentPrice ? <H4>{`${currentPrice} ${nft?.currency.symbol}`}</H4> : ''}
+              {currentPrice ? <H4>{`${currentPrice} ${nft?.currency?.symbol || ''}`}</H4> : ''}
               {nftSellingType === 'sell' && nft?.USD_price !== undefined && (
                 <Text size="m">{nft.USD_price > 0.01 ? `$${nft.USD_price}` : '<$0.01'}</Text>
               )}
             </div>
             {!!nft?.minimal_bid && (
-              <Text color="lightGray">{`Minimal bid ${nft.minimal_bid} ${nft?.currency.symbol}`}</Text>
+              <Text color="lightGray">{`Minimal bid ${nft.minimal_bid} ${nft?.currency?.symbol || ''}`}</Text>
             )}
           </div>
         </div>

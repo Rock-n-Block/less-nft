@@ -164,7 +164,7 @@ export default {
   reportPage: (page: string, reportMessage: string, token: string) =>
     axios.post(`/store/report/?network=${localStorage.lessnft_nft_chainName}`, {
       page,
-      reportMessage,
+      message: reportMessage,
       token,
     }),
   support: (email: string, message: string, token: string) =>
