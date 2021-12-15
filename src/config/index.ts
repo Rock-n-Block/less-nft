@@ -182,8 +182,8 @@ export const contracts: IContracts = {
     },
     WETH: {
       mainnet: {
-        address: '',
-        abi: nftAbi,
+        address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+        abi: wethTestnetAbi,
       },
       testnet: {
         address: '0xdf032bc4b9dc2782bb09352007d4c57b75160b15',

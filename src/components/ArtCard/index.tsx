@@ -192,7 +192,7 @@ const ArtCard: FC<Props> = ({
                 <Text className={styles.artCardAuthor}>{bids.length} people have bidded</Text>
               </>
             ) : (
-              <ArtCardAuthor id={authorId} avatar={authorAvatar} name={author} />
+              authorId && <ArtCardAuthor id={authorId} avatar={authorAvatar} name={author} />
             )}
           </div>
           {likeAction && (

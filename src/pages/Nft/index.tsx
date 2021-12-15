@@ -132,8 +132,9 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                       creator: { id: authorId },
                       tags,
                       like_count: likesNumber,
-                      currency: { symbol: asset },
+                      // currency: { symbol: asset = '' },
                     } = art;
+                    const asset = art.currency?.symbol ?? '';
                     const artPrice =
                       price || (highest_bid && highest_bid.amount) || minimal_bid || 0;
                     return (

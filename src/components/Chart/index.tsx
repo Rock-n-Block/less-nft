@@ -79,7 +79,7 @@ const ChartComponent: FC<Props> = ({ data, period, className, currency }) => {
         </Text>
         <Text size="xxl" weight="bold" className={styles.averageValue}>
           {selectedPointPrice ? toFixed(selectedPointPrice, 3) : lastPointPrice}{' '}
-          {currency?.symbol.toUpperCase()}
+          {currency?.symbol.toUpperCase() ?? ''}
           <Text tag="span" color={isDifferencePositive ? 'secondary' : 'red'} weight="medium">
             {isDifferencePositive ? `+${difference}` : difference}%
           </Text>
