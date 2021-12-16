@@ -115,7 +115,7 @@ export default {
       {
         params: {
           network: localStorage.lessnft_nft_chainName || 'undefined',
-          sort,
+          type: sort,
           order_by,
           owner,
           on_sale,

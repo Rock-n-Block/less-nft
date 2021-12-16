@@ -33,3 +33,10 @@ export type TTopUserReq = {
   type: string;
   sortPeriod: string;
 };
+
+export type TTopCollectionReq = {
+  type: string;
+  sortPeriod: string;
+  network: string
+  tags: string
+};

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { IBackendPriceHistory, TPriceHistoryPeriod, TTopUserReq } from 'typings';
+import { IBackendPriceHistory, TPriceHistoryPeriod, TTopCollectionReq, TTopUserReq } from 'typings';
 
 import axios from '../../core/axios';
 
@@ -53,12 +53,13 @@ export default {
       },
     }),
 
-  getTopCollections: ({ type, sortPeriod }: TTopUserReq) =>
+  getTopCollections: ({ type, sortPeriod, network, tags }: TTopCollectionReq) =>
     axios.get('/activity/top-collections/', {
       params: {
         type,
         sort_period: sortPeriod,
-        network: localStorage?.lessnft_nft_chainName,
+        network,
+        tags
       },
     }),
 

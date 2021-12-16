@@ -16,6 +16,7 @@ export { default as useFetchRelated } from './useFetchRelated';
 export * from './useInfiniteScroll';
 export * from './useFetchNft';
 export * from './useFetchHotAuction';
+export * from './useFetchTopCollections';
 export * from './useFetchLiked';
 export * from './useFollow';
 export * from './useLike';

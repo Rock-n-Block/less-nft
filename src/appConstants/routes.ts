@@ -39,4 +39,7 @@ export const routes = {
   comingSoon: {
     root: '/soon',
   },
+  topNfts: {
+    root: '/topnfts'
+  }
 };

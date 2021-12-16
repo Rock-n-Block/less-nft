@@ -15,6 +15,7 @@ import {
   Profile,
   ProfileEdit,
   UploadVariants,
+  TopNfts
 } from 'pages';
 import { useMst } from 'store';
 
@@ -32,6 +33,7 @@ const Routes = observer(() => {
       <Route exact path={routes.activity.root} component={Activity} />
       <Route path={routes.collection.root} component={CollectionPage} />
       <Route path={routes.connectWallet.root} component={ConnectWallet} />
+      <Route path={routes.topNfts.root} component={TopNfts} />
       <Route path={routes.lostPage.root} component={LostPage404} />
       <Route path={routes.comingSoon.root} component={ComingSoon} />
       {/* GUARDED ROUTES */}
