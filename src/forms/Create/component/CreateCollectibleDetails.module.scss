@@ -1,29 +1,18 @@
 @import 'src/styles/helpers';
 
 .form {
-  @include flexbox(flex-start, space-between);
-  @include forDesktopBig {
-    flex-direction: column;
-  }
+  @include flexbox(center, space-between);
+  flex-direction: column;
 }
 
 .column {
   width: 50%;
-
-  & + & {
-    margin-left: 32px;
-    @include forDesktopBig {
-      margin-left: 0;
-    }
-  }
 
   @include forDesktopBig {
     width: 100%;
   }
 
   &Upload {
-    position: sticky;
-    top: 120px;
     @include forDesktopBig {
       position: static;
     }

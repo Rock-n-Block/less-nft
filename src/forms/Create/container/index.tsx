@@ -36,6 +36,7 @@ export default observer(({ isSingle }: any) => {
     isLoading: false,
     unlockOncePurchased: false,
     digitalKey: '',
+    externalLink: ''
   };
   const FormWithFormik = withFormik<any, ICreateForm>({
     enableReinitialize: true,

@@ -58,6 +58,7 @@ export interface ICreateForm {
   sellMethod: string;
   isLoading: boolean;
   digitalKey: string;
+  externalLink: string;
 }
 
 const sellMethods: IRadioButton[] = [
@@ -309,7 +310,31 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     />
                   )}
                 />
-                {touched.name && errors.name && <Text color="red">{errors.name}</Text>}
+                <Field
+                  render={() => (
+                    <TextInput
+                      label="External Link"
+                      subtitle={
+                        <>
+                          OpenSea will include a link to this URL on this item`s detail page, so
+                          that users can click to learn more about it. You are welcome to link to
+                          your own webpage with more details.
+                        </>
+                      }
+                      name="externalLink"
+                      type="text"
+                      placeholder="Enter your link"
+                      value={values.externalLink}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={styles.field}
+                      required
+                    />
+                  )}
+                />
+                {touched.externalLink && errors.externalLink && (
+                  <Text color="red">{errors.externalLink}</Text>
+                )}
                 <Field
                   name="description"
                   render={() => (
