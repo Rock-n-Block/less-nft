@@ -58,11 +58,11 @@ const useFilters = (filterTag = '') => {
   const [page, setPage] = useState(DEFAULT_FILTER_STATE.page);
   const [maxPrice, setMaxPrice] = useState(DEFAULT_FILTER_STATE.max_price);
 
-  const handleMaxPriceFilter = useCallback((value: number) => {
+  const handleMaxPriceFilter = useCallback((value: number | string) => {
     setMaxPriceFilter((prev) => ({
       ...prev,
       value: value.toString(),
-      label: `0 ETH - ${value} ETH`,
+      label: `0 ETH - ${+value} ETH`,
     }));
   }, []);
 

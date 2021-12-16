@@ -104,7 +104,7 @@ const AdvancedFilter: FC<Props> = ({
         <RangePicker
           className={styles.rangeFilter}
           onChange={handleMaxPriceFilter}
-          value={+maxPriceFilter.value}
+          value={maxPriceFilter.value}
           currency={currencyFilter.value}
           min={0}
           max={maxPrice}
