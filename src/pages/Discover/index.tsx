@@ -40,7 +40,7 @@ const Discover = observer(() => {
 
   const { search } = useLocation();
   const filterTag =
-    search.includes('tags') || search.includes('filters') ? search.replace(/^(.*?)=/, '') : ' ';
+    search.includes('tags') || search.includes('filter') ? search.replace(/^(.*?filter)=/, '') : '';
   const textSearch = search.includes('text') ? search.replace(/^(.*?text)=/, '') : '';
 
   const handleOpenFilter = useCallback(() => {
@@ -71,7 +71,7 @@ const Discover = observer(() => {
     page,
     sort: 'items',
     order_by: orderByFilter.value,
-    tags: (textSearch && ' ') || tagsFilter === 'All NFTs' ? '' : tagsFilter,
+    tags: tagsFilter === 'All NFTs' ? '' : tagsFilter,
     max_price: +maxPriceFilter.value,
     currency: currencyFilter.value,
     is_verified: verifiedFilter.value,
