@@ -15,7 +15,7 @@ import cx from 'classnames';
 // import { toast } from 'react-toastify';
 import { Button, Copyable, Text } from 'components';
 import OptionMenu, { positionOptions } from 'components/OptionMenu';
-import { useLike } from 'hooks';
+import { useLike, useWindowSize } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'store';
 import { INft, IOwner, TNullable } from 'typings';
@@ -47,6 +47,7 @@ const ViewsAndControlsComponent: FC<Props> = ({
   isWrongChain,
   isUserCanChangePrice,
 }) => {
+  const { width } = useWindowSize();
   const {
     modals: { burn, remove, transfer, report, change },
     user,
@@ -191,7 +192,10 @@ const ViewsAndControlsComponent: FC<Props> = ({
               >
                 <Options />
               </Button>
-              <OptionMenu active={isTooltipVisible} position={tooltipPlacement}>
+              <OptionMenu
+                active={isTooltipVisible}
+                position={width < 482 ? 'bottom-center' : tooltipPlacement}
+              >
                 <div className={styles.actions}>
                   {actions.map((action) => {
                     if (action.isVisible) {

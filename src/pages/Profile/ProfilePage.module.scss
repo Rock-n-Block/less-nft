@@ -70,7 +70,7 @@
   @include forDesktopMiddle {
     flex-direction: row;
     gap: 12px;
-    align-items: center;
+    align-items: center !important;
     padding: 0 10px;
   }
 }
