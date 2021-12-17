@@ -153,6 +153,8 @@
 }
 
 .title {
+  display: flex;
+  gap: 8px;
   .gradientTitle {
     @include gradientText;
   }
