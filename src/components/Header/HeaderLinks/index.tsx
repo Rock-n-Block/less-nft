@@ -112,7 +112,6 @@ const HeaderLinks: FC<IHeaderLinksProps> = observer(({ className, toggleMenu }) 
     [location.pathname, nftTags.getTags, user.address, width],
   );
 
-  console.log('width', width);
   const handleMenuItemClick = (url: string) => {
     if (toggleMenu) {
       toggleMenu();
