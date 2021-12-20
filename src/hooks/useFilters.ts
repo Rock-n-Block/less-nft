@@ -11,12 +11,13 @@ const DEFAULT_FILTER_STATE = {
   currency: 'All',
   page: 1,
   is_verificated: 'All',
+  text: '',
 };
 
 const defaultValues = DEFAULT_FILTER_STATE;
 export type TDefaultValues = typeof defaultValues;
 
-const useFilters = (filterTag = '') => {
+const useFilters = (filterTag = '', textSearch = '') => {
   const [isMaxPriceLoading, setMaxPriceLoading] = useState(false);
   const [isRatesLoading, setRatesLoading] = useState(false);
 
@@ -48,6 +49,11 @@ const useFilters = (filterTag = '') => {
   const [tagsFilter, setTagsFilter] = useState(
     filterTag !== '' ? filterTag : DEFAULT_FILTER_STATE.tags,
   );
+  const [textFilter, setTextFilter] = useState({
+    label: textSearch !== '' ? textSearch : DEFAULT_FILTER_STATE.text,
+    value: textSearch !== '' ? textSearch : DEFAULT_FILTER_STATE.text,
+    field: 'text',
+  });
 
   const { activeTab } = useTabs([], tagsFilter);
 
@@ -91,6 +97,13 @@ const useFilters = (filterTag = '') => {
     setTagsFilter(value);
   }, []);
 
+  const handleTextFilter = useCallback((value: OptionType) => {
+    setTextFilter((prev) => ({
+      ...prev,
+      ...value,
+    }));
+  }, []);
+
   const handleOrderByFilter = useCallback((value: OptionType) => {
     setPage(1);
     setOrderByFilter(value);
@@ -125,6 +138,13 @@ const useFilters = (filterTag = '') => {
           });
           break;
         }
+        case 'text': {
+          handleTextFilter({
+            value: DEFAULT_FILTER_STATE.text,
+            label: DEFAULT_FILTER_STATE.text,
+          });
+          break;
+        }
         default: {
           handleMaxPriceFilter(maxPrice);
           handleCurrencyFilter({
@@ -138,7 +158,7 @@ const useFilters = (filterTag = '') => {
         }
       }
     },
-    [handleVerifiedFilter, handleMaxPriceFilter, handleCurrencyFilter, maxPrice],
+    [handleMaxPriceFilter, maxPrice, handleCurrencyFilter, handleVerifiedFilter, handleTextFilter],
   );
 
   const fetchMaxPrice = useCallback(
@@ -196,7 +216,14 @@ const useFilters = (filterTag = '') => {
 
   useEffect(() => {
     setPage(1);
-  }, [orderByFilter, tagsFilter, currencyFilter, verifiedFilter, maxPriceFilter]);
+  }, [orderByFilter, tagsFilter, currencyFilter, verifiedFilter, maxPriceFilter, textFilter]);
+
+  useEffect(() => {
+    handleTextFilter({
+      label: textSearch !== '' ? textSearch : DEFAULT_FILTER_STATE.text,
+      value: textSearch !== '' ? textSearch : DEFAULT_FILTER_STATE.text,
+    });
+  }, [handleTextFilter, textSearch]);
 
   return {
     defaultValues,
@@ -213,7 +240,9 @@ const useFilters = (filterTag = '') => {
     handleOrderByFilter,
     filterSelectCurrencyOptions,
     tagsFilter,
+    textFilter,
     handleTagsFilter,
+    handleTextFilter,
     page,
     handlePage,
     resetFilter,
