@@ -16,7 +16,7 @@ interface Props {
   type: string;
   placeholder: string;
   required?: boolean;
-  prefix?: string;
+  prefix?: string | JSX.Element;
   suffix?: any;
   suffixClassName?: string;
   prefixClassName?: string;
