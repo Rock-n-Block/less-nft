@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useRef, useState } from 'react';
+import { RefObject, useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FilterSVG } from 'assets/img';
 import cx from 'classnames';
@@ -41,7 +41,11 @@ const Discover = observer(() => {
   const { search } = useLocation();
   const filterTag =
     search.includes('tags') || search.includes('filter') ? search.replace(/^(.*?filter)=/, '') : '';
-  const textSearch = search.includes('text') ? search.replace(/^(.*?text)=/, '') : '';
+  // const textSearch = search.includes('text') ? search.replace(/^(.*?text)=/, '') : '';
+  const textSearch = useMemo(() => {
+    return search.includes('text') ? search.replace(/^(.*?text)=/, '') : '';
+  }, [search]);
+
 
   const handleOpenFilter = useCallback(() => {
     setFilterOpen(!isFilterOpen);
@@ -59,13 +63,14 @@ const Discover = observer(() => {
     handleOrderByFilter,
     filterSelectCurrencyOptions,
     tagsFilter,
+    textFilter,
     handleTagsFilter,
     page,
     handlePage,
     isLoading,
     defaultValues,
     resetFilter,
-  } = useFilters(filterTag);
+  } = useFilters(filterTag, textSearch);
 
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
     page,
@@ -77,7 +82,7 @@ const Discover = observer(() => {
     is_verified: verifiedFilter.value,
     on_sale: true,
     isCanFetch: !isLoading,
-    text: textSearch,
+    text: textFilter.value,
   });
 
   const { width } = useWindowSize();
@@ -112,6 +117,7 @@ const Discover = observer(() => {
             handleVerifiedFilter={handleVerifiedFilter}
             defaultValues={defaultValues}
             resetFilter={resetFilter}
+            textFilter={textFilter}
           />
         </Modal>
       )}
@@ -163,6 +169,7 @@ const Discover = observer(() => {
               handleVerifiedFilter={handleVerifiedFilter}
               defaultValues={defaultValues}
               resetFilter={resetFilter}
+              textFilter={textFilter}
             />
           </div>
         </div>

@@ -37,6 +37,7 @@ type Props = {
   handleVerifiedFilter: (value: any) => void;
   defaultValues: TDefaultValues;
   resetFilter: (key?: string) => void;
+  textFilter: OptionType;
 };
 
 const AdvancedFilter: FC<Props> = ({
@@ -52,16 +53,18 @@ const AdvancedFilter: FC<Props> = ({
   handleVerifiedFilter,
   defaultValues,
   resetFilter,
+  textFilter,
 }) => {
   const [appliedFilters, setAppliedFilters] = useState<IAppliedFilter[]>([
     maxPriceFilter,
     currencyFilter,
     verifiedFilter,
+    textFilter,
   ]);
 
   useEffect(() => {
-    setAppliedFilters([currencyFilter, verifiedFilter]);
-  }, [currencyFilter, verifiedFilter]);
+    setAppliedFilters([currencyFilter, verifiedFilter, textFilter]);
+  }, [currencyFilter, verifiedFilter, textFilter]);
 
   return (
     <div className={cx(styles.advancedFilter, { [styles.mobile]: isMobile }, className)}>
@@ -90,7 +93,7 @@ const AdvancedFilter: FC<Props> = ({
             <FilterTag
               key={filter.value}
               className={styles.filterTag}
-              label={filter.label}
+              label={filter.label.length > 10 ? `${filter.label.slice(0, 10)}...` : filter.label}
               closeTag={() => {
                 resetFilter(filter.field);
               }}
