@@ -387,3 +387,35 @@
 .suffix {
   color: $color-neutral-100;
 }
+
+.details{
+  margin-top: 16px;
+}
+
+.detail{
+  @include flexbox(center, space-between);
+  border-bottom: 1px solid $color-neutral-10;
+  padding: 16px 0;
+
+  &Icon{
+    border-radius: 50%;
+    background-color: $color-neutral-10;
+    width: 30px;
+    height: 30px;
+    @include flexbox(center, center);
+
+    img{
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &Info{
+    @include flexbox;
+    gap: 17px;
+  }
+
+  & + & {
+    margin-top: 16px;
+  }
+}

@@ -36,7 +36,7 @@ const NftForSale = types.model({
     id: 0,
     name: '',
   }),
-  sellers: types.optional(types.array(Seller), [])
+  sellers: types.optional(types.array(Seller), []),
 });
 
 const PlaceBid = types
@@ -366,6 +366,31 @@ const Change = types
       },
     };
   });
+const Details = types
+  .model({
+    type: types.optional(types.string, ''),
+    text: types.optional(types.string, ''),
+  })
+  .views((self) => ({
+    get getIsOpen() {
+      return !!self.type;
+    },
+  }))
+  .actions((self) => {
+    let initialState = {};
+    return {
+      afterCreate: () => {
+        initialState = getSnapshot(self);
+      },
+      close: () => {
+        applySnapshot(self, initialState);
+      },
+      open: (type: '' | 'Properties' | 'Levels' | 'Stats', text: string) => {
+        self.type = type;
+        self.text = text;
+      },
+    };
+  });
 
 export const Modals = types.model({
   sell: SellModals,
@@ -375,4 +400,5 @@ export const Modals = types.model({
   report: Report,
   change: Change,
   swap: Swap,
+  details: Details,
 });

@@ -1,6 +1,13 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
-import { IconRefresh, iconUpload } from 'assets/img';
+import {
+  iconAddDetail,
+  IconRefresh,
+  iconStar,
+  iconStats,
+  iconUpload,
+  iconWeight,
+} from 'assets/img';
 import { ReactComponent as IconPropAdd } from 'assets/img/icons/icon-prop-add.svg';
 import { ReactComponent as IconPropDelete } from 'assets/img/icons/icon-prop-delete.svg';
 import BigNumber from 'bignumber.js/bignumber';
@@ -25,6 +32,7 @@ import { ratesApi } from 'services';
 import ChooseCollection from './ChooseCollection';
 
 import styles from './CreateCollectibleDetails.module.scss';
+import { useMst } from 'store';
 
 interface IRate {
   rate: string;
@@ -35,6 +43,12 @@ interface IRate {
 interface IProperti {
   name: string | number;
   amount: string | number;
+}
+
+interface IDetail {
+  title: 'Properties' | 'Levels' | 'Stats';
+  subtitle: string;
+  icon: string;
 }
 
 export interface ICreateForm {
@@ -74,6 +88,24 @@ const sellMethods: IRadioButton[] = [
   },
 ];
 
+const detailsItems: IDetail[] = [
+  {
+    title: 'Properties',
+    subtitle: 'Textual traits that show up as rectangles',
+    icon: iconWeight,
+  },
+  {
+    title: 'Levels',
+    subtitle: 'Numerical traits that show as a progress bar',
+    icon: iconStar,
+  },
+  {
+    title: 'Stats',
+    subtitle: 'Numerical traits that just show as numbers',
+    icon: iconStats,
+  },
+];
+
 const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
   ({
     setFieldValue,
@@ -85,6 +117,9 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     handleSubmit,
     isSingle = true,
   }) => {
+    const {
+      modals: { details },
+    } = useMst();
     const history = useHistory();
     const [rates, setRates] = useState<IRate[]>([]);
     const [addToCollection, setAddToCollection] = useState(true);
@@ -155,6 +190,14 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
         setFieldValue('currency', data[0]?.symbol);
       });
     }, [setFieldValue]);
+
+    const handleDetailsOpen = useCallback(
+      (type: 'Properties' | 'Levels' | 'Stats', text: string) => {
+        details.open(type, text);
+      },
+      [details],
+    );
+
     useEffect(() => {
       fetchRates();
     }, [fetchRates]);
@@ -474,6 +517,32 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     <br />
                     You will receive {stringRecieveValue} {values.currency?.toUpperCase()}
                   </Text>
+                </div>
+                <div className={styles.details}>
+                  {detailsItems.map((detail: IDetail) => (
+                    <div className={styles.detail}>
+                      <div className={styles.detailInfo}>
+                        <div className={styles.detailIcon}>
+                          <img alt={detail.title} src={detail.icon} />
+                        </div>
+
+                        <div className={styles.detailInfoText}>
+                          <Text weight="bold">{detail.title}</Text>
+                          <Text>{detail.subtitle}</Text>
+                        </div>
+                      </div>
+
+                      <div
+                        className={styles.detailBtn}
+                        onClick={() => handleDetailsOpen(detail.title, detail.subtitle)}
+                        onKeyDown={() => {}}
+                        tabIndex={0}
+                        role="button"
+                      >
+                        <img alt="add detail" src={iconAddDetail} />
+                      </div>
+                    </div>
+                  ))}
                 </div>
                 <div className={styles.tokenProperties}>
                   <FieldArray

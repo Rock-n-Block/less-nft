@@ -45,6 +45,10 @@ export const Store = RootModel.create({
         isSuccess: false,
       },
     },
+    details: {
+      isOpen: false,
+      type: '',
+    },
   },
   nftTags: {
     tags: [],
