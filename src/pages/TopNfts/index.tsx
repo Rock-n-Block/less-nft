@@ -1,4 +1,4 @@
-import { useState, VFC, FC } from 'react';
+import { useState, VFC, FC, useMemo } from 'react';
 
 import { H2, Text } from 'components';
 import cn from 'classnames';
@@ -6,15 +6,16 @@ import styles from './styles.module.scss';
 import { useMst } from 'store';
 import { chains } from 'config';
 import { observer } from 'mobx-react-lite';
-import { allLogo, iconAllNFTs, iconArrowDown } from 'assets/img';
+import { allLogo, iconAllNFTs, iconArrowDown, iconEthSmall } from 'assets/img';
 import OutsideClickHandler from 'react-outside-click-handler';
 import nextId from 'react-id-generator';
 import { useFetchTopCollections } from 'hooks';
+import { numberFormatter } from 'utils';
 
 const timeOptions = [
-  { symbol: 'Last 24 Hours', value: 'day' },
-  { symbol: 'Last 7 Days', value: 'week' },
-  { symbol: 'Last 30 Days', value: 'month' },
+  { symbol: 'Last 24 Hours', value: 'day', label: '24h' },
+  { symbol: 'Last 7 Days', value: 'week', label: '7d' },
+  { symbol: 'Last 30 Days', value: 'month', label: '30d' },
 ];
 
 const TopNfts: VFC = observer(() => {
@@ -39,6 +40,15 @@ const TopNfts: VFC = observer(() => {
     time.value,
     chain.symbol === 'All chains' ? '' : chain.symbol,
     tag.symbol === 'All NFTs' ? '' : tag.symbol,
+  );
+
+  const nfts = useMemo(
+    () => [
+      ...collections.map((collection: any, index: number) => {
+        return { ...collection, number: index + 1 };
+      }),
+    ],
+    [collections],
   );
 
   const handleTags = (value: any) => {
@@ -138,7 +148,74 @@ const TopNfts: VFC = observer(() => {
           />
         </div>
 
-        <div className={styles.collections}>{collections.length ? 'yes' : 'no'}</div>
+        <div className={styles.collections}>
+          <div className={styles.collectionsHead}>
+            <div> </div>
+            <div>
+              <Text weight="bold">Collection</Text>
+            </div>
+            <div>
+              <Text weight="bold">Volume</Text>
+            </div>
+            <div>
+              <Text weight="bold">{time.label}%</Text>
+            </div>
+            <div>
+              <Text weight="bold">Floor Price</Text>
+            </div>
+            <div>
+              <Text weight="bold">Owners</Text>
+            </div>
+            <div>
+              <Text weight="bold">Items</Text>
+            </div>
+          </div>
+          <div className={styles.collectionsBody}>
+            {nfts.length ? (
+              nfts.map((nft: any) => (
+                <div className={styles.collection}>
+                  <div className={styles.collectionNumber}>
+                    <Text>{nft.number}</Text>
+                  </div>
+                  <div className={styles.collectionStart}>
+                    <img
+                      alt="avatar"
+                      className={styles.collectionAvatar}
+                      src={nft.collection.avatar}
+                    />
+                    <Text>{nft.collection.name}</Text>
+                  </div>
+                  <div className={styles.collectionStart}>
+                    <img alt="eth" src={iconEthSmall} />
+                    <Text>{nft.price}</Text>
+                  </div>
+                  <div className={styles.collectionStart}>
+                    <Text
+                      className={cn(styles.collectonDiff, {
+                        [styles.green]: nft.difference && nft.difference[0] === '+',
+                        [styles.red]: nft.difference && nft.difference[0] === '-',
+                      })}
+                    >
+                      {nft.difference ? `${nft.difference}` : '0'}%
+                    </Text>
+                  </div>
+                  <div className={styles.collectionStart}>
+                    <img alt="eth" src={iconEthSmall} />
+                    <Text>{nft.floor_price || 0}</Text>
+                  </div>
+                  <div className={styles.collectionStart}>
+                    <Text>{numberFormatter(nft.total_owners, 10)}</Text>
+                  </div>
+                  <div className={styles.collectionStart}>
+                    <Text>{numberFormatter(nft.total_items, 10)}</Text>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <Text>No items</Text>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );

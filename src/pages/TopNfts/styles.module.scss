@@ -9,12 +9,14 @@
 }
 
 .content {
+  @include container;
   padding: 45px 15px;
-  @include flexbox(normal, center);
+  @include flexbox(center, center);
   flex-grow: 1;
+  flex-direction: column;
 }
 
-.dropdowns{
+.dropdowns {
   display: flex;
   gap: 50px;
 }
@@ -163,5 +165,35 @@
   background-color: transparent;
   @include placeholder {
     color: $color-neutral-40;
+  }
+}
+
+.collections {
+  margin-top: 59px;
+  width: 100%;
+  &Head {
+    padding-bottom: 20px;
+    display: grid;
+    grid-template-columns: 0.5fr 6fr 3fr 3fr 3fr 1.5fr 1fr;
+    border-bottom: 1px solid $color-neutral-10;
+  }
+
+  .collection {
+    display: grid;
+    grid-template-columns: 0.5fr 6fr 3fr 3fr 3fr 1.5fr 1fr;
+    border-bottom: 1px solid $color-neutral-10;
+    padding: 15px 0;
+    &Avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      margin-right: 16px;
+    }
+    &Number {
+      @include flexbox(center, center);
+    }
+    &Start {
+      @include flexbox(center, flex-start);
+    }
   }
 }
