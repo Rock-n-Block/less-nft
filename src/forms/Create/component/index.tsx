@@ -73,6 +73,7 @@ export interface ICreateForm {
   isLoading: boolean;
   digitalKey: string;
   externalLink: string;
+  isNsfw: boolean;
 }
 
 const sellMethods: IRadioButton[] = [
@@ -268,7 +269,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
 
     useEffect(() => {
       setFieldValue('details', details.getItems);
-    }, [details.getItems, setFieldValue])
+    }, [details.getItems, setFieldValue]);
 
     return (
       <>
@@ -741,6 +742,23 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                   )}
                 </>
               )}
+            </div>
+            <div className={cn(styles.item, styles.explicit)}>
+              <div>
+                <H6 className={styles.fieldsetTitle}>Explicit & Sensitive Content</H6>
+                <Text>Set this item as explicit and sensitive content</Text>
+              </div>
+              <Field
+                render={() => (
+                  <Switch
+                    name="isNsfw"
+                    value={values.isNsfw}
+                    setValue={() => {
+                      setFieldValue('isNsfw', !values.isNsfw);
+                    }}
+                  />
+                )}
+              />
             </div>
             <div className={cn(styles.fieldset, styles.addCollection)}>
               <H6 className={styles.fieldsetTitle}>

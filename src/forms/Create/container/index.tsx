@@ -37,6 +37,7 @@ export default observer(({ isSingle }: any) => {
     unlockOncePurchased: false,
     digitalKey: '',
     externalLink: '',
+    isNsfw: false,
   };
   const FormWithFormik = withFormik<any, ICreateForm>({
     enableReinitialize: true,
@@ -55,6 +56,7 @@ export default observer(({ isSingle }: any) => {
         then: Yup.number().min(0.0001),
       }),
       creatorRoyalty: Yup.number().min(0, 'Minimal royalties equal to 0!').max(80, 'Too much!'),
+      externalLink: Yup.string().url(),
     }),
     handleSubmit: (values, { setFieldValue }) => {
       setFieldValue('isLoading', true);
@@ -76,15 +78,19 @@ export default observer(({ isSingle }: any) => {
       }
       formData.append('creator_royalty', values.creatorRoyalty.toString());
       formData.append('collection', values.collection.toString());
+      formData.append('external_link', values.externalLink);
+      formData.append('is_nsfw', values.isNsfw.toString());
 
       // if (values.details[0].name) {
-        const details: any = values.details.filter((item: any) => item.display_type && item.trait_type && item.value && item.max_value);
+      const details: any = values.details.filter(
+        (item: any) => item.display_type && item.trait_type && item.value && item.max_value,
+      );
       //   values.details.forEach((item) => {
       //     if (item.name) {
       //       details[item.name] = item.amount;
       //     }
       //   });
-        formData.append('details', JSON.stringify(details));
+      formData.append('details', JSON.stringify(details));
       // }
       // TODO: change selling from always true
       formData.append('selling', values.selling.toString());
