@@ -164,10 +164,11 @@ const PaymentComponent: FC<Props> = observer(
                     }
                     toast.success('Auction ended');
                   })
-                  .catch(() => {
+                  .catch((err: any) => {
                     toast.error({
                       message: 'Something went wrong',
                     });
+                    console.error('error', err)
                   })
                   .finally(() => {
                     setIsEndingAuction(false);
@@ -175,10 +176,11 @@ const PaymentComponent: FC<Props> = observer(
               );
             }
           })
-          .catch(() => {
+          .catch((err: any) => {
             toast.error({
               message: 'Something went wrong',
             });
+            console.error('error', err)
             setIsEndingAuction(false);
           });
       }
