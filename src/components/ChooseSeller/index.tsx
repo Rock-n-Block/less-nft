@@ -39,7 +39,7 @@ const ChooseSeller: React.FC = () => {
                 <img src={seller.avatar} alt="" />
               </div>
               <div className="">
-                <div className={styles.itemName}>{seller.name}</div>
+                <div className={styles.itemName}>{seller?.name}</div>
                 <div className={styles.itemQuantity}>{`${seller.quantity} token`}</div>
               </div>
             </div>

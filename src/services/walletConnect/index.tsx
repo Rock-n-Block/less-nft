@@ -1,13 +1,13 @@
 import React, { createContext, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { routes } from 'appConstants';
 import { is_production } from 'config';
 import { observer } from 'mobx-react';
 import { userApi } from 'services';
 import { WalletConnect } from 'services/walletService';
 import { rootStore } from 'store';
 import { chainsEnum } from 'typings';
+import { routes } from 'appConstants';
 
 declare global {
   interface Window {
@@ -81,7 +81,12 @@ class Connector extends React.Component<
                   });
 
                   localStorage.lessnft_nft_token = login.data.key;
-                  this.props.history.push(routes.home.root);
+                  if (this.props.history.location.pathname === '/') {
+                    document.location.reload();
+                  }
+                  if (this.props.history.location.pathname === routes.connectWallet.root) {
+                    this.props.history.push('/');
+                  }
                 }
                 localStorage.lessnft_nft_chainName = chainName;
                 localStorage.lessnft_nft_providerName = providerName;

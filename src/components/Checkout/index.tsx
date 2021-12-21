@@ -16,8 +16,16 @@ const Checkout: React.FC = observer(() => {
     modals: { sell },
     user,
   } = useMst();
+  console.log('sell.nft.sellerId', sell.nft.sellerId);
   const { walletService } = useWalletConnectorContext();
-  const tokenAvailable = sell?.nft?.sellers?.filter((sellerItem) => sell.nft.sellerId === sellerItem.id)[0].quantity
+  const tokenAvailable =
+    sell?.nft?.standart === 'ERC721'
+      ? sell?.nft?.tokenAvailable
+      : sell?.nft?.sellers?.filter((sellerItem) => sell.nft.sellerId === sellerItem.id)[0].quantity;
+  const price =
+    sell?.nft?.standart === 'ERC721'
+      ? sell?.nft?.price
+      : sell?.nft?.sellers?.filter((sellerItem) => sell.nft.sellerId === sellerItem.id)[0].price;
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [quantity, setQuantity] = React.useState('1');
@@ -72,10 +80,10 @@ const Checkout: React.FC = observer(() => {
   }, [walletService, quantity, user.id, sell]);
 
   const userWillPay = React.useMemo(() => {
-    return new BigNumber(sell.nft.price || 0)
+    return new BigNumber(price || 0)
       .multipliedBy(+quantity > tokenAvailable ? tokenAvailable : quantity || 1)
       .plus(sell.nft.feeCurrency);
-  }, [sell.nft.price, quantity, tokenAvailable, sell.nft.feeCurrency]);
+  }, [price, quantity, tokenAvailable, sell.nft.feeCurrency]);
 
   return (
     <div className={styles.container}>
@@ -88,9 +96,9 @@ const Checkout: React.FC = observer(() => {
           <div className={styles.item}>
             <div className={styles.itemTitle}>Price</div>
             <div className={styles.itemInfo}>
-              <div className={styles.itemPrice}>{`${
-                sell.nft.price
-              } ${sell.nft.currency.toUpperCase()}`}</div>
+              <div
+                className={styles.itemPrice}
+              >{`${price} ${sell.nft.currency.toUpperCase()}`}</div>
               <div className={styles.itemPriceUsd}>{`($${sell.nft.usdPrice})`}</div>
             </div>
           </div>

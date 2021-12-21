@@ -113,14 +113,14 @@ const UserMainInfo: FC<IProps> = observer(({ userId, setCurrentUser }) => {
               >
                 <div className={s.user_button}>
                   <img src={iconEdit} alt="" />
-                  <Text tag="span" color="white" weight="medium">
+                  <Text tag="span" color="white" weight="medium" className={s.user_edit}>
                     Edit Banner
                   </Text>
                 </div>
               </Uploader>
               <Button className={s.user_button} color="outline" href={routes.profile.edit}>
                 <img src={iconSettingsWhite} alt="" />
-                <Text tag="span" color="white" weight="medium">
+                <Text tag="span" color="white" weight="medium" className={s.user_edit}>
                   Edit Profile
                 </Text>
               </Button>
@@ -129,7 +129,7 @@ const UserMainInfo: FC<IProps> = observer(({ userId, setCurrentUser }) => {
           {user.address && !isSelf && (
             <Button
               className={s.user_button}
-              color="purple"
+              color={isFollowed ? 'outline' : 'purple'}
               onClick={handleFollowClick}
               disabled={isFollowClickPending}
             >

@@ -106,7 +106,7 @@ const Dropdown: FC<IDropdownProps> = ({
                 className={cn(
                   styles.option,
                   {
-                    [styles.selectioned]: option.symbol === value,
+                    [styles.selectioned]: option?.symbol === value,
                   },
                   option.symbol === value ? 'text-gradient' : '',
                 )}

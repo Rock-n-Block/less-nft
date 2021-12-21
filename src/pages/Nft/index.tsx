@@ -4,10 +4,10 @@ import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { routes } from 'appConstants';
 import cx from 'classnames';
-import { ArtCard, Control, GiantCard, H3 } from 'components';
-import { LoadMore } from 'containers';
+import { ArtCard, Control, GiantCard, H3, Text } from 'components';
+// import { LoadMore } from 'containers';
 import GridLayer, { EGridJustify } from 'containers/GridLayer';
-import { useFetchNft, useLoadMore } from 'hooks';
+import { useFetchRelated } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { storeApi } from 'services/api';
 import { useMst } from 'store';
@@ -42,15 +42,11 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
   const [nft, setNft] = useState<TNullable<INft>>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
 
-  const { page, handleLoadMore } = useLoadMore(1);
+  // const { page, handleLoadMore } = useLoadMore(1);
 
   const wrapRef = useRef<HTMLDivElement>(null);
 
-  const [allPages, , nftCards, isLoading] = useFetchNft({
-    page,
-    sort: 'items',
-    on_sale: true,
-  });
+  const [nftCards] = useFetchRelated(id);
 
   const getItem = React.useCallback(() => {
     setIsFetching(true);
@@ -104,13 +100,14 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
         />
         <div className={styles.relatedArtwork}>
           <H3>Related Artwork</H3>
-          <LoadMore
+          {/* <LoadMore
             itemsLength={nftCards.length}
             isLoading={isLoading}
             currentPage={page}
             allPages={allPages}
             handleLoadMore={handleLoadMore}
-          >
+          > */}
+          {Array.isArray(nftCards) && nftCards.length ? (
             <div ref={wrapRef} className={styles.artCardsWrapper}>
               <GridLayer
                 gap={40}
@@ -135,9 +132,11 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                       creator: { id: authorId },
                       tags,
                       like_count: likesNumber,
-                      currency: { symbol: asset },
+                      // currency: { symbol: asset = '' },
                     } = art;
-                    const artPrice = price || (highest_bid && highest_bid.amount) || minimal_bid || 0
+                    const asset = art.currency?.symbol ?? '';
+                    const artPrice =
+                      price || (highest_bid && highest_bid.amount) || minimal_bid || 0;
                     return (
                       <ArtCard
                         key={`nft_card_${art.id}`}
@@ -158,7 +157,12 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                   })}
               </GridLayer>
             </div>
-          </LoadMore>
+          ) : (
+            <Text size="xl" className={styles.noItems}>
+              There are no artowrks in this collection yet
+            </Text>
+          )}
+          {/* </LoadMore> */}
         </div>
       </div>
     </div>

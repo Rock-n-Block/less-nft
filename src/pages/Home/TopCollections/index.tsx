@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { FC, useCallback, useEffect, useState } from 'react';
 import cx from 'classnames';
-import { H2 } from 'components';
+import { H2, Text } from 'components';
 import { activityApi } from 'services';
 import { OptionType } from 'typings';
 
@@ -9,6 +9,7 @@ import CollectionCard from './CollectionCard';
 import TitleDropdown from './TitleDropdown';
 
 import styles from './styles.module.scss';
+import BigNumber from 'bignumber.js';
 
 type Props = {
   className?: string;
@@ -46,27 +47,33 @@ const TopCollections: FC<Props> = ({ className }) => {
         Top collections over
         <TitleDropdown value={period} setValue={setPeriod} options={dropDownOptions} />
       </H2>
-      <div className={`${styles.collections} ${collections.length !== 0 && styles.open}`}>
-        <ol
-          className={styles.collectionsWrapper}
-          style={{
-            gridTemplateRows: `repeat(${collections.length > 5 ? 5 : collections.length}, 1fr)`,
-          }}
-        >
-          {collections.map((collection, index) => (
-            <CollectionCard
-              key={index}
-              avatar={collection.collection.avatar}
-              isVerified={collection.is_verified}
-              id={collection.collection.id}
-              index={index + 1}
-              name={collection.collection.name}
-              price={collection.price}
-              profitIncrease={collection.difference || '0'}
-            />
-          ))}
-        </ol>
-      </div>
+      {collections.length ? (
+        <div className={`${styles.collections} ${collections.length !== 0 && styles.open}`}>
+          <ol
+            className={styles.collectionsWrapper}
+            style={{
+              gridTemplateRows: `repeat(${collections.length > 5 ? 5 : collections.length}, 1fr)`,
+            }}
+          >
+            {collections.map((collection, index) => (
+              <CollectionCard
+                key={index}
+                avatar={collection.collection.avatar}
+                isVerified={collection.is_verified}
+                id={collection.collection.id}
+                index={index + 1}
+                name={collection.collection.name}
+                price={new BigNumber(collection.price).isEqualTo(0) ? '< $0.01' : collection.price}
+                profitIncrease={collection.difference || '0'}
+              />
+            ))}
+          </ol>
+        </div>
+      ) : (
+        <Text size='xl' className={styles.noItems}>
+          There are no collections for this period of time, but you can choose a longer period
+        </Text>
+      )}
       {/*<Button className={styles.goRankingBtn}>Go to Rankings</Button>*/}
     </div>
   );

@@ -61,6 +61,7 @@
   height: 100vh;
   justify-content: flex-start;
   @include box-shadow;
+  padding-top: 18px;
 
   @include b(541) {
     width: 100%;
