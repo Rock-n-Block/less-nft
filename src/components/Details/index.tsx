@@ -5,32 +5,64 @@ import { observer } from 'mobx-react-lite';
 import styles from './Details.module.scss';
 import { useMst } from 'store';
 import { iconCrossBlack } from 'assets/img';
+import { toJS } from 'mobx';
 
 const Details: React.FC = observer(() => {
   const {
     modals: { details },
   } = useMst();
-  const [detailsItems, setDetailsItems] = useState([{ name: '', value1: '', value2: '' }]);
+  const type = details.type.toLocaleLowerCase();
+  const [detailsItems, setDetailsItems] = useState(
+    details.getItems.filter((item: any) => item.display_type === type).length
+      ? [
+          // { display_type: type, trait_type: '', value: '', max_value: '' },
+          ...details.getItems
+            .filter((item: any) => item.display_type === type)
+            .map((item: any) => toJS(item)),
+        ]
+      : [
+          {
+            display_type: type,
+            trait_type: '',
+            value: '',
+            max_value: '',
+          },
+        ],
+  );
   const isFirstType = details.type === 'Properties';
 
   const handleChangeDetail = useCallback(
-    (type: string, index: number, value: string) => {
+    (valueType: string, index: number, value: string) => {
       const newDetails = detailsItems;
-      newDetails[index] = { ...newDetails[index], [type]: value };
+      newDetails[index] = { ...newDetails[index], [valueType]: value };
       setDetailsItems([...newDetails]);
     },
     [detailsItems],
   );
 
   const handleAddDetail = useCallback(() => {
-    setDetailsItems([...detailsItems, { name: '', value1: '', value2: '' }]);
-  }, [detailsItems]);
+    setDetailsItems([
+      ...detailsItems,
+      { display_type: type, trait_type: '', value: '', max_value: '' },
+    ]);
+  }, [detailsItems, type]);
 
   const handleDeleteDetail = useCallback(
     (indexValue: number) => {
       setDetailsItems([...detailsItems.filter((_, index: number) => index !== indexValue)]);
     },
     [detailsItems],
+  );
+
+  const handleSave = useCallback(
+    (items: any) => {
+      details.save([
+        ...details.getItems.filter((item: any) => item.display_type !== type),
+        ...items,
+      ]);
+      details.close();
+    },
+    [details, type],
   );
 
   useEffect(() => {
@@ -45,90 +77,91 @@ const Details: React.FC = observer(() => {
         </Text>
       </div>
       <div className={styles.body}>
-        {detailsItems.length > 1 ? (
-          <>
-            <div className={styles.left}>
-              <div className={cn(styles.top, styles.topLeft)}>
-                <Text weight="bold">{isFirstType ? 'Type' : 'Name'}</Text>
-              </div>
-              <div className={styles.bottom}>
-                {detailsItems.map((detail: any, index: number) => (
-                  <TextInput
-                    className={styles.input}
-                    type="text"
-                    name={`name ${index}`}
-                    label=""
-                    placeholder="Character"
-                    value={detail.name}
-                    onChange={(e: any) => {
-                      handleChangeDetail('name', index, e.target.value);
+        {/* {detailsItems.length > 1 ? (
+          <> */}
+        <div className={styles.left}>
+          <div className={cn(styles.top, styles.topLeft)}>
+            <Text weight="bold">{isFirstType ? 'Type' : 'Name'}</Text>
+          </div>
+          <div className={styles.bottom}>
+            {detailsItems.map((detail: any, index: number) => (
+              <TextInput
+                className={styles.input}
+                type="text"
+                name={`trait_type ${index}`}
+                label=""
+                placeholder="Character"
+                value={detail.trait_type}
+                onChange={(e: any) => {
+                  handleChangeDetail('trait_type', index, e.target.value);
+                }}
+                prefix={
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    onKeyDown={() => {}}
+                    onClick={() => {
+                      handleDeleteDetail(index);
                     }}
-                    prefix={
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        onKeyDown={() => {}}
-                        onClick={() => {
-                          handleDeleteDetail(index);
-                        }}
-                      >
-                        <img src={iconCrossBlack} alt="cross" />
-                      </div>
-                    }
-                    prefixClassName={styles.prefix}
-                  />
-                ))}
+                  >
+                    <img src={iconCrossBlack} alt="cross" />
+                  </div>
+                }
+                prefixClassName={styles.prefix}
+              />
+            ))}
 
-                <Button color="outline" className={styles.addMore} onClick={handleAddDetail}>
-                  Add More
-                </Button>
-              </div>
-            </div>
-            <div className={styles.right}>
-              <div className={styles.top}>
-                <Text weight="bold">{isFirstType ? 'Name' : 'Value'}</Text>
-              </div>
-              <div className={cn(styles.bottom, { [styles.bottomDouble]: !isFirstType })}>
-                {detailsItems.map((detail: any, index: number) => (
-                  <div className={styles.bottomItem}>
+            <Button color="outline" className={styles.addMore} onClick={handleAddDetail}>
+              Add More
+            </Button>
+          </div>
+        </div>
+        <div className={styles.right}>
+          <div className={styles.top}>
+            <Text weight="bold">{isFirstType ? 'Name' : 'Value'}</Text>
+          </div>
+          <div className={cn(styles.bottom, { [styles.bottomDouble]: !isFirstType })}>
+            {detailsItems.map((detail: any, index: number) => (
+              <div className={styles.bottomItem}>
+                <TextInput
+                  className={styles.input}
+                  type={isFirstType ? 'text' : 'number'}
+                  name={`value ${index}`}
+                  label=""
+                  placeholder={isFirstType ? 'Character' : '3'}
+                  value={detail.value}
+                  onChange={(e: any) => {
+                    handleChangeDetail('value', index, e.target.value);
+                  }}
+                  positiveOnly
+                  integer
+                />
+                {isFirstType ? (
+                  <></>
+                ) : (
+                  <>
+                    <Text className={styles.of}>of</Text>
                     <TextInput
                       className={styles.input}
-                      type={isFirstType ? 'text' : 'number'}
-                      name={`value1 ${index}`}
+                      type="number"
+                      name={`max_value ${index}`}
                       label=""
-                      placeholder={isFirstType ? 'Character' : '3'}
-                      value={detail.value1}
+                      placeholder="5"
+                      value={detail.max_value}
                       onChange={(e: any) => {
-                        handleChangeDetail('value1', index, e.target.value);
+                        handleChangeDetail('max_value', index, e.target.value);
                       }}
                       positiveOnly
                       integer
+                      min={+detail.value}
                     />
-                    {isFirstType ? (
-                      <></>
-                    ) : (
-                      <>
-                        <Text className={styles.of}>of</Text>
-                        <TextInput
-                          className={styles.input}
-                          type="number"
-                          name={`value2 ${index}`}
-                          label=""
-                          placeholder="5"
-                          value={detail.value2}
-                          onChange={(e: any) => {
-                            handleChangeDetail('value2', index, e.target.value);
-                          }}
-                          positiveOnly
-                          integer
-                        />
-                      </>
-                    )}
-                  </div>
-                ))}
+                  </>
+                )}
               </div>
-            </div>
-          </>
+            ))}
+          </div>
+        </div>
+        {/* </>
         ) : (
           <>
             <div className={styles.left}>
@@ -139,12 +172,12 @@ const Details: React.FC = observer(() => {
                 <TextInput
                   className={styles.input}
                   type="text"
-                  name="name"
+                  name="trait_type"
                   label=""
                   placeholder="Character"
-                  value={detailsItems[0].name}
+                  value={detailsItems[0].trait_type}
                   onChange={(e: any) => {
-                    handleChangeDetail('name', 0, e.target.value);
+                    handleChangeDetail('trait_type', 0, e.target.value);
                   }}
                   prefix={<img src={iconCrossBlack} alt="cross" />}
                   prefixClassName={styles.prefix}
@@ -163,12 +196,12 @@ const Details: React.FC = observer(() => {
                 <TextInput
                   className={styles.input}
                   type={isFirstType ? 'text' : 'number'}
-                  name="value1"
+                  name="value"
                   label=""
                   placeholder={isFirstType ? 'Character' : '3'}
-                  value={detailsItems[0].value1}
+                  value={detailsItems.length ? detailsItems[0].value : ''}
                   onChange={(e: any) => {
-                    handleChangeDetail('value1', 0, e.target.value);
+                    handleChangeDetail('value', 0, e.target.value);
                   }}
                 />
                 {isFirstType ? (
@@ -179,27 +212,28 @@ const Details: React.FC = observer(() => {
                     <TextInput
                       className={styles.input}
                       type="number"
-                      name="value2"
+                      name="max_value"
                       label=""
                       placeholder="5"
-                      value={detailsItems[0].value2}
+                      value={detailsItems[0].max_value}
                       onChange={(e: any) => {
-                        handleChangeDetail('value2', 0, e.target.value);
+                        handleChangeDetail('max_value', 0, e.target.value);
                       }}
                       positiveOnly
                       integer
+                      min={+detailsItems[0].value}
                     />
                   </>
                 )}
               </div>
             </div>
           </>
-        )}
+        )} */}
       </div>
       <div className={styles.btns}>
         <Button
           className={styles.button}
-          // onClick={handleAddDetail}
+          onClick={() => handleSave(detailsItems)}
           // loading={isLoading}
           // disabled={+payInput > +currentBalance || +payInput <= 0 || isLoading}
           // color="blue"

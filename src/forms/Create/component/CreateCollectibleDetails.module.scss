@@ -423,3 +423,19 @@
     cursor: pointer;
   }
 }
+
+.properties {
+  border-radius: $border-radius;
+  border: 1px solid $color-primary;
+  padding: 20px 30px;
+
+  & + & {
+    margin-left: 15px;
+  }
+
+  &Wrapper {
+    @include flexbox(center, flex-start);
+    flex-direction: row;
+    margin-top: 32px;
+  }
+}

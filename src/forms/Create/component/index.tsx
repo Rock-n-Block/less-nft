@@ -198,6 +198,48 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
       [details],
     );
 
+    const getDetailItem = useCallback((item: any) => {
+      switch (item.display_type) {
+        case 'properties':
+          return item.trait_type && item.value ? (
+            <div className={styles.properties}>
+              <Text className={styles.propertiesTitle} weight="bold" size="m">
+                {item.trait_type}
+              </Text>
+              <Text className={styles.propertiesText}>{item.value}</Text>
+            </div>
+          ) : (
+            <></>
+          );
+        case 'levels':
+          return item.trait_type && item.value && item.max_value ? (
+            <div className={styles.levels}>
+              <div className={styles.levelsHead}>
+                <Text className={styles.levelsTitle}>{item.trait_type}</Text>
+                <Text className={styles.levelsText}>
+                  {item.value} of {item.max_value}
+                </Text>
+              </div>
+              <div className={styles.levelsBar}> </div>
+            </div>
+          ) : (
+            <></>
+          );
+
+        default:
+          return (
+            <div className={styles.levels}>
+              <div className={styles.levelsHead}>
+                <Text className={styles.levelsTitle}>{item.trait_type}</Text>
+                <Text className={styles.levelsText}>
+                  {item.value} of {item.max_value}
+                </Text>
+              </div>
+            </div>
+          );
+      }
+    }, []);
+
     useEffect(() => {
       fetchRates();
     }, [fetchRates]);
@@ -520,27 +562,48 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                 </div>
                 <div className={styles.details}>
                   {detailsItems.map((detail: IDetail) => (
-                    <div className={styles.detail}>
-                      <div className={styles.detailInfo}>
-                        <div className={styles.detailIcon}>
-                          <img alt={detail.title} src={detail.icon} />
+                    <div className={styles.detailWrapper}>
+                      <div className={styles.detail}>
+                        <div className={styles.detailInfo}>
+                          <div className={styles.detailIcon}>
+                            <img alt={detail.title} src={detail.icon} />
+                          </div>
+
+                          <div className={styles.detailInfoText}>
+                            <Text weight="bold">{detail.title}</Text>
+                            <Text>{detail.subtitle}</Text>
+                          </div>
                         </div>
 
-                        <div className={styles.detailInfoText}>
-                          <Text weight="bold">{detail.title}</Text>
-                          <Text>{detail.subtitle}</Text>
+                        <div
+                          className={styles.detailBtn}
+                          onClick={() => handleDetailsOpen(detail.title, detail.subtitle)}
+                          onKeyDown={() => {}}
+                          tabIndex={0}
+                          role="button"
+                        >
+                          <img alt="add detail" src={iconAddDetail} />
                         </div>
                       </div>
-
-                      <div
-                        className={styles.detailBtn}
-                        onClick={() => handleDetailsOpen(detail.title, detail.subtitle)}
-                        onKeyDown={() => {}}
-                        tabIndex={0}
-                        role="button"
-                      >
-                        <img alt="add detail" src={iconAddDetail} />
-                      </div>
+                      {details.getItems.filter(
+                        (item: any) => item.display_type === detail.title.toLowerCase(),
+                      ).length ? (
+                        <div
+                          className={cn({
+                            [styles.propertiesWrapper]: detail.title.toLowerCase() === 'properties',
+                          })}
+                        >
+                          {details.getItems.map((item: any) => {
+                            return item.display_type === detail.title.toLowerCase() ? (
+                              getDetailItem(item)
+                            ) : (
+                              <></>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   ))}
                 </div>

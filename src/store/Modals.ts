@@ -15,6 +15,13 @@ const Seller = types.model({
   quantity: types.number,
 });
 
+const Detail = types.model({
+  display_type: types.string,
+  trait_type: types.string,
+  value: types.union(types.string, types.number),
+  max_value: types.union(types.string, types.number),
+});
+
 const NftForSale = types.model({
   tokenId: types.optional(types.number, 0),
   standart: types.optional(types.string, ''),
@@ -370,24 +377,30 @@ const Details = types
   .model({
     type: types.optional(types.string, ''),
     text: types.optional(types.string, ''),
+    detailsItems: types.optional(types.array(Detail), [
+      { display_type: '', trait_type: '', value: '', max_value: '' },
+    ]),
+    isOpen: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get getIsOpen() {
       return !!self.type;
     },
+    get getItems() {
+      return self.detailsItems;
+    },
   }))
   .actions((self) => {
-    let initialState = {};
     return {
-      afterCreate: () => {
-        initialState = getSnapshot(self);
-      },
       close: () => {
-        applySnapshot(self, initialState);
+        self.type = '';
       },
       open: (type: '' | 'Properties' | 'Levels' | 'Stats', text: string) => {
         self.type = type;
         self.text = text;
+      },
+      save: (det: any) => {
+        self.detailsItems = det;
       },
     };
   });
