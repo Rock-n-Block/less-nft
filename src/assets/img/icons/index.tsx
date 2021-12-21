@@ -31,6 +31,7 @@ export { default as iconStats } from './icon-stats.svg';
 export { default as iconAddDetail } from './icon-add-detail.svg';
 export { default as iconCrossBlack } from './icon-cross-black.svg';
 export { default as iconEthSmall } from './icon-eth-small.svg';
+export { default as iconArrowPurple } from './icon-arrow-purple.svg';
 export { ReactComponent as IconCopy } from './icon-copy.svg';
 export { ReactComponent as IconLock } from './content-lock.svg';
 export { ReactComponent as IconUnlock } from './content-unlock.svg';

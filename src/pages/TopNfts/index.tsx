@@ -1,4 +1,4 @@
-import { useState, VFC, FC, useMemo } from 'react';
+import { useState, VFC, FC, useMemo, useCallback } from 'react';
 
 import { H2, Text } from 'components';
 import cn from 'classnames';
@@ -6,11 +6,12 @@ import styles from './styles.module.scss';
 import { useMst } from 'store';
 import { chains } from 'config';
 import { observer } from 'mobx-react-lite';
-import { allLogo, iconAllNFTs, iconArrowDown, iconEthSmall } from 'assets/img';
+import { allLogo, iconAllNFTs, iconArrowDown, iconArrowPurple, iconEthSmall } from 'assets/img';
 import OutsideClickHandler from 'react-outside-click-handler';
 import nextId from 'react-id-generator';
 import { useFetchTopCollections } from 'hooks';
 import { numberFormatter } from 'utils';
+import BigNumber from 'bignumber.js';
 
 const timeOptions = [
   { symbol: 'Last 24 Hours', value: 'day', label: '24h' },
@@ -35,6 +36,21 @@ const TopNfts: VFC = observer(() => {
   const [visibleChain, setVisibleChain] = useState(false);
   const [visibleTag, setVisibleTag] = useState(false);
   const [visibleTime, setVisibleTime] = useState(false);
+  const [sort, setSort] = useState('price');
+  const [isDesc, setIsDesc] = useState(true);
+
+  const headOptions = useMemo(
+    () => [
+      { label: ' ' },
+      { label: 'Collection' },
+      { symbol: 'price', label: 'Volume' },
+      { symbol: 'difference', label: `${time.label}%` },
+      { symbol: 'floor_price', label: 'Floor Price' },
+      { symbol: 'total_owners', label: 'Owners' },
+      { symbol: 'total_items', label: 'Items' },
+    ],
+    [time.label],
+  );
 
   const { collections } = useFetchTopCollections(
     time.value,
@@ -63,6 +79,30 @@ const TopNfts: VFC = observer(() => {
     setTime(value);
     setVisibleTime(false);
   };
+
+  const handleSetSort = useCallback(
+    (symbol: string | undefined) => {
+      if (symbol) {
+        if (symbol === sort) {
+          setIsDesc(!isDesc);
+        } else if (!isDesc) {
+          setIsDesc(true);
+        }
+        setSort(symbol);
+        nfts.sort((first: any, second: any) => {
+          if (new BigNumber(first[symbol]).isEqualTo(new BigNumber(second[symbol]))) {
+            return 0;
+          }
+
+          if (new BigNumber(first[symbol]).isLessThan(new BigNumber(second[symbol]))) {
+            return isDesc ? 1 : -1;
+          }
+          return isDesc ? -1 : 1;
+        });
+      }
+    },
+    [isDesc, nfts, sort],
+  );
 
   const CustomDropdown: FC<any> = ({ options, visible, value, setVisible, handleClick }) => {
     return (
@@ -150,25 +190,29 @@ const TopNfts: VFC = observer(() => {
 
         <div className={styles.collections}>
           <div className={styles.collectionsHead}>
-            <div> </div>
-            <div>
-              <Text weight="bold">Collection</Text>
-            </div>
-            <div>
-              <Text weight="bold">Volume</Text>
-            </div>
-            <div>
-              <Text weight="bold">{time.label}%</Text>
-            </div>
-            <div>
-              <Text weight="bold">Floor Price</Text>
-            </div>
-            <div>
-              <Text weight="bold">Owners</Text>
-            </div>
-            <div>
-              <Text weight="bold">Items</Text>
-            </div>
+            {headOptions.map((option: any) => (
+              <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={() => {}}
+                onClick={option.symbol ? () => handleSetSort(option.symbol) : () => {}}
+                className={cn(styles.collectionStart, {
+                  [styles.sorted]: sort === option.symbol,
+                  [styles.isCanSort]: option.symbol,
+                })}
+              >
+                <Text weight="bold">{option.label}</Text>
+                {sort === option.symbol ? (
+                  <img
+                    alt="arrow"
+                    className={cn(styles.sorting, { [styles.isReverted]: !isDesc })}
+                    src={iconArrowPurple}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+            ))}
           </div>
           <div className={styles.collectionsBody}>
             {nfts.length ? (
