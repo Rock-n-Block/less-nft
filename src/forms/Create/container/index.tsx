@@ -36,7 +36,7 @@ export default observer(({ isSingle }: any) => {
     isLoading: false,
     unlockOncePurchased: false,
     digitalKey: '',
-    externalLink: ''
+    externalLink: '',
   };
   const FormWithFormik = withFormik<any, ICreateForm>({
     enableReinitialize: true,
@@ -77,15 +77,15 @@ export default observer(({ isSingle }: any) => {
       formData.append('creator_royalty', values.creatorRoyalty.toString());
       formData.append('collection', values.collection.toString());
 
-      if (values.details[0].name) {
-        const details: any = {};
-        values.details.forEach((item) => {
-          if (item.name) {
-            details[item.name] = item.amount;
-          }
-        });
+      // if (values.details[0].name) {
+        const details: any = values.details.filter((item: any) => item.display_type && item.trait_type && item.value && item.max_value);
+      //   values.details.forEach((item) => {
+      //     if (item.name) {
+      //       details[item.name] = item.amount;
+      //     }
+      //   });
         formData.append('details', JSON.stringify(details));
-      }
+      // }
       // TODO: change selling from always true
       formData.append('selling', values.selling.toString());
 

@@ -8,8 +8,8 @@ import {
   iconUpload,
   iconWeight,
 } from 'assets/img';
-import { ReactComponent as IconPropAdd } from 'assets/img/icons/icon-prop-add.svg';
-import { ReactComponent as IconPropDelete } from 'assets/img/icons/icon-prop-delete.svg';
+// import { ReactComponent as IconPropAdd } from 'assets/img/icons/icon-prop-add.svg';
+// import { ReactComponent as IconPropDelete } from 'assets/img/icons/icon-prop-delete.svg';
 import BigNumber from 'bignumber.js/bignumber';
 import cn from 'classnames';
 import {
@@ -25,7 +25,7 @@ import {
   Uploader,
 } from 'components';
 import { IRadioButton } from 'components/Radio';
-import { Field, FieldArray, Form, FormikProps } from 'formik';
+import { Field, Form, FormikProps } from 'formik';
 import { observer } from 'mobx-react-lite';
 import { ratesApi } from 'services';
 
@@ -149,40 +149,40 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     const onCancel = () => {
       history.goBack();
     };
-    const handleChangeProperty = useCallback(
-      (e: any, index: any, type: 'name' | 'amount') => {
-        const localProperties = [...values.details];
+    // const handleChangeProperty = useCallback(
+    //   (e: any, index: any, type: 'name' | 'amount') => {
+    //     const localProperties = [...values.details];
 
-        if (type === 'name') {
-          localProperties[index].name = e.target.value;
-        }
-        if (type === 'amount') {
-          localProperties[index].amount = e.target.value;
-        }
-        setFieldValue('details', localProperties);
-        handleChange(e);
-      },
-      [handleChange, setFieldValue, values.details],
-    );
+    //     if (type === 'name') {
+    //       localProperties[index].name = e.target.value;
+    //     }
+    //     if (type === 'amount') {
+    //       localProperties[index].amount = e.target.value;
+    //     }
+    //     setFieldValue('details', localProperties);
+    //     handleChange(e);
+    //   },
+    //   [handleChange, setFieldValue, values.details],
+    // );
 
-    const handleAddProperty = useCallback(() => {
-      setFieldValue('details', [
-        ...values.details,
-        {
-          size: '',
-          amount: '',
-        },
-      ]);
-    }, [setFieldValue, values.details]);
+    // const handleAddProperty = useCallback(() => {
+    //   setFieldValue('details', [
+    //     ...values.details,
+    //     {
+    //       size: '',
+    //       amount: '',
+    //     },
+    //   ]);
+    // }, [setFieldValue, values.details]);
 
-    const handleRemoveProperty = useCallback(
-      (elemIndex: number) => {
-        const newValue = values.details.filter((_, index) => index !== elemIndex);
+    // const handleRemoveProperty = useCallback(
+    //   (elemIndex: number) => {
+    //     const newValue = values.details.filter((_, index) => index !== elemIndex);
 
-        setFieldValue('details', newValue);
-      },
-      [setFieldValue, values.details],
-    );
+    //     setFieldValue('details', newValue);
+    //   },
+    //   [setFieldValue, values.details],
+    // );
 
     const fetchRates = useCallback(() => {
       ratesApi.getRates().then(({ data }: any) => {
@@ -203,7 +203,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
         case 'properties':
           return item.trait_type && item.value ? (
             <div className={styles.properties}>
-              <Text className={styles.propertiesTitle} weight="bold" size="m">
+              <Text className={styles.propertiesTitle} weight="bold" size="m" color="primary">
                 {item.trait_type}
               </Text>
               <Text className={styles.propertiesText}>{item.value}</Text>
@@ -215,27 +215,45 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
           return item.trait_type && item.value && item.max_value ? (
             <div className={styles.levels}>
               <div className={styles.levelsHead}>
-                <Text className={styles.levelsTitle}>{item.trait_type}</Text>
+                <Text className={styles.levelsTitle} weight="bold" size="m" color="primary">
+                  {item.trait_type}
+                </Text>
                 <Text className={styles.levelsText}>
                   {item.value} of {item.max_value}
                 </Text>
               </div>
-              <div className={styles.levelsBar}> </div>
+              <div className={styles.levelsBar}>
+                <div
+                  className={styles.levelsBarColor}
+                  style={{
+                    width:
+                      item.value > item.max_value
+                        ? '100%'
+                        : `${Math.ceil((item.value * 100) / item.max_value)}%`,
+                  }}
+                >
+                  {' '}
+                </div>
+              </div>
             </div>
           ) : (
             <></>
           );
 
         default:
-          return (
+          return item.trait_type && item.value && item.max_value ? (
             <div className={styles.levels}>
               <div className={styles.levelsHead}>
-                <Text className={styles.levelsTitle}>{item.trait_type}</Text>
+                <Text className={styles.levelsTitle} weight="bold" size="m" color="primary">
+                  {item.trait_type}
+                </Text>
                 <Text className={styles.levelsText}>
                   {item.value} of {item.max_value}
                 </Text>
               </div>
             </div>
+          ) : (
+            <></>
           );
       }
     }, []);
@@ -247,6 +265,10 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     useEffect(() => {
       setFieldValue('isSingle', isSingle);
     }, [isSingle, setFieldValue]);
+
+    useEffect(() => {
+      setFieldValue('details', details.getItems);
+    }, [details.getItems, setFieldValue])
 
     return (
       <>
@@ -607,7 +629,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     </div>
                   ))}
                 </div>
-                <div className={styles.tokenProperties}>
+                {/* <div className={styles.tokenProperties}>
                   <FieldArray
                     name="details"
                     render={() => {
@@ -677,7 +699,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                       ));
                     }}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
             <div className={styles.item}>

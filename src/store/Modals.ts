@@ -378,7 +378,7 @@ const Details = types
     type: types.optional(types.string, ''),
     text: types.optional(types.string, ''),
     detailsItems: types.optional(types.array(Detail), [
-      { display_type: '', trait_type: '', value: '', max_value: '' },
+      { display_type: '', trait_type: '', value: '', max_value: 5 },
     ]),
     isOpen: types.optional(types.boolean, false),
   })

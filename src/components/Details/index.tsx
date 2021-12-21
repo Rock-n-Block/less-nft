@@ -12,6 +12,7 @@ const Details: React.FC = observer(() => {
     modals: { details },
   } = useMst();
   const type = details.type.toLocaleLowerCase();
+  const isFirstType = details.type === 'Properties';
   const [detailsItems, setDetailsItems] = useState(
     details.getItems.filter((item: any) => item.display_type === type).length
       ? [
@@ -24,28 +25,33 @@ const Details: React.FC = observer(() => {
           {
             display_type: type,
             trait_type: '',
-            value: '',
-            max_value: '',
+            value: isFirstType ? '' : 3,
+            max_value: 5,
           },
         ],
   );
-  const isFirstType = details.type === 'Properties';
 
   const handleChangeDetail = useCallback(
     (valueType: string, index: number, value: string) => {
       const newDetails = detailsItems;
-      newDetails[index] = { ...newDetails[index], [valueType]: value };
+      let newValue = value;
+      if (!isFirstType) {
+        if (valueType === 'value' && +detailsItems[index].value > +detailsItems[index].max_value) {
+          newValue = '';
+        }
+      }
+      newDetails[index] = { ...newDetails[index], [valueType]: newValue };
       setDetailsItems([...newDetails]);
     },
-    [detailsItems],
+    [detailsItems, isFirstType],
   );
 
   const handleAddDetail = useCallback(() => {
     setDetailsItems([
       ...detailsItems,
-      { display_type: type, trait_type: '', value: '', max_value: '' },
+      { display_type: type, trait_type: '', value: isFirstType ? '' : 3, max_value: 5 },
     ]);
-  }, [detailsItems, type]);
+  }, [detailsItems, isFirstType, type]);
 
   const handleDeleteDetail = useCallback(
     (indexValue: number) => {
@@ -100,9 +106,13 @@ const Details: React.FC = observer(() => {
                     tabIndex={0}
                     role="button"
                     onKeyDown={() => {}}
-                    onClick={() => {
-                      handleDeleteDetail(index);
-                    }}
+                    onClick={
+                      index > 0
+                        ? () => {
+                            handleDeleteDetail(index);
+                          }
+                        : () => {}
+                    }
                   >
                     <img src={iconCrossBlack} alt="cross" />
                   </div>
@@ -135,6 +145,7 @@ const Details: React.FC = observer(() => {
                   }}
                   positiveOnly
                   integer
+                  max={+detail.max_value}
                 />
                 {isFirstType ? (
                   <></>
