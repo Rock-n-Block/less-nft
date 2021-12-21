@@ -1,25 +1,13 @@
 import { RefObject, useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { FilterSVG } from 'assets/img';
 import cx from 'classnames';
-import {
-  ArtCard,
-  Button,
-  H2,
-  H3,
-  LiveAuction,
-  Loader,
-  Modal,
-  Select,
-  TabLookingComponent,
-  Text,
-} from 'components';
+import { ArtCard, H3, LiveAuction, Loader, Modal, DiscoverFilters } from 'components';
 import { AdvancedFilter } from 'containers';
 import { useFetchNft, useFilters, useInfiniteScroll, useWindowSize } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { userApi } from 'services';
 import { useMst } from 'store';
-import { selectOptions, TNullable } from 'typings';
+import { TNullable } from 'typings';
 import { toFixed } from 'utils';
 
 import styles from './styles.module.scss';
@@ -29,27 +17,14 @@ const mobileBreakPoint = 780;
 
 const Discover = observer(() => {
   const [isFilterOpen, setFilterOpen] = useState(true);
-  const { user, nftTags } = useMst();
-
-  const convertedTagsForComponents = nftTags.tags.map((tag) => {
-    return {
-      ...tag,
-      key: tag.title,
-    };
-  });
+  const { user } = useMst();
 
   const { search } = useLocation();
   const filterTag =
     search.includes('tags') || search.includes('filter') ? search.replace(/^(.*?filter)=/, '') : '';
-  // const textSearch = search.includes('text') ? search.replace(/^(.*?text)=/, '') : '';
   const textSearch = useMemo(() => {
     return search.includes('text') ? search.replace(/^(.*?text)=/, '') : '';
   }, [search]);
-
-
-  const handleOpenFilter = useCallback(() => {
-    setFilterOpen(!isFilterOpen);
-  }, [isFilterOpen]);
 
   const {
     maxPrice,
@@ -60,11 +35,9 @@ const Discover = observer(() => {
     verifiedFilter,
     handleVerifiedFilter,
     orderByFilter,
-    handleOrderByFilter,
     filterSelectCurrencyOptions,
     tagsFilter,
     textFilter,
-    handleTagsFilter,
     page,
     handlePage,
     isLoading,
@@ -103,6 +76,7 @@ const Discover = observer(() => {
   // useScrollDown(filtersRef, '0px', '64px');
   return (
     <div className={styles.discover}>
+      {/* TODO: delete this */}
       {width <= mobileBreakPoint && (
         <Modal visible={isFilterOpen} onClose={() => setFilterOpen(false)} title="Advanced Filters">
           <AdvancedFilter
@@ -121,56 +95,10 @@ const Discover = observer(() => {
           />
         </Modal>
       )}
-
-      <H2 className={styles.title}>
-        <Text className={styles.discoverTitle} tag="span" size="inherit">
-          DISCOVER
-        </Text>
-        <Text tag="span" size="inherit" color="primary">
-          ARTWORK
-        </Text>
-      </H2>
-      <div className={styles.filterControls}>
-        <div className={styles.filterBody}>
-          <Button className={styles.advancedFilterBtn} onClick={handleOpenFilter} color="outline">
-            <Text tag="span" color="inherit">
-              Advanced Filter
-            </Text>{' '}
-            <FilterSVG className={styles.icon} />
-          </Button>
-          <TabLookingComponent
-            wrapClassName={styles.tabArea}
-            tabClassName={styles.filterTab}
-            tabs={convertedTagsForComponents}
-            action={handleTagsFilter}
-            activeTab={tagsFilter}
-          />
-          <Select
-            className={styles.selectArea}
-            onChange={handleOrderByFilter as any}
-            value={orderByFilter}
-            options={selectOptions}
-            classNameSelect={styles.select}
-          />
-        </div>
-      </div>
       <div className={cx(styles.filterAndCards, { [styles.open]: isFilterOpen })}>
         <div className={styles.stickyWrapper}>
           <div ref={filtersRef} className={styles.sticky}>
-            <AdvancedFilter
-              className={cx(styles.filter, styles.specClass, { [styles.open]: isFilterOpen })}
-              filterSelectCurrencyOptions={filterSelectCurrencyOptions}
-              maxPrice={maxPrice}
-              maxPriceFilter={maxPriceFilter}
-              handleMaxPriceFilter={handleMaxPriceFilter}
-              currencyFilter={currencyFilter}
-              handleCurrencyFilter={handleCurrencyFilter}
-              verifiedFilter={verifiedFilter}
-              handleVerifiedFilter={handleVerifiedFilter}
-              defaultValues={defaultValues}
-              resetFilter={resetFilter}
-              textFilter={textFilter}
-            />
+            <DiscoverFilters />
           </div>
         </div>
         <div

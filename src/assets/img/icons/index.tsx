@@ -46,3 +46,4 @@ export { ReactComponent as WalletHomePage } from './walletHomePage.svg';
 export { ReactComponent as CloudHomePage } from './cloudHomePage.svg';
 export { ReactComponent as PenHomePage } from './penHomePage.svg';
 export { ReactComponent as PlanetHomePage } from './planetHomePage.svg';
+export { ReactComponent as ArrowLeft } from './icon-arrow-left.svg';

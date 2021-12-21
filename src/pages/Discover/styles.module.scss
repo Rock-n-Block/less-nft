@@ -54,7 +54,9 @@
   min-height: 50vh;
   transition: 200ms;
   transform: translateX(0);
-  @include flexbox(normal, normal);
+
+  display: grid;
+  grid-template-columns: 1fr 3fr;
 
   .filter {
     flex: 0 1 0;
