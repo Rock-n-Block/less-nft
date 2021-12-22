@@ -1,9 +1,9 @@
 import { RefObject, useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cx from 'classnames';
-import { ArtCard, H3, LiveAuction, Loader, Modal, DiscoverFilters } from 'components';
+import { ArtCard, Text, LiveAuction, Loader, Modal, DiscoverFilters } from 'components';
 import { AdvancedFilter } from 'containers';
-import { useFetchNft, useFilters, useInfiniteScroll, useWindowSize } from 'hooks';
+import { useFetchNft, useFilters, useInfiniteScroll, useNewFilters, useWindowSize } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { userApi } from 'services';
 import { useMst } from 'store';
@@ -13,11 +13,14 @@ import { toFixed } from 'utils';
 import styles from './styles.module.scss';
 import GridLayer, { EGridJustify } from 'containers/GridLayer';
 
+import { FourSquares, NineSquares } from 'assets/img';
+
 const mobileBreakPoint = 780;
 
 const Discover = observer(() => {
   const [isFilterOpen, setFilterOpen] = useState(true);
   const { user } = useMst();
+  const [isSmallCards, setIsSmallCards] = useState(false);
 
   const { search } = useLocation();
   const filterTag =
@@ -45,6 +48,16 @@ const Discover = observer(() => {
     resetFilter,
   } = useFilters(filterTag, textSearch);
 
+  // new filters hook, old useFilter will be deleted as new hook will be done
+  const {
+    isOnSale,
+    setIsOnSale,
+    isOnAuction,
+    setIsOnAuction,
+    isOnTimedAuction,
+    setIsTimedOnAuction,
+  } = useNewFilters();
+
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
     page,
     sort: 'items',
@@ -53,9 +66,11 @@ const Discover = observer(() => {
     max_price: +maxPriceFilter.value,
     currency: currencyFilter.value,
     is_verified: verifiedFilter.value,
-    on_sale: true,
     isCanFetch: !isLoading,
     text: textFilter.value,
+    on_sale: isOnSale,
+    on_auc_sale: isOnAuction,
+    on_timed_auc_sale: isOnTimedAuction,
   });
 
   const { width } = useWindowSize();
@@ -76,7 +91,7 @@ const Discover = observer(() => {
   // useScrollDown(filtersRef, '0px', '64px');
   return (
     <div className={styles.discover}>
-      {/* TODO: delete this */}
+      {/* TODO: delete this, because will be new filters */}
       {width <= mobileBreakPoint && (
         <Modal visible={isFilterOpen} onClose={() => setFilterOpen(false)} title="Advanced Filters">
           <AdvancedFilter
@@ -98,7 +113,13 @@ const Discover = observer(() => {
       <div className={cx(styles.filterAndCards, { [styles.open]: isFilterOpen })}>
         <div className={styles.stickyWrapper}>
           <div ref={filtersRef} className={styles.sticky}>
-            <DiscoverFilters />
+            <DiscoverFilters
+              setIsOnSale={setIsOnSale}
+              isFilterOpen={isFilterOpen}
+              setIsOnAuction={setIsOnAuction}
+              setIsTimedOnAuction={setIsTimedOnAuction}
+              setFilterOpen={setFilterOpen}
+            />
           </div>
         </div>
         <div
@@ -107,13 +128,31 @@ const Discover = observer(() => {
           })}
         >
           <>
-            <H3>{totalItems} results</H3>
+            <div className={styles.header}>
+              <Text tag="span">{totalItems} results</Text>
+              <div className={styles.toogle_cards}>
+                <button
+                  type="button"
+                  onClick={() => setIsSmallCards(false)}
+                  className={cx(styles.toogle_item, { [styles.active]: !isSmallCards })}
+                >
+                  <FourSquares />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsSmallCards(true)}
+                  className={cx(styles.toogle_item, { [styles.active]: isSmallCards })}
+                >
+                  <NineSquares />
+                </button>
+              </div>
+            </div>
             <div ref={cardsRef} className={styles.filterResults}>
               <GridLayer
                 gap={40}
                 wrapperRef={cardsRef}
-                minWidth={250}
-                minHeight={350}
+                minWidth={isSmallCards ? 200 : 250}
+                minHeight={isSmallCards ? 250 : 350}
                 justify={EGridJustify.start}
                 depenednciesForChange={[isFilterOpen]}
               >

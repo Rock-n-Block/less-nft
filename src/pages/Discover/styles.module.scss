@@ -1,6 +1,8 @@
 @import '../../styles/helpers.scss';
 
 .discover {
+  border-top: 1px solid $color-neutral-10;
+  margin-top: 10px;
   &Title {
     margin-right: 24px;
 
@@ -49,14 +51,17 @@
 }
 
 .filterAndCards {
-  @include container;
   position: relative;
   min-height: 50vh;
   transition: 200ms;
   transform: translateX(0);
 
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 75px 1fr;
+
+  &.open {
+    grid-template-columns: 1fr 3fr;
+  }
 
   .filter {
     flex: 0 1 0;
@@ -83,8 +88,8 @@
   }
 
   .filterResultsContainer {
-    margin-top: 44px;
-    flex-basis: 100%;
+    padding-right: 84px;
+    padding-top: 35px;
 
     .filterResults {
       margin-top: 24px;
@@ -250,8 +255,46 @@
   margin-left: 10px;
 }
 
+.stickyWrapper {
+}
+
 .sticky {
   position: sticky;
   top: 0;
   transition: 0.4s ease;
+}
+
+.header {
+  @include flexbox(center, space-between);
+}
+// toogler
+.toogle_cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 108px;
+}
+.toogle_item {
+  background: $color-neutral-0;
+  border: 2px solid $color-neutral-10;
+  padding: 8px 15px;
+  cursor: pointer;
+
+  &.active {
+    background-color: $color-neutral-10;
+    svg rect {
+      fill: $color-primary;
+    }
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:first-child {
+    border-radius: 12px 0px 0px 12px;
+  }
+  &:last-child {
+    border-radius: 0px 12px 12px 0px;
+  }
 }

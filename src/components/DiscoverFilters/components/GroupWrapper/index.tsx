@@ -15,21 +15,21 @@ interface IProps {
 
 const GroupWrapper: FC<IProps> = ({ children, title, isOpened, setIsOpened }) => {
   return (
-    <button
-      type="button"
-      onClick={() => setIsOpened(!isOpened)}
-      className={cn(s.group, { [s.active]: isOpened })}
-    >
-      <div className={s.header}>
+    <div className={cn(s.group, { [s.active]: isOpened })}>
+      <button
+        type="button"
+        onClick={() => setIsOpened(!isOpened)}
+        className={cn(s.header, { [s.active]: isOpened })}
+      >
         <H6 weight="medium" className={s.title}>
           {title}
         </H6>
         <div className={cn(s.arrow, { [s.active]: isOpened })}>
           <img src={arrowLeft} alt="arrowLeft" />
         </div>
-      </div>
+      </button>
       {isOpened && <div className={s.content}>{children}</div>}
-    </button>
+    </div>
   );
 };
 

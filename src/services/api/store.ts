@@ -106,6 +106,8 @@ export default {
     max_price,
     page,
     creator,
+    on_auc_sale,
+    on_timed_auc_sale,
   }: IGetSearchResultParams) => {
     return axios.post(
       `/store/search/`,
@@ -125,6 +127,8 @@ export default {
           page,
           creator,
           tags,
+          on_auc_sale,
+          on_timed_auc_sale,
         },
       },
     );
@@ -219,9 +223,6 @@ export default {
   getRelated: (id: string | number) =>
     axios.get(`store/related/${id}/?network=${localStorage.lessnft_nft_chainName}`),
   setCollectionCover: (data: any) => {
-    return axios.post(
-      `/store/set_cover/?network=${localStorage.lessnft_nft_chainName}`,
-      data,
-    );
+    return axios.post(`/store/set_cover/?network=${localStorage.lessnft_nft_chainName}`, data);
   },
 };

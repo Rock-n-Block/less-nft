@@ -1,3 +1,5 @@
+@import '/src/styles/helpers.scss';
+
 .header {
   padding: 16px;
   display: flex;
@@ -6,5 +8,19 @@
 }
 
 .filters {
-  padding-right: 20px;
+  height: 100%;
+  margin-right: 32px;
+  padding: 20px 20px;
+
+  &.active {
+    padding: 0 20px;
+    border-right: 1px solid $color-neutral-10;
+  }
+}
+
+.hide_button {
+  transform: rotate(180deg);
+  &.active {
+    transform: rotate(0);
+  }
 }
