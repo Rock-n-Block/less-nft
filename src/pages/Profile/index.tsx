@@ -2,7 +2,7 @@ import { FC, useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'appConstants';
-import { Art, Folders, Heart, Me } from 'assets/img';
+import { Art, Folders, Heart, List, Me } from 'assets/img';
 import cn from 'classnames';
 import { TabLookingComponent, Text } from 'components';
 import { useFetchLiked, useFetchNft, useFilters, useTabs } from 'hooks';
@@ -11,7 +11,7 @@ import { userApi } from 'services';
 import { useMst } from 'store';
 import { IExtendedInfo } from 'typings';
 
-import { About, Artworks, Favorited } from './Tabs';
+import { About, Artworks, Collections, Favorited } from './Tabs';
 import UserMainInfo from './UserMainInfo';
 
 import s from './ProfilePage.module.scss';
@@ -33,7 +33,7 @@ const ProfilePage: FC = observer(() => {
       {
         title: 'Owned',
         key: 'owned',
-        icon: <Folders />,
+        icon: <List />,
         url: routes.profile.link(userId, 'owned'),
       },
       {
@@ -41,6 +41,12 @@ const ProfilePage: FC = observer(() => {
         key: 'favorited',
         icon: <Heart />,
         url: routes.profile.link(userId, 'favorited'),
+      },
+      {
+        title: 'My collections',
+        key: 'collections',
+        icon: <Folders />,
+        url: routes.profile.link(userId, 'collections'),
       },
       {
         title: 'About Me',
@@ -57,6 +63,7 @@ const ProfilePage: FC = observer(() => {
   const creatorOrOwner = useMemo(() => {
     switch (activeTab) {
       case 'created':
+      case 'collections':
         return 'creator';
       case 'owned':
         return 'owner';
@@ -76,7 +83,7 @@ const ProfilePage: FC = observer(() => {
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft(
     {
       page,
-      sort: 'items',
+      sort: activeTab === 'collections' ? 'collections' : 'items',
       [creatorOrOwner]: userId,
       order_by: orderByFilter.value,
       isOnlyForOwnerOrCreator: true,
@@ -144,6 +151,18 @@ const ProfilePage: FC = observer(() => {
               isLickesLoading={isLickesLoading}
               totalItems={totalItemsLiked}
               nftCards={nftCardsLicked}
+            />
+          )}
+          {activeTab === 'collections' && (
+            <Collections
+              page={page}
+              allPages={allPages}
+              handlePage={handlePage}
+              isFiltersLoading={isFiltersLoading}
+              isNftsLoading={isNftsLoading}
+              orderByFilter={orderByFilter}
+              handleOrderByFilter={handleOrderByFilter}
+              nftCards={nftCards}
             />
           )}
           {activeTab === 'about' && <About currentUser={currentUser} />}

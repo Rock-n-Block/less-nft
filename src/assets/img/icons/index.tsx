@@ -37,6 +37,8 @@ export { default as iconPadded } from './icon-padded.svg';
 export { default as iconContained } from './icon-contained.svg';
 export { default as iconCovered } from './icon-covered.svg';
 export { default as iconCheckPurple } from './icon-check-purple.svg';
+export { ReactComponent as Dots } from './icon-dots.svg';
+export { ReactComponent as List } from './icon-list.svg';
 export { ReactComponent as IconCopy } from './icon-copy.svg';
 export { ReactComponent as IconLock } from './content-lock.svg';
 export { ReactComponent as IconUnlock } from './content-unlock.svg';

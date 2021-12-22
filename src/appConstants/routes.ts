@@ -26,8 +26,10 @@ export const routes = {
     },
   },
   profile: {
-    link: (id: string | number, tab?: 'created' | 'owned' | 'favorited' | 'about'): string =>
-      `/profile/${id}${tab ? `/?tab=${tab}` : ''}`,
+    link: (
+      id: string | number,
+      tab?: 'created' | 'owned' | 'favorited' | 'about' | 'collections',
+    ): string => `/profile/${id}${tab ? `/?tab=${tab}` : ''}`,
     root: '/profile/:userId',
     edit: '/profile/edit',
   },

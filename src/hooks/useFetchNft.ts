@@ -41,6 +41,7 @@ export const useFetchNft = (
     isCanFetch = true,
     isOnlyForOwnerOrCreator,
   } = props;
+  console.log('sort', sort)
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -51,6 +52,8 @@ export const useFetchNft = (
       if (!isCanFetch || (isOnlyForOwnerOrCreator && !owner && !creator)) {
         return;
       }
+      console.log('useCallback', sort)
+
       const refresh = page === 1;
       setLoading(true);
 
@@ -83,6 +86,7 @@ export const useFetchNft = (
           }
           setAllPages(Math.ceil(total_tokens / NUMBER_NFTS_PER_PAGE));
         })
+        .catch((error: any) => console.error('error', error))
         .finally(() => {
           setLoading(false);
         });
@@ -111,11 +115,12 @@ export const useFetchNft = (
       }
       setTotalItems(0);
       setNftCards([]);
-      return () => { };
+      return () => {};
     }, 1000),
   ).current;
 
   useEffect(() => {
+    console.log('useEffect', sort)
     let interval: any = null;
     if (!isDebounce) {
       fetchSearch();
