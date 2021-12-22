@@ -5,6 +5,7 @@ export { default as ProfileEdit } from './ProfileEdit';
 export { default as Profile } from './Profile';
 export { default as Activity } from './Activity';
 export { default as CreateToken } from './CreateToken';
+export { default as CreateCollection } from './CreateCollection';
 export { default as UploadVariants } from './UploadVariants';
 export { default as CollectionPage } from './CollectionPage';
 export { default as ConnectWallet } from './ConnectWallet';

@@ -20,6 +20,10 @@ export const routes = {
     root: '/create',
     single: '/create/single',
     multiple: '/create/multiple',
+    collection: {
+      single: '/create/collection/single',
+      multiple: '/create/collection/multiple',
+    },
   },
   profile: {
     link: (id: string | number, tab?: 'created' | 'owned' | 'favorited' | 'about'): string =>
@@ -40,6 +44,6 @@ export const routes = {
     root: '/soon',
   },
   topNfts: {
-    root: '/topnfts'
-  }
+    root: '/topnfts',
+  },
 };

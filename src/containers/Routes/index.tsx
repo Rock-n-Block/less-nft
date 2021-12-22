@@ -15,7 +15,8 @@ import {
   Profile,
   ProfileEdit,
   UploadVariants,
-  TopNfts
+  TopNfts,
+  CreateCollection,
 } from 'pages';
 import { useMst } from 'store';
 
@@ -42,6 +43,16 @@ const Routes = observer(() => {
         auth={user.isAuth}
         path={routes.create.multiple}
         render={() => <CreateToken isMultiple />}
+      />
+      <Route
+        // auth={user.isAuth}
+        path={routes.create.collection.single}
+        component={CreateCollection}
+      />
+      <GuardedRoute
+        auth={user.isAuth}
+        path={routes.create.collection.multiple}
+        render={() => <CreateCollection isMultiple />}
       />
       <GuardedRoute auth={!!user.address} path={routes.create.root} component={UploadVariants} />
       {/* GUARDED ROUTES */}
