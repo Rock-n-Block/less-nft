@@ -14,7 +14,13 @@
 }
 
 .tag {
-  border: 1px solid #e3e4eb;
+  border: 1px solid $color-neutral-9;
+  border-radius: $border-radius;
+  cursor: pointer;
+  .text {
+    margin: 30px auto 32px;
+    text-align: center;
+  }
 }
 
 .resourcesBlock {

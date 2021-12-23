@@ -6,6 +6,8 @@ import mockImg from './mockImg.png';
 import styles from './styles.module.scss';
 import { useMst } from 'store';
 import { observer } from 'mobx-react-lite';
+import { useHistory } from 'react-router-dom';
+import { routes } from 'appConstants';
 
 type Props = {
   className?: string;
@@ -13,6 +15,10 @@ type Props = {
 
 const BrowseByCategory: FC<Props> = observer(({ className }) => {
   const { nftTags } = useMst();
+  const history = useHistory();
+  const handleTagClick = (title: string) => {
+    history.push(routes.discover.filter(title === 'All NFTs' ? '' : title));
+  };
   return (
     <div className={cx(styles.browseByCategory, className)}>
       <div className={styles.title}>
@@ -21,9 +27,17 @@ const BrowseByCategory: FC<Props> = observer(({ className }) => {
       <div className={styles.box}>
         {nftTags.tags.length ? (
           nftTags.tags.map((tag: any) => (
-            <div className={styles.tag}>
+            <div
+              tabIndex={0}
+              role="button"
+              className={styles.tag}
+              onKeyDown={() => {}}
+              onClick={() => handleTagClick(tag.title)}
+            >
               <img alt="category" className={styles.image} src={mockImg} />
-              <Text className={styles.text}>{tag.title}</Text>
+              <Text className={styles.text} weight="bold">
+                {tag.title}
+              </Text>
             </div>
           ))
         ) : (
