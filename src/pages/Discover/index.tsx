@@ -74,7 +74,7 @@ const Discover = observer(() => {
 
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
     page,
-    sort: 'items',
+    type: 'items',
     order_by: orderByFilter.value,
     tags: tagsFilter === 'All NFTs' ? '' : tagsFilter,
     max_price: +maxPriceFilter.value,

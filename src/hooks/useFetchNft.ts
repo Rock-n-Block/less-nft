@@ -7,7 +7,7 @@ const NUMBER_NFTS_PER_PAGE = 8;
 
 interface IProps {
   page?: number;
-  sort?: string;
+  type?: string;
   order_by?: string;
   tags?: string;
   max_price?: number;
@@ -28,7 +28,7 @@ export const useFetchNft = (
 ): [number, number, INft[], boolean, (textValue: string) => void] => {
   const {
     page,
-    sort,
+    type,
     order_by,
     tags,
     max_price,
@@ -59,7 +59,7 @@ export const useFetchNft = (
       const formattedTags = tags?.toLocaleLowerCase() === 'all nfts' ? undefined : tags;
       storeApi
         .getSearchResults({
-          sort,
+          type,
           order_by,
           tags: formattedTags,
           max_price,
@@ -98,7 +98,7 @@ export const useFetchNft = (
       order_by,
       owner,
       page,
-      sort,
+      type,
       tags,
       text,
     ],
@@ -130,7 +130,7 @@ export const useFetchNft = (
     };
   }, [
     page,
-    sort,
+    type,
     order_by,
     tags,
     max_price,

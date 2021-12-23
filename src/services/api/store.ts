@@ -95,7 +95,7 @@ export default {
     });
   },*/
   getSearchResults: ({
-    sort,
+    type,
     order_by,
     owner,
     on_sale,
@@ -115,7 +115,7 @@ export default {
       {
         params: {
           network: localStorage.lessnft_nft_chainName || 'undefined',
-          sort,
+          type,
           order_by,
           owner,
           on_sale,
