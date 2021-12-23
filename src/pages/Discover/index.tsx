@@ -198,9 +198,11 @@ const Discover = observer(() => {
                       minimal_bid,
                       bids,
                       is_liked,
+                      collection,
                     } = artCard;
                     return (
                       <ArtCard
+                        type={collection?.display_theme}
                         artId={id}
                         key={id}
                         imageMain={media}

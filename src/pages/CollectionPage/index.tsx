@@ -88,6 +88,7 @@ const CollectionPage: React.FC = () => {
                   } = el;
                   return (
                     <ArtCard
+                      type={el?.collection?.display_theme}
                       artId={id}
                       key={id}
                       imageMain={media}

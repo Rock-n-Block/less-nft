@@ -132,6 +132,7 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                       creator: { id: authorId },
                       tags,
                       like_count: likesNumber,
+                      collection,
                       // currency: { symbol: asset = '' },
                     } = art;
                     const asset = art.currency?.symbol ?? '';
@@ -139,6 +140,7 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
                       price || (highest_bid && highest_bid.amount) || minimal_bid || 0;
                     return (
                       <ArtCard
+                        type={collection?.display_theme}
                         key={`nft_card_${art.id}`}
                         className={styles.artCard}
                         artId={artId}

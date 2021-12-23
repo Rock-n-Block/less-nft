@@ -25,6 +25,7 @@ interface IHotBidShorted {
   authorId: string;
   likesNumber: number;
   tags: string[];
+  collection: any;
 }
 
 const LiveAuction: React.FC<IProps> = ({ className }) => {
@@ -90,10 +91,12 @@ const LiveAuction: React.FC<IProps> = ({ className }) => {
               authorId,
               likesNumber,
               tags,
+              collection,
             } = artCard;
             return (
               <div className={styles.liveCard}>
                 <ArtCard
+                  type={collection?.display_theme}
                   artId={id}
                   key={id}
                   imageMain={image}

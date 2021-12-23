@@ -53,6 +53,7 @@ export interface IBaseInfo {
   avatar: string;
   id: number;
   name: string;
+  display_theme: 'Padded' | 'Contained' | 'Covered'
 }
 
 export interface IBidder {

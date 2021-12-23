@@ -5,7 +5,7 @@ import { OptionType } from 'typings';
 
 const DEFAULT_FILTER_STATE = {
   type: 'items',
-  order_by: '-date',
+  order_by: '-created_at',
   tags: 'All NFTs',
   max_price: 0,
   currency: 'All',

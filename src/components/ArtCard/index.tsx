@@ -12,14 +12,14 @@ import { numberFormatter, sliceString, toFixed } from 'utils';
 import styles from './styles.module.scss';
 
 type Props = {
-  type?: 'Small' | 'Medium';
+  type?: 'Padded' | 'Contained' | 'Covered';
   artId: string | number;
   className?: string;
   imageMain: string;
-  imageSecondaryOne?: string;
-  imageSecondaryTwo?: string;
-  imageSecondaryThree?: string;
-  allArtNumber?: string | number;
+  // imageSecondaryOne?: string;
+  // imageSecondaryTwo?: string;
+  // imageSecondaryThree?: string;
+  // allArtNumber?: string | number;
   name: string;
   price: string | number;
   asset: string;
@@ -36,14 +36,14 @@ type Props = {
 };
 
 const ArtCard: FC<Props> = ({
-  type = 'Small',
+  type = 'Covered',
   artId,
   className,
   imageMain,
-  imageSecondaryOne,
-  imageSecondaryTwo,
-  imageSecondaryThree,
-  allArtNumber = '25',
+  // imageSecondaryOne,
+  // imageSecondaryTwo,
+  // imageSecondaryThree,
+  // allArtNumber = '25',
   name,
   price,
   asset,
@@ -115,10 +115,10 @@ const ArtCard: FC<Props> = ({
   }, [artId, isLike, isLiked, likeAction, likesNumber]);
 
   return (
-    <div className={cx(styles.artCard, className, styles[`artCard${type}`])}>
+    <div className={cx(styles.artCard, className)}>
       <Link
         to={isCollection ? routes.collection.link(artId) : routes.nft.link(artId)}
-        className={cx(styles[`mainImageWrapper${type}`], styles.imageWrapper)}
+        className={styles.imageWrapper}
         onMouseOver={onMouseOver}
         onFocus={() => { }}
         innerRef={wrapRef}
@@ -135,16 +135,16 @@ const ArtCard: FC<Props> = ({
             />
           ))}
         </div>
-        <img ref={imgRef} className={styles.mainImage} src={imageMain} alt="" />
+        <img ref={imgRef} className={cx(styles.mainImage, styles[type])} src={imageMain} alt="" />
       </Link>
-      {type === 'Medium' && (
+      {/* {type === 'Medium' && (
         <div className={cx(styles.secondaryImagesContainer)}>
           <div className={cx(styles.secondaryImageWrapper, styles.imageWrapper)}>
             <img src={imageSecondaryOne} alt="" />
           </div>
 
           <div className={cx(styles.secondaryImageWrapper, styles.imageWrapper)}>
-            {imageSecondaryTwo && <img src={imageSecondaryTwo} alt="" />}
+             {imageSecondaryTwo && <img src={imageSecondaryTwo} alt="" />} 
           </div>
           <div
             className={cx(
@@ -153,13 +153,13 @@ const ArtCard: FC<Props> = ({
               styles.imageWrapper,
             )}
           >
-            {allArtNumber > 3 && (
+             {allArtNumber > 3 && (
               <Text className={styles.allArtNumber} size="m">{`${allArtNumber} +`}</Text>
-            )}
+            )} 
             {imageSecondaryThree && <img src={imageSecondaryThree} alt="" />}
           </div>
         </div>
-      )}
+      )} */}
       <div className={styles.artCardInfo}>
         <Text size="xl">{sliceString(name, 20, 0)}</Text>
         <div className={styles.flexContainer}>
@@ -169,7 +169,7 @@ const ArtCard: FC<Props> = ({
               {bids?.length ? <span className={styles.bidText}>(Highest Bid)</span> : null}
             </Text>
           )}
-          {type === 'Small' && !bids?.length && (
+          {!bids?.length && (
             <Text size="m">{inStockNumber ? `in stock: ${inStockNumber}` : 'Out of stock'}</Text>
           )}
         </div>

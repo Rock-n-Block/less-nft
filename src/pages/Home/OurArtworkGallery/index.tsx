@@ -63,9 +63,11 @@ const OurArtworkGallery: FC<Props> = observer(({ className }) => {
               available,
               tags,
               is_liked,
+              collection,
             } = artPiece;
             return (
               <ArtCard
+                type={collection?.display_theme}
                 artId={id}
                 key={name}
                 imageMain={media}

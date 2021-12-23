@@ -72,6 +72,7 @@ const Artworks: FC<IProps> = ({
             artCard.minimal_bid;
           return (
             <ArtCard
+              type={artCard?.collection?.display_theme}
               artId={artCard?.id}
               key={artCard?.id}
               imageMain={artCard?.media}
