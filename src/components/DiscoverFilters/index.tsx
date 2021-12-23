@@ -17,16 +17,30 @@ interface IProps {
   isFilterOpen: boolean;
   setFilterOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOnSale: React.Dispatch<React.SetStateAction<boolean>>;
+  isOnSale: boolean;
   setIsOnAuction: React.Dispatch<React.SetStateAction<boolean>>;
+  isOnAuction: boolean;
   setIsTimedOnAuction: React.Dispatch<React.SetStateAction<boolean>>;
+  isOnTimedAuction: boolean;
+  activeTags: Array<string>;
+  setActiveTags: React.Dispatch<React.SetStateAction<string[]>>;
+  activeChains: Array<string>;
+  setActiveChains: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const DiscoverFilters: VFC<IProps> = ({
   isFilterOpen,
   setFilterOpen,
   setIsOnSale,
+  isOnSale,
   setIsOnAuction,
+  isOnAuction,
   setIsTimedOnAuction,
+  isOnTimedAuction,
+  activeTags,
+  setActiveTags,
+  activeChains,
+  setActiveChains,
 }) => {
   return (
     <section className={cn(styles.filters, { [styles.active]: isFilterOpen })}>
@@ -45,13 +59,16 @@ const DiscoverFilters: VFC<IProps> = ({
           <div className={styles.content}>
             <StatusFilter
               setIsOnSale={setIsOnSale}
+              isOnSale={isOnSale}
               setIsTimedOnAuction={setIsTimedOnAuction}
               setIsOnAuction={setIsOnAuction}
+              isOnAuction={isOnAuction}
+              isOnTimedAuction={isOnTimedAuction}
             />
             <PriceFilter />
             <CollectionsFilter />
-            <ChainFilter />
-            <CategoriesFilter />
+            <ChainFilter activeChains={activeChains} setActiveChains={setActiveChains} />
+            <CategoriesFilter activeTags={activeTags} setActiveTags={setActiveTags} />
             <OnSaleInFilter />
           </div>
         </>

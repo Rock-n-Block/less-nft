@@ -60,7 +60,7 @@
   grid-template-columns: 75px 1fr;
 
   &.open {
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 380px 1fr;
   }
 
   .filter {
@@ -296,5 +296,17 @@
   }
   &:last-child {
     border-radius: 0px 12px 12px 0px;
+  }
+}
+
+// test
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+  gap: 25px;
+
+  &.small {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }

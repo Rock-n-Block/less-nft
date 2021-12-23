@@ -5,7 +5,7 @@
 
 export interface IGetSearchResultParams {
   text?: string;
-  sort?: string;
+  type?: string;
   is_verified?: boolean;
   max_price?: number;
   order_by?: string;
@@ -17,4 +17,5 @@ export interface IGetSearchResultParams {
   page?: number;
   creator?: string;
   owner?: string;
+  network?: string;
 }

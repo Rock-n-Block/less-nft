@@ -11,9 +11,9 @@ import { TNullable } from 'typings';
 import { toFixed } from 'utils';
 
 import styles from './styles.module.scss';
-import GridLayer, { EGridJustify } from 'containers/GridLayer';
 
 import { FourSquares, NineSquares } from 'assets/img';
+import Labels from './components/Labels';
 
 const mobileBreakPoint = 780;
 
@@ -39,7 +39,7 @@ const Discover = observer(() => {
     handleVerifiedFilter,
     orderByFilter,
     filterSelectCurrencyOptions,
-    tagsFilter,
+    // tagsFilter,
     textFilter,
     page,
     handlePage,
@@ -56,13 +56,18 @@ const Discover = observer(() => {
     setIsOnAuction,
     isOnTimedAuction,
     setIsTimedOnAuction,
+    activeTags,
+    setActiveTags,
+    activeChains,
+    setActiveChains,
   } = useNewFilters();
 
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
     page,
-    sort: 'items',
+    type: 'items',
     order_by: orderByFilter.value,
-    tags: tagsFilter === 'All NFTs' ? '' : tagsFilter,
+    // tags: tagsFilter === 'All NFTs' ? '' : tagsFilter,
+    tags: activeTags.join(','),
     max_price: +maxPriceFilter.value,
     currency: currencyFilter.value,
     is_verified: verifiedFilter.value,
@@ -71,6 +76,7 @@ const Discover = observer(() => {
     on_sale: isOnSale,
     on_auc_sale: isOnAuction,
     on_timed_auc_sale: isOnTimedAuction,
+    network: activeChains.join(','),
   });
 
   const { width } = useWindowSize();
@@ -84,7 +90,6 @@ const Discover = observer(() => {
     },
     [user.address],
   );
-  const cardsRef = useRef<TNullable<HTMLDivElement>>(null);
   const filtersRef = useRef<TNullable<HTMLDivElement>>(null);
   const anchorRef = useInfiniteScroll(page, allPages, handlePage, isLoading || isNftsLoading);
 
@@ -115,10 +120,17 @@ const Discover = observer(() => {
           <div ref={filtersRef} className={styles.sticky}>
             <DiscoverFilters
               setIsOnSale={setIsOnSale}
+              isOnSale={isOnSale}
               isFilterOpen={isFilterOpen}
               setIsOnAuction={setIsOnAuction}
+              isOnAuction={isOnAuction}
               setIsTimedOnAuction={setIsTimedOnAuction}
               setFilterOpen={setFilterOpen}
+              isOnTimedAuction={isOnTimedAuction}
+              activeTags={activeTags}
+              setActiveTags={setActiveTags}
+              activeChains={activeChains}
+              setActiveChains={setActiveChains}
             />
           </div>
         </div>
@@ -147,55 +159,49 @@ const Discover = observer(() => {
                 </button>
               </div>
             </div>
-            <div ref={cardsRef} className={styles.filterResults}>
-              <GridLayer
-                gap={40}
-                wrapperRef={cardsRef}
-                minWidth={isSmallCards ? 200 : 250}
-                minHeight={isSmallCards ? 250 : 350}
-                justify={EGridJustify.start}
-                depenednciesForChange={[isFilterOpen]}
-              >
-                {!!nftCards.length &&
-                  nftCards.map((artCard: any) => {
-                    const {
-                      media,
-                      name,
-                      price,
-                      currency,
-                      available,
-                      creator,
-                      like_count,
-                      tags,
-                      id,
-                      highest_bid,
-                      minimal_bid,
-                      bids,
-                      is_liked,
-                    } = artCard;
-                    return (
-                      <ArtCard
-                        artId={id}
-                        key={id}
-                        imageMain={media}
-                        name={name}
-                        price={
-                          price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid
-                        }
-                        asset={currency.symbol.toUpperCase()}
-                        inStockNumber={available}
-                        author={creator.name}
-                        authorAvatar={creator.avatar}
-                        authorId={creator.id}
-                        likesNumber={like_count}
-                        tags={tags}
-                        bids={bids}
-                        isLiked={is_liked}
-                        likeAction={likeAction}
-                      />
-                    );
-                  })}
-              </GridLayer>
+            <Labels />
+            <div className={styles.filterResults}>
+              <div className={cx(styles.cards, { [styles.small]: isSmallCards })}>
+                {isNftsLoading && "Loading"}
+                {nftCards.map((artCard: any) => {
+                  const {
+                    media,
+                    name,
+                    price,
+                    currency,
+                    available,
+                    creator,
+                    like_count,
+                    tags,
+                    id,
+                    highest_bid,
+                    minimal_bid,
+                    bids,
+                    is_liked,
+                  } = artCard;
+                  return (
+                    <ArtCard
+                      artId={id}
+                      key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
+                      imageMain={media}
+                      name={name}
+                      price={
+                        price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid
+                      }
+                      asset={currency.symbol.toUpperCase()}
+                      inStockNumber={available}
+                      author={creator.name}
+                      authorAvatar={creator.avatar}
+                      authorId={creator.id}
+                      likesNumber={like_count}
+                      tags={tags}
+                      bids={bids}
+                      isLiked={is_liked}
+                      likeAction={likeAction}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </>
           {isNftsLoading && (

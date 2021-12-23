@@ -95,7 +95,7 @@ export default {
     });
   },*/
   getSearchResults: ({
-    sort,
+    type,
     order_by,
     owner,
     on_sale,
@@ -108,6 +108,7 @@ export default {
     creator,
     on_auc_sale,
     on_timed_auc_sale,
+    network,
   }: IGetSearchResultParams) => {
     return axios.post(
       `/store/search/`,
@@ -116,8 +117,8 @@ export default {
       },
       {
         params: {
-          network: localStorage.lessnft_nft_chainName || 'undefined',
-          sort,
+          network: network || localStorage.lessnft_nft_chainName || 'undefined',
+          type,
           order_by,
           owner,
           on_sale,

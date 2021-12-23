@@ -1,0 +1,14 @@
+@import '/src/styles/helpers.scss';
+
+.label {
+  padding: 2px 8px;
+  background: $color-primary;
+  border-radius: 12px;
+  color: $color-neutral-0;
+
+  @include flexbox(center, space-between);
+}
+
+.cross {
+  margin-left: 8px;
+}

@@ -8,22 +8,24 @@ import styles from './CategoriesFilter.module.scss';
 
 import { checkMark } from 'assets/img';
 
-const CategoriesFilter: VFC = observer(() => {
+interface IProps {
+  activeTags: Array<string>;
+  setActiveTags: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const CategoriesFilter: VFC<IProps> = observer(({ activeTags, setActiveTags }) => {
   const [isOpened, setisOpened] = useState(true);
   const { nftTags } = useMst();
-
-  const [activeTags, setActiveTags] = useState<Array<string>>([]);
 
   const handleToogleTag = useCallback(
     (tagName: string) => {
       if (activeTags.includes(tagName)) {
         setActiveTags((prev) => prev.filter((el) => el !== tagName));
-        // setChainsToUpperComponent()
       } else {
         setActiveTags((prev) => [...prev, tagName]);
       }
     },
-    [activeTags],
+    [activeTags, setActiveTags],
   );
 
   return (
@@ -32,7 +34,12 @@ const CategoriesFilter: VFC = observer(() => {
         {nftTags.tags.map((tag) => {
           const isTagActive = activeTags.includes(tag.title);
           return (
-            <button type="button" onClick={() => handleToogleTag(tag.title)} className={styles.tag}>
+            <button
+              key={tag.title}
+              type="button"
+              onClick={() => handleToogleTag(tag.title)}
+              className={styles.tag}
+            >
               <div className={styles.icon}>
                 <img src={isTagActive ? checkMark : tag.icon} alt="tag" />
               </div>

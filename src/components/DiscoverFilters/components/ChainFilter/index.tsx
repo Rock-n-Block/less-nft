@@ -8,23 +8,24 @@ import { chains } from 'config';
 
 import { checkMark } from 'assets/img';
 
-const ChainFilter: VFC = () => {
+interface IProps {
+  activeChains: Array<string>;
+  setActiveChains: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const ChainFilter: VFC<IProps> = ({ activeChains, setActiveChains }) => {
   const [isOpened, setisOpened] = useState(true);
-  const [activeChains, setActiveChains] = useState<Array<string>>([]);
 
   const handleToogleChain = useCallback(
     (chainName: string) => {
       if (activeChains.includes(chainName)) {
         setActiveChains((prev) => prev.filter((el) => el !== chainName));
-        // setChainsToUpperComponent()
       } else {
         setActiveChains((prev) => [...prev, chainName]);
       }
     },
-    [activeChains],
+    [activeChains, setActiveChains],
   );
-
-  console.log(chains.Polygon);
 
   return (
     <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Chain">
@@ -36,6 +37,7 @@ const ChainFilter: VFC = () => {
               type="button"
               onClick={() => handleToogleChain(chain.name)}
               className={styles.chain}
+              key={chain.name}
             >
               <div className={styles.icon}>
                 <img src={isChainActive ? checkMark : chain.img} alt={`${chain.name} logo`} />

@@ -7,7 +7,7 @@ const NUMBER_NFTS_PER_PAGE = 8;
 
 interface IProps {
   page?: number;
-  sort?: string;
+  type?: string;
   order_by?: string;
   tags?: string;
   max_price?: number;
@@ -21,6 +21,7 @@ interface IProps {
   on_sale?: boolean;
   on_auc_sale?: boolean;
   on_timed_auc_sale?: boolean;
+  network?: string;
 }
 
 export const useFetchNft = (
@@ -30,7 +31,7 @@ export const useFetchNft = (
 ): [number, number, INft[], boolean, (textValue: string) => void] => {
   const {
     page,
-    sort,
+    type,
     order_by,
     tags,
     max_price,
@@ -44,6 +45,7 @@ export const useFetchNft = (
     isOnlyForOwnerOrCreator,
     on_auc_sale,
     on_timed_auc_sale,
+    network,
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
@@ -55,6 +57,7 @@ export const useFetchNft = (
       if (!isCanFetch || (isOnlyForOwnerOrCreator && !owner && !creator)) {
         return;
       }
+      // TODO: fix bug with refresh [when change filters need to refresh === true]
       const refresh = page === 1;
       setLoading(true);
 
@@ -63,7 +66,7 @@ export const useFetchNft = (
       const formattedTags = tags?.toLocaleLowerCase() === 'all nfts' ? undefined : tags;
       storeApi
         .getSearchResults({
-          sort,
+          type,
           order_by,
           tags: formattedTags,
           max_price,
@@ -76,6 +79,7 @@ export const useFetchNft = (
           on_sale: on_sale || '',
           on_auc_sale: on_auc_sale || '',
           on_timed_auc_sale: on_timed_auc_sale || '',
+          network,
         })
         .then(({ data: { items, total_tokens } }: any) => {
           setTotalItems(() => total_tokens);
@@ -106,9 +110,10 @@ export const useFetchNft = (
       order_by,
       owner,
       page,
-      sort,
+      type,
       tags,
       text,
+      network,
     ],
   );
 
@@ -138,9 +143,9 @@ export const useFetchNft = (
     };
   }, [
     page,
-    sort,
     order_by,
     tags,
+    type,
     max_price,
     currency,
     is_verified,
