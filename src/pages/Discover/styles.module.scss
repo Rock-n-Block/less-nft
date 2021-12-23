@@ -89,6 +89,15 @@
 
   .filterResultsContainer {
     padding-right: 84px;
+
+    @include forDesktopBig() {
+      padding-right: 32px;
+    }
+
+    @include forDesktopSm() {
+      padding-right: 0;
+    }
+
     padding-top: 35px;
 
     .filterResults {
@@ -299,7 +308,6 @@
   }
 }
 
-// test
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -307,6 +315,6 @@
   gap: 25px;
 
   &.small {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
 }

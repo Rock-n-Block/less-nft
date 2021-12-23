@@ -1,7 +1,15 @@
 import { RefObject, useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cx from 'classnames';
-import { ArtCard, Text, LiveAuction, Loader, Modal, DiscoverFilters } from 'components';
+import {
+  ArtCard,
+  Text,
+  LiveAuction,
+  Loader,
+  Modal,
+  DiscoverFilters,
+  ArtCardSkeleton,
+} from 'components';
 import { AdvancedFilter } from 'containers';
 import { useFetchNft, useFilters, useInfiniteScroll, useNewFilters, useWindowSize } from 'hooks';
 import { observer } from 'mobx-react-lite';
@@ -41,42 +49,31 @@ const Discover = observer(() => {
     filterSelectCurrencyOptions,
     // tagsFilter,
     textFilter,
-    page,
-    handlePage,
     isLoading,
     defaultValues,
     resetFilter,
   } = useFilters(filterTag, textSearch);
 
   // new filters hook, old useFilter will be deleted as new hook will be done
-  const {
-    isOnSale,
-    setIsOnSale,
-    isOnAuction,
-    setIsOnAuction,
-    isOnTimedAuction,
-    setIsTimedOnAuction,
-    activeTags,
-    setActiveTags,
-    activeChains,
-    setActiveChains,
-  } = useNewFilters();
+  const filters = useNewFilters();
 
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
-    page,
+    page: filters.page,
     type: 'items',
     order_by: orderByFilter.value,
     // tags: tagsFilter === 'All NFTs' ? '' : tagsFilter,
-    tags: activeTags.join(','),
-    max_price: +maxPriceFilter.value,
+    // TODO: add tags from URL
+    tags: filters.activeTags.join(','),
+    max_price: filters.maxPrice,
+    min_price: filters.minPrice,
     currency: currencyFilter.value,
     is_verified: verifiedFilter.value,
     isCanFetch: !isLoading,
     text: textFilter.value,
-    on_sale: isOnSale,
-    on_auc_sale: isOnAuction,
-    on_timed_auc_sale: isOnTimedAuction,
-    network: activeChains.join(','),
+    on_sale: filters.isOnSale,
+    on_auc_sale: filters.isOnAuction,
+    on_timed_auc_sale: filters.isOnTimedAuction,
+    network: filters.activeChains.join(','),
   });
 
   const { width } = useWindowSize();
@@ -91,7 +88,12 @@ const Discover = observer(() => {
     [user.address],
   );
   const filtersRef = useRef<TNullable<HTMLDivElement>>(null);
-  const anchorRef = useInfiniteScroll(page, allPages, handlePage, isLoading || isNftsLoading);
+  const anchorRef = useInfiniteScroll(
+    filters.page,
+    allPages,
+    filters.handlePage,
+    isLoading || isNftsLoading,
+  );
 
   // useScrollDown(filtersRef, '0px', '64px');
   return (
@@ -119,18 +121,9 @@ const Discover = observer(() => {
         <div className={styles.stickyWrapper}>
           <div ref={filtersRef} className={styles.sticky}>
             <DiscoverFilters
-              setIsOnSale={setIsOnSale}
-              isOnSale={isOnSale}
               isFilterOpen={isFilterOpen}
-              setIsOnAuction={setIsOnAuction}
-              isOnAuction={isOnAuction}
-              setIsTimedOnAuction={setIsTimedOnAuction}
               setFilterOpen={setFilterOpen}
-              isOnTimedAuction={isOnTimedAuction}
-              activeTags={activeTags}
-              setActiveTags={setActiveTags}
-              activeChains={activeChains}
-              setActiveChains={setActiveChains}
+              filters={filters}
             />
           </div>
         </div>
@@ -159,48 +152,56 @@ const Discover = observer(() => {
                 </button>
               </div>
             </div>
-            <Labels />
+            <Labels filters={filters} />
             <div className={styles.filterResults}>
               <div className={cx(styles.cards, { [styles.small]: isSmallCards })}>
-                {isNftsLoading && "Loading"}
-                {nftCards.map((artCard: any) => {
-                  const {
-                    media,
-                    name,
-                    price,
-                    currency,
-                    available,
-                    creator,
-                    like_count,
-                    tags,
-                    id,
-                    highest_bid,
-                    minimal_bid,
-                    bids,
-                    is_liked,
-                  } = artCard;
-                  return (
-                    <ArtCard
-                      artId={id}
-                      key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
-                      imageMain={media}
-                      name={name}
-                      price={
-                        price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid
-                      }
-                      asset={currency.symbol.toUpperCase()}
-                      inStockNumber={available}
-                      author={creator.name}
-                      authorAvatar={creator.avatar}
-                      authorId={creator.id}
-                      likesNumber={like_count}
-                      tags={tags}
-                      bids={bids}
-                      isLiked={is_liked}
-                      likeAction={likeAction}
-                    />
-                  );
-                })}
+                {isNftsLoading && nftCards.length === 0 ? (
+                  <>
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                  </>
+                ) : (
+                  nftCards.map((artCard: any) => {
+                    if (isNftsLoading) return <ArtCardSkeleton />;
+                    const {
+                      media,
+                      name,
+                      price,
+                      currency,
+                      available,
+                      creator,
+                      like_count,
+                      tags,
+                      id,
+                      highest_bid,
+                      minimal_bid,
+                      bids,
+                      is_liked,
+                    } = artCard;
+                    return (
+                      <ArtCard
+                        artId={id}
+                        key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
+                        imageMain={media}
+                        name={name}
+                        price={
+                          price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid
+                        }
+                        asset={currency?.symbol.toUpperCase()}
+                        inStockNumber={available}
+                        author={creator.name}
+                        authorAvatar={creator.avatar}
+                        authorId={creator.id}
+                        likesNumber={like_count}
+                        tags={tags}
+                        bids={bids}
+                        isLiked={is_liked}
+                        likeAction={likeAction}
+                      />
+                    );
+                  })
+                )}
               </div>
             </div>
           </>

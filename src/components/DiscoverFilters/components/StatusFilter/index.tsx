@@ -9,18 +9,22 @@ interface IProps {
   setIsOnSale: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOnAuction: React.Dispatch<React.SetStateAction<boolean>>;
   setIsTimedOnAuction: React.Dispatch<React.SetStateAction<boolean>>;
+  setActiveTags: React.Dispatch<React.SetStateAction<Array<string>>>;
   isOnSale: boolean;
   isOnAuction: boolean;
   isOnTimedAuction: boolean;
+  activeTags: Array<string>;
 }
 
 const StatusFilter: VFC<IProps> = ({
   setIsOnSale,
   setIsOnAuction,
   setIsTimedOnAuction,
+  setActiveTags,
   isOnSale,
   isOnAuction,
   isOnTimedAuction,
+  activeTags,
 }) => {
   const [isOpened, setisOpened] = useState(true);
 
@@ -39,11 +43,17 @@ const StatusFilter: VFC<IProps> = ({
           setIsTimedOnAuction((prev) => !prev);
           break;
 
+        case 'New':
+          if (activeTags.includes(filterName)) {
+            setActiveTags((prev) => prev.filter((el) => el !== filterName));
+          } else setActiveTags((prev) => [...prev, filterName]);
+          break;
+
         default:
           break;
       }
     },
-    [setIsOnSale, setIsOnAuction, setIsTimedOnAuction],
+    [setIsOnSale, setIsOnAuction, setIsTimedOnAuction, setActiveTags, activeTags],
   );
 
   return (
@@ -63,11 +73,10 @@ const StatusFilter: VFC<IProps> = ({
         >
           On Auction
         </Button>
-        {/* TODO: add tag filter */}
         <Button
           padding="0"
           onClick={() => handleFilter('New')}
-          color={false ? 'purple' : 'outline'}
+          color={activeTags.includes('New') ? 'purple' : 'outline'}
         >
           New
         </Button>

@@ -108,6 +108,7 @@ export default {
     creator,
     on_auc_sale,
     on_timed_auc_sale,
+    min_price,
     network,
   }: IGetSearchResultParams) => {
     return axios.post(
@@ -128,6 +129,7 @@ export default {
           page,
           creator,
           tags,
+          min_price,
           on_auc_sale,
           on_timed_auc_sale,
         },

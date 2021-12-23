@@ -7,6 +7,7 @@ export { default as Checkbox } from './Checkbox';
 export { default as Carousel } from './Carousel';
 export { default as Tab } from './Tab';
 export { default as ArtCard } from './ArtCard';
+export { default as ArtCardSkeleton } from './ArtCard/Skeleton';
 export { default as Tag } from './Tag';
 export { default as Link } from './Link';
 export { default as Logo } from './Logo';

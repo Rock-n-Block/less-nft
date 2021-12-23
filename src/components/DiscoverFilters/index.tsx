@@ -8,6 +8,7 @@ import CollectionsFilter from './components/CollectionsFilter/index';
 import ChainFilter from './components/ChainFilter/index';
 import CategoriesFilter from './components/CategoriesFilter/index';
 import OnSaleInFilter from './components/OnSaleInFilter/index';
+import { useNewFilters } from 'hooks';
 
 import styles from './DiscoverFilters.module.scss';
 
@@ -16,31 +17,28 @@ import { ArrowLeft } from 'assets/img';
 interface IProps {
   isFilterOpen: boolean;
   setFilterOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsOnSale: React.Dispatch<React.SetStateAction<boolean>>;
-  isOnSale: boolean;
-  setIsOnAuction: React.Dispatch<React.SetStateAction<boolean>>;
-  isOnAuction: boolean;
-  setIsTimedOnAuction: React.Dispatch<React.SetStateAction<boolean>>;
-  isOnTimedAuction: boolean;
-  activeTags: Array<string>;
-  setActiveTags: React.Dispatch<React.SetStateAction<string[]>>;
-  activeChains: Array<string>;
-  setActiveChains: React.Dispatch<React.SetStateAction<string[]>>;
+  filters: ReturnType<typeof useNewFilters>;
 }
 
 const DiscoverFilters: VFC<IProps> = ({
-  isFilterOpen,
   setFilterOpen,
-  setIsOnSale,
-  isOnSale,
-  setIsOnAuction,
-  isOnAuction,
-  setIsTimedOnAuction,
-  isOnTimedAuction,
-  activeTags,
-  setActiveTags,
-  activeChains,
-  setActiveChains,
+  isFilterOpen,
+  filters: {
+    setIsOnSale,
+    isOnSale,
+    setIsOnAuction,
+    isOnAuction,
+    setIsTimedOnAuction,
+    isOnTimedAuction,
+    activeTags,
+    setActiveTags,
+    activeChains,
+    setActiveChains,
+    setMinPrice,
+    setMaxPrice,
+    minPrice,
+    maxPrice,
+  },
 }) => {
   return (
     <section className={cn(styles.filters, { [styles.active]: isFilterOpen })}>
@@ -64,8 +62,15 @@ const DiscoverFilters: VFC<IProps> = ({
               setIsOnAuction={setIsOnAuction}
               isOnAuction={isOnAuction}
               isOnTimedAuction={isOnTimedAuction}
+              setActiveTags={setActiveTags}
+              activeTags={activeTags}
             />
-            <PriceFilter />
+            <PriceFilter
+              setMinPrice={setMinPrice}
+              setMaxPrice={setMaxPrice}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+            />
             <CollectionsFilter />
             <ChainFilter activeChains={activeChains} setActiveChains={setActiveChains} />
             <CategoriesFilter activeTags={activeTags} setActiveTags={setActiveTags} />

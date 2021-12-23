@@ -10,7 +10,8 @@ interface IProps {
   type?: string;
   order_by?: string;
   tags?: string;
-  max_price?: number;
+  max_price?: string;
+  min_price?: string;
   currency?: string;
   is_verified?: string;
   creator?: string;
@@ -35,6 +36,7 @@ export const useFetchNft = (
     order_by,
     tags,
     max_price,
+    min_price,
     currency,
     is_verified,
     creator,
@@ -70,6 +72,7 @@ export const useFetchNft = (
           order_by,
           tags: formattedTags,
           max_price,
+          min_price,
           currency: formattedCurrency,
           page,
           is_verified: boolIsVerified,
@@ -111,6 +114,7 @@ export const useFetchNft = (
       owner,
       page,
       type,
+      min_price,
       tags,
       text,
       network,
@@ -149,6 +153,7 @@ export const useFetchNft = (
     max_price,
     currency,
     is_verified,
+    min_price,
     creator,
     on_sale,
     text,
