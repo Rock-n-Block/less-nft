@@ -1,5 +1,5 @@
 import { FC, RefObject, useCallback, useState } from 'react';
-import { Button, CollectionCard } from 'components';
+import { Button, CollectionCard, Text } from 'components';
 import { useInfiniteScroll } from 'hooks';
 import { INft, OptionType } from 'typings';
 import cn from 'classnames';
@@ -48,7 +48,7 @@ const Collections: FC<IProps> = ({
 
   const handleSetType = (value: string) => {
     setType(value);
-    setTooltipVisible(false)
+    setTooltipVisible(false);
   };
 
   const handleCreateCollection = useCallback(() => {
@@ -104,19 +104,23 @@ const Collections: FC<IProps> = ({
       </div>
 
       <div className={s.tab}>
-        {nftCards.map((artCard: any) => {
-          const { avatar, name, id, tokens, description, cover } = artCard;
-          return (
-            <CollectionCard
-              imageMain={avatar}
-              name={name}
-              collectionId={id}
-              itemsNumber={tokens?.length}
-              description={description}
-              imageBanner={cover}
-            />
-          );
-        })}
+        {nftCards.length ? (
+          nftCards.map((artCard: any) => {
+            const { avatar, name, id, tokens, description, cover } = artCard;
+            return (
+              <CollectionCard
+                imageMain={avatar}
+                name={name}
+                collectionId={id}
+                itemsNumber={tokens?.length}
+                description={description}
+                imageBanner={cover}
+              />
+            );
+          })
+        ) : (
+          <Text>No Items</Text>
+        )}
       </div>
       <div ref={anchorRef as RefObject<HTMLDivElement>} />
     </>

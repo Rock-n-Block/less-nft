@@ -19,6 +19,8 @@ interface IProps {
   text?: string;
   isCanFetch?: boolean;
   isOnlyForOwnerOrCreator?: boolean;
+  has_bids?: boolean;
+  bids_by?: string;
 }
 
 export const useFetchNft = (
@@ -38,10 +40,11 @@ export const useFetchNft = (
     owner,
     on_sale,
     text,
+    has_bids = false,
+    bids_by,
     isCanFetch = true,
     isOnlyForOwnerOrCreator,
   } = props;
-  console.log('sort', sort)
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -49,10 +52,9 @@ export const useFetchNft = (
 
   const fetchSearch = useCallback(
     (textInput = text) => {
-      if (!isCanFetch || (isOnlyForOwnerOrCreator && !owner && !creator)) {
+      if (!isCanFetch || (isOnlyForOwnerOrCreator && !owner && !creator && !bids_by)) {
         return;
       }
-      console.log('useCallback', sort)
 
       const refresh = page === 1;
       setLoading(true);
@@ -73,6 +75,8 @@ export const useFetchNft = (
           on_sale,
           owner,
           text: textInput,
+          has_bids,
+          bids_by,
         })
         .then(({ data: { items, total_tokens } }: any) => {
           setTotalItems(() => total_tokens);
@@ -92,19 +96,21 @@ export const useFetchNft = (
         });
     },
     [
-      creator,
-      currency,
+      text,
       isCanFetch,
       isOnlyForOwnerOrCreator,
+      owner,
+      creator,
+      bids_by,
+      page,
       is_verified,
+      currency,
+      tags,
+      sort,
+      order_by,
       max_price,
       on_sale,
-      order_by,
-      owner,
-      page,
-      sort,
-      tags,
-      text,
+      has_bids,
     ],
   );
 
@@ -120,7 +126,6 @@ export const useFetchNft = (
   ).current;
 
   useEffect(() => {
-    console.log('useEffect', sort)
     let interval: any = null;
     if (!isDebounce) {
       fetchSearch();
@@ -144,6 +149,8 @@ export const useFetchNft = (
     creator,
     on_sale,
     text,
+    has_bids,
+    bids_by,
     isDebounce,
     fetchSearch,
     isIntervalUpdate,

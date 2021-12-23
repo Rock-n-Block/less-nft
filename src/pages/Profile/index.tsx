@@ -2,9 +2,9 @@ import { FC, useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'appConstants';
-import { Art, Folders, Heart, List, Me } from 'assets/img';
+import { Art, Folders, Heart, List, Me, OffersMade, OffersReceived } from 'assets/img';
 import cn from 'classnames';
-import { TabLookingComponent, Text } from 'components';
+import { Loader, TabLookingComponent, Text } from 'components';
 import { useFetchLiked, useFetchNft, useFilters, useTabs } from 'hooks';
 import { observer } from 'mobx-react';
 import { userApi } from 'services';
@@ -54,19 +54,34 @@ const ProfilePage: FC = observer(() => {
         icon: <Me />,
         url: routes.profile.link(userId, 'about'),
       },
+      {
+        title: 'Offers received',
+        key: 'received',
+        icon: <OffersReceived />,
+        url: routes.profile.link(userId, 'received'),
+      },
+      {
+        title: 'Offers made',
+        key: 'made',
+        icon: <OffersMade />,
+        url: routes.profile.link(userId, 'made'),
+      },
     ],
     [userId],
   );
 
   const { activeTab, setActiveTab } = useTabs(tabs, initialTab);
 
-  const creatorOrOwner = useMemo(() => {
+  const creatorOrOwnerOrBids = useMemo(() => {
     switch (activeTab) {
       case 'created':
       case 'collections':
         return 'creator';
       case 'owned':
+      case 'received':
         return 'owner';
+      case 'made':
+        return 'bids_by';
       default:
         return '';
     }
@@ -84,10 +99,11 @@ const ProfilePage: FC = observer(() => {
     {
       page,
       sort: activeTab === 'collections' ? 'collections' : 'items',
-      [creatorOrOwner]: userId,
+      [creatorOrOwnerOrBids]: userId,
       order_by: orderByFilter.value,
       isOnlyForOwnerOrCreator: true,
       is_verified: 'All',
+      has_bids: activeTab === 'received',
     },
     false,
     true,
@@ -126,47 +142,54 @@ const ProfilePage: FC = observer(() => {
           />
         </div>
 
-        <div className={cn(s.page_body__right, activeTab === 'about' && s.page_body__about)}>
-          {(activeTab === 'created' || activeTab === 'owned') && (
-            <Artworks
-              likeAction={likeAction}
-              page={page}
-              allPages={allPages}
-              handlePage={handlePage}
-              isFiltersLoading={isFiltersLoading}
-              isNftsLoading={isNftsLoading}
-              totalItems={totalItems}
-              orderByFilter={orderByFilter}
-              handleOrderByFilter={handleOrderByFilter}
-              nftCards={nftCards}
-            />
-          )}
-          {activeTab === 'favorited' && (
-            <Favorited
-              page={page}
-              handlePage={handlePage}
-              isFiltersLoading={isFiltersLoading}
-              likeAction={likeAction}
-              allPages={allPagesLiked}
-              isLickesLoading={isLickesLoading}
-              totalItems={totalItemsLiked}
-              nftCards={nftCardsLicked}
-            />
-          )}
-          {activeTab === 'collections' && (
-            <Collections
-              page={page}
-              allPages={allPages}
-              handlePage={handlePage}
-              isFiltersLoading={isFiltersLoading}
-              isNftsLoading={isNftsLoading}
-              orderByFilter={orderByFilter}
-              handleOrderByFilter={handleOrderByFilter}
-              nftCards={nftCards}
-            />
-          )}
-          {activeTab === 'about' && <About currentUser={currentUser} />}
-        </div>
+        {isNftsLoading && page === 1 ? (
+          <Loader className={s.loader} />
+        ) : (
+          <div className={cn(s.page_body__right, activeTab === 'about' && s.page_body__about)}>
+            {(activeTab === 'created' ||
+              activeTab === 'owned' ||
+              activeTab === 'received' ||
+              activeTab === 'made') && (
+              <Artworks
+                likeAction={likeAction}
+                page={page}
+                allPages={allPages}
+                handlePage={handlePage}
+                isFiltersLoading={isFiltersLoading}
+                isNftsLoading={isNftsLoading}
+                totalItems={totalItems}
+                orderByFilter={orderByFilter}
+                handleOrderByFilter={handleOrderByFilter}
+                nftCards={nftCards}
+              />
+            )}
+            {activeTab === 'favorited' && (
+              <Favorited
+                page={page}
+                handlePage={handlePage}
+                isFiltersLoading={isFiltersLoading}
+                likeAction={likeAction}
+                allPages={allPagesLiked}
+                isLickesLoading={isLickesLoading}
+                totalItems={totalItemsLiked}
+                nftCards={nftCardsLicked}
+              />
+            )}
+            {activeTab === 'collections' && (
+              <Collections
+                page={page}
+                allPages={allPages}
+                handlePage={handlePage}
+                isFiltersLoading={isFiltersLoading}
+                isNftsLoading={isNftsLoading}
+                orderByFilter={orderByFilter}
+                handleOrderByFilter={handleOrderByFilter}
+                nftCards={nftCards}
+              />
+            )}
+            {activeTab === 'about' && <About currentUser={currentUser} />}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -106,6 +106,8 @@ export default {
     max_price,
     page,
     creator,
+    has_bids = false,
+    bids_by
   }: IGetSearchResultParams) => {
     return axios.post(
       `/store/search/`,
@@ -125,6 +127,8 @@ export default {
           page,
           creator,
           tags,
+          has_bids,
+          bids_by
         },
       },
     );

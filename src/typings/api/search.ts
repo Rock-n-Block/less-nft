@@ -15,4 +15,6 @@ export interface IGetSearchResultParams {
   page?: number;
   creator?: string;
   owner?: string;
+  has_bids?: boolean
+  bids_by?: string
 }
