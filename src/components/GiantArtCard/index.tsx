@@ -188,7 +188,7 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
             isOwner={isOwner}
           />
         ) : null}
-        <AuthorComponent creator={nft?.creator} owners={nft?.owners} />
+        <AuthorComponent creator={nft?.creator} owners={nft?.owners} collection={nft?.collection} />
         {nft?.has_digital_key && !isUserCanSeeUnlockableContent && (
           <div className={styles.unlockButton}>
             <IconLock />
