@@ -355,3 +355,34 @@
   @include flexbox(center, space-between);
   margin-top: 32px;
 }
+
+.socials {
+  border: 1px solid $color-neutral-60;
+  border-radius: $border-radius;
+  margin-bottom: 32px;
+}
+
+.social {
+  padding: 0 20px;
+  &:not(:first-child) {
+    border-top: 1px solid $color-neutral-60;
+  }
+  @include flexbox(center, flex-start);
+
+  .socialInput {
+    width: 100%;
+    input {
+      border: none;
+      padding-left: 0 !important;
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+    .socialPrefix {
+      transform: none;
+      position: relative;
+      padding-left: 16px;
+    }
+  }
+}

@@ -129,6 +129,7 @@ const TextInput: React.FC<Props> = ({
   useEffect(() => {
     if (ref.current && prefix) {
       setElWidth(ref.current.offsetWidth);
+      console.log(ref.current, ref.current.offsetWidth)
     }
   }, [prefix]);
 

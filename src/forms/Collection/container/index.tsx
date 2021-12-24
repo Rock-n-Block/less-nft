@@ -26,6 +26,12 @@ export default observer(({ isSingle }: any) => {
     isNsfw: false,
     shortUrl: '',
     displayTheme: 'Padded',
+    site: '',
+    discord: '',
+    twitter: '',
+    instagram: '',
+    medium: '',
+    telegram: '',
   };
   const FormWithFormik = withFormik<any, ICreateCollectionForm>({
     enableReinitialize: true,
@@ -35,6 +41,7 @@ export default observer(({ isSingle }: any) => {
       name: Yup.string().min(2, 'Too short!').max(50, 'Too long!'),
       symbol: Yup.string().min(2, 'Too Short!').max(6, 'Too Long!').required(),
       description: Yup.string().max(500, 'Too long!'),
+      site: Yup.string().url(),
     }),
     handleSubmit: (values, { setFieldValue }) => {
       setFieldValue('isLoading', true);
@@ -51,6 +58,12 @@ export default observer(({ isSingle }: any) => {
 
       formData.append('avatar', values.media);
       formData.append('cover', values.cover);
+      formData.append('site', values.site);
+      formData.append('discord', values.discord);
+      formData.append('twitter', values.twitter);
+      formData.append('instagram', values.instagram);
+      formData.append('medium', values.medium);
+      formData.append('telegram', values.telegram);
       formData.append('display_theme', values.displayTheme);
 
       storeApi

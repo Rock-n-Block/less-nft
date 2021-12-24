@@ -6,6 +6,12 @@ import {
   iconCovered,
   iconPadded,
   iconUploadLogo,
+  Site,
+  Medium,
+  Instagram,
+  Telegram,
+  Twitter,
+  Discord,
 } from 'assets/img';
 import cn from 'classnames';
 import { Button, H6, RequiredMark, Switch, Text, TextArea, TextInput, Uploader } from 'components';
@@ -28,6 +34,12 @@ export interface ICreateCollectionForm {
   isNsfw: boolean;
   shortUrl: string;
   displayTheme: 'Padded' | 'Contained' | 'Covered';
+  site: string;
+  discord: string;
+  twitter: string;
+  instagram: string;
+  medium: string;
+  telegram: string;
 }
 
 const themes = [
@@ -252,6 +264,130 @@ const CreateCollectionForm: FC<FormikProps<ICreateCollectionForm> & ICreateColle
                   {touched.description && errors.description && (
                     <Text color="red">{errors.description}</Text>
                   )}
+                </div>
+              </div>
+              <div className={styles.item}>
+                <div className={styles.socials}>
+                  {touched.site && errors.site && <Text color="red">{errors.site}</Text>}
+                  <div className={styles.social}>
+                    <Site />
+
+                    <Field
+                      name="site"
+                      render={() => (
+                        <TextInput
+                          label=""
+                          onChange={handleChange}
+                          value={values.site}
+                          name="site"
+                          placeholder="yoursite.io"
+                          type="text"
+                          className={styles.socialInput}
+                          prefixClassName={styles.socialPrefix}
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className={styles.social}>
+                    <Discord />
+
+                    <Field
+                      name="discord"
+                      render={() => (
+                        <TextInput
+                          label=""
+                          onChange={handleChange}
+                          value={values.discord}
+                          name="discord"
+                          placeholder="discord"
+                          type="text"
+                          className={styles.socialInput}
+                          prefixClassName={styles.socialPrefix}
+                          prefix="https://discord.gg/"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className={styles.social}>
+                    <Twitter />
+
+                    <Field
+                      name="twitter"
+                      render={() => (
+                        <TextInput
+                          label=""
+                          onChange={handleChange}
+                          value={values.twitter}
+                          name="twitter"
+                          placeholder="twitter"
+                          type="text"
+                          className={styles.socialInput}
+                          prefixClassName={styles.socialPrefix}
+                          prefix="https://twitter.com/"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className={styles.social}>
+                    <Instagram />
+
+                    <Field
+                      name="instagram"
+                      render={() => (
+                        <TextInput
+                          label=""
+                          onChange={handleChange}
+                          value={values.instagram}
+                          name="instagram"
+                          placeholder="instagram"
+                          type="text"
+                          className={styles.socialInput}
+                          prefixClassName={styles.socialPrefix}
+                          prefix="https://www.instagram.com/"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className={styles.social}>
+                    <Medium />
+
+                    <Field
+                      name="medium"
+                      render={() => (
+                        <TextInput
+                          label=""
+                          onChange={handleChange}
+                          value={values.medium}
+                          name="medium"
+                          placeholder="medium"
+                          type="text"
+                          className={styles.socialInput}
+                          prefixClassName={styles.socialPrefix}
+                          prefix="https://www.medium.com/@"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className={styles.social}>
+                    <Telegram />
+
+                    <Field
+                      name="telegram"
+                      render={() => (
+                        <TextInput
+                          label=""
+                          onChange={handleChange}
+                          value={values.telegram}
+                          name="telegram"
+                          placeholder="telegram"
+                          type="text"
+                          className={styles.socialInput}
+                          prefixClassName={styles.socialPrefix}
+                          prefix="https://t.me/"
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
               <div className={cn(styles.item, styles.themes)}>
