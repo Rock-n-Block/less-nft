@@ -19,8 +19,8 @@ interface IProps {
   handlePage: (value: number) => void;
   isFiltersLoading: boolean;
   isNftsLoading: boolean;
-  orderByFilter: OptionType;
-  handleOrderByFilter: (value: OptionType) => void;
+  orderByFilter?: OptionType;
+  handleOrderByFilter?: (value: OptionType) => void;
   nftCards: INft[];
 }
 

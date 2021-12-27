@@ -37,7 +37,7 @@ const TitleDropdown: FC<IProps> = ({ options, value, setValue, className }) => {
           onClick={() => setIsOpen((prevState) => !prevState)}
           className={styles.selected}
         >
-          {value.title}
+          {value.title.toLowerCase() === 'all nfts' ? 'all NFTs' : value.title}
           <div className={styles.dropdownContainer}>
             <img
               src={iconArrowDownBlue}
