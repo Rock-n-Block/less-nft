@@ -42,7 +42,7 @@ const Trending: FC<Props> = observer(({ className }) => {
   }, [numberOfSlide]);
 
   const fetchCollections = useCallback((tag: string) => {
-    storeApi.getSearchResults({sort: 'collections', tags: tag.toLowerCase() === 'all nfts' ? '' : tag, order_by: 'price'})
+    storeApi.getSearchResults({type: 'collections', tags: tag.toLowerCase() === 'all nfts' ? '' : tag, order_by: 'price'})
   }, [])
 
   useEffect(() => {
