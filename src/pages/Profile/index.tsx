@@ -182,8 +182,8 @@ const ProfilePage: FC = observer(() => {
                 handlePage={handlePage}
                 isFiltersLoading={isFiltersLoading}
                 isNftsLoading={isNftsLoading}
-                orderByFilter={orderByFilter}
-                handleOrderByFilter={handleOrderByFilter}
+                // orderByFilter={orderByFilter}
+                // handleOrderByFilter={handleOrderByFilter}
                 nftCards={nftCards}
               />
             )}

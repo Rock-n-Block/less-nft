@@ -1,5 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import {
   iconAddDetail,
   IconRefresh,
@@ -48,6 +49,7 @@ interface IProperti {
 interface IDetail {
   title: 'Properties' | 'Levels' | 'Stats';
   subtitle: string;
+  text: string;
   icon: string;
 }
 
@@ -93,16 +95,19 @@ const detailsItems: IDetail[] = [
   {
     title: 'Properties',
     subtitle: 'Textual traits that show up as rectangles',
+    text: "Properties show up underneath your item, are clickable, and can be filtered in your collection's sidebar.",
     icon: iconWeight,
   },
   {
     title: 'Levels',
     subtitle: 'Numerical traits that show as a progress bar',
+    text: "Levels show up underneath your item, are clickable, and can be filtered in your collection's sidebar.",
     icon: iconStar,
   },
   {
     title: 'Stats',
     subtitle: 'Numerical traits that just show as numbers',
+    text: "Stats show up underneath your item, are clickable, and can be filtered in your collection's sidebar.",
     icon: iconStats,
   },
 ];
@@ -122,6 +127,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
       modals: { details },
     } = useMst();
     const history = useHistory();
+    const { pathname } = useLocation();
     const [rates, setRates] = useState<IRate[]>([]);
     const [addToCollection, setAddToCollection] = useState(true);
     const [isRefresh, setIsRefresh] = useState(true);
@@ -270,6 +276,10 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     useEffect(() => {
       setFieldValue('details', details.getItems);
     }, [details.getItems, setFieldValue]);
+
+    useEffect(() => {
+      details.save([{ display_type: '', trait_type: '', value: '', max_value: 5 }]);
+    }, [details, pathname]);
 
     return (
       <>
@@ -600,7 +610,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
 
                         <div
                           className={styles.detailBtn}
-                          onClick={() => handleDetailsOpen(detail.title, detail.subtitle)}
+                          onClick={() => handleDetailsOpen(detail.title, detail.text)}
                           onKeyDown={() => {}}
                           tabIndex={0}
                           role="button"

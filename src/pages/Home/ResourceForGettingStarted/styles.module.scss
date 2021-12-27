@@ -8,7 +8,7 @@
 
 .box {
   margin-top: 64px;
-  @include flexbox(flex-start);
+  @include flexbox(flex-start, space-between);
   gap: 35px;
   flex-wrap: wrap;
 }

@@ -42,12 +42,16 @@ const Trending: FC<Props> = observer(({ className }) => {
   }, [numberOfSlide]);
 
   const fetchCollections = useCallback((tag: string) => {
-    storeApi.getSearchResults({type: 'collections', tags: tag.toLowerCase() === 'all nfts' ? '' : tag, order_by: 'price'})
-  }, [])
+    storeApi.getSearchResults({
+      type: 'collections',
+      tags: tag.toLowerCase() === 'all nfts' ? '' : tag,
+      order_by: 'price',
+    });
+  }, []);
 
   useEffect(() => {
-    fetchCollections(title.title)
-  }, [fetchCollections, title.title])
+    fetchCollections(title.title);
+  }, [fetchCollections, title.title]);
 
   const fetchNotableDrops = useCallback(() => {
     //TODO: add fetchNotableDrops request

@@ -27,7 +27,7 @@ const UserBody: FC<{ user: any }> = ({ user }) => {
         url: routes.profile.link(user.id, 'created'),
       },
       {
-        title: 'My collectibles',
+        title: 'My collections',
         icon: <Collections />,
         url: routes.profile.link(user.id, 'collections'),
       },
