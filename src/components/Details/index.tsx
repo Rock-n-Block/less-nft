@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import cn from 'classnames';
 import { Button, Text, TextInput } from 'components';
 import { observer } from 'mobx-react-lite';
@@ -57,9 +57,18 @@ const Details: React.FC = observer(() => {
     (indexValue: number) => {
       if (detailsItems.length > 1) {
         setDetailsItems([...detailsItems.filter((_, index: number) => index !== indexValue)]);
+      } else {
+        setDetailsItems([
+          {
+            display_type: type,
+            trait_type: '',
+            value: isFirstType ? '' : 3,
+            max_value: 5,
+          },
+        ]);
       }
     },
-    [detailsItems],
+    [detailsItems, isFirstType, type],
   );
 
   const handleSave = useCallback(
@@ -72,10 +81,6 @@ const Details: React.FC = observer(() => {
     },
     [details, type],
   );
-
-  useEffect(() => {
-    console.log(detailsItems);
-  }, [detailsItems]);
 
   return (
     <div className={styles.swap}>
