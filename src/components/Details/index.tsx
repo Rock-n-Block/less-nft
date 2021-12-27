@@ -55,7 +55,9 @@ const Details: React.FC = observer(() => {
 
   const handleDeleteDetail = useCallback(
     (indexValue: number) => {
-      setDetailsItems([...detailsItems.filter((_, index: number) => index !== indexValue)]);
+      if (detailsItems.length > 1) {
+        setDetailsItems([...detailsItems.filter((_, index: number) => index !== indexValue)]);
+      }
     },
     [detailsItems],
   );
@@ -106,13 +108,9 @@ const Details: React.FC = observer(() => {
                     tabIndex={0}
                     role="button"
                     onKeyDown={() => {}}
-                    onClick={
-                      index > 0
-                        ? () => {
-                            handleDeleteDetail(index);
-                          }
-                        : () => {}
-                    }
+                    onClick={() => {
+                      handleDeleteDetail(index);
+                    }}
                   >
                     <img src={iconCrossBlack} alt="cross" />
                   </div>
