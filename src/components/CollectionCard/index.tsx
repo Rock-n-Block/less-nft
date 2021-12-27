@@ -19,7 +19,7 @@ type Props = {
   name: string;
   itemsNumber?: number | string;
   author?: string;
-  authorId?: string;
+  authorId?: string | number;
   description?: string;
 };
 
@@ -31,7 +31,7 @@ const CollectionCard: FC<Props> = observer(
     imageBanner,
     name,
     itemsNumber,
-    author,
+    // author,
     authorId,
     description = '',
   }) => {
@@ -57,7 +57,7 @@ const CollectionCard: FC<Props> = observer(
             <Text className={styles.user}>
               by{' '}
               <Link to={routes.profile.link(creator)} className={styles.userLink}>
-                {user.id === creator ? 'you' : author}
+                {user.id === creator ? 'you' : creator}
               </Link>
             </Text>
             <Text className={styles.description} color="lightGray">

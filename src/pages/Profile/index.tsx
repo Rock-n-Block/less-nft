@@ -185,6 +185,7 @@ const ProfilePage: FC = observer(() => {
                 // orderByFilter={orderByFilter}
                 // handleOrderByFilter={handleOrderByFilter}
                 nftCards={nftCards}
+                authorId={userId}
               />
             )}
             {activeTab === 'about' && <About currentUser={currentUser} />}
