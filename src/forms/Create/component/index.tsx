@@ -731,7 +731,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                         label=""
                         name="digitalKey"
                         value={values.digitalKey}
-                        placeholder="Select file...."
+                        placeholder="Digital key"
                         onChange={handleChange}
                         type="text"
                       />

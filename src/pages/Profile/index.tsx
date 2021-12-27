@@ -98,7 +98,7 @@ const ProfilePage: FC = observer(() => {
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft(
     {
       page,
-      sort: activeTab === 'collections' ? 'collections' : 'items',
+      type: activeTab === 'collections' ? 'collections' : 'items',
       [creatorOrOwnerOrBids]: userId,
       order_by: orderByFilter.value,
       isOnlyForOwnerOrCreator: true,

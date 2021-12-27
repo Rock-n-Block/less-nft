@@ -188,6 +188,7 @@
 
 .collections {
   margin-top: 32px;
+  overflow: hidden;
 }
 
 .fieldsetRowColumn {
@@ -312,6 +313,10 @@
   border: 2px solid transparent;
   cursor: pointer;
   @include flexbox;
+
+  & + & {
+    margin-bottom: 24px;
+  }
   &_add {
     border-color: $color-actions-dark-green;
     transition: all 0.2s ease;
@@ -347,7 +352,6 @@
   &Double {
     @include flexbox(center, center);
     flex-direction: column-reverse;
-    gap: 24px;
     transform: translateY(56px);
   }
 }

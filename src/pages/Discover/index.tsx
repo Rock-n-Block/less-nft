@@ -1,51 +1,33 @@
-import { RefObject, useCallback, useRef, useState } from 'react';
+import { RefObject, useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { FilterSVG } from 'assets/img';
 import cx from 'classnames';
-import {
-  ArtCard,
-  Button,
-  H2,
-  H3,
-  LiveAuction,
-  Loader,
-  Modal,
-  Select,
-  TabLookingComponent,
-  Text,
-} from 'components';
+import { ArtCard, Text, LiveAuction, Modal, DiscoverFilters, ArtCardSkeleton } from 'components';
 import { AdvancedFilter } from 'containers';
-import { useFetchNft, useFilters, useInfiniteScroll, useWindowSize } from 'hooks';
+import { useFetchNft, useFilters, useInfiniteScroll, useNewFilters, useWindowSize } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { userApi } from 'services';
 import { useMst } from 'store';
-import { selectOptions, TNullable } from 'typings';
+import { TNullable } from 'typings';
 import { toFixed } from 'utils';
 
 import styles from './styles.module.scss';
-import GridLayer, { EGridJustify } from 'containers/GridLayer';
+
+import { FourSquares, NineSquares } from 'assets/img';
+import Labels from './components/Labels';
 
 const mobileBreakPoint = 780;
 
 const Discover = observer(() => {
   const [isFilterOpen, setFilterOpen] = useState(true);
-  const { user, nftTags } = useMst();
-
-  const convertedTagsForComponents = nftTags.tags.map((tag) => {
-    return {
-      ...tag,
-      key: tag.title,
-    };
-  });
+  const { user } = useMst();
+  const [isSmallCards, setIsSmallCards] = useState(false);
 
   const { search } = useLocation();
   const filterTag =
-    search.includes('tags') || search.includes('filters') ? search.replace(/^(.*?)=/, '') : ' ';
-  const textSearch = search.includes('text') ? search.replace(/^(.*?text)=/, '') : '';
-
-  const handleOpenFilter = useCallback(() => {
-    setFilterOpen(!isFilterOpen);
-  }, [isFilterOpen]);
+    search.includes('tags') || search.includes('filter') ? search.replace(/^(.*?filter)=/, '') : '';
+  const textSearch = useMemo(() => {
+    return search.includes('text') ? search.replace(/^(.*?text)=/, '') : '';
+  }, [search]);
 
   const {
     maxPrice,
@@ -56,28 +38,34 @@ const Discover = observer(() => {
     verifiedFilter,
     handleVerifiedFilter,
     orderByFilter,
-    handleOrderByFilter,
     filterSelectCurrencyOptions,
-    tagsFilter,
-    handleTagsFilter,
-    page,
-    handlePage,
+    // tagsFilter,
+    textFilter,
     isLoading,
     defaultValues,
     resetFilter,
-  } = useFilters(filterTag);
+  } = useFilters(filterTag, textSearch);
+
+  // new filters hook, old useFilter will be deleted as new hook will be done
+  const filters = useNewFilters();
 
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
-    page,
-    sort: 'items',
+    page: filters.page,
+    type: 'items',
     order_by: orderByFilter.value,
-    tags: (textSearch && ' ') || tagsFilter === 'All NFTs' ? '' : tagsFilter,
-    max_price: +maxPriceFilter.value,
+    // tags: tagsFilter === 'All NFTs' ? '' : tagsFilter,
+    // TODO: add tags from URL
+    tags: filters.activeTags.join(','),
+    max_price: filters.maxPrice,
+    min_price: filters.minPrice,
     currency: currencyFilter.value,
     is_verified: verifiedFilter.value,
-    on_sale: true,
     isCanFetch: !isLoading,
-    text: textSearch,
+    text: textFilter.value,
+    on_sale: filters.isOnSale,
+    on_auc_sale: filters.isOnAuction,
+    on_timed_auc_sale: filters.isOnTimedAuction,
+    network: filters.activeChains.join(','),
   });
 
   const { width } = useWindowSize();
@@ -91,13 +79,18 @@ const Discover = observer(() => {
     },
     [user.address],
   );
-  const cardsRef = useRef<TNullable<HTMLDivElement>>(null);
   const filtersRef = useRef<TNullable<HTMLDivElement>>(null);
-  const anchorRef = useInfiniteScroll(page, allPages, handlePage, isLoading || isNftsLoading);
+  const anchorRef = useInfiniteScroll(
+    filters.page,
+    allPages,
+    filters.handlePage,
+    isLoading || isNftsLoading,
+  );
 
   // useScrollDown(filtersRef, '0px', '64px');
   return (
     <div className={styles.discover}>
+      {/* TODO: delete this, because will be new filters */}
       {width <= mobileBreakPoint && (
         <Modal visible={isFilterOpen} onClose={() => setFilterOpen(false)} title="Advanced Filters">
           <AdvancedFilter
@@ -112,57 +105,17 @@ const Discover = observer(() => {
             handleVerifiedFilter={handleVerifiedFilter}
             defaultValues={defaultValues}
             resetFilter={resetFilter}
+            textFilter={textFilter}
           />
         </Modal>
       )}
-
-      <H2 className={styles.title}>
-        <Text className={styles.discoverTitle} tag="span" size="inherit">
-          DISCOVER
-        </Text>
-        <Text tag="span" size="inherit" color="primary">
-          ARTWORK
-        </Text>
-      </H2>
-      <div className={styles.filterControls}>
-        <div className={styles.filterBody}>
-          <Button className={styles.advancedFilterBtn} onClick={handleOpenFilter} color="outline">
-            <Text tag="span" color="inherit">
-              Advanced Filter
-            </Text>{' '}
-            <FilterSVG className={styles.icon} />
-          </Button>
-          <TabLookingComponent
-            wrapClassName={styles.tabArea}
-            tabClassName={styles.filterTab}
-            tabs={convertedTagsForComponents}
-            action={handleTagsFilter}
-            activeTab={tagsFilter}
-          />
-          <Select
-            className={styles.selectArea}
-            onChange={handleOrderByFilter as any}
-            value={orderByFilter}
-            options={selectOptions}
-            classNameSelect={styles.select}
-          />
-        </div>
-      </div>
       <div className={cx(styles.filterAndCards, { [styles.open]: isFilterOpen })}>
         <div className={styles.stickyWrapper}>
           <div ref={filtersRef} className={styles.sticky}>
-            <AdvancedFilter
-              className={cx(styles.filter, styles.specClass, { [styles.open]: isFilterOpen })}
-              filterSelectCurrencyOptions={filterSelectCurrencyOptions}
-              maxPrice={maxPrice}
-              maxPriceFilter={maxPriceFilter}
-              handleMaxPriceFilter={handleMaxPriceFilter}
-              currencyFilter={currencyFilter}
-              handleCurrencyFilter={handleCurrencyFilter}
-              verifiedFilter={verifiedFilter}
-              handleVerifiedFilter={handleVerifiedFilter}
-              defaultValues={defaultValues}
-              resetFilter={resetFilter}
+            <DiscoverFilters
+              isFilterOpen={isFilterOpen}
+              setFilterOpen={setFilterOpen}
+              filters={filters}
             />
           </div>
         </div>
@@ -172,18 +125,39 @@ const Discover = observer(() => {
           })}
         >
           <>
-            <H3>{totalItems} results</H3>
-            <div ref={cardsRef} className={styles.filterResults}>
-              <GridLayer
-                gap={40}
-                wrapperRef={cardsRef}
-                minWidth={250}
-                minHeight={350}
-                justify={EGridJustify.start}
-                depenednciesForChange={[isFilterOpen]}
-              >
-                {!!nftCards?.length &&
+            <div className={styles.header}>
+              <Text tag="span">{totalItems} results</Text>
+              <div className={styles.toogle_cards}>
+                <button
+                  type="button"
+                  onClick={() => setIsSmallCards(false)}
+                  className={cx(styles.toogle_item, { [styles.active]: !isSmallCards })}
+                >
+                  <FourSquares />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsSmallCards(true)}
+                  className={cx(styles.toogle_item, { [styles.active]: isSmallCards })}
+                >
+                  <NineSquares />
+                </button>
+              </div>
+            </div>
+            <Labels filters={filters} />
+            <div className={styles.filterResults}>
+              <div className={cx(styles.cards, { [styles.small]: isSmallCards })}>
+                {isNftsLoading && nftCards.length === 0 ? (
+                  <>
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                  </>
+                ) : (
                   nftCards.map((artCard: any) => {
+                    if (isNftsLoading && filters.page === 1) {
+                      return <ArtCardSkeleton />;
+                    }
                     const {
                       media,
                       name,
@@ -198,19 +172,17 @@ const Discover = observer(() => {
                       minimal_bid,
                       bids,
                       is_liked,
-                      collection,
                     } = artCard;
                     return (
                       <ArtCard
-                        type={collection?.display_theme}
                         artId={id}
-                        key={id}
+                        key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
                         imageMain={media}
                         name={name}
                         price={
                           price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid
                         }
-                        asset={currency.symbol.toUpperCase()}
+                        asset={currency?.symbol.toUpperCase()}
                         inStockNumber={available}
                         author={creator.name}
                         authorAvatar={creator.avatar}
@@ -222,15 +194,18 @@ const Discover = observer(() => {
                         likeAction={likeAction}
                       />
                     );
-                  })}
-              </GridLayer>
+                  })
+                )}
+                {isNftsLoading && filters.page >= 2 && (
+                  <>
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                  </>
+                )}
+              </div>
             </div>
           </>
-          {isNftsLoading && (
-            <div className={styles.loaderBox}>
-              <Loader />
-            </div>
-          )}
         </div>
       </div>
       <div ref={anchorRef as RefObject<HTMLDivElement>} />

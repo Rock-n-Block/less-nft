@@ -1,4 +1,5 @@
 @import 'src/styles/helpers';
+@import 'src/styles/mixins/media.scss';
 
 .footerContent {
   margin: 0 auto;
@@ -67,6 +68,12 @@
 
   & > * {
     margin-bottom: 20px;
+  }
+
+  @include b(mobile){
+    p {
+      text-align: center;
+    }
   }
 }
 

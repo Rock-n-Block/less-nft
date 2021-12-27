@@ -21,7 +21,7 @@ const OurArtworkGallery: FC<Props> = observer(({ className }) => {
 
   const [allPages, , nftCards, isLoading] = useFetchNft({
     page,
-    sort: 'items',
+    type: 'items',
     on_sale: true,
   });
 

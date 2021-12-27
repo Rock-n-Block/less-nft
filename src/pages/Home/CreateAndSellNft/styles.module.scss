@@ -1,4 +1,5 @@
 @import 'src/styles/helpers';
+@import 'src/styles/mixins/media.scss';
 
 .ourArtworkGallery {
   @include container;
@@ -19,6 +20,13 @@
   margin-top: 40px;
   @include flexbox(flex-start, space-between);
   flex-wrap: wrap;
+
+  @include b(mobile){
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 16px;
+  }
 }
 
 .howItWorksCard {
@@ -50,4 +58,8 @@
   margin: 0 auto;
   max-width: 200px;
   display: block;
+
+  @include b(mobile){
+    margin-top: 24px;
+  }
 }

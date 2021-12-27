@@ -146,7 +146,7 @@ export const connectWallet = (
 export const exchangeAddrs = {
   [chainsEnum['Binance-Smart-Chain']]: !is_production
     ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5'
-    : '',
+    : '0x7b5db0171a01781e9f22737551ff6bff9ad4fe09',
   [chainsEnum.Ethereum]: !is_production
     ? '0x0d669902B1E2Dc2E7b229D5d9b3D15c3D719d3c1'
     : '0xd6318e77042b8808be7dc277da40e0e778aaba42',

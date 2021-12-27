@@ -95,7 +95,7 @@ export default {
     });
   },*/
   getSearchResults: ({
-    sort,
+    type,
     order_by,
     owner,
     on_sale,
@@ -107,7 +107,11 @@ export default {
     page,
     creator,
     has_bids = false,
-    bids_by
+    bids_by,
+    on_auc_sale,
+    on_timed_auc_sale,
+    min_price,
+    network,
   }: IGetSearchResultParams) => {
     return axios.get(
       `/store/search/`,
@@ -116,8 +120,8 @@ export default {
       // },
       {
         params: {
-          network: localStorage.lessnft_nft_chainName || 'undefined',
-          type: sort,
+          network: network || localStorage.lessnft_nft_chainName || 'undefined',
+          type,
           order_by,
           owner,
           on_sale,
@@ -129,7 +133,10 @@ export default {
           tags,
           has_bids,
           bids_by,
-          text
+          text,
+          min_price,
+          on_auc_sale,
+          on_timed_auc_sale,
         },
       },
     );
@@ -224,9 +231,6 @@ export default {
   getRelated: (id: string | number) =>
     axios.get(`store/related/${id}/?network=${localStorage.lessnft_nft_chainName}`),
   setCollectionCover: (data: any) => {
-    return axios.post(
-      `/store/set_cover/?network=${localStorage.lessnft_nft_chainName}`,
-      data,
-    );
+    return axios.post(`/store/set_cover/?network=${localStorage.lessnft_nft_chainName}`, data);
   },
 };

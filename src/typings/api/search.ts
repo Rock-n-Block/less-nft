@@ -5,11 +5,14 @@
 
 export interface IGetSearchResultParams {
   text?: string;
-  sort?: string;
+  type?: string;
   is_verified?: boolean;
-  max_price?: number;
+  max_price?: string;
+  min_price?: string;
   order_by?: string;
-  on_sale?: boolean;
+  on_sale?: boolean | string;
+  on_auc_sale?: boolean | string;
+  on_timed_auc_sale?: boolean | string;
   currency?: string;
   tags?: string;
   page?: number;
@@ -17,4 +20,5 @@ export interface IGetSearchResultParams {
   owner?: string;
   has_bids?: boolean
   bids_by?: string
+  network?: string;
 }
