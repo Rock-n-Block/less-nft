@@ -124,7 +124,6 @@
   }
 
   .filterAndCards {
-    padding: 0 18px;
     .filterResultsContainer {
       &.withFilter {
         flex-basis: 100%;
@@ -278,6 +277,8 @@
 }
 // toogler
 .toogle_cards {
+  margin-left: 23px;
+
   display: grid;
   grid-template-columns: 1fr 1fr;
   max-width: 108px;
@@ -317,4 +318,8 @@
   &.small {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
+}
+
+.total {
+  flex-grow: 1;
 }

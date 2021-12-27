@@ -1,0 +1,15 @@
+.collection {
+  display: flex;
+  align-items: center;
+
+  &_ava {
+    margin-right: 15px;
+    img {
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+    }
+  }
+
+  margin-top: 15px;
+}

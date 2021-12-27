@@ -4,9 +4,9 @@ import GroupWrapper from '../GroupWrapper';
 import { Text } from 'components';
 
 import styles from './ChainFilter.module.scss';
-import { chains } from 'config';
 
 import { checkMark } from 'assets/img';
+import { useMst } from 'store';
 
 interface IProps {
   activeChains: Array<string>;
@@ -15,6 +15,7 @@ interface IProps {
 
 const ChainFilter: VFC<IProps> = ({ activeChains, setActiveChains }) => {
   const [isOpened, setisOpened] = useState(true);
+  const { networks } = useMst();
 
   const handleToogleChain = useCallback(
     (chainName: string) => {
@@ -30,24 +31,28 @@ const ChainFilter: VFC<IProps> = ({ activeChains, setActiveChains }) => {
   return (
     <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Chain">
       <div className={styles.content}>
-        {Object.values(chains).map((chain) => {
-          const isChainActive = activeChains.includes(chain.name);
-          return (
-            <button
-              type="button"
-              onClick={() => handleToogleChain(chain.name)}
-              className={styles.chain}
-              key={chain.name}
-            >
-              <div className={styles.icon}>
-                <img src={isChainActive ? checkMark : chain.img} alt={`${chain.name} logo`} />
-              </div>
-              <Text tag="span" className={styles.name}>
-                {chain.name}
-              </Text>
-            </button>
-          );
-        })}
+        {networks.getNetworks.length &&
+          networks.getNetworks.map((chain) => {
+            const isChainActive = activeChains.includes(chain.name);
+            return (
+              <button
+                type="button"
+                onClick={() => handleToogleChain(chain.name)}
+                className={styles.chain}
+                key={chain.ipfs_icon}
+              >
+                <div className={styles.icon}>
+                  <img
+                    src={isChainActive ? checkMark : chain.ipfs_icon}
+                    alt={`${chain.name} logo`}
+                  />
+                </div>
+                <Text tag="span" className={styles.name}>
+                  {chain.name}
+                </Text>
+              </button>
+            );
+          })}
       </div>
     </GroupWrapper>
   );

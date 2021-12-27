@@ -66,7 +66,8 @@ export const useFetchNft = (
       const refresh = page === 1;
       setLoading(true);
 
-      const boolIsVerified = is_verified === 'All' ? undefined : is_verified === 'verified';
+      // const boolIsVerified = is_verified === 'All' ? undefined : is_verified === 'verified';
+      const boolIsVerified = undefined;
       const formattedCurrency = currency === 'All' ? undefined : currency;
       const formattedTags = tags?.toLocaleLowerCase() === 'all nfts' ? undefined : tags;
       storeApi
@@ -106,7 +107,26 @@ export const useFetchNft = (
           setLoading(false);
         });
     },
-    [text, isCanFetch, isOnlyForOwnerOrCreator, is_verified, max_price, on_sale, on_auc_sale, on_timed_auc_sale, order_by, owner, creator, bids_by, page, currency, tags, has_bids, type, min_price, network],
+    [
+      text,
+      isCanFetch,
+      isOnlyForOwnerOrCreator,
+      max_price,
+      on_sale,
+      on_auc_sale,
+      on_timed_auc_sale,
+      order_by,
+      owner,
+      creator,
+      bids_by,
+      page,
+      currency,
+      tags,
+      has_bids,
+      type,
+      min_price,
+      network,
+    ],
   );
 
   const debouncedFetch = useRef(
