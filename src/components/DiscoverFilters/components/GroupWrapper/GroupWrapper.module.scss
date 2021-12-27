@@ -1,0 +1,41 @@
+@import '/src/styles/helpers.scss';
+
+.group {
+  width: 100%;
+
+  &.active {
+    border: 1px solid $color-neutral-10;
+    border-radius: $border-radius;
+    border-top: hidden;
+  }
+
+  margin-bottom: 20px;
+}
+
+.header {
+  border: 1px solid $color-neutral-0;
+  border-radius: $border-radius;
+  background-color: $color-neutral-10;
+  width: 100%;
+
+  margin: 0 -1px;
+
+  padding: 16px;
+  @include flexbox(normal, space-between);
+}
+
+.content {
+  color: $color-neutral-100;
+
+  padding: 15px;
+}
+
+.arrow {
+  transform: rotate(-90deg);
+
+  transition: transform 0.4s ease;
+
+  &.active {
+    transform: rotate(90deg);
+  }
+}

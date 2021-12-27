@@ -10,15 +10,19 @@ interface IProps {
   type?: string;
   order_by?: string;
   tags?: string;
-  max_price?: number;
+  max_price?: string;
+  min_price?: string;
   currency?: string;
   is_verified?: string;
-  on_sale?: boolean;
   creator?: string;
   owner?: string;
   text?: string;
   isCanFetch?: boolean;
   isOnlyForOwnerOrCreator?: boolean;
+  on_sale?: boolean;
+  on_auc_sale?: boolean;
+  on_timed_auc_sale?: boolean;
+  network?: string;
 }
 
 export const useFetchNft = (
@@ -32,6 +36,7 @@ export const useFetchNft = (
     order_by,
     tags,
     max_price,
+    min_price,
     currency,
     is_verified,
     creator,
@@ -40,6 +45,9 @@ export const useFetchNft = (
     text,
     isCanFetch = true,
     isOnlyForOwnerOrCreator,
+    on_auc_sale,
+    on_timed_auc_sale,
+    network,
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
@@ -51,6 +59,7 @@ export const useFetchNft = (
       if (!isCanFetch || (isOnlyForOwnerOrCreator && !owner && !creator)) {
         return;
       }
+      // TODO: fix bug with refresh [when change filters need to refresh === true]
       const refresh = page === 1;
       setLoading(true);
 
@@ -63,13 +72,17 @@ export const useFetchNft = (
           order_by,
           tags: formattedTags,
           max_price,
+          min_price,
           currency: formattedCurrency,
           page,
           is_verified: boolIsVerified,
           creator,
-          on_sale,
           owner,
           text: textInput,
+          on_sale: on_sale || '',
+          on_auc_sale: on_auc_sale || '',
+          on_timed_auc_sale: on_timed_auc_sale || '',
+          network,
         })
         .then(({ data: { items, total_tokens } }: any) => {
           setTotalItems(() => total_tokens);
@@ -95,12 +108,16 @@ export const useFetchNft = (
       is_verified,
       max_price,
       on_sale,
+      on_auc_sale,
+      on_timed_auc_sale,
       order_by,
       owner,
       page,
       type,
+      min_price,
       tags,
       text,
+      network,
     ],
   );
 
@@ -111,7 +128,7 @@ export const useFetchNft = (
       }
       setTotalItems(0);
       setNftCards([]);
-      return () => { };
+      return () => {};
     }, 1000),
   ).current;
 
@@ -130,18 +147,21 @@ export const useFetchNft = (
     };
   }, [
     page,
-    type,
     order_by,
     tags,
+    type,
     max_price,
     currency,
     is_verified,
+    min_price,
     creator,
     on_sale,
     text,
     isDebounce,
     fetchSearch,
     isIntervalUpdate,
+    on_auc_sale,
+    on_timed_auc_sale,
   ]);
 
   return [allPages, totalItems, nftCards, isLoading, debouncedFetch];
