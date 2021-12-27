@@ -59,7 +59,7 @@ const ChooseCollection: React.FC<IProps> = observer(
       userApi
         .getSingleCollections()
         .then(({ data }) => {
-          const newCollections = data.collections.filter((coll: any) => {
+          const newCollections = data.results.filter((coll: any) => {
             if (isSingle) {
               return coll.standart === 'ERC721';
             }

@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import { storeApi } from 'services';
 import { INft } from 'typings';
 
-const NUMBER_NFTS_PER_PAGE = 8;
+// const NUMBER_NFTS_PER_PAGE = 8;
 
 interface IProps {
   page?: number;
@@ -78,17 +78,17 @@ export const useFetchNft = (
           has_bids,
           bids_by,
         })
-        .then(({ data: { items, total_tokens } }: any) => {
-          setTotalItems(() => total_tokens);
+        .then(({ data: { results, total, total_pages } }: any) => {
+          setTotalItems(() => total);
           if (refresh) {
-            setNftCards(items);
+            setNftCards(results);
           } else {
-            setNftCards((prev: INft[]) => [...prev, ...items]);
+            setNftCards((prev: INft[]) => [...prev, ...results]);
           }
-          if (!items && refresh) {
+          if (!results && refresh) {
             setNftCards([]);
           }
-          setAllPages(Math.ceil(total_tokens / NUMBER_NFTS_PER_PAGE));
+          setAllPages(Math.ceil(total_pages));
         })
         .catch((error: any) => console.error('error', error))
         .finally(() => {

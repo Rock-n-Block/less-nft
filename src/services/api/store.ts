@@ -109,11 +109,11 @@ export default {
     has_bids = false,
     bids_by
   }: IGetSearchResultParams) => {
-    return axios.post(
+    return axios.get(
       `/store/search/`,
-      {
-        text: text || '',
-      },
+      // {
+      // //   text: text || '',
+      // },
       {
         params: {
           network: localStorage.lessnft_nft_chainName || 'undefined',
@@ -128,7 +128,8 @@ export default {
           creator,
           tags,
           has_bids,
-          bids_by
+          bids_by,
+          text
         },
       },
     );

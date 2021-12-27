@@ -182,7 +182,7 @@ const Discover = observer(() => {
                 justify={EGridJustify.start}
                 depenednciesForChange={[isFilterOpen]}
               >
-                {!!nftCards.length &&
+                {!!nftCards?.length &&
                   nftCards.map((artCard: any) => {
                     const {
                       media,
