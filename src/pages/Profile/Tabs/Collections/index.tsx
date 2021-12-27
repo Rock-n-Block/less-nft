@@ -22,6 +22,7 @@ interface IProps {
   orderByFilter?: OptionType;
   handleOrderByFilter?: (value: OptionType) => void;
   nftCards: INft[];
+  authorId?: string | number;
 }
 
 const actions = [{ name: 'Single' }, { name: 'Multiple' }];
@@ -35,6 +36,7 @@ const Collections: FC<IProps> = ({
   orderByFilter,
   handleOrderByFilter,
   nftCards,
+  authorId
 }) => {
   const history = useHistory();
   const [isTooltipVisible, setTooltipVisible] = useState(false);
@@ -115,11 +117,12 @@ const Collections: FC<IProps> = ({
                 itemsNumber={tokens?.length}
                 description={description}
                 imageBanner={cover}
+                authorId={authorId}
               />
             );
           })
         ) : (
-          <Text>No Items</Text>
+          <Text size='xl'>No Collections</Text>
         )}
       </div>
       <div ref={anchorRef as RefObject<HTMLDivElement>} />
