@@ -1,15 +1,7 @@
 import { RefObject, useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cx from 'classnames';
-import {
-  ArtCard,
-  Text,
-  LiveAuction,
-  Loader,
-  Modal,
-  DiscoverFilters,
-  ArtCardSkeleton,
-} from 'components';
+import { ArtCard, Text, LiveAuction, Modal, DiscoverFilters, ArtCardSkeleton } from 'components';
 import { AdvancedFilter } from 'containers';
 import { useFetchNft, useFilters, useInfiniteScroll, useNewFilters, useWindowSize } from 'hooks';
 import { observer } from 'mobx-react-lite';
@@ -163,7 +155,9 @@ const Discover = observer(() => {
                   </>
                 ) : (
                   nftCards.map((artCard: any) => {
-                    if (isNftsLoading) return <ArtCardSkeleton />;
+                    if (isNftsLoading && filters.page === 1) {
+                      return <ArtCardSkeleton />;
+                    }
                     const {
                       media,
                       name,
@@ -202,14 +196,16 @@ const Discover = observer(() => {
                     );
                   })
                 )}
+                {isNftsLoading && filters.page >= 2 && (
+                  <>
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                  </>
+                )}
               </div>
             </div>
           </>
-          {isNftsLoading && (
-            <div className={styles.loaderBox}>
-              <Loader />
-            </div>
-          )}
         </div>
       </div>
       <div ref={anchorRef as RefObject<HTMLDivElement>} />

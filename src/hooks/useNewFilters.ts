@@ -28,7 +28,7 @@ const useNewFilters = () => {
   useEffect(() => {
     setPage(1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [isOnSale, isOnAuction, isOnTimedAuction, activeTags, activeChains]);
+  }, [isOnSale, isOnAuction, isOnTimedAuction, activeTags, activeChains, minPrice, maxPrice]);
 
   return {
     isOnSale,
