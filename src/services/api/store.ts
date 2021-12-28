@@ -68,32 +68,6 @@ export default {
     axios.get(`store/owned/${address}/${page}/?network=${localStorage.lessnft_nft_chainName}`),
   getUserCollections: (address: string, page: number) =>
     axios.get(`store/collections/${address}/${page}/`),
-  /* getSearchResults: (queries: any, text?: string) => {
-    const queriesCopy = { ...queries };
-    switch (queriesCopy.is_verified) {
-      case 'All':
-        delete queriesCopy.is_verified;
-        break;
-      case 'verified':
-        queriesCopy.is_verified = 'true';
-        break;
-      case 'unverified':
-        queriesCopy.is_verified = 'false';
-        break;
-      default:
-        break;
-    }
-    if (queriesCopy.tags === 'All items') delete queriesCopy.tags;
-    let query = `?network=${localStorage.lessnft_nft_chainName}`;
-    Object.keys(queriesCopy).forEach((key) => {
-      if (queriesCopy[key] || queriesCopy[key] === false || queriesCopy[key] === 0) {
-        query = query.concat(`&${key}=${queriesCopy[key]}`);
-      }
-    });
-    return axios.post(`/store/search/${query}`, {
-      text: text || '',
-    });
-  },*/
   getSearchResults: ({
     type,
     order_by,
@@ -112,34 +86,30 @@ export default {
     on_timed_auc_sale,
     min_price,
     network,
+    collections,
   }: IGetSearchResultParams) => {
-    return axios.get(
-      `/store/search/`,
-      // {
-      // //   text: text || '',
-      // },
-      {
-        params: {
-          network: network || localStorage.lessnft_nft_chainName || 'undefined',
-          type,
-          order_by,
-          owner,
-          on_sale,
-          currency,
-          is_verified,
-          max_price,
-          page,
-          creator,
-          tags,
-          has_bids,
-          bids_by,
-          text,
-          min_price,
-          on_auc_sale,
-          on_timed_auc_sale,
-        },
+    return axios.get(`/store/search/`, {
+      params: {
+        network: network || localStorage.lessnft_nft_chainName || 'undefined',
+        type,
+        order_by,
+        owner,
+        on_sale,
+        currency,
+        is_verified,
+        max_price,
+        page,
+        creator,
+        tags,
+        has_bids,
+        bids_by,
+        text,
+        min_price,
+        on_auc_sale,
+        on_timed_auc_sale,
+        collections,
       },
-    );
+    });
   },
   getFee: (currency: TNullable<string>) =>
     axios.get(

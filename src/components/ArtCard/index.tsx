@@ -120,7 +120,7 @@ const ArtCard: FC<Props> = ({
         to={isCollection ? routes.collection.link(artId) : routes.nft.link(artId)}
         className={styles.imageWrapper}
         onMouseOver={onMouseOver}
-        onFocus={() => { }}
+        onFocus={() => {}}
         innerRef={wrapRef}
       >
         <div className={styles.tagContainer}>
@@ -137,29 +137,6 @@ const ArtCard: FC<Props> = ({
         </div>
         <img ref={imgRef} className={cx(styles.mainImage, styles[type])} src={imageMain} alt="" />
       </Link>
-      {/* {type === 'Medium' && (
-        <div className={cx(styles.secondaryImagesContainer)}>
-          <div className={cx(styles.secondaryImageWrapper, styles.imageWrapper)}>
-            <img src={imageSecondaryOne} alt="" />
-          </div>
-
-          <div className={cx(styles.secondaryImageWrapper, styles.imageWrapper)}>
-             {imageSecondaryTwo && <img src={imageSecondaryTwo} alt="" />} 
-          </div>
-          <div
-            className={cx(
-              styles.secondaryImageWrapper,
-              styles.lastSecondaryImageWrapper,
-              styles.imageWrapper,
-            )}
-          >
-             {allArtNumber > 3 && (
-              <Text className={styles.allArtNumber} size="m">{`${allArtNumber} +`}</Text>
-            )} 
-            {imageSecondaryThree && <img src={imageSecondaryThree} alt="" />}
-          </div>
-        </div>
-      )} */}
       <div className={styles.artCardInfo}>
         <Text size="xl">{sliceString(name, 20, 0)}</Text>
         <div className={styles.flexContainer}>

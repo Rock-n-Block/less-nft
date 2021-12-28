@@ -32,6 +32,8 @@ const Labels: VFC<IProps> = ({
     setActiveCurrencies,
     setTextSearch,
     textSearch,
+    activeCollections,
+    setActiveCollections,
   },
 }) => {
   const minMaxLabel = useMemo(() => {
@@ -67,6 +69,13 @@ const Labels: VFC<IProps> = ({
           key={currency}
           title={currency.toUpperCase()}
           onClick={() => setActiveCurrencies((prev) => prev.filter((el) => el !== currency))}
+        />
+      ))}
+      {activeCollections.map((collection) => (
+        <FilterLabel
+          key={collection}
+          title={collection}
+          onClick={() => setActiveCollections((prev) => prev.filter((el) => el !== collection))}
         />
       ))}
       {(minPrice || maxPrice) && (

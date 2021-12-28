@@ -40,6 +40,8 @@ const DiscoverFilters: VFC<IProps> = ({
     maxPrice,
     activeCurrencies,
     setActiveCurrencies,
+    activeCollections,
+    setActiveCollections,
   },
 }) => {
   return (
@@ -73,7 +75,10 @@ const DiscoverFilters: VFC<IProps> = ({
               minPrice={minPrice}
               maxPrice={maxPrice}
             />
-            <CollectionsFilter />
+            <CollectionsFilter
+              activeCollections={activeCollections}
+              setActiveCollections={setActiveCollections}
+            />
             <ChainFilter activeChains={activeChains} setActiveChains={setActiveChains} />
             <CategoriesFilter activeTags={activeTags} setActiveTags={setActiveTags} />
             <OnSaleInFilter
