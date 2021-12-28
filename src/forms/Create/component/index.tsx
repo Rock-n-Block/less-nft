@@ -47,7 +47,7 @@ interface IProperti {
 }
 
 interface IDetail {
-  title: 'Properties' | 'Levels' | 'Stats';
+  title: 'Properties' | 'Rankings' | 'Stats';
   subtitle: string;
   text: string;
   icon: string;
@@ -99,9 +99,9 @@ const detailsItems: IDetail[] = [
     icon: iconWeight,
   },
   {
-    title: 'Levels',
+    title: 'Rankings',
     subtitle: 'Numerical traits that show as a progress bar',
-    text: "Levels show up underneath your item, are clickable, and can be filtered in your collection's sidebar.",
+    text: "Rankings show up underneath your item, are clickable, and can be filtered in your collection's sidebar.",
     icon: iconStar,
   },
   {
@@ -199,7 +199,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     }, [setFieldValue]);
 
     const handleDetailsOpen = useCallback(
-      (type: 'Properties' | 'Levels' | 'Stats', text: string) => {
+      (type: 'Properties' | 'Rankings' | 'Stats', text: string) => {
         details.open(type, text);
       },
       [details],
@@ -218,20 +218,20 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
           ) : (
             <></>
           );
-        case 'levels':
+        case 'rankings':
           return item.trait_type && item.value && item.max_value ? (
-            <div className={styles.levels}>
-              <div className={styles.levelsHead}>
-                <Text className={styles.levelsTitle} weight="bold" size="m" color="primary">
+            <div className={styles.rankings}>
+              <div className={styles.rankingsHead}>
+                <Text className={styles.rankingsTitle} weight="bold" size="m" color="primary">
                   {item.trait_type}
                 </Text>
-                <Text className={styles.levelsText}>
+                <Text className={styles.rankingsText}>
                   {item.value} of {item.max_value}
                 </Text>
               </div>
-              <div className={styles.levelsBar}>
+              <div className={styles.rankingsBar}>
                 <div
-                  className={styles.levelsBarColor}
+                  className={styles.rankingsBarColor}
                   style={{
                     width:
                       item.value > item.max_value
@@ -249,12 +249,12 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
 
         default:
           return item.trait_type && item.value && item.max_value ? (
-            <div className={styles.levels}>
-              <div className={styles.levelsHead}>
-                <Text className={styles.levelsTitle} weight="bold" size="m" color="primary">
+            <div className={styles.rankings}>
+              <div className={styles.rankingsHead}>
+                <Text className={styles.rankingsTitle} weight="bold" size="m" color="primary">
                   {item.trait_type}
                 </Text>
-                <Text className={styles.levelsText}>
+                <Text className={styles.rankingsText}>
                   {item.value} of {item.max_value}
                 </Text>
               </div>

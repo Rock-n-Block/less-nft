@@ -395,7 +395,7 @@ const Details = types
       close: () => {
         self.type = '';
       },
-      open: (type: '' | 'Properties' | 'Levels' | 'Stats', text: string) => {
+      open: (type: '' | 'Properties' | 'Rankings' | 'Stats', text: string) => {
         self.type = type;
         self.text = text;
       },
