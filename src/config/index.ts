@@ -1,5 +1,12 @@
 import { INetwork } from '@amfi/connect-wallet/dist/interface';
-import { bnbLogo, ethLogo, metamaskImg, polygonLogo, walletConnectImg } from 'assets/img';
+import {
+  bnbLogo,
+  ethLogo,
+  metamaskImg,
+  polygonLogo,
+  walletConnectImg,
+  trustWalletImg,
+} from 'assets/img';
 import { chainsEnum, IConnectWallet, IContracts } from 'typings';
 
 import {
@@ -122,6 +129,7 @@ export const chains: {
           },
         },
       },
+      TrustWallet: { name: 'MetaMask', img: trustWalletImg },
     },
     explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
   },
