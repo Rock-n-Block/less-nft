@@ -1,7 +1,7 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
 import cx from 'classnames';
 import { ArtCard, Text, LiveAuction, DiscoverFilters, ArtCardSkeleton, Select } from 'components';
-import { useFetchNft, useInfiniteScroll, useNewFilters } from 'hooks';
+import { useFetchNft, useInfiniteScroll, useNewFilters, useWindowSize } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { userApi } from 'services';
 import { useMst } from 'store';
@@ -15,8 +15,9 @@ import Labels from './components/Labels';
 
 const Discover = observer(() => {
   const { user } = useMst();
+  const { width } = useWindowSize();
 
-  const [isFilterOpen, setFilterOpen] = useState(true);
+  const [isFilterOpen, setFilterOpen] = useState(width >= 780);
   const [isSmallCards, setIsSmallCards] = useState(false);
 
   const filters = useNewFilters();
