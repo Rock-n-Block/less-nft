@@ -17,8 +17,7 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
   const [isOpened, setisOpened] = useState(true);
 
   const filters = useNewFilters();
-  // eslint-disable-next-line
-  const [allPages, totalItems, nftCards] = useFetchNft({
+  const [_, __, nftCards] = useFetchNft({
     page: filters.page,
     type: 'collections',
     text: '',
