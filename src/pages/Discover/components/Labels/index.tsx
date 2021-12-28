@@ -28,6 +28,10 @@ const Labels: VFC<IProps> = ({
     maxPrice,
     setMaxPrice,
     setMinPrice,
+    activeCurrencies,
+    setActiveCurrencies,
+    setTextSearch,
+    textSearch,
   },
 }) => {
   const minMaxLabel = useMemo(() => {
@@ -58,6 +62,13 @@ const Labels: VFC<IProps> = ({
           onClick={() => setActiveChains((prev) => prev.filter((el) => el !== chain))}
         />
       ))}
+      {activeCurrencies.map((currency) => (
+        <FilterLabel
+          key={currency}
+          title={currency.toUpperCase()}
+          onClick={() => setActiveCurrencies((prev) => prev.filter((el) => el !== currency))}
+        />
+      ))}
       {(minPrice || maxPrice) && (
         <FilterLabel
           icon={iconChange}
@@ -67,6 +78,9 @@ const Labels: VFC<IProps> = ({
             setMinPrice('');
           }}
         />
+      )}
+      {textSearch && (
+        <FilterLabel title={`Text: ${textSearch}`} onClick={() => setTextSearch('')} />
       )}
       <button type="button" className={s.button} onClick={setDefaultFilters}>
         Clear All

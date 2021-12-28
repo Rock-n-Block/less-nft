@@ -5,11 +5,13 @@ import { TNullable } from 'typings';
 import { Modals } from './Modals';
 import { NftTags } from './NftTags';
 import { User } from './User';
+import { Networks } from './Networks';
 
 const RootModel = types.model({
   user: User,
   modals: Modals,
   nftTags: NftTags,
+  networks: Networks,
 });
 export const Store = RootModel.create({
   user: {
@@ -52,6 +54,9 @@ export const Store = RootModel.create({
   },
   nftTags: {
     tags: [],
+  },
+  networks: {
+    networks: [],
   },
 });
 
