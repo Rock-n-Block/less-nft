@@ -12,6 +12,7 @@ interface IProps {
   tags?: string;
   max_price?: string;
   min_price?: string;
+  collections?: string;
   currency?: string;
   is_verified?: string;
   creator?: string;
@@ -52,6 +53,7 @@ export const useFetchNft = (
     on_auc_sale,
     on_timed_auc_sale,
     network,
+    collections,
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
@@ -89,6 +91,7 @@ export const useFetchNft = (
           on_auc_sale: on_auc_sale || '',
           on_timed_auc_sale: on_timed_auc_sale || '',
           network,
+          collections,
         })
         .then(({ data: { results, total, total_pages } }: any) => {
           setTotalItems(() => total);
@@ -126,6 +129,7 @@ export const useFetchNft = (
       type,
       min_price,
       network,
+      collections,
     ],
   );
 
@@ -172,6 +176,7 @@ export const useFetchNft = (
     isIntervalUpdate,
     on_auc_sale,
     on_timed_auc_sale,
+    collections,
   ]);
 
   return [allPages, totalItems, nftCards, isLoading, debouncedFetch];

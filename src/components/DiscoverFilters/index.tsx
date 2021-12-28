@@ -1,7 +1,7 @@
 import { VFC } from 'react';
 import cn from 'classnames';
 
-import { H6 } from 'components';
+import { H6, Text } from 'components';
 import StatusFilter from './components/StatusFilter/index';
 import PriceFilter from './components/PriceFilter/index';
 import CollectionsFilter from './components/CollectionsFilter/index';
@@ -40,6 +40,8 @@ const DiscoverFilters: VFC<IProps> = ({
     maxPrice,
     activeCurrencies,
     setActiveCurrencies,
+    activeCollections,
+    setActiveCollections,
   },
 }) => {
   return (
@@ -73,7 +75,10 @@ const DiscoverFilters: VFC<IProps> = ({
               minPrice={minPrice}
               maxPrice={maxPrice}
             />
-            <CollectionsFilter />
+            <CollectionsFilter
+              activeCollections={activeCollections}
+              setActiveCollections={setActiveCollections}
+            />
             <ChainFilter activeChains={activeChains} setActiveChains={setActiveChains} />
             <CategoriesFilter activeTags={activeTags} setActiveTags={setActiveTags} />
             <OnSaleInFilter
@@ -84,6 +89,9 @@ const DiscoverFilters: VFC<IProps> = ({
         </>
       ) : (
         <div className={styles.hide}>
+          <Text className={styles.hide_title} size="m" tag="span">
+            Filters
+          </Text>
           <button
             onClick={() => setFilterOpen(!isFilterOpen)}
             type="button"

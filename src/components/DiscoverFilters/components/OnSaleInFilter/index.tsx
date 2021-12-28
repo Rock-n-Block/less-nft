@@ -37,6 +37,7 @@ const OnSaleInFilter: VFC<IProps> = ({ activeCurrencies, setActiveCurrencies }) 
               content={currency.symbol.toUpperCase()}
               value={activeCurrencies.includes(currency.symbol)}
               className={styles.checkbox}
+              key={currency.name}
             />
           ))}
       </div>

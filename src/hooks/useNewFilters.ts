@@ -25,6 +25,7 @@ const useNewFilters = () => {
   const [activeTags, setActiveTags] = useState<Array<string>>([tag || ''].filter((el) => el));
   const [activeChains, setActiveChains] = useState<Array<string>>([]);
   const [activeCurrencies, setActiveCurrencies] = useState<Array<string>>([]);
+  const [activeCollections, setActiveCollections] = useState<Array<string>>([]);
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [textSearch, setTextSearch] = useState(text || '');
@@ -42,6 +43,7 @@ const useNewFilters = () => {
     setActiveTags([]);
     setActiveChains([]);
     setActiveCurrencies([]);
+    setActiveCollections([]);
     setPage(1);
     setMinPrice('');
     setMaxPrice('');
@@ -74,6 +76,7 @@ const useNewFilters = () => {
     maxPrice,
     activeCurrencies,
     sortBy,
+    activeCollections,
   ]);
 
   return {
@@ -101,6 +104,8 @@ const useNewFilters = () => {
     sortBy,
     setSortBy,
     sortByFilters,
+    activeCollections,
+    setActiveCollections,
   };
 };
 

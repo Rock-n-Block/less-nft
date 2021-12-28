@@ -16,7 +16,7 @@ import Labels from './components/Labels';
 const Discover = observer(() => {
   const { user } = useMst();
 
-  const [isFilterOpen, setFilterOpen] = useState(true);
+  const [isFilterOpen, setFilterOpen] = useState(window.innerWidth >= 780);
   const [isSmallCards, setIsSmallCards] = useState(false);
 
   const filters = useNewFilters();
@@ -34,6 +34,7 @@ const Discover = observer(() => {
     on_timed_auc_sale: filters.isOnTimedAuction,
     network: filters.activeChains.join(','),
     currency: filters.activeCurrencies.join(','),
+    collections: filters.activeCollections.join(','),
   });
 
   const likeAction = useCallback(

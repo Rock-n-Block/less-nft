@@ -1,37 +1,60 @@
 import { useFetchNft, useNewFilters } from 'hooks';
-import { useState, VFC } from 'react';
+import { useCallback, useState, VFC } from 'react';
 
 import GroupWrapper from '../GroupWrapper';
-import { TextInput } from 'components';
+import cn from 'classnames';
 
 import styles from './CollectionsFilter.module.scss';
 
-const CollectionsFilter: VFC = () => {
+import { checkMark } from 'assets/img';
+
+interface IProps {
+  activeCollections: Array<string>;
+  setActiveCollections: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollections }) => {
   const [isOpened, setisOpened] = useState(true);
 
   const filters = useNewFilters();
+  // eslint-disable-next-line
   const [allPages, totalItems, nftCards] = useFetchNft({
     page: filters.page,
     type: 'collections',
     text: '',
   });
 
-  console.log({ nftCards, allPages, totalItems });
+  const handleToogleCollection = useCallback(
+    (tagName: string) => {
+      if (activeCollections.includes(tagName)) {
+        setActiveCollections((prev) => prev.filter((el) => el !== tagName));
+      } else {
+        setActiveCollections((prev) => [...prev, tagName]);
+      }
+    },
+    [activeCollections, setActiveCollections],
+  );
 
   return (
     <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Collections">
       <div className={styles.content}>
-        <TextInput type="text" placeholder="Filter" />
         {nftCards
           .filter((col: any) => !col.is_default)
-          .map((collection: any) => (
-            <div className={styles.collection}>
-              <div className={styles.collection_ava}>
-                <img src={collection.avatar} alt="" />
-              </div>
-              <div className={styles.collection_name}>{collection.name}</div>
-            </div>
-          ))}
+          .map((collection: any) => {
+            const isCollectionActive = activeCollections.includes(collection.name);
+            return (
+              <button
+                onClick={() => handleToogleCollection(collection.name)}
+                className={cn(styles.collection, { [styles.active]: isCollectionActive })}
+                key={collection.name}
+              >
+                <div className={styles.collection_ava}>
+                  <img src={isCollectionActive ? checkMark : collection.avatar} alt="" />
+                </div>
+                <div className={styles.collection_name}>{collection.name}</div>
+              </button>
+            );
+          })}
       </div>
     </GroupWrapper>
   );

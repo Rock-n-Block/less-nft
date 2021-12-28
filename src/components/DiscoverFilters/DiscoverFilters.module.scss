@@ -13,14 +13,30 @@
   padding: 20px 20px;
 
   max-height: 100vh;
-  overflow: auto;
 
   &.active {
     padding: 0 20px;
     border-right: 1px solid $color-neutral-10;
+    overflow: auto;
 
     @include forDesktopSm {
-      padding-left: 0px;
+      padding: 0 10px;
+    }
+  }
+
+  @include forDesktopSm {
+    border-right: none !important;
+    margin-right: 0 !important;
+  }
+}
+
+.hide {
+  @include flexbox(center, normal);
+
+  &_title {
+    display: none;
+    @include forDesktopSm {
+      display: inline-block;
     }
   }
 }
