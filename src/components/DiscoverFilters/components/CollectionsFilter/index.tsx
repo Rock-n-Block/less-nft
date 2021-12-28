@@ -47,6 +47,7 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
                 onClick={() => handleToogleCollection(collection.name)}
                 className={cn(styles.collection, { [styles.active]: isCollectionActive })}
                 key={collection.name}
+                type="button"
               >
                 <div className={styles.collection_ava}>
                   <img src={isCollectionActive ? checkMark : collection.avatar} alt="" />
