@@ -39,4 +39,6 @@ export type TTopCollectionReq = {
   sortPeriod: string;
   network: string
   tags: string
+  page: number;
+  items_per_page: number;
 };

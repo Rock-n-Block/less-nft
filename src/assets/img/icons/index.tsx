@@ -37,6 +37,8 @@ export { default as iconPadded } from './icon-padded.svg';
 export { default as iconContained } from './icon-contained.svg';
 export { default as iconCovered } from './icon-covered.svg';
 export { default as iconCheckPurple } from './icon-check-purple.svg';
+export { default as iconArrowPageLeft } from './icon-arrow-page-left.svg';
+export { default as iconArrowPageRight } from './icon-arrow-page-right.svg';
 export { ReactComponent as OffersReceived } from './icon-offers-received.svg';
 export { ReactComponent as OffersMade } from './icon-offers-made.svg';
 export { ReactComponent as Dots } from './icon-dots.svg';

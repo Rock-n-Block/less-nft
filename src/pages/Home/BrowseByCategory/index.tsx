@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import cx from 'classnames';
 import { H2, Text } from 'components';
-import mockImg from './mockImg.png';
 
 import styles from './styles.module.scss';
 import { useMst } from 'store';
@@ -34,7 +33,7 @@ const BrowseByCategory: FC<Props> = observer(({ className }) => {
               onKeyDown={() => {}}
               onClick={() => handleTagClick(tag.title)}
             >
-              <img alt="category" className={styles.image} src={mockImg} />
+              <img alt="category" className={styles.image} src={tag.image} />
               <Text className={styles.text} weight="bold">
                 {tag.title}
               </Text>

@@ -434,7 +434,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                       label="External Link"
                       subtitle={
                         <>
-                          OpenSea will include a link to this URL on this item`s detail page, so
+                          Less-Nft will include a link to this URL on this item`s detail page, so
                           that users can click to learn more about it. You are welcome to link to
                           your own webpage with more details.
                         </>

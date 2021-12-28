@@ -6,17 +6,37 @@ import styles from './styles.module.scss';
 import { useMst } from 'store';
 import { chains } from 'config';
 import { observer } from 'mobx-react-lite';
-import { allLogo, iconAllNFTs, iconArrowDown, iconArrowPurple, iconEthSmall } from 'assets/img';
+import {
+  allLogo,
+  iconAllNFTs,
+  iconArrowDown,
+  iconArrowPageLeft,
+  iconArrowPageRight,
+  iconArrowPurple,
+  iconEthSmall,
+} from 'assets/img';
 import OutsideClickHandler from 'react-outside-click-handler';
 import nextId from 'react-id-generator';
 import { useFetchTopCollections } from 'hooks';
 import { numberFormatter } from 'utils';
 import BigNumber from 'bignumber.js';
+import Pagination from 'rc-pagination';
+import 'rc-pagination/assets/index.css';
+import 'rc-pagination/assets/index.less';
+import { localeInfo } from 'locale';
 
 const timeOptions = [
   { symbol: 'Last 24 Hours', value: 'day', label: '24h' },
   { symbol: 'Last 7 Days', value: 'week', label: '7d' },
   { symbol: 'Last 30 Days', value: 'month', label: '30d' },
+];
+
+const pageOptions = [
+  { symbol: '5', value: 5 },
+  { symbol: '10', value: 10 },
+  { symbol: '25', value: 25 },
+  { symbol: '50', value: 50 },
+  { symbol: '100', value: 100 },
 ];
 
 const TopNfts: VFC = observer(() => {
@@ -33,11 +53,14 @@ const TopNfts: VFC = observer(() => {
   const [time, setTime] = useState(timeOptions[0]);
   const [tag, setTag] = useState({ symbol: 'All NFTs', image: iconAllNFTs });
   const [chain, setChain] = useState(chainsOptions[0]);
+  const [pageValue, setPageValue] = useState(pageOptions[0]);
   const [visibleChain, setVisibleChain] = useState(false);
   const [visibleTag, setVisibleTag] = useState(false);
   const [visibleTime, setVisibleTime] = useState(false);
+  const [visiblePage, setVisiblePage] = useState(false);
   const [sort, setSort] = useState('price');
   const [isDesc, setIsDesc] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const headOptions = useMemo(
     () => [
@@ -52,19 +75,12 @@ const TopNfts: VFC = observer(() => {
     [time.label],
   );
 
-  const { collections } = useFetchTopCollections(
+  const { collections, totalItems } = useFetchTopCollections(
     time.value,
     chain.symbol === 'All chains' ? '' : chain.symbol,
     tag.symbol === 'All NFTs' ? '' : tag.symbol,
-  );
-
-  const nfts = useMemo(
-    () => [
-      ...collections.map((collection: any, index: number) => {
-        return { ...collection, number: index + 1 };
-      }),
-    ],
-    [collections],
+    currentPage,
+    pageValue.value
   );
 
   const handleTags = (value: any) => {
@@ -79,6 +95,10 @@ const TopNfts: VFC = observer(() => {
     setTime(value);
     setVisibleTime(false);
   };
+  const handlePage = (value: any) => {
+    setPageValue(value);
+    setVisiblePage(false);
+  };
 
   const handleSetSort = useCallback(
     (symbol: string | undefined) => {
@@ -89,7 +109,7 @@ const TopNfts: VFC = observer(() => {
           setIsDesc(true);
         }
         setSort(symbol);
-        nfts.sort((first: any, second: any) => {
+        collections.sort((first: any, second: any) => {
           if (new BigNumber(first[symbol]).isEqualTo(new BigNumber(second[symbol]))) {
             return 0;
           }
@@ -101,13 +121,20 @@ const TopNfts: VFC = observer(() => {
         });
       }
     },
-    [isDesc, nfts, sort],
+    [isDesc, collections, sort],
   );
 
-  const CustomDropdown: FC<any> = ({ options, visible, value, setVisible, handleClick }) => {
+  const CustomDropdown: FC<any> = ({
+    options,
+    visible,
+    value,
+    setVisible,
+    handleClick,
+    className,
+  }) => {
     return (
       <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
-        <div className={cn(styles.dropdown, { [styles.active]: visible })} id="chains">
+        <div className={cn(styles.dropdown, { [styles.active]: visible }, className)} id="chains">
           <div
             onKeyDown={() => {}}
             tabIndex={0}
@@ -147,6 +174,10 @@ const TopNfts: VFC = observer(() => {
     );
   };
 
+  const handleChangePage = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <section className={styles.page}>
       <div className={styles.top}>
@@ -154,7 +185,7 @@ const TopNfts: VFC = observer(() => {
           Top NFTs
         </H2>
         <Text className={styles.subtitle} color="lightGray">
-          The top NFTs on OpenSea, ranked by volume, floor price and other statistics.
+          The top NFTs on Less-Nft, ranked by volume, floor price and other statistics.
         </Text>
       </div>
       <div className={styles.content}>
@@ -215,11 +246,11 @@ const TopNfts: VFC = observer(() => {
             ))}
           </div>
           <div className={styles.collectionsBody}>
-            {nfts.length ? (
-              nfts.map((nft: any) => (
+            {collections.length ? (
+              collections.map((nft: any, index: number) => (
                 <div className={styles.collection}>
                   <div className={styles.collectionNumber}>
-                    <Text>{nft.number}</Text>
+                    <Text>{index + 1}</Text>
                   </div>
                   <div className={styles.collectionStart}>
                     <img
@@ -258,6 +289,40 @@ const TopNfts: VFC = observer(() => {
             ) : (
               <Text>No items</Text>
             )}
+          </div>
+          <div className={styles.collectionsFooter}>
+            <Pagination
+              className={styles.pagination}
+              defaultCurrent={1}
+              current={currentPage}
+              total={totalItems}
+              locale={localeInfo}
+              defaultPageSize={1}
+              prevIcon={<img alt="" src={iconArrowPageLeft} className={styles.pageArrow} />}
+              nextIcon={<img alt="" src={iconArrowPageRight} className={styles.pageArrow} />}
+              onChange={handleChangePage}
+            />
+            <div className={styles.perPage}>
+              <Text className={styles.perPageText}> show items per page</Text>
+
+              <CustomDropdown
+                options={pageOptions}
+                visible={visiblePage}
+                value={pageValue}
+                setVisible={setVisiblePage}
+                handleClick={handlePage}
+                className={styles.pageDropdown}
+              />
+            </div>
+            <div className={styles.totalItems}>
+              <Text>
+                {1 * currentPage}-
+                {pageValue.value * currentPage > totalItems
+                  ? totalItems
+                  : pageValue.value * currentPage}{' '}
+                out of {totalItems}
+              </Text>
+            </div>
           </div>
         </div>
       </div>

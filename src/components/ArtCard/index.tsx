@@ -130,8 +130,8 @@ const ArtCard: FC<Props> = ({
               key={index}
               type={tag.type}
               auctionEndTime={tag.auctionEndTime}
-              media={tag.media}
-              value={tag.value}
+              media={tag.icon}
+              value={tag.title}
             />
           ))}
         </div>

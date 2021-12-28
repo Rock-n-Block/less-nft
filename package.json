@@ -83,6 +83,8 @@
     "pre-commit": "^1.2.2",
     "prettier": "^2.2.1",
     "prompts": "2.4.0",
+    "rc-pagination": "^3.1.14",
+    "rc-select": "^14.0.0-alpha.17",
     "rc-slider": "^9.7.2",
     "rc-tooltip": "^5.1.1",
     "react": "^17.0.1",

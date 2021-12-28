@@ -53,13 +53,15 @@ export default {
       },
     }),
 
-  getTopCollections: ({ type, sortPeriod, network, tags }: TTopCollectionReq) =>
+  getTopCollections: ({ type, sortPeriod, network, tags, page, items_per_page }: TTopCollectionReq) =>
     axios.get('/activity/top-collections/', {
       params: {
         type,
         sort_period: sortPeriod,
         network,
-        tags
+        tags,
+        page,
+        items_per_page
       },
     }),
 
