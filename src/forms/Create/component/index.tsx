@@ -205,15 +205,19 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
       [details],
     );
 
+    const sliceStr = (str: string, end = 16) => {
+      return str.length > end ? `${str.slice(0,end)}...` : str
+    }
+
     const getDetailItem = useCallback((item: any) => {
       switch (item.display_type) {
         case 'properties':
           return item.trait_type && item.value ? (
             <div className={styles.properties}>
               <Text className={styles.propertiesTitle} weight="bold" size="m" color="primary">
-                {item.trait_type}
+                {sliceStr(item.trait_type)}
               </Text>
-              <Text className={styles.propertiesText}>{item.value}</Text>
+              <Text className={styles.propertiesText}>{sliceStr(item.value, 14)}</Text>
             </div>
           ) : (
             <></>
@@ -223,7 +227,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
             <div className={styles.rankings}>
               <div className={styles.rankingsHead}>
                 <Text className={styles.rankingsTitle} weight="bold" size="m" color="primary">
-                  {item.trait_type}
+                  {sliceStr(item.trait_type)}
                 </Text>
                 <Text className={styles.rankingsText}>
                   {item.value} of {item.max_value}
@@ -252,7 +256,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
             <div className={styles.rankings}>
               <div className={styles.rankingsHead}>
                 <Text className={styles.rankingsTitle} weight="bold" size="m" color="primary">
-                  {item.trait_type}
+                  {sliceStr(item.trait_type)}
                 </Text>
                 <Text className={styles.rankingsText}>
                   {item.value} of {item.max_value}

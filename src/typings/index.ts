@@ -117,8 +117,9 @@ export interface INft {
 }
 
 export interface ITag {
-  media: string;
-  value: string;
+  icon: string;
+  image: string;
+  title: string;
 }
 
 export type TNullable<T> = T | null;
