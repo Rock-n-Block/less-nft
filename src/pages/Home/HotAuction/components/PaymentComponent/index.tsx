@@ -38,6 +38,14 @@ const PaymentComponent: FC<Props> = observer(
     const { walletService } = useWalletConnectorContext();
     const { user, modals } = useMst();
 
+    const isShowButtons = useMemo(
+      () =>
+        nft?.network.name !== localStorage.lessnft_nft_chainName &&
+        !Object.is(localStorage.lessnft_nft_chainName, undefined) &&
+        !Object.is(nft, null),
+      [nft],
+    );
+
     const [isApproved, setApproved] = React.useState<boolean>(false);
     const [isApproving, setApproving] = React.useState<boolean>(false);
     const [isEndingAuction, setIsEndingAuction] = useState(false);
@@ -168,7 +176,7 @@ const PaymentComponent: FC<Props> = observer(
                     toast.error({
                       message: 'Something went wrong',
                     });
-                    console.error('error', err)
+                    console.error('error', err);
                   })
                   .finally(() => {
                     setIsEndingAuction(false);
@@ -180,7 +188,7 @@ const PaymentComponent: FC<Props> = observer(
             toast.error({
               message: 'Something went wrong',
             });
-            console.error('error', err)
+            console.error('error', err);
             setIsEndingAuction(false);
           });
       }
@@ -228,12 +236,14 @@ const PaymentComponent: FC<Props> = observer(
               )}
             </div>
             {!!nft?.minimal_bid && (
-              <Text color="lightGray">{`Minimal bid ${nft.minimal_bid} ${nft?.currency?.symbol || ''}`}</Text>
+              <Text color="lightGray">{`Minimal bid ${nft.minimal_bid} ${
+                nft?.currency?.symbol || ''
+              }`}</Text>
             )}
           </div>
         </div>
 
-        {user.address ? (
+        {user.address && isShowButtons ? (
           <div className={styles.sellBtnsWrapper}>
             {!isApproved && isUserCanApprove && (nft?.is_selling || nft?.is_auc_selling) ? (
               <Button
