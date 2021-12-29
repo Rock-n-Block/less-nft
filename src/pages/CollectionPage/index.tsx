@@ -75,6 +75,8 @@ const CollectionPage: React.FC = observer(() => {
   const anchorRef = useInfiniteScroll(filters.page, allPages, filters.handlePage, isNftsLoading);
   const filtersRef = useRef<TNullable<HTMLDivElement>>(null);
 
+  console.log(isLoading);
+
   return (
     <section className={s.page}>
       <div className={s.page_user}>

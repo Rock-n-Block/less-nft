@@ -18,7 +18,7 @@ import styles from './PropertiesFilter.module.scss';
 const properties = {
   '333sssss': { 10: 1 },
   'cxvxcvxcv': { 1: 1 },
-  'dssdf': { sees: 1 },
+  'dssdf': { sees: 1, surname: 2 },
   'fsdfsdfs': { 3: 1 },
   'mmmmmmv': { 1: 1 },
   'name': { isdsfsdcc: 1 },
