@@ -56,11 +56,18 @@
   transition: 200ms;
   transform: translateX(0);
 
+  padding: 0 20px;
+
   display: grid;
   grid-template-columns: 75px 1fr;
 
   &.open {
     grid-template-columns: 380px 1fr;
+  }
+
+  @include forDesktopSm() {
+    display: block;
+    padding: 0;
   }
 
   .filter {
@@ -96,6 +103,7 @@
 
     @include forDesktopSm() {
       padding-right: 0;
+      padding: 0 20px;
     }
 
     padding-top: 35px;
@@ -124,7 +132,6 @@
   }
 
   .filterAndCards {
-    padding: 0 18px;
     .filterResultsContainer {
       &.withFilter {
         flex-basis: 100%;
@@ -275,6 +282,8 @@
 
 .header {
   @include flexbox(center, space-between);
+  flex-wrap: wrap;
+  gap: 15px;
 }
 // toogler
 .toogle_cards {
@@ -317,4 +326,12 @@
   &.small {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
+
+  @include forDesktopSm {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+}
+
+.total {
+  flex-grow: 1;
 }

@@ -12,6 +12,7 @@ interface IProps {
   tags?: string;
   max_price?: string;
   min_price?: string;
+  collections?: string;
   currency?: string;
   is_verified?: string;
   creator?: string;
@@ -52,6 +53,7 @@ export const useFetchNft = (
     on_auc_sale,
     on_timed_auc_sale,
     network,
+    collections,
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
@@ -66,7 +68,8 @@ export const useFetchNft = (
       const refresh = page === 1;
       setLoading(true);
 
-      const boolIsVerified = is_verified === 'All' ? undefined : is_verified === 'verified';
+      // const boolIsVerified = is_verified === 'All' ? undefined : is_verified === 'verified';
+      const boolIsVerified = undefined;
       const formattedCurrency = currency === 'All' ? undefined : currency;
       const formattedTags = tags?.toLocaleLowerCase() === 'all nfts' ? undefined : tags;
       storeApi
@@ -88,6 +91,7 @@ export const useFetchNft = (
           on_auc_sale: on_auc_sale || '',
           on_timed_auc_sale: on_timed_auc_sale || '',
           network,
+          collections,
         })
         .then(({ data: { results, total, total_pages } }: any) => {
           setTotalItems(() => total);
@@ -106,7 +110,27 @@ export const useFetchNft = (
           setLoading(false);
         });
     },
-    [text, isCanFetch, isOnlyForOwnerOrCreator, is_verified, max_price, on_sale, on_auc_sale, on_timed_auc_sale, order_by, owner, creator, bids_by, page, currency, tags, has_bids, type, min_price, network],
+    [
+      text,
+      isCanFetch,
+      isOnlyForOwnerOrCreator,
+      max_price,
+      on_sale,
+      on_auc_sale,
+      on_timed_auc_sale,
+      order_by,
+      owner,
+      creator,
+      bids_by,
+      page,
+      currency,
+      tags,
+      has_bids,
+      type,
+      min_price,
+      network,
+      collections,
+    ],
   );
 
   const debouncedFetch = useRef(
@@ -152,6 +176,7 @@ export const useFetchNft = (
     isIntervalUpdate,
     on_auc_sale,
     on_timed_auc_sale,
+    collections,
   ]);
 
   return [allPages, totalItems, nftCards, isLoading, debouncedFetch];

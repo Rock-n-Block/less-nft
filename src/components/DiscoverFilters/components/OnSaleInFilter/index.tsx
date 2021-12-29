@@ -4,10 +4,17 @@ import GroupWrapper from '../GroupWrapper';
 import { Checkbox } from 'components';
 
 import styles from './OnSaleInFilter.module.scss';
+import { useMst } from 'store';
 
-const OnSaleInFilter: VFC = () => {
+interface IProps {
+  activeCurrencies: Array<string>;
+  setActiveCurrencies: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const OnSaleInFilter: VFC<IProps> = ({ activeCurrencies, setActiveCurrencies }) => {
   const [isOpened, setisOpened] = useState(true);
-  const [activeCurrencies, setActiveCurrencies] = useState<Array<string>>([]);
+
+  const { networks } = useMst();
 
   const handleChangeActiveCurrencies = useCallback(
     (currency: string) => {
@@ -17,30 +24,22 @@ const OnSaleInFilter: VFC = () => {
         setActiveCurrencies((prev) => [...prev, currency]);
       }
     },
-    [activeCurrencies],
+    [activeCurrencies, setActiveCurrencies],
   );
 
   return (
     <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="On sale in">
       <div className={styles.content}>
-        <Checkbox
-          onChange={() => handleChangeActiveCurrencies('ETH')}
-          content="ETH"
-          value={activeCurrencies.includes('ETH')}
-          className={styles.checkbox}
-        />
-        <Checkbox
-          onChange={() => handleChangeActiveCurrencies('WETH')}
-          content="WETH"
-          value={activeCurrencies.includes('WETH')}
-          className={styles.checkbox}
-        />
-        <Checkbox
-          onChange={() => handleChangeActiveCurrencies('BNB')}
-          content="BNB"
-          value={activeCurrencies.includes('BNB')}
-          className={styles.checkbox}
-        />
+        {networks.getNetworks.length &&
+          networks.getCurrencies.map((currency) => (
+            <Checkbox
+              onChange={() => handleChangeActiveCurrencies(currency.symbol)}
+              content={currency.symbol.toUpperCase()}
+              value={activeCurrencies.includes(currency.symbol)}
+              className={styles.checkbox}
+              key={currency.name}
+            />
+          ))}
       </div>
     </GroupWrapper>
   );
