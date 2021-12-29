@@ -60,8 +60,8 @@ const DescriptionAndTagsComponent: FC<Props> = ({
             Tags:
           </Text>
           {tags.map((tag) => (
-            <div className={styles.tag} key={`tag-${tag.value}`}>
-              <Text size="s">{`#${tag.value}`}</Text>
+            <div className={styles.tag} key={`tag-${tag.title}`}>
+              <Text size="s">{`#${tag.title}`}</Text>
             </div>
           ))}
         </div>

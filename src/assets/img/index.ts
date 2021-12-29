@@ -48,6 +48,7 @@ export { default as commentAction } from './commentAction.svg';
 export { default as resourceForGettingStarted3 } from './resourceForGettingStarted3.png';
 export { default as resourceForGettingStarted2 } from './resourceForGettingStarted2.png';
 export { default as resourceForGettingStarted1 } from './resourceForGettingStarted1.png';
+export { default as AllImage } from './All.png';
 export { ReactComponent as PinkHeart } from './pinkHeart.svg';
 export { ReactComponent as Art } from './Art.svg';
 export { ReactComponent as Folders } from './folders.svg';

@@ -433,18 +433,16 @@
   border: 1px solid $color-primary;
   padding: 20px 30px;
 
-  & + & {
-    margin-left: 15px;
-  }
-
   &Wrapper {
     @include flexbox(center, flex-start);
     flex-direction: row;
     margin-top: 32px;
+    flex-wrap: wrap;
+    gap: 15px;
   }
 }
 
-.levels {
+.rankings {
   margin-top: 32px;
   border-radius: $border-radius;
   border: 1px solid $color-primary;

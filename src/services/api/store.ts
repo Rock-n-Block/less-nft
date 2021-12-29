@@ -155,11 +155,12 @@ export default {
       message,
       token,
     }),
-  trackTransaction: (tx_hash: string, token: string | number, seller_id: string | number) => {
+  trackTransaction: (tx_hash: string, token: string | number, seller_id: string | number, amount: number) => {
     const data: any = {
       tx_hash,
       token,
       ownership: seller_id,
+      amount
     };
     if (!seller_id) delete data.ownership;
     return axios.post(

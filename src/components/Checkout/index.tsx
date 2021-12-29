@@ -51,7 +51,12 @@ const Checkout: React.FC = observer(() => {
             .then((res: any) => {
               toast.success('Successful purchase of nft');
               storeApi
-                .trackTransaction(res.transactionHash, sell.nft.tokenId, sell.nft.sellerId)
+                .trackTransaction(
+                  res.transactionHash,
+                  sell.nft.tokenId,
+                  sell.nft.sellerId,
+                  sell.nft.standart === 'ERC721' ? 0 : +amount,
+                )
                 .then(() => {
                   setTimeout(() => {
                     sell.checkout.success();

@@ -177,15 +177,15 @@
     grid-template-columns: 0.5fr 6fr 3fr 3fr 3fr 1.5fr 1fr;
     border-bottom: 1px solid $color-neutral-10;
 
-    .isCanSort{
+    .isCanSort {
       cursor: pointer;
     }
 
-    .sorting{
+    .sorting {
       margin-left: 8px;
     }
 
-    .isReverted{
+    .isReverted {
       transform: rotate(180deg);
     }
   }
@@ -206,6 +206,51 @@
     }
     &Start {
       @include flexbox(center, flex-start);
+    }
+  }
+}
+
+.collectionsFooter {
+  margin: 30px 32px;
+
+  .dropdown {
+    min-width: 0;
+  }
+  @include flexbox(center, space-between);
+
+  .page {
+    &Arrow {
+      transform: translateY(-1px);
+    }
+    &Dropdown {
+      .head {
+        border-radius: 0;
+        padding: 2px 0 0 8px;
+        width: 51px;
+        height: 32px;
+      }
+      .arrow {
+        right: 4px;
+      }
+      .body {
+        border-radius: 0;
+        width: 52px;
+
+        .option {
+          @include flexbox(center, center);
+          .text{
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .perPage {
+    @include flexbox(center, center);
+
+    &Text {
+      margin-right: 8px;
     }
   }
 }
