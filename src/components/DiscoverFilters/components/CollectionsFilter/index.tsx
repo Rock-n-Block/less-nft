@@ -37,16 +37,18 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
     [activeCollections, setActiveCollections],
   );
 
+  console.log(allPages, totalItems);
+
   return (
     <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Collections">
       <div className={styles.content}>
         {nftCards
           .filter((col: any) => !col.is_default)
           .map((collection: any) => {
-            const isCollectionActive = activeCollections.includes(collection.name);
+            const isCollectionActive = activeCollections.includes(collection.id);
             return (
               <button
-                onClick={() => handleToogleCollection(collection.name)}
+                onClick={() => handleToogleCollection(collection.id)}
                 className={cn(styles.collection, { [styles.active]: isCollectionActive })}
                 key={collection.name}
                 type="button"

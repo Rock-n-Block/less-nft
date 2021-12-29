@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { RefObject, useCallback, useRef, useState } from 'react';
 import { useParams } from 'react-router';
+import cx from 'classnames';
 
 import CollectionMainInfo from './CollectionMainInfo/index';
 
-import { H3, ArtCard, Button, Loader } from 'components';
+import { ArtCard, DiscoverFilters, Text, Select, ArtCardSkeleton } from 'components';
 
 import s from './CollectionPage.module.scss';
+import styles from '../Discover/styles.module.scss';
 
-import { folders, art } from 'assets/img';
-import { useFetchCollection, useTabs } from 'hooks';
+import { folders, art, FourSquares, NineSquares } from 'assets/img';
+import { useFetchCollection, useFetchNft, useInfiniteScroll, useNewFilters, useTabs } from 'hooks';
 import { useLocation } from 'react-router-dom';
+import { useMst } from 'store';
+import { userApi } from 'services';
+import { observer } from 'mobx-react';
+import { TNullable } from 'typings';
+import Labels from 'pages/Discover/components/Labels';
+import { toFixed } from 'utils';
 
 const tabs = [
   {
@@ -24,19 +32,50 @@ const tabs = [
   },
 ];
 
-const CollectionPage: React.FC = () => {
+const CollectionPage: React.FC = observer(() => {
+  const { user } = useMst();
   const initialTab = useLocation().search?.replace('?tab=', '') || '';
   const { activeTab } = useTabs(tabs, initialTab);
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const { collectionId } = useParams<{ collectionId: string }>();
+  const [isFilterOpen, setFilterOpen] = useState(window.innerWidth >= 780);
+  const [isSmallCards, setIsSmallCards] = useState(window.innerWidth >= 780);
 
-  const { totalTokens, collection, tokens } = useFetchCollection(
-    setIsLoading,
-    page,
-    collectionId,
-    activeTab,
+  const { collection } = useFetchCollection(setIsLoading, page, collectionId, activeTab);
+
+  const filters = useNewFilters();
+
+  const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
+    page: filters.page,
+    type: 'items',
+    order_by: filters.sortBy.value,
+    tags: filters.activeTags.join(','),
+    max_price: filters.maxPrice,
+    min_price: filters.minPrice,
+    text: filters.textSearch,
+    on_sale: filters.isOnSale,
+    on_auc_sale: filters.isOnAuction,
+    on_timed_auc_sale: filters.isOnTimedAuction,
+    network: filters.activeChains.join(','),
+    currency: filters.activeCurrencies.join(','),
+    collections: collectionId,
+  });
+
+  const likeAction = useCallback(
+    (id): Promise<any> => {
+      if (!user.address) {
+        return Promise.reject(new Error('Please login'));
+      }
+      return userApi.like({ id });
+    },
+    [user.address],
   );
+
+  const anchorRef = useInfiniteScroll(filters.page, allPages, filters.handlePage, isNftsLoading);
+  const filtersRef = useRef<TNullable<HTMLDivElement>>(null);
+
+  console.log(isLoading);
 
   return (
     <section className={s.page}>
@@ -52,74 +91,120 @@ const CollectionPage: React.FC = () => {
         />
       </div>
 
-      <div className={s.page_body}>
-        {/* <div className={s.page_body__left}>
-          <div className={s.subtitle}>Menu</div>
-          <TabLookingComponent
-            className={s.tabs}
-            tabs={tabs}
-            activeTab={activeTab}
-            action={setActiveTab}
-          />
-        </div> */}
-
-        <div className={s.page_body__right}>
-          <div className={s.page_body__top}>
-            <div className={s.page_body__top_col}>
-              <H3 className={s.title}>Artworks</H3>
-              <div className={s.counter}>{totalTokens} artwork created</div>
+      <div className={styles.discover}>
+        <div className={cx(styles.filterAndCards, { [styles.open]: isFilterOpen })}>
+          <div className={styles.stickyWrapper}>
+            <div ref={filtersRef} className={styles.sticky}>
+              <DiscoverFilters
+                isFilterOpen={isFilterOpen}
+                setFilterOpen={setFilterOpen}
+                filters={filters}
+                config={{ needCollections: false, needChains: false }}
+              />
             </div>
           </div>
-
-          <div className={s.page_body__artworks}>
-            {tokens.length
-              ? tokens.map((el: any) => {
-                  const {
-                    id,
-                    media,
-                    name,
-                    price,
-                    highest_bid,
-                    minimal_bid,
-                    currency,
-                    creator,
-                    like_count,
-                    available,
-                  } = el;
-                  return (
-                    <ArtCard
-                      type={el?.collection?.display_theme}
-                      artId={id}
-                      key={id}
-                      imageMain={media}
-                      name={name}
-                      price={price || (highest_bid && highest_bid.amount) || minimal_bid}
-                      asset={currency.symbol.toUpperCase()}
-                      inStockNumber={available}
-                      author={creator.name}
-                      authorAvatar={creator.avatar}
-                      authorId={creator.id}
-                      likesNumber={like_count}
-                    />
-                  );
-                })
-              : null}
+          <div
+            className={cx(styles.filterResultsContainer, {
+              [styles.withFilter]: isFilterOpen,
+            })}
+          >
+            <>
+              <div className={styles.header}>
+                <Text className={styles.total} tag="span">
+                  {totalItems} results
+                </Text>
+                <Select
+                  className={styles.selectArea}
+                  onChange={filters.setSortBy as any}
+                  value={filters.sortBy}
+                  options={filters.sortByFilters}
+                  classNameSelect={styles.select}
+                />
+                <div className={styles.toogle_cards}>
+                  <button
+                    type="button"
+                    onClick={() => setIsSmallCards(false)}
+                    className={cx(styles.toogle_item, { [styles.active]: !isSmallCards })}
+                  >
+                    <FourSquares />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsSmallCards(true)}
+                    className={cx(styles.toogle_item, { [styles.active]: isSmallCards })}
+                  >
+                    <NineSquares />
+                  </button>
+                </div>
+              </div>
+              <Labels filters={filters} />
+              <div className={styles.filterResults}>
+                <div className={cx(styles.cards, { [styles.small]: isSmallCards })}>
+                  {isNftsLoading && nftCards.length === 0 ? (
+                    <>
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                    </>
+                  ) : (
+                    nftCards.map((artCard: any) => {
+                      if (isNftsLoading && filters.page === 1) {
+                        return <ArtCardSkeleton />;
+                      }
+                      const {
+                        media,
+                        name,
+                        price,
+                        currency,
+                        available,
+                        creator,
+                        like_count,
+                        tags,
+                        id,
+                        highest_bid,
+                        minimal_bid,
+                        bids,
+                        is_liked,
+                      } = artCard;
+                      return (
+                        <ArtCard
+                          artId={id}
+                          key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
+                          imageMain={media}
+                          name={name}
+                          price={
+                            price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid
+                          }
+                          asset={currency?.symbol.toUpperCase()}
+                          inStockNumber={available}
+                          author={creator.name}
+                          authorAvatar={creator.avatar}
+                          authorId={creator.id}
+                          likesNumber={like_count}
+                          tags={tags}
+                          bids={bids}
+                          isLiked={is_liked}
+                          likeAction={likeAction}
+                        />
+                      );
+                    })
+                  )}
+                  {isNftsLoading && filters.page >= 2 && (
+                    <>
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
           </div>
-          {tokens.length < totalTokens && (
-            <div className={s.button_wrapper}>
-              {isLoading ? (
-                <Loader className={s.loader} />
-              ) : (
-                <Button className={s.button_more} color="outline" onClick={() => setPage(page + 1)}>
-                  Load More
-                </Button>
-              )}
-            </div>
-          )}
         </div>
+        <div ref={anchorRef as RefObject<HTMLDivElement>} />
       </div>
     </section>
   );
-};
+});
 
 export default CollectionPage;
