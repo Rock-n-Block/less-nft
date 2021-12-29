@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useHistory, useParams } from 'react-router-dom';
 import { routes } from 'appConstants';
 import cx from 'classnames';
 import { ArtCard, Control, GiantCard, H3, Text } from 'components';
@@ -78,15 +77,6 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
     remove.isSuccess,
     sell.putOnSale.isSuccess,
   ]);
-
-  if (
-    nft?.network.name !== localStorage.lessnft_nft_chainName &&
-    !Object.is(localStorage.lessnft_nft_chainName, undefined) &&
-    !Object.is(nft, null)
-  ) {
-    toast.error(`Unsupported chain. (Connect to ${nft?.network.name} to see "${nft?.name}")`);
-    return <Redirect to="/" />;
-  }
 
   return (
     <div className={cx(styles.detailArtwork, className)}>
