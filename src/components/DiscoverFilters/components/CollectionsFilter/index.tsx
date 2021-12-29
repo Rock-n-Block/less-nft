@@ -22,6 +22,9 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
     type: 'collections',
     text: '',
   });
+  if (allPages && totalItems) {
+    console.log('');
+  }
 
   const handleToogleCollection = useCallback(
     (tagName: string) => {
