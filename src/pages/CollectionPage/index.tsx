@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import cx from 'classnames';
 
@@ -60,6 +60,7 @@ const CollectionPage: React.FC = observer(() => {
     network: filters.activeChains.join(','),
     currency: filters.activeCurrencies.join(','),
     collections: collectionId,
+    properties: filters.activePerks,
   });
 
   const likeAction = useCallback(
@@ -99,7 +100,11 @@ const CollectionPage: React.FC = observer(() => {
                 isFilterOpen={isFilterOpen}
                 setFilterOpen={setFilterOpen}
                 filters={filters}
-                config={{ needCollections: false, needChains: false }}
+                config={{
+                  needCollections: false,
+                  needChains: false,
+                  properties: collection.properties,
+                }}
               />
             </div>
           </div>

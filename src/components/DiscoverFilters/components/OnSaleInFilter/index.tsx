@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const OnSaleInFilter: VFC<IProps> = ({ activeCurrencies, setActiveCurrencies }) => {
-  const [isOpened, setisOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(true);
 
   const { networks } = useMst();
 
@@ -28,7 +28,7 @@ const OnSaleInFilter: VFC<IProps> = ({ activeCurrencies, setActiveCurrencies }) 
   );
 
   return (
-    <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="On sale in">
+    <GroupWrapper isOpened={isOpened} setIsOpened={() => setIsOpened(!isOpened)} title="On sale in">
       <div className={styles.content}>
         {networks.getNetworks.length &&
           networks.getCurrencies.map((currency) => (

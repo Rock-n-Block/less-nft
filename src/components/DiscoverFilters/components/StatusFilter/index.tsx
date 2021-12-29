@@ -26,7 +26,7 @@ const StatusFilter: VFC<IProps> = ({
   isOnTimedAuction,
   activeTags,
 }) => {
-  const [isOpened, setisOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(true);
 
   const handleFilter = useCallback(
     (filterName: string) => {
@@ -57,7 +57,7 @@ const StatusFilter: VFC<IProps> = ({
   );
 
   return (
-    <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Status">
+    <GroupWrapper isOpened={isOpened} setIsOpened={() => setIsOpened(!isOpened)} title="Status">
       <div className={styles.content}>
         <Button
           padding="0"

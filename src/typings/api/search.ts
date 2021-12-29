@@ -22,4 +22,5 @@ export interface IGetSearchResultParams {
   bids_by?: string;
   network?: string;
   collections?: string;
+  properties?: string;
 }

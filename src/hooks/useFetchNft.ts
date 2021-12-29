@@ -26,6 +26,7 @@ interface IProps {
   on_auc_sale?: boolean;
   on_timed_auc_sale?: boolean;
   network?: string;
+  properties?: string;
 }
 
 export const useFetchNft = (
@@ -54,6 +55,7 @@ export const useFetchNft = (
     on_timed_auc_sale,
     network,
     collections,
+    properties,
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
@@ -92,6 +94,7 @@ export const useFetchNft = (
           on_timed_auc_sale: on_timed_auc_sale || '',
           network,
           collections,
+          properties,
         })
         .then(({ data: { results, total, total_pages } }: any) => {
           setTotalItems(() => total);
@@ -124,6 +127,7 @@ export const useFetchNft = (
       bids_by,
       page,
       currency,
+      properties,
       tags,
       has_bids,
       type,
@@ -177,6 +181,7 @@ export const useFetchNft = (
     on_auc_sale,
     on_timed_auc_sale,
     collections,
+    properties,
   ]);
 
   return [allPages, totalItems, nftCards, isLoading, debouncedFetch];

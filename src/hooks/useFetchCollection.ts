@@ -3,6 +3,13 @@ import { useHistory } from 'react-router';
 import { storeApi } from 'services';
 import { TNullable } from 'typings';
 
+export interface IProperty {
+  [key: string]: number;
+}
+export interface IProperties {
+  [key: string]: IProperty;
+}
+
 export const useFetchCollection = (
   setLoading: (value: boolean) => void,
   page: number,
@@ -21,6 +28,7 @@ export const useFetchCollection = (
     creator: any;
     tokens: Array<any>;
     description: TNullable<string>;
+    properties: IProperties;
   }>({
     address: '',
     cover: '',
@@ -30,6 +38,7 @@ export const useFetchCollection = (
     tokens: [],
     creator: {},
     description: null,
+    properties: {},
   });
 
   const fetchSearch = () => {
