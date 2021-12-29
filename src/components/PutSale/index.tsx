@@ -74,7 +74,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
     handleApproveNft()
       .then(() => {
         storeApi
-          .putOnSale(sell.nft.tokenId ? +sell.nft.tokenId : 0, priceValue ? +priceValue : 0, price)
+          .putOnSale(sell.nft.tokenId ? +sell.nft.tokenId : 0, priceValue ? +priceValue : 0, price, sell.nft.currency)
           .then(() => {
             sell.putOnSale.success();
             sell.putOnSale.close();
