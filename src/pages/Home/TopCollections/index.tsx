@@ -60,7 +60,7 @@ const TopCollections: FC<Props> = ({ className }) => {
             ))}
           </ol>
 
-          <Button className={styles.goRankingBtn} href={routes.topNfts.root}>
+          <Button className={styles.goRankingBtn} href={routes.topNfts.link(period.value)}>
             Go to Rankings
           </Button>
         </div>

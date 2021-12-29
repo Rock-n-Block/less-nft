@@ -131,10 +131,11 @@ export default {
     axios.post(`/store/end_auction/${id}/?network=${localStorage.lessnft_nft_chainName}`, {
       token: localStorage.dds_token,
     }),
-  putOnSale: (tokenId: number, price?: TNullable<number>, selling?: boolean) => {
+  putOnSale: (tokenId: number, price?: TNullable<number>, selling?: boolean, currency?: string) => {
     const data: any = {
       selling: true,
       price,
+      currency
     };
     if (!selling) {
       data.minimal_bid = price;
