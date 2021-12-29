@@ -7,13 +7,14 @@ import styles from './ChainFilter.module.scss';
 
 import { checkMark } from 'assets/img';
 import { useMst } from 'store';
+import { observer } from 'mobx-react';
 
 interface IProps {
   activeChains: Array<string>;
   setActiveChains: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const ChainFilter: VFC<IProps> = ({ activeChains, setActiveChains }) => {
+const ChainFilter: VFC<IProps> = observer(({ activeChains, setActiveChains }) => {
   const [isOpened, setisOpened] = useState(true);
   const { networks } = useMst();
 
@@ -56,6 +57,6 @@ const ChainFilter: VFC<IProps> = ({ activeChains, setActiveChains }) => {
       </div>
     </GroupWrapper>
   );
-};
+});
 
 export default ChainFilter;

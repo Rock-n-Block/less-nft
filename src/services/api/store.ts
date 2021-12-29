@@ -90,7 +90,7 @@ export default {
   }: IGetSearchResultParams) => {
     return axios.get(`/store/search/`, {
       params: {
-        network: network || localStorage.lessnft_nft_chainName || 'undefined',
+        network: network || 'undefined',
         type,
         order_by,
         owner,
@@ -156,12 +156,17 @@ export default {
       message,
       token,
     }),
-  trackTransaction: (tx_hash: string, token: string | number, seller_id: string | number, amount: number) => {
+  trackTransaction: (
+    tx_hash: string,
+    token: string | number,
+    seller_id: string | number,
+    amount: number,
+  ) => {
     const data: any = {
       tx_hash,
       token,
       ownership: seller_id,
-      amount
+      amount,
     };
     if (!seller_id) delete data.ownership;
     return axios.post(

@@ -2,22 +2,28 @@ import { VFC } from 'react';
 import cn from 'classnames';
 
 import { H6, Text } from 'components';
-import StatusFilter from './components/StatusFilter/index';
-import PriceFilter from './components/PriceFilter/index';
-import CollectionsFilter from './components/CollectionsFilter/index';
-import ChainFilter from './components/ChainFilter/index';
-import CategoriesFilter from './components/CategoriesFilter/index';
-import OnSaleInFilter from './components/OnSaleInFilter/index';
+import StatusFilter from './components/StatusFilter';
+import PriceFilter from './components/PriceFilter';
+import CollectionsFilter from './components/CollectionsFilter';
+import ChainFilter from './components/ChainFilter';
+import CategoriesFilter from './components/CategoriesFilter';
+import OnSaleInFilter from './components/OnSaleInFilter';
+import PropertiesFilter from './components/PropertiesFilter';
 import { useNewFilters } from 'hooks';
 
 import styles from './DiscoverFilters.module.scss';
 
 import { ArrowLeft } from 'assets/img';
 
+interface IFiltersConfig {
+  needCollections?: boolean;
+  needChains?: boolean;
+}
 interface IProps {
   isFilterOpen: boolean;
   setFilterOpen: React.Dispatch<React.SetStateAction<boolean>>;
   filters: ReturnType<typeof useNewFilters>;
+  config?: IFiltersConfig;
 }
 
 const DiscoverFilters: VFC<IProps> = ({
@@ -43,6 +49,7 @@ const DiscoverFilters: VFC<IProps> = ({
     activeCollections,
     setActiveCollections,
   },
+  config = { needCollections: true, needChains: true },
 }) => {
   return (
     <section className={cn(styles.filters, { [styles.active]: isFilterOpen })}>
@@ -75,16 +82,21 @@ const DiscoverFilters: VFC<IProps> = ({
               minPrice={minPrice}
               maxPrice={maxPrice}
             />
-            <CollectionsFilter
-              activeCollections={activeCollections}
-              setActiveCollections={setActiveCollections}
-            />
-            <ChainFilter activeChains={activeChains} setActiveChains={setActiveChains} />
+            {config.needCollections && (
+              <CollectionsFilter
+                activeCollections={activeCollections}
+                setActiveCollections={setActiveCollections}
+              />
+            )}
+            {config.needChains && (
+              <ChainFilter activeChains={activeChains} setActiveChains={setActiveChains} />
+            )}
             <CategoriesFilter activeTags={activeTags} setActiveTags={setActiveTags} />
             <OnSaleInFilter
               activeCurrencies={activeCurrencies}
               setActiveCurrencies={setActiveCurrencies}
             />
+            <PropertiesFilter />
           </div>
         </>
       ) : (
