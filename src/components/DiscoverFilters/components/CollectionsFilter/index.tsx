@@ -17,11 +17,14 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
   const [isOpened, setisOpened] = useState(true);
 
   const filters = useNewFilters();
-  const [_, __, nftCards] = useFetchNft({
+  const [allPages, totalItems, nftCards] = useFetchNft({
     page: filters.page,
     type: 'collections',
     text: '',
   });
+  if (allPages && totalItems) {
+    console.log('');
+  }
 
   const handleToogleCollection = useCallback(
     (tagName: string) => {
