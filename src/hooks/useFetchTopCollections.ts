@@ -5,8 +5,8 @@ export const useFetchTopCollections = (
   period: any,
   network = localStorage.lessnft_nft_chainName,
   tags = '',
-  page: number,
-  items_per_page: number
+  page = 1,
+  items_per_page= 15
 ) => {
   const [collections, setCollections] = useState<any[]>([]);
   const [totalItems, setTotalItems] = useState(0);
