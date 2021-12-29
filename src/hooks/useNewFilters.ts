@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const sortByFilters = [
-  { value: 'created_at', label: 'Created' },
+  { value: '-created_at', label: 'Created' },
   { value: '-price', label: 'Price' },
-  { value: 'likes', label: 'Likes' },
-  { value: 'views', label: 'Views' },
-  { value: 'sale', label: 'Sale' },
-  { value: 'transfer', label: 'Transfer' },
-  { value: 'auction_end', label: 'Auction End' },
-  { value: 'last_sale', label: 'Last Sale' },
+  { value: '-likes', label: 'Likes' },
+  { value: '-views', label: 'Views' },
+  { value: '-sale', label: 'Sale' },
+  { value: '-transfer', label: 'Transfer' },
+  { value: '-auction_end', label: 'Auction End' },
+  { value: '-last_sale', label: 'Last Sale' },
 ];
 
 const useNewFilters = () => {
