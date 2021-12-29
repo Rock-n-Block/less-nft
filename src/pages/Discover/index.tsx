@@ -1,6 +1,6 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
 import cx from 'classnames';
-import { ArtCard, Text, LiveAuction, DiscoverFilters, ArtCardSkeleton, Select } from 'components';
+import { ArtCard, Text, DiscoverFilters, ArtCardSkeleton, Select } from 'components';
 import { useFetchNft, useInfiniteScroll, useNewFilters } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { userApi } from 'services';
@@ -160,7 +160,7 @@ const Discover = observer(() => {
         </div>
       </div>
       <div ref={anchorRef as RefObject<HTMLDivElement>} />
-      <LiveAuction className={styles.liveAuction} />
+      {/* <LiveAuction className={styles.liveAuction} /> */}
     </div>
   );
 });
