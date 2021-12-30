@@ -9,7 +9,7 @@ import ChainFilter from './components/ChainFilter';
 import CategoriesFilter from './components/CategoriesFilter';
 import OnSaleInFilter from './components/OnSaleInFilter';
 import PropertiesFilter from './components/PropertiesFilter';
-import { useNewFilters } from 'hooks';
+import { IProperties, useNewFilters } from 'hooks';
 
 import styles from './DiscoverFilters.module.scss';
 
@@ -18,6 +18,7 @@ import { ArrowLeft } from 'assets/img';
 interface IFiltersConfig {
   needCollections?: boolean;
   needChains?: boolean;
+  properties: IProperties;
 }
 interface IProps {
   isFilterOpen: boolean;
@@ -48,6 +49,8 @@ const DiscoverFilters: VFC<IProps> = ({
     setActiveCurrencies,
     activeCollections,
     setActiveCollections,
+    activePerks,
+    setActivePerks,
   },
   config = { needCollections: true, needChains: true },
 }) => {
@@ -96,7 +99,11 @@ const DiscoverFilters: VFC<IProps> = ({
               activeCurrencies={activeCurrencies}
               setActiveCurrencies={setActiveCurrencies}
             />
-            <PropertiesFilter />
+            <PropertiesFilter
+              properties={config.properties || {}}
+              activePerks={activePerks}
+              setActivePerks={setActivePerks}
+            />
           </div>
         </>
       ) : (

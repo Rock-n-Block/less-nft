@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const PriceFilter: VFC<IProps> = ({ setMinPrice, setMaxPrice, minPrice, maxPrice }) => {
-  const [isOpened, setisOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(true);
 
   const [min, setMin] = useState(minPrice);
   const [max, setMax] = useState(maxPrice);
@@ -35,7 +35,7 @@ const PriceFilter: VFC<IProps> = ({ setMinPrice, setMaxPrice, minPrice, maxPrice
   );
 
   return (
-    <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Price">
+    <GroupWrapper isOpened={isOpened} setIsOpened={() => setIsOpened(!isOpened)} title="Price">
       <div className={styles.content}>
         <div className={styles.currency}>
           <div className={styles.icon}>

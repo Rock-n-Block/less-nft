@@ -10,7 +10,7 @@ import { arrowLeft } from 'assets/img';
 interface IProps {
   title: string;
   isOpened: boolean;
-  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpened: () => void;
 }
 
 const GroupWrapper: FC<IProps> = ({ children, title, isOpened, setIsOpened }) => {
@@ -18,7 +18,7 @@ const GroupWrapper: FC<IProps> = ({ children, title, isOpened, setIsOpened }) =>
     <div className={cn(s.group, { [s.active]: isOpened })}>
       <button
         type="button"
-        onClick={() => setIsOpened(!isOpened)}
+        onClick={() => setIsOpened()}
         className={cn(s.header, { [s.active]: isOpened })}
       >
         <H6 weight="medium" className={s.title}>

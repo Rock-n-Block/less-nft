@@ -87,6 +87,7 @@ export default {
     min_price,
     network,
     collections,
+    properties,
   }: IGetSearchResultParams) => {
     return axios.get(`/store/search/`, {
       params: {
@@ -108,6 +109,7 @@ export default {
         on_auc_sale,
         on_timed_auc_sale,
         collections,
+        properties,
       },
     });
   },

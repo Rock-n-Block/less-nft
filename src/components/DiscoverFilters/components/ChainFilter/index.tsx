@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const ChainFilter: VFC<IProps> = observer(({ activeChains, setActiveChains }) => {
-  const [isOpened, setisOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(true);
   const { networks } = useMst();
 
   const handleToogleChain = useCallback(
@@ -30,7 +30,7 @@ const ChainFilter: VFC<IProps> = observer(({ activeChains, setActiveChains }) =>
   );
 
   return (
-    <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Chain">
+    <GroupWrapper isOpened={isOpened} setIsOpened={() => setIsOpened(!isOpened)} title="Chain">
       <div className={styles.content}>
         {networks.getNetworks.length &&
           networks.getNetworks.map((chain) => {

@@ -38,6 +38,7 @@ const useNewFilters = () => {
   const [maxPrice, setMaxPrice] = useState('');
   const [textSearch, setTextSearch] = useState(text || '');
   const [sortBy, setSortBy] = useState(sortByFilters[0]);
+  const [activePerks, setActivePerks] = useState('{}');
 
   const [page, setPage] = useState(1);
   const handlePage = useCallback((value: number) => {
@@ -56,6 +57,7 @@ const useNewFilters = () => {
     setMinPrice('');
     setMaxPrice('');
     setTextSearch('');
+    setActivePerks('{}');
   }, []);
 
   useEffect(() => {
@@ -114,6 +116,8 @@ const useNewFilters = () => {
     sortByFilters,
     activeCollections,
     setActiveCollections,
+    activePerks,
+    setActivePerks,
   };
 };
 

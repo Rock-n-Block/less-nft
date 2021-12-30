@@ -14,7 +14,7 @@ interface IProps {
 }
 
 const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollections }) => {
-  const [isOpened, setisOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(true);
 
   const filters = useNewFilters();
   const [allPages, totalItems, nftCards] = useFetchNft({
@@ -40,7 +40,11 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
   console.log(allPages, totalItems);
 
   return (
-    <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Collections">
+    <GroupWrapper
+      isOpened={isOpened}
+      setIsOpened={() => setIsOpened(!isOpened)}
+      title="Collections"
+    >
       <div className={styles.content}>
         {nftCards
           .filter((col: any) => !col.is_default)

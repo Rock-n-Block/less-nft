@@ -1,41 +1,51 @@
-import { useState, VFC } from 'react';
+import { IProperties } from 'hooks';
+import { useCallback, useState, VFC } from 'react';
 
 import GroupWrapper from '../GroupWrapper';
+import Property from './Property';
 
-import styles from './PropertiesFilter.module.scss';
+export interface IPropertiesToBackend {
+  [key: string]: Array<string>;
+}
+interface IProps {
+  activePerks: string;
+  setActivePerks: React.Dispatch<React.SetStateAction<string>>;
+  properties: IProperties;
+}
 
-// properties:
-// 333ssss: {10: 1}
-// cxvxcvxcv: {1: 1}
-// dssdf: {sees: 1}
-// fsdfsdfs: {3: 1}
-// mmmmmmv: {1: 1}
-// name: {isdsfsdcc: 1}
-// sdfsdf: {3: 1}
-// vndjsvnjds: {1: 1}
-// weewew: {ccsc: 1}
+const PropertiesFilter: VFC<IProps> = ({ setActivePerks, properties, activePerks }) => {
+  const [activeProperties, setActiveProperties] = useState<Array<string>>([]);
 
-const properties = {
-  '333sssss': { 10: 1 },
-  'cxvxcvxcv': { 1: 1 },
-  'dssdf': { sees: 1, surname: 2 },
-  'fsdfsdfs': { 3: 1 },
-  'mmmmmmv': { 1: 1 },
-  'name': { isdsfsdcc: 1 },
-  'sdfsdf': { 3: 1 },
-  'vndjsvnjds': { 1: 1 },
-  'weewew': { ccsc: 1 },
-};
-
-console.log(properties);
-
-const PropertiesFilter: VFC = () => {
-  const [isOpened, setisOpened] = useState(true);
+  const handleToogleProperty = useCallback(
+    (name: string) => {
+      if (activeProperties.includes(name)) {
+        setActiveProperties((prev) => prev.filter((prop) => prop !== name));
+      } else {
+        setActiveProperties((prev) => [...prev, name]);
+      }
+    },
+    [activeProperties],
+  );
 
   return (
-    <GroupWrapper isOpened={isOpened} setIsOpened={setisOpened} title="Price">
-      <div className={styles.content}>Properties filter</div>
-    </GroupWrapper>
+    <>
+      {Object.keys(properties).map((propertyName) => (
+        <GroupWrapper
+          key={propertyName}
+          isOpened={activeProperties.includes(propertyName)}
+          setIsOpened={() => handleToogleProperty(propertyName)}
+          title={propertyName}
+        >
+          <Property
+            propertiesToBacknend={JSON.parse(activePerks)}
+            setPropertiesToBackend={setActivePerks}
+            propertyName={propertyName}
+            activePerks={activePerks}
+            properties={properties[propertyName]}
+          />
+        </GroupWrapper>
+      ))}
+    </>
   );
 };
 
