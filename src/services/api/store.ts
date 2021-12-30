@@ -109,7 +109,7 @@ export default {
         on_auc_sale,
         on_timed_auc_sale,
         collections,
-        properties: properties,
+        properties,
       },
     });
   },

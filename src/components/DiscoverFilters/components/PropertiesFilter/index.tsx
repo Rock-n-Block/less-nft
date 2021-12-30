@@ -1,5 +1,5 @@
 import { IProperties } from 'hooks';
-import { useCallback, useEffect, useState, VFC } from 'react';
+import { useCallback, useState, VFC } from 'react';
 
 import GroupWrapper from '../GroupWrapper';
 import Property from './Property';
@@ -13,9 +13,7 @@ interface IProps {
   properties: IProperties;
 }
 
-const PropertiesFilter: VFC<IProps> = ({ setActivePerks, properties }) => {
-  const [propertiesToBacknend, setPropertiesToBackend] = useState({} as IPropertiesToBackend);
-
+const PropertiesFilter: VFC<IProps> = ({ setActivePerks, properties, activePerks }) => {
   const [activeProperties, setActiveProperties] = useState<Array<string>>([]);
 
   const handleToogleProperty = useCallback(
@@ -29,10 +27,6 @@ const PropertiesFilter: VFC<IProps> = ({ setActivePerks, properties }) => {
     [activeProperties],
   );
 
-  useEffect(() => {
-    setActivePerks(JSON.stringify(propertiesToBacknend));
-  }, [propertiesToBacknend, setActivePerks]);
-
   return (
     <>
       {Object.keys(properties).map((propertyName) => (
@@ -43,9 +37,10 @@ const PropertiesFilter: VFC<IProps> = ({ setActivePerks, properties }) => {
           title={propertyName}
         >
           <Property
-            propertiesToBacknend={propertiesToBacknend}
-            setPropertiesToBackend={setPropertiesToBackend}
+            propertiesToBacknend={JSON.parse(activePerks)}
+            setPropertiesToBackend={setActivePerks}
             propertyName={propertyName}
+            activePerks={activePerks}
             properties={properties[propertyName]}
           />
         </GroupWrapper>

@@ -1,4 +1,4 @@
-import { useMemo, VFC } from 'react';
+import { useCallback, useMemo, VFC } from 'react';
 
 import FilterLabel from '../FilterLabel';
 import { useNewFilters } from 'hooks';
@@ -34,6 +34,8 @@ const Labels: VFC<IProps> = ({
     textSearch,
     activeCollections,
     setActiveCollections,
+    activePerks,
+    setActivePerks,
   },
 }) => {
   const minMaxLabel = useMemo(() => {
@@ -42,6 +44,22 @@ const Labels: VFC<IProps> = ({
     if (minPrice && !maxPrice) return `> ${(+minPrice).toFixed(2)}`;
     return '';
   }, [minPrice, maxPrice]);
+
+  const activeProperties = Object.keys(JSON.parse(activePerks));
+
+  const handleDeletePerk = useCallback(
+    (propTitle: string, propName: string) => {
+      const perks = JSON.parse(activePerks);
+      const newPerks = JSON.parse(activePerks)[propTitle].filter(
+        (prop: string) => prop !== propName,
+      );
+
+      perks[propTitle] = newPerks;
+
+      setActivePerks(() => JSON.stringify(perks));
+    },
+    [activePerks, setActivePerks],
+  );
 
   return (
     <div className={s.labels}>
@@ -91,6 +109,17 @@ const Labels: VFC<IProps> = ({
       {textSearch && (
         <FilterLabel title={`Text: ${textSearch}`} onClick={() => setTextSearch('')} />
       )}
+
+      {activeProperties.map((propTitle) =>
+        JSON.parse(activePerks)[propTitle].map((perk: string) => (
+          <FilterLabel
+            key={`${propTitle}-${perk}`}
+            title={perk}
+            onClick={() => handleDeletePerk(propTitle, perk)}
+          />
+        )),
+      )}
+
       <button type="button" className={s.button} onClick={setDefaultFilters}>
         Clear All
       </button>

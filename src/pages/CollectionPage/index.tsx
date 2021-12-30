@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import cx from 'classnames';
 

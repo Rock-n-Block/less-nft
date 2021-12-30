@@ -3,16 +3,15 @@ import { Checkbox } from 'components';
 
 import s from './Property.module.scss';
 
-import { IProperty, IPropertiesToBackend } from '../index';
-
-// propertyName: "Eyes"
-// properties: { blue: 1, white: 10 },
+import { IPropertiesToBackend } from '../index';
+import { IProperty } from 'hooks';
 
 interface IProps {
   properties: IProperty;
   propertyName: string;
   propertiesToBacknend: IPropertiesToBackend;
-  setPropertiesToBackend: React.Dispatch<React.SetStateAction<IPropertiesToBackend>>;
+  setPropertiesToBackend: React.Dispatch<React.SetStateAction<string>>;
+  activePerks: string;
 }
 
 const Property: VFC<IProps> = ({
@@ -20,6 +19,7 @@ const Property: VFC<IProps> = ({
   propertyName,
   propertiesToBacknend,
   setPropertiesToBackend,
+  activePerks,
 }) => {
   const handleTooglePropety = useCallback(
     (prop: string, mainPropertyTitle: string) => {
@@ -31,22 +31,23 @@ const Property: VFC<IProps> = ({
           ...propertiesToBacknend,
           [mainPropertyTitle]: currentPropsToBackend.filter((el) => el !== prop),
         };
-        setPropertiesToBackend(newPropsToBackend);
-        //   add propety
+        setPropertiesToBackend(JSON.stringify(newPropsToBackend));
+        // add propety
       } else {
         const newPropsToBackend = {
           ...propertiesToBacknend,
           [mainPropertyTitle]: [...currentPropsToBackend, prop],
         };
-        setPropertiesToBackend(newPropsToBackend);
+        setPropertiesToBackend(JSON.stringify(newPropsToBackend));
       }
     },
     [propertiesToBacknend, setPropertiesToBackend],
   );
+
   return (
     <div className={s.content}>
       {Object.keys(properties).map((prop) => {
-        const isCheckBoxActive = propertiesToBacknend[propertyName]?.includes(prop);
+        const isCheckBoxActive = JSON.parse(activePerks)[propertyName]?.includes(prop);
         return (
           <div key={`${prop}-${propertyName}`} className={s.item}>
             <Checkbox
