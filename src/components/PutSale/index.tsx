@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js/bignumber';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { observer } from 'mobx-react-lite';
 
-import { Button, Switch, TextInput, Text } from 'components';
-import { storeApi, useWalletConnectorContext } from 'services';
+import { Button, Switch, TextInput, Text, Dropdown } from 'components';
+import { ratesApi, storeApi, useWalletConnectorContext } from 'services';
 import { useMst } from 'store';
 import { chainsEnum } from 'typings';
 import { useUserBalance } from 'hooks';
@@ -16,6 +16,12 @@ import styles from './PutSale.module.scss';
 
 interface IPutSaleProps {
   className?: string;
+}
+
+interface IRate {
+  rate: string;
+  symbol: string;
+  image: string;
 }
 
 const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
@@ -32,8 +38,25 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
       sell.nft.currency.toUpperCase() === 'TRX',
   );
   const [priceValue, setPriceValue] = useState('');
+  const [currency, setCurrency] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [rates, setRates] = useState<IRate[]>([]);
   const balance = useUserBalance(user.address, sell.nft.currency);
+
+  const fetchRates = useCallback(() => {
+    ratesApi.getRates().then(({ data }: any) => {
+      setRates(data);
+      setCurrency(data[0]?.symbol);
+    });
+  }, []);
+
+  const currencyOptions = useMemo(() => {
+    return !price
+      ? [...rates.map((rate: any) => rate.symbol)].filter(
+          (rateSymbol) => !['bnb', 'eth', 'matic'].includes(rateSymbol),
+        )
+      : rates.map((rate) => rate.symbol);
+  }, [rates, price]);
 
   const handleCheckApproveNft = useCallback(async () => {
     try {
@@ -74,7 +97,12 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
     handleApproveNft()
       .then(() => {
         storeApi
-          .putOnSale(sell.nft.tokenId ? +sell.nft.tokenId : 0, priceValue ? +priceValue : 0, price, sell.nft.currency)
+          .putOnSale(
+            sell.nft.tokenId ? +sell.nft.tokenId : 0,
+            priceValue ? +priceValue : 0,
+            price,
+            currency,
+          )
           .then(() => {
             sell.putOnSale.success();
             sell.putOnSale.close();
@@ -96,11 +124,15 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
         console.error(err);
       })
       .finally(() => setIsLoading(false));
-  }, [sell.nft, priceValue, price, handleApproveNft, sell.putOnSale]);
+  }, [handleApproveNft, sell.nft.tokenId, sell.putOnSale, priceValue, price, currency]);
 
   const handleClose = useCallback(() => {
     sell.putOnSale.close();
   }, [sell.putOnSale]);
+
+  useEffect(() => {
+    fetchRates();
+  }, [fetchRates]);
 
   return (
     <div className={cn(className, styles.sale)}>
@@ -116,13 +148,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
             Enter the price for which the item will be instantly sold
           </Text>
         </div>
-        {sell.nft.currency.toUpperCase() === 'BNB' ||
-        sell.nft.currency.toUpperCase() === 'ETH' ||
-        sell.nft.currency.toUpperCase() === 'MATIC' ? (
-          ''
-        ) : (
-          <Switch className={styles.switch} value={price} setValue={setPrice} />
-        )}
+        <Switch className={styles.switch} value={price} setValue={setPrice} />
       </div>
       <div className={styles.table}>
         <div className={cn(styles.row, styles.rowInput)}>
@@ -133,7 +159,16 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
             placeholder={price ? 'Enter instant sale price' : 'Enter bid'}
             value={priceValue}
             onChange={(e) => setPriceValue(e.target.value)}
-            prefix={sell.nft.currency.toUpperCase()}
+            prefix={
+              <Dropdown
+                value={currency}
+                setValue={setCurrency}
+                options={currencyOptions}
+                className={styles.dropdown}
+                headClassName={styles.head}
+                bodyClassName={styles.body}
+              />
+            }
             prefixClassName={styles.prefix}
             positiveOnly
           />
@@ -172,6 +207,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
           className={cn('button', styles.button)}
           loading={isLoading}
           isFullWidth
+          disabled={!+priceValue}
         >
           Put on sale
         </Button>
