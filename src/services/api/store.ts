@@ -132,7 +132,6 @@ export default {
       token: localStorage.dds_token,
     }),
   putOnSale: (tokenId: number, price?: TNullable<number>, selling?: boolean, currency?: string) => {
-    debugger
     const data: any = {
       selling: true,
       price,
