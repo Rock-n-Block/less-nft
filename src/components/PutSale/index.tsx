@@ -41,7 +41,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
   const [currency, setCurrency] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [rates, setRates] = useState<IRate[]>([]);
-  const balance = useUserBalance(user.address, sell.nft.currency);
+  const balance = useUserBalance(user.address, currency || sell.nft.currency);
 
   const fetchRates = useCallback(() => {
     ratesApi.getRates().then(({ data }: any) => {
@@ -177,7 +177,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
         <div className={styles.row}>
           <div className={styles.col}>Your balance</div>
           <div className={styles.col}>
-            {balance} {sell.nft.currency.toUpperCase()}
+            {balance} {currency.toUpperCase()}
           </div>
         </div>
         <div className={styles.row}>
@@ -194,7 +194,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
                   100
                 ).toString(),
               ).toString(10)}{' '}
-              {sell.nft.currency.toUpperCase()}
+              {currency.toUpperCase()}
             </div>
           ) : (
             ''
