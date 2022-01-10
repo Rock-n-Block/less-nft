@@ -1,8 +1,22 @@
 import { INetwork } from '@amfi/connect-wallet/dist/interface';
-import { bnbLogo, ethLogo, metamaskImg, polygonLogo, walletConnectImg } from 'assets/img';
+import {
+  bnbLogo,
+  ethLogo,
+  metamaskImg,
+  polygonLogo,
+  walletConnectImg,
+  trustWalletImg,
+} from 'assets/img';
 import { chainsEnum, IConnectWallet, IContracts } from 'typings';
 
-import { bep20Abi, erc20Abi, nftAbi, wbnbTestnetAbi, wethTestnetAbi, wMaticTestnetAbi } from './abi';
+import {
+  bep20Abi,
+  erc20Abi,
+  nftAbi,
+  wbnbTestnetAbi,
+  wethTestnetAbi,
+  wMaticTestnetAbi,
+} from './abi';
 
 export const is_production = false;
 
@@ -115,8 +129,9 @@ export const chains: {
           },
         },
       },
+      TrustWallet: { name: 'MetaMask', img: trustWalletImg },
     },
-    explorer: is_production ? '' : 'https://mumbai.polygonscan.com/',
+    explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
   },
 };
 
@@ -139,9 +154,13 @@ export const connectWallet = (
 export const exchangeAddrs = {
   [chainsEnum['Binance-Smart-Chain']]: !is_production
     ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5'
-    : '',
-  [chainsEnum.Ethereum]: !is_production ? '0x0d669902B1E2Dc2E7b229D5d9b3D15c3D719d3c1' : '',
-  [chainsEnum.Polygon]: !is_production ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5' : '',
+    : '0x7b5db0171a01781e9f22737551ff6bff9ad4fe09',
+  [chainsEnum.Ethereum]: !is_production
+    ? '0x0d669902B1E2Dc2E7b229D5d9b3D15c3D719d3c1'
+    : '0xd6318e77042b8808be7dc277da40e0e778aaba42',
+  [chainsEnum.Polygon]: !is_production
+    ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5'
+    : '0x533a2e15a8c1aa96b47681c0af6cba7de724f48f',
 };
 
 export const contracts: IContracts = {
@@ -171,8 +190,8 @@ export const contracts: IContracts = {
     },
     WETH: {
       mainnet: {
-        address: '',
-        abi: nftAbi,
+        address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+        abi: wethTestnetAbi,
       },
       testnet: {
         address: '0xdf032bc4b9dc2782bb09352007d4c57b75160b15',
@@ -201,7 +220,7 @@ export const contracts: IContracts = {
     },
     WMATIC: {
       mainnet: {
-        address: '0xAF984E23EAA3E7967F3C5E007fbe397D8566D23d',
+        address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
         abi: erc20Abi,
       },
       testnet: {

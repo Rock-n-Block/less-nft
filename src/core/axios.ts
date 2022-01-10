@@ -3,8 +3,8 @@ import axios from 'axios';
 import { is_production } from '../config';
 
 axios.defaults.baseURL = is_production
-  ? 'https://lessnft.rocknblock.io/api/v1'
-  : 'https://lessnft.rocknblock.io/api/v1';
+  ? 'https://nft.less.xyz/api/v1'
+  : 'https://lessnft2.rocknblock.io/api/v1';
 
 axios.interceptors.request.use(
   (config) => {

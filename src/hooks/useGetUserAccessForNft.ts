@@ -111,7 +111,7 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
   }, [nft, isOwner, userId, isWrongChain]);
 
   const isUserCanSeeUnlockableContent = React.useMemo(() => {
-    if (userId && nft && isOwner) {
+    if (userId && nft && isOwner && nft.has_digital_key) {
       return true;
     }
     return false;
@@ -142,6 +142,6 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
     isUserCanPutOnSale,
     isUserCanEndAuction,
     isUserCanChangePrice,
-    isUserCanSeeUnlockableContent
+    isUserCanSeeUnlockableContent,
   };
 };

@@ -30,7 +30,7 @@
 
   @include flexbox(center, flex-start);
 
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     height: 0;
   }
 
@@ -51,19 +51,41 @@
   overflow: hidden;
   flex: 0 1 80%;
   transition: $transition;
+  width: 100%;
+  height: 100%;
+  border-radius: $border-radius $border-radius 0 0;
+  @include flexbox(flex-start, center);
 
-  & > img {
+  .Padded,
+  .Contained {
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    align-self: center;
+  }
+
+  .Covered {
+    object-fit: cover;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: 50% 50%;
-    transition: .1s linear;
-    border-radius: $border-radius $border-radius 0 0;
-
-    @include forDesktopSm{
-      object-fit: contain;
-    }
+    max-width: 100%;
+    max-height: 100%;
   }
+
+  // & > img {
+  //   width: 100%;
+  //   height: 100%;
+  //   object-fit: cover;
+  //   object-position: 50% 50%;
+  //   transition: 0.1s linear;
+  //   border-radius: $border-radius $border-radius 0 0;
+
+  //   @include forDesktopSm {
+  //     object-fit: contain;
+  //   }
+  // }
 }
 
 .mainImageWrapperMedium {

@@ -52,9 +52,11 @@ const PlaceBid: React.FC = () => {
 
   const userWillPay = React.useMemo(() => {
     return new BigNumber(bid || 0)
-      .multipliedBy(+quantity > sell.nft.tokenAvailable ? sell.nft.tokenAvailable : quantity || 1)
+      .multipliedBy(
+        +quantity > +sell.nft.aucTokenAvailable ? +sell.nft.aucTokenAvailable : quantity || 1,
+      )
       .plus(sell.nft.feeCurrency);
-  }, [bid, quantity, sell.nft.tokenAvailable, sell.nft.feeCurrency]);
+  }, [bid, quantity, sell.nft.aucTokenAvailable, sell.nft.feeCurrency]);
 
   return (
     <div className={styles.container}>
@@ -118,7 +120,13 @@ const PlaceBid: React.FC = () => {
         loading={isLoading}
         isFullWidth
         onClick={handlePlaceBid}
-        disabled={(sell.nft.minimalBid && +bid <= +sell.nft.minimalBid) || +userWillPay > +balance}
+        disabled={
+          !bid ||
+          !+quantity ||
+          (sell.nft.minimalBid && +bid <= +sell.nft.minimalBid) ||
+          +quantity > +sell.nft.aucTokenAvailable ||
+          +userWillPay > +balance
+        }
       >
         Place a Bid
       </Button>

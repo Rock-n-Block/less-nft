@@ -68,8 +68,8 @@
 
 .unlock {
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: column;
   height: 40px;
   padding: 0 24px;
@@ -81,6 +81,7 @@
 
   text-align: center;
   color: $color-neutral-0;
+  width: 240px;
   // transition: all $animation-timing-default ease;
 
   &:hover {
@@ -92,6 +93,7 @@
     justify-content: center;
     align-items: center;
 
+    margin-top: 7px;
     gap: 4px;
   }
 
@@ -107,6 +109,9 @@
     cursor: default;
 
     color: $color-neutral-40;
+    width: 100%;
+    @include flexbox(center, center);
+    word-break: break-all;
 
     .unlockButton {
       background: none;
@@ -143,6 +148,11 @@
 
 .digitalKey {
   position: relative;
+  visibility: hidden;
+}
+
+.open{
+  visibility: visible;
 }
 
 .copy {

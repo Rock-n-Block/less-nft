@@ -60,52 +60,54 @@ const DescriptionAndTagsComponent: FC<Props> = ({
             Tags:
           </Text>
           {tags.map((tag) => (
-            <div className={styles.tag} key={`tag-${tag.value}`}>
-              <Text size="s">{`#${tag.value}`}</Text>
+            <div className={styles.tag} key={`tag-${tag.title}`}>
+              <Text size="s">{`#${tag.title}`}</Text>
             </div>
           ))}
         </div>
       )}
 
       {isUserCanSeeUnlockableContent && (
-        <div
-          role="button"
-          className={cn(styles.unlock, { [styles.opened]: isUnlockOpened })}
-          onClick={isUnlockOpened ? undefined : handleUnlock}
-          onKeyDown={() => {}}
-          tabIndex={0}
-        >
+        <div className={styles.unlockWrapper}>
           <div
             role="button"
-            className={styles.unlockButton}
-            onClick={isUnlockOpened ? handleUnlock : undefined}
+            className={cn(styles.unlock, { [styles.opened]: isUnlockOpened })}
+            onClick={isUnlockOpened ? undefined : handleUnlock}
             onKeyDown={() => {}}
             tabIndex={0}
           >
-            {isUnlockOpened ? <IconUnlock /> : <IconLock />}
-            <span>{isUnlockOpened ? 'Hide' : 'Get'} unlockable content</span>
-          </div>
+            <div
+              role="button"
+              className={styles.unlockButton}
+              onClick={isUnlockOpened ? handleUnlock : undefined}
+              onKeyDown={() => {}}
+              tabIndex={0}
+            >
+              {isUnlockOpened ? <IconUnlock /> : <IconLock />}
+              <span>{isUnlockOpened ? 'Hide' : 'Get'} unlockable content</span>
+            </div>
 
-          {isUnlockOpened && !!digitalKey && (
-            <div className={styles.digitalKey}>
-              {digitalKey.length > 100 ? `${digitalKey.slice(0, 100)}...` : digitalKey}
-              <div
-                role="button"
-                className={styles.copy}
-                onKeyDown={() => {}}
-                tabIndex={0}
-                onClick={() => handleCopy(digitalKey || '')}
-                onMouseLeave={() => setCopyContent(false)}
-              >
-                <IconCopy />
-                <div className={styles.tooltip}>
-                  <span className={styles.tooltiptext}>
-                    {copyContent ? 'Success!' : 'Copy unlockable content'}
-                  </span>
+            {!!digitalKey && (
+              <div className={cn(styles.digitalKey, { [styles.open]: isUnlockOpened })}>
+                {digitalKey.length > 100 ? `${digitalKey.slice(0, 100)}...` : digitalKey}
+                <div
+                  role="button"
+                  className={styles.copy}
+                  onKeyDown={() => {}}
+                  tabIndex={0}
+                  onClick={() => handleCopy(digitalKey || '')}
+                  onMouseLeave={() => setCopyContent(false)}
+                >
+                  <IconCopy />
+                  <div className={styles.tooltip}>
+                    <span className={styles.tooltiptext}>
+                      {copyContent ? 'Success!' : 'Copy unlockable content'}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>

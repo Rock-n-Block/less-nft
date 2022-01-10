@@ -1,8 +1,16 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
-import { IconRefresh, iconUpload } from 'assets/img';
-import { ReactComponent as IconPropAdd } from 'assets/img/icons/icon-prop-add.svg';
-import { ReactComponent as IconPropDelete } from 'assets/img/icons/icon-prop-delete.svg';
+import { useLocation } from 'react-router-dom';
+import {
+  iconAddDetail,
+  IconRefresh,
+  iconStar,
+  iconStats,
+  iconUpload,
+  iconWeight,
+} from 'assets/img';
+// import { ReactComponent as IconPropAdd } from 'assets/img/icons/icon-prop-add.svg';
+// import { ReactComponent as IconPropDelete } from 'assets/img/icons/icon-prop-delete.svg';
 import BigNumber from 'bignumber.js/bignumber';
 import cn from 'classnames';
 import {
@@ -18,13 +26,14 @@ import {
   Uploader,
 } from 'components';
 import { IRadioButton } from 'components/Radio';
-import { Field, FieldArray, Form, FormikProps } from 'formik';
+import { Field, Form, FormikProps } from 'formik';
 import { observer } from 'mobx-react-lite';
 import { ratesApi } from 'services';
 
 import ChooseCollection from './ChooseCollection';
 
 import styles from './CreateCollectibleDetails.module.scss';
+import { useMst } from 'store';
 
 interface IRate {
   rate: string;
@@ -35,6 +44,13 @@ interface IRate {
 interface IProperti {
   name: string | number;
   amount: string | number;
+}
+
+interface IDetail {
+  title: 'Properties' | 'Rankings' | 'Stats';
+  subtitle: string;
+  text: string;
+  icon: string;
 }
 
 export interface ICreateForm {
@@ -61,6 +77,8 @@ export interface ICreateForm {
   isTimedAuction: boolean;
   startAuction: string;
   endAuction: string;
+  externalLink: string;
+  isNsfw: boolean;
 }
 
 const sellMethods: IRadioButton[] = [
@@ -76,6 +94,27 @@ const sellMethods: IRadioButton[] = [
   },
 ];
 
+const detailsItems: IDetail[] = [
+  {
+    title: 'Properties',
+    subtitle: 'Textual traits that show up as rectangles',
+    text: "Properties show up underneath your item, are clickable, and can be filtered in your collection's sidebar.",
+    icon: iconWeight,
+  },
+  {
+    title: 'Rankings',
+    subtitle: 'Numerical traits that show as a progress bar',
+    text: "Rankings show up underneath your item, are clickable, and can be filtered in your collection's sidebar.",
+    icon: iconStar,
+  },
+  {
+    title: 'Stats',
+    subtitle: 'Numerical traits that just show as numbers',
+    text: "Stats show up underneath your item, are clickable, and can be filtered in your collection's sidebar.",
+    icon: iconStats,
+  },
+];
+
 const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
   ({
     setFieldValue,
@@ -87,7 +126,11 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     handleSubmit,
     isSingle = true,
   }) => {
+    const {
+      modals: { details },
+    } = useMst();
     const history = useHistory();
+    const { pathname } = useLocation();
     const [rates, setRates] = useState<IRate[]>([]);
     const [addToCollection, setAddToCollection] = useState(true);
     const [isRefresh, setIsRefresh] = useState(true);
@@ -118,40 +161,40 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     const onCancel = () => {
       history.goBack();
     };
-    const handleChangeProperty = useCallback(
-      (e: any, index: any, type: 'name' | 'amount') => {
-        const localProperties = [...values.details];
+    // const handleChangeProperty = useCallback(
+    //   (e: any, index: any, type: 'name' | 'amount') => {
+    //     const localProperties = [...values.details];
 
-        if (type === 'name') {
-          localProperties[index].name = e.target.value;
-        }
-        if (type === 'amount') {
-          localProperties[index].amount = e.target.value;
-        }
-        setFieldValue('details', localProperties);
-        handleChange(e);
-      },
-      [handleChange, setFieldValue, values.details],
-    );
+    //     if (type === 'name') {
+    //       localProperties[index].name = e.target.value;
+    //     }
+    //     if (type === 'amount') {
+    //       localProperties[index].amount = e.target.value;
+    //     }
+    //     setFieldValue('details', localProperties);
+    //     handleChange(e);
+    //   },
+    //   [handleChange, setFieldValue, values.details],
+    // );
 
-    const handleAddProperty = useCallback(() => {
-      setFieldValue('details', [
-        ...values.details,
-        {
-          size: '',
-          amount: '',
-        },
-      ]);
-    }, [setFieldValue, values.details]);
+    // const handleAddProperty = useCallback(() => {
+    //   setFieldValue('details', [
+    //     ...values.details,
+    //     {
+    //       size: '',
+    //       amount: '',
+    //     },
+    //   ]);
+    // }, [setFieldValue, values.details]);
 
-    const handleRemoveProperty = useCallback(
-      (elemIndex: number) => {
-        const newValue = values.details.filter((_, index) => index !== elemIndex);
+    // const handleRemoveProperty = useCallback(
+    //   (elemIndex: number) => {
+    //     const newValue = values.details.filter((_, index) => index !== elemIndex);
 
-        setFieldValue('details', newValue);
-      },
-      [setFieldValue, values.details],
-    );
+    //     setFieldValue('details', newValue);
+    //   },
+    //   [setFieldValue, values.details],
+    // );
 
     const fetchRates = useCallback(() => {
       ratesApi.getRates().then(({ data }: any) => {
@@ -159,6 +202,78 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
         setFieldValue('currency', data[0]?.symbol);
       });
     }, [setFieldValue]);
+
+    const handleDetailsOpen = useCallback(
+      (type: 'Properties' | 'Rankings' | 'Stats', text: string) => {
+        details.open(type, text);
+      },
+      [details],
+    );
+
+    const sliceStr = (str: string, end = 16) => {
+      return str.length > end ? `${str.slice(0,end)}...` : str
+    }
+
+    const getDetailItem = useCallback((item: any) => {
+      switch (item.display_type) {
+        case 'properties':
+          return item.trait_type && item.value ? (
+            <div className={styles.properties}>
+              <Text className={styles.propertiesTitle} weight="bold" size="m" color="primary">
+                {sliceStr(item.trait_type)}
+              </Text>
+              <Text className={styles.propertiesText}>{sliceStr(item.value, 14)}</Text>
+            </div>
+          ) : (
+            <></>
+          );
+        case 'rankings':
+          return item.trait_type && item.value && item.max_value ? (
+            <div className={styles.rankings}>
+              <div className={styles.rankingsHead}>
+                <Text className={styles.rankingsTitle} weight="bold" size="m" color="primary">
+                  {sliceStr(item.trait_type)}
+                </Text>
+                <Text className={styles.rankingsText}>
+                  {item.value} of {item.max_value}
+                </Text>
+              </div>
+              <div className={styles.rankingsBar}>
+                <div
+                  className={styles.rankingsBarColor}
+                  style={{
+                    width:
+                      item.value > item.max_value
+                        ? '100%'
+                        : `${Math.ceil((item.value * 100) / item.max_value)}%`,
+                  }}
+                >
+                  {' '}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <></>
+          );
+
+        default:
+          return item.trait_type && item.value && item.max_value ? (
+            <div className={styles.rankings}>
+              <div className={styles.rankingsHead}>
+                <Text className={styles.rankingsTitle} weight="bold" size="m" color="primary">
+                  {sliceStr(item.trait_type)}
+                </Text>
+                <Text className={styles.rankingsText}>
+                  {item.value} of {item.max_value}
+                </Text>
+              </div>
+            </div>
+          ) : (
+            <></>
+          );
+      }
+    }, []);
+
     useEffect(() => {
       fetchRates();
     }, [fetchRates]);
@@ -166,6 +281,14 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     useEffect(() => {
       setFieldValue('isSingle', isSingle);
     }, [isSingle, setFieldValue]);
+
+    useEffect(() => {
+      setFieldValue('details', details.getItems);
+    }, [details.getItems, setFieldValue]);
+
+    useEffect(() => {
+      details.save([{ display_type: '', trait_type: '', value: '', max_value: 5 }]);
+    }, [details, pathname]);
 
     return (
       <>
@@ -314,7 +437,31 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     />
                   )}
                 />
-                {touched.name && errors.name && <Text color="red">{errors.name}</Text>}
+                <Field
+                  render={() => (
+                    <TextInput
+                      label="External Link"
+                      subtitle={
+                        <>
+                          Less-Nft will include a link to this URL on this item`s detail page, so
+                          that users can click to learn more about it. You are welcome to link to
+                          your own webpage with more details.
+                        </>
+                      }
+                      name="externalLink"
+                      type="text"
+                      placeholder="Enter your link"
+                      value={values.externalLink}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={styles.field}
+                      required
+                    />
+                  )}
+                />
+                {touched.externalLink && errors.externalLink && (
+                  <Text color="red">{errors.externalLink}</Text>
+                )}
                 <Field
                   name="description"
                   render={() => (
@@ -453,7 +600,54 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     You will receive {stringRecieveValue} {values.currency?.toUpperCase()}
                   </Text>
                 </div>
-                <div className={styles.tokenProperties}>
+                <div className={styles.details}>
+                  {detailsItems.map((detail: IDetail) => (
+                    <div className={styles.detailWrapper}>
+                      <div className={styles.detail}>
+                        <div className={styles.detailInfo}>
+                          <div className={styles.detailIcon}>
+                            <img alt={detail.title} src={detail.icon} />
+                          </div>
+
+                          <div className={styles.detailInfoText}>
+                            <Text weight="bold">{detail.title}</Text>
+                            <Text>{detail.subtitle}</Text>
+                          </div>
+                        </div>
+
+                        <div
+                          className={styles.detailBtn}
+                          onClick={() => handleDetailsOpen(detail.title, detail.text)}
+                          onKeyDown={() => {}}
+                          tabIndex={0}
+                          role="button"
+                        >
+                          <img alt="add detail" src={iconAddDetail} />
+                        </div>
+                      </div>
+                      {details.getItems.filter(
+                        (item: any) => item.display_type === detail.title.toLowerCase(),
+                      ).length ? (
+                        <div
+                          className={cn({
+                            [styles.propertiesWrapper]: detail.title.toLowerCase() === 'properties',
+                          })}
+                        >
+                          {details.getItems.map((item: any) => {
+                            return item.display_type === detail.title.toLowerCase() ? (
+                              getDetailItem(item)
+                            ) : (
+                              <></>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {/* <div className={styles.tokenProperties}>
                   <FieldArray
                     name="details"
                     render={() => {
@@ -523,7 +717,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                       ));
                     }}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
             {values.sellMethod === 'openForBids' && (
@@ -618,7 +812,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                         label=""
                         name="digitalKey"
                         value={values.digitalKey}
-                        placeholder="Select file...."
+                        placeholder="Digital key"
                         onChange={handleChange}
                         type="text"
                       />
@@ -629,6 +823,23 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                   )}
                 </>
               )}
+            </div>
+            <div className={cn(styles.item, styles.explicit)}>
+              <div>
+                <H6 className={styles.fieldsetTitle}>Explicit & Sensitive Content</H6>
+                <Text>Set this item as explicit and sensitive content</Text>
+              </div>
+              <Field
+                render={() => (
+                  <Switch
+                    name="isNsfw"
+                    value={values.isNsfw}
+                    setValue={() => {
+                      setFieldValue('isNsfw', !values.isNsfw);
+                    }}
+                  />
+                )}
+              />
             </div>
             <div className={cn(styles.fieldset, styles.addCollection)}>
               <H6 className={styles.fieldsetTitle}>

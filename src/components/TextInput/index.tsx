@@ -11,11 +11,12 @@ import styles from './TextInput.module.scss';
 interface Props {
   className?: string;
   label?: string | JSX.Element;
+  subtitle?: string | JSX.Element;
   name?: string;
   type: string;
   placeholder: string;
   required?: boolean;
-  prefix?: string;
+  prefix?: string | JSX.Element;
   suffix?: any;
   suffixClassName?: string;
   prefixClassName?: string;
@@ -39,6 +40,7 @@ const TextInput: React.FC<Props> = ({
   moreThanZero = false,
   className,
   label,
+  subtitle,
   suffix,
   onChange,
   value,
@@ -137,6 +139,11 @@ const TextInput: React.FC<Props> = ({
       {label && (
         <Text className={styles.label} size="m" weight="medium">
           {label}
+        </Text>
+      )}
+      {subtitle && (
+        <Text className={styles.subtitle} size="s" weight="medium" color="middleGray">
+          {subtitle}
         </Text>
       )}
       {icon && <img src={icon} alt="" className={styles.icon} />}

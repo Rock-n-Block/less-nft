@@ -1,10 +1,25 @@
-import {types, getSnapshot, applySnapshot, getParent} from 'mobx-state-tree';
+import { types, getSnapshot, applySnapshot, getParent } from 'mobx-state-tree';
 
 const NftCollection = types.model({
   address: types.string,
   avatar: types.string,
   id: types.union(types.string, types.number),
   name: types.string,
+});
+
+const Seller = types.model({
+  avatar: types.string,
+  id: types.union(types.string, types.number),
+  name: types.string,
+  price: types.number,
+  quantity: types.number,
+});
+
+const Detail = types.model({
+  display_type: types.string,
+  trait_type: types.string,
+  value: types.union(types.string, types.number),
+  max_value: types.union(types.string, types.number),
 });
 
 const NftForSale = types.model({
@@ -19,6 +34,7 @@ const NftForSale = types.model({
   minimalBid: types.maybeNull(types.optional(types.number, 0)),
   currency: types.optional(types.string, ''),
   tokenAvailable: types.optional(types.number, 0),
+  aucTokenAvailable: types.optional(types.number, 0),
   media: types.optional(types.string, ''),
   royalty: types.optional(types.number, 0),
   collection: types.optional(NftCollection, {
@@ -27,14 +43,7 @@ const NftForSale = types.model({
     id: 0,
     name: '',
   }),
-});
-
-const Seller = types.model({
-  avatar: types.string,
-  id: types.union(types.string, types.number),
-  name: types.string,
-  price: types.number,
-  quantity: types.number,
+  sellers: types.optional(types.array(Seller), []),
 });
 
 const PlaceBid = types
@@ -51,7 +60,7 @@ const PlaceBid = types
         parent.nft.tokenName &&
         parent.nft.fee &&
         parent.nft.currency &&
-        parent.nft.tokenAvailable &&
+        parent.nft.aucTokenAvailable &&
         parent.nft.media &&
         parent.nft.minimalBid &&
         self.isOpen
@@ -190,13 +199,11 @@ const Swap = types
     isOpen: types.optional(types.boolean, false),
     main: types.string,
     wrap: types.string,
-    refresh: types.boolean
+    refresh: types.boolean,
   })
   .views((self) => ({
     get getIsOpen() {
-      if (
-        self.isOpen
-      ) {
+      if (self.isOpen) {
         return true;
       }
       return false;
@@ -206,7 +213,7 @@ const Swap = types
     close: () => {
       self.isOpen = false;
     },
-    open: (main:string, wrap:string, refresh:boolean) => {
+    open: (main: string, wrap: string, refresh: boolean) => {
       self.isOpen = true;
       self.main = main;
       self.wrap = wrap;
@@ -214,7 +221,7 @@ const Swap = types
     },
     setRefresh: (refresh: boolean) => {
       self.refresh = refresh;
-    }
+    },
   }));
 
 const SellModals = types
@@ -366,6 +373,37 @@ const Change = types
       },
     };
   });
+const Details = types
+  .model({
+    type: types.optional(types.string, ''),
+    text: types.optional(types.string, ''),
+    detailsItems: types.optional(types.array(Detail), [
+      { display_type: '', trait_type: '', value: '', max_value: 5 },
+    ]),
+    isOpen: types.optional(types.boolean, false),
+  })
+  .views((self) => ({
+    get getIsOpen() {
+      return !!self.type;
+    },
+    get getItems() {
+      return self.detailsItems;
+    },
+  }))
+  .actions((self) => {
+    return {
+      close: () => {
+        self.type = '';
+      },
+      open: (type: '' | 'Properties' | 'Rankings' | 'Stats', text: string) => {
+        self.type = type;
+        self.text = text;
+      },
+      save: (det: any) => {
+        self.detailsItems = det;
+      },
+    };
+  });
 
 export const Modals = types.model({
   sell: SellModals,
@@ -374,5 +412,6 @@ export const Modals = types.model({
   transfer: Transfer,
   report: Report,
   change: Change,
-  swap: Swap
+  swap: Swap,
+  details: Details,
 });

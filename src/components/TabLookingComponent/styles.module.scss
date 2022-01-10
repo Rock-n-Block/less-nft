@@ -55,10 +55,10 @@
 
     &.selected {
       p {
-        color: $color-secondary;
+        color: $color-primary;
       }
       path {
-        fill: $color-secondary;
+        fill: $color-primary;
       }
     }
   }

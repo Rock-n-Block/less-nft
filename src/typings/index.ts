@@ -25,7 +25,7 @@ export interface IHistoryOwner {
   instagram?: TNullable<string>;
   is_verificated: boolean;
   site?: TNullable<string>;
-  twitter: TNullable<string>
+  twitter: TNullable<string>;
 }
 
 export interface IHistoryItem {
@@ -53,6 +53,7 @@ export interface IBaseInfo {
   avatar: string;
   id: number;
   name: string;
+  display_theme: 'Padded' | 'Contained' | 'Covered'
 }
 
 export interface IBidder {
@@ -73,13 +74,14 @@ export interface IOwner extends Omit<IBaseInfo, 'address'> {
 export interface INft {
   USD_price: number;
   available: number;
+  auction_amount: TNullable<number>;
   bids: IBidder[];
   collection: IBaseInfo;
   creator: IBaseInfo;
   currency: ICurrency;
   description: string;
   details: TNullable<any>;
-  digital_key: string;
+  digital_key: TNullable<string>;
   highest_bid: TNullable<IBidder>;
   highest_bid_USD: TNullable<string | number>;
   history: IHistoryItem[];
@@ -113,11 +115,13 @@ export interface INft {
   views: number;
   start_auction: TNullable<string>;
   end_auction: TNullable<string>;
+  has_digital_key: boolean;
 }
 
 export interface ITag {
-  media: string;
-  value: string;
+  icon: string;
+  image: string;
+  title: string;
 }
 
 export type TNullable<T> = T | null;

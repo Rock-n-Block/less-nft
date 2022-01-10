@@ -42,6 +42,7 @@ const PaymentComponent: FC<Props> = observer(
     const [isApproved, setApproved] = React.useState<boolean>(false);
     const [isApproving, setApproving] = React.useState<boolean>(false);
     const [time, setTime] = useState<any>();
+    const [isEndingAuction, setIsEndingAuction] = useState(false);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const ExchangeAddress = exchangeAddrs[localStorage.lessnft_nft_chainName as chainsEnum];
@@ -72,6 +73,10 @@ const PaymentComponent: FC<Props> = observer(
 
     const handleCheckAllowance = React.useCallback(() => {
       if (nft) {
+        if (!nft.currency) {
+          setApproved(false);
+          return;
+        }
         if (nft.currency.symbol.toUpperCase() === nft.network.native_symbol.toUpperCase()) {
           setApproved(true);
           return;
@@ -110,8 +115,10 @@ const PaymentComponent: FC<Props> = observer(
         tokenName: nft?.name,
         fee: nft?.service_fee,
         price: nft?.price,
-        currency: nft?.currency.symbol,
+        currency: nft?.currency?.symbol || '',
         tokenAvailable: nft?.available,
+        aucTokenAvailable: nft?.auction_amount || 0,
+        sellers: nft?.sellers.filter((seller) => seller.id !== user.id),
         media: nft?.media,
         minimalBid:
           +new BigNumber(nft?.highest_bid?.amount || 0).toFixed() || nft?.minimal_bid || 0,
@@ -120,7 +127,7 @@ const PaymentComponent: FC<Props> = observer(
         collection: nft?.collection,
         royalty: nft?.royalty,
       });
-    }, [nft, modals.sell]);
+    }, [nft, modals.sell, user.id]);
 
     const handleBuyNft = React.useCallback(() => {
       handleSetNft();
@@ -138,6 +145,7 @@ const PaymentComponent: FC<Props> = observer(
 
     const handleEndAuction = React.useCallback(() => {
       if (nft) {
+        setIsEndingAuction(true);
         storeApi
           .verificateBet(nft.id)
           .then((response: any) => {
@@ -150,18 +158,32 @@ const PaymentComponent: FC<Props> = observer(
               }
             } else {
               storeApi.endAuction(nft?.id).then(({ data }: any) =>
-                walletService.sendTransaction(data.initial_tx).then(() => {
-                  if (onUpdateNft) {
-                    onUpdateNft();
-                  }
-                }),
+                walletService
+                  .sendTransaction(data.initial_tx)
+                  .then(() => {
+                    if (onUpdateNft) {
+                      onUpdateNft();
+                    }
+                    toast.success('Auction ended');
+                  })
+                  .catch((err: any) => {
+                    toast.error({
+                      message: 'Something went wrong',
+                    });
+                    console.error('error', err);
+                  })
+                  .finally(() => {
+                    setIsEndingAuction(false);
+                  }),
               );
             }
           })
-          .catch(() => {
+          .catch((err: any) => {
             toast.error({
               message: 'Something went wrong',
             });
+            console.error('error', err);
+            setIsEndingAuction(false);
           });
       }
     }, [nft, walletService, onUpdateNft]);
@@ -195,20 +217,20 @@ const PaymentComponent: FC<Props> = observer(
 
     useEffect(() => {
       // if (nft) getTime(nft.end_auction || '');
-      let timeInterval: any
+      let timeInterval: any;
       if (nft) {
-        const eventTime = moment(nft.end_auction).unix()
-        const currentTime = moment().unix()
+        const eventTime = moment(nft.end_auction).unix();
+        const currentTime = moment().unix();
         const diffTime = eventTime - currentTime;
-        let duration = moment.duration(diffTime*1000, 'milliseconds');
+        let duration = moment.duration(diffTime * 1000, 'milliseconds');
         const interval = 1000;
         timeInterval = setInterval(() => {
           duration = moment.duration(Number(duration) - interval, 'milliseconds');
-          setTime(moment(duration.asMilliseconds()).format('hh:mm:ss')); 
-        }, interval );
+          setTime(moment(duration.asMilliseconds()).format('hh:mm:ss'));
+        }, interval);
       }
 
-      return () => clearInterval(timeInterval)
+      return () => clearInterval(timeInterval);
     }, [nft]);
 
     return (
@@ -249,6 +271,8 @@ const PaymentComponent: FC<Props> = observer(
                   padding="custom"
                   onClick={handleEndAuction}
                   className={styles.purchaseButton}
+                  disabled={isEndingAuction}
+                  loading={isEndingAuction}
                 >
                   End Auction
                 </Button>

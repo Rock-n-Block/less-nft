@@ -3,22 +3,30 @@ import { debounce } from 'lodash';
 import { storeApi } from 'services';
 import { INft } from 'typings';
 
-const NUMBER_NFTS_PER_PAGE = 8;
+// const NUMBER_NFTS_PER_PAGE = 8;
 
 interface IProps {
   page?: number;
-  sort?: string;
+  type?: string;
   order_by?: string;
   tags?: string;
-  max_price?: number;
+  max_price?: string;
+  min_price?: string;
+  collections?: string;
   currency?: string;
   is_verified?: string;
-  on_sale?: boolean;
   creator?: string;
   owner?: string;
   text?: string;
   isCanFetch?: boolean;
   isOnlyForOwnerOrCreator?: boolean;
+  has_bids?: boolean;
+  bids_by?: string;
+  on_sale?: boolean;
+  on_auc_sale?: boolean;
+  on_timed_auc_sale?: boolean;
+  network?: string;
+  properties?: string;
 }
 
 export const useFetchNft = (
@@ -28,18 +36,26 @@ export const useFetchNft = (
 ): [number, number, INft[], boolean, (textValue: string) => void] => {
   const {
     page,
-    sort,
+    type,
     order_by,
     tags,
     max_price,
+    min_price,
     currency,
     is_verified,
     creator,
     owner,
     on_sale,
     text,
+    has_bids = false,
+    bids_by,
     isCanFetch = true,
     isOnlyForOwnerOrCreator,
+    on_auc_sale,
+    on_timed_auc_sale,
+    network,
+    collections,
+    properties,
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
@@ -48,59 +64,76 @@ export const useFetchNft = (
 
   const fetchSearch = useCallback(
     (textInput = text) => {
-      if (!isCanFetch || (isOnlyForOwnerOrCreator && !owner && !creator)) {
+      if (!isCanFetch || (isOnlyForOwnerOrCreator && !owner && !creator && !bids_by)) {
         return;
       }
       const refresh = page === 1;
       setLoading(true);
 
-      const boolIsVerified = is_verified === 'All' ? undefined : is_verified === 'verified';
+      // const boolIsVerified = is_verified === 'All' ? undefined : is_verified === 'verified';
+      const boolIsVerified = undefined;
       const formattedCurrency = currency === 'All' ? undefined : currency;
       const formattedTags = tags?.toLocaleLowerCase() === 'all nfts' ? undefined : tags;
       storeApi
         .getSearchResults({
-          sort,
+          type,
           order_by,
           tags: formattedTags,
           max_price,
+          min_price,
           currency: formattedCurrency,
           page,
           is_verified: boolIsVerified,
           creator,
-          on_sale,
           owner,
           text: textInput,
+          has_bids,
+          bids_by,
+          on_sale: on_sale || '',
+          on_auc_sale: on_auc_sale || '',
+          on_timed_auc_sale: on_timed_auc_sale || '',
+          network,
+          collections,
+          properties,
         })
-        .then(({ data: { items, total_tokens } }: any) => {
-          setTotalItems(() => total_tokens);
+        .then(({ data: { results, total, total_pages } }: any) => {
+          setTotalItems(() => total);
           if (refresh) {
-            setNftCards(items);
+            setNftCards(results);
           } else {
-            setNftCards((prev: INft[]) => [...prev, ...items]);
+            setNftCards((prev: INft[]) => [...prev, ...results]);
           }
-          if (!items && refresh) {
+          if (!results && refresh) {
             setNftCards([]);
           }
-          setAllPages(Math.ceil(total_tokens / NUMBER_NFTS_PER_PAGE));
+          setAllPages(Math.ceil(total_pages));
         })
+        .catch((error: any) => console.error('error', error))
         .finally(() => {
           setLoading(false);
         });
     },
     [
-      creator,
-      currency,
+      text,
       isCanFetch,
       isOnlyForOwnerOrCreator,
-      is_verified,
       max_price,
       on_sale,
+      on_auc_sale,
+      on_timed_auc_sale,
       order_by,
       owner,
+      creator,
+      bids_by,
       page,
-      sort,
+      currency,
+      properties,
       tags,
-      text,
+      has_bids,
+      type,
+      min_price,
+      network,
+      collections,
     ],
   );
 
@@ -111,7 +144,7 @@ export const useFetchNft = (
       }
       setTotalItems(0);
       setNftCards([]);
-      return () => { };
+      return () => {};
     }, 1000),
   ).current;
 
@@ -130,18 +163,25 @@ export const useFetchNft = (
     };
   }, [
     page,
-    sort,
     order_by,
     tags,
+    type,
     max_price,
     currency,
     is_verified,
+    min_price,
     creator,
     on_sale,
     text,
+    has_bids,
+    bids_by,
     isDebounce,
     fetchSearch,
     isIntervalUpdate,
+    on_auc_sale,
+    on_timed_auc_sale,
+    collections,
+    properties,
   ]);
 
   return [allPages, totalItems, nftCards, isLoading, debouncedFetch];

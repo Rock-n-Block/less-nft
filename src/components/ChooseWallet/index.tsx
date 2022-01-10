@@ -10,9 +10,7 @@ import styles from './ChooseWallet.module.scss';
 
 const ChooseWallet: React.FC = () => {
   const { connect } = useWalletConnectorContext();
-  const [activeChain, setActiveChain] = React.useState<chainsEnum>(
-    chains[chainsEnum.Ethereum].name,
-  );
+  const [activeChain, setActiveChain] = React.useState<chainsEnum>(chains[chainsEnum.Polygon].name);
 
   const hancleChangeActiveChain = React.useCallback((name: chainsEnum) => {
     setActiveChain(name);

@@ -20,11 +20,11 @@ const heplerObject = [
     image: resourceForGettingStarted1,
   },
   {
-    description: 'Keeping yourself safe when buying NFTs on OpenSea',
+    description: '10 tips for avoiding scams and staying safe on the decentralized web',
     image: resourceForGettingStarted2,
   },
   {
-    description: 'The beginner’s guide to creating & selling digital art NFTs',
+    description: '10 tips for avoiding scams and staying safe on the decentralized web',
     image: resourceForGettingStarted3,
   },
 ];

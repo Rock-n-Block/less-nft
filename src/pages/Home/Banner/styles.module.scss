@@ -1,14 +1,33 @@
 @import 'src/styles/helpers';
 
 .banner {
+  position: relative;
+
+  &_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center center;
+    background-size: cover;
+    opacity: 0.3;
+    filter: blur(8px);
+    -webkit-mask: linear-gradient(rgb(255, 255, 255), transparent);
+  }
+}
+
+.inner {
   @include container;
-  margin-top: 53px;
+  padding-top: 53px !important;
   @include flexbox(center, space-between);
   gap: 12px;
   @include forDesktopMiddle {
     flex-direction: column;
     gap: 36px;
   }
+  position: relative;
+  z-index: 2;
 }
 
 .info {
@@ -27,8 +46,11 @@
 
   &Row {
     font-size: 40px !important;
+    &_small {
+      text-transform: none;
+    }
   }
-  &Gradient{
+  &Gradient {
     @include gradientText;
   }
 

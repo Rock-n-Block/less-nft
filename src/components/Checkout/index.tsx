@@ -16,7 +16,16 @@ const Checkout: React.FC = observer(() => {
     modals: { sell },
     user,
   } = useMst();
+  console.log('sell.nft.sellerId', sell.nft.sellerId);
   const { walletService } = useWalletConnectorContext();
+  const tokenAvailable =
+    sell?.nft?.standart === 'ERC721'
+      ? sell?.nft?.tokenAvailable
+      : sell?.nft?.sellers?.filter((sellerItem) => sell.nft.sellerId === sellerItem.id)[0].quantity;
+  const price =
+    sell?.nft?.standart === 'ERC721'
+      ? sell?.nft?.price
+      : sell?.nft?.sellers?.filter((sellerItem) => sell.nft.sellerId === sellerItem.id)[0].price;
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [quantity, setQuantity] = React.useState('1');
@@ -42,7 +51,12 @@ const Checkout: React.FC = observer(() => {
             .then((res: any) => {
               toast.success('Successful purchase of nft');
               storeApi
-                .trackTransaction(res.transactionHash, sell.nft.tokenId, sell.nft.sellerId)
+                .trackTransaction(
+                  res.transactionHash,
+                  sell.nft.tokenId,
+                  sell.nft.sellerId,
+                  sell.nft.standart === 'ERC721' ? 0 : +amount,
+                )
                 .then(() => {
                   setTimeout(() => {
                     sell.checkout.success();
@@ -71,10 +85,10 @@ const Checkout: React.FC = observer(() => {
   }, [walletService, quantity, user.id, sell]);
 
   const userWillPay = React.useMemo(() => {
-    return new BigNumber(sell.nft.price || 0)
-      .multipliedBy(+quantity > sell.nft.tokenAvailable ? sell.nft.tokenAvailable : quantity || 1)
+    return new BigNumber(price || 0)
+      .multipliedBy(+quantity > tokenAvailable ? tokenAvailable : quantity || 1)
       .plus(sell.nft.feeCurrency);
-  }, [sell.nft.price, quantity, sell.nft.tokenAvailable, sell.nft.feeCurrency]);
+  }, [price, quantity, tokenAvailable, sell.nft.feeCurrency]);
 
   return (
     <div className={styles.container}>
@@ -87,9 +101,9 @@ const Checkout: React.FC = observer(() => {
           <div className={styles.item}>
             <div className={styles.itemTitle}>Price</div>
             <div className={styles.itemInfo}>
-              <div className={styles.itemPrice}>{`${
-                sell.nft.price
-              } ${sell.nft.currency.toUpperCase()}`}</div>
+              <div
+                className={styles.itemPrice}
+              >{`${price} ${sell.nft.currency.toUpperCase()}`}</div>
               <div className={styles.itemPriceUsd}>{`($${sell.nft.usdPrice})`}</div>
             </div>
           </div>
@@ -136,7 +150,7 @@ const Checkout: React.FC = observer(() => {
             loading={isLoading}
             isFullWidth
             onClick={handleBuyToken}
-            disabled={+quantity > +sell.nft.tokenAvailable || +userWillPay > +balance}
+            disabled={!quantity || +quantity > +tokenAvailable || +userWillPay > +balance}
           >
             Pay Now
           </Button>

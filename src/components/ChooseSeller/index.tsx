@@ -31,7 +31,7 @@ const ChooseSeller: React.FC = () => {
           height:
             sell.chooseSeller.sellers.length > 8
               ? '280px'
-              : `${sell.chooseSeller.sellers.length * 56}px`,
+              : `${sell.chooseSeller.sellers.length * 65}px`,
         }}
       >
         {sell.chooseSeller.sellers.map((seller) => (
@@ -41,7 +41,7 @@ const ChooseSeller: React.FC = () => {
                 <img src={seller.avatar} alt="" />
               </div>
               <div className="">
-                <div className={styles.itemName}>{seller.name}</div>
+                <div className={styles.itemName}>{seller?.name}</div>
                 <div className={styles.itemQuantity}>{`${seller.quantity} token`}</div>
               </div>
             </div>

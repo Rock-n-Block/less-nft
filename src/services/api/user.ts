@@ -58,4 +58,6 @@ export default {
     axios.get(
       `account/followers/${address}/${page}/?network=${localStorage.lessnft_nft_chainName}`,
     ),
+  getSelfCollections: () =>
+    axios.get(`/account/self/collections/?network=${localStorage.lessnft_nft_chainName}`),
 };

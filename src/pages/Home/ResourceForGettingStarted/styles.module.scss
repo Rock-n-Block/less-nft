@@ -8,7 +8,7 @@
 
 .box {
   margin-top: 64px;
-  @include flexbox(flex-start);
+  @include flexbox(flex-start, space-between);
   gap: 35px;
   flex-wrap: wrap;
 }
@@ -21,14 +21,16 @@
     border-radius: $border-radius;
   }
   .resourcesImageWrapper {
-    max-width: 312px;
-    max-height: 312px;
+    max-width: 350px;
+    max-height: 350px;
     aspect-ratio: 1/1;
     width: 100%;
+    border: 1px solid $color-neutral-9;
+    border-radius: $border-radius;
   }
   .resourcesText {
-    margin-top: 16px;
-    max-width: 274px;
+    padding: 30px 25px 39px;
     width: 100%;
+    text-align: center;
   }
 }

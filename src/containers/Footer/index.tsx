@@ -1,12 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'appConstants';
 import { Button, Logo, Text, TextInput } from 'components';
 import { observer } from 'mobx-react';
+import cn from 'classnames';
 // import { useMst } from 'store';
 
 import styles from './styles.module.scss';
+import { useEffect, useState } from 'react';
 
 const Footers: React.FC = observer(() => {
+  const history = useLocation();
+
+  const { pathname } = history;
+  const [isClassName, setIsClassName] = useState(false);
   // const { user } = useMst();
 
   // const accountHelperObject = [
@@ -39,9 +45,17 @@ const Footers: React.FC = observer(() => {
     },
   ];
 
+  useEffect(() => {
+    setIsClassName(routes.connectWallet.root === pathname);
+  }, [pathname]);
+
   return (
     <footer className={styles.footer}>
-      <div className={styles.footerContent}>
+      <div
+        className={cn(styles.footerContent, {
+          [styles.absolute]: isClassName,
+        })}
+      >
         <div className={styles.linksAndControls}>
           <div className={styles.footerLogo}>
             <Logo className={styles.logo} />
@@ -56,7 +70,7 @@ const Footers: React.FC = observer(() => {
             {stacks.map(({ label, link }) => {
               return (
                 <Link to={link} key={label}>
-                  <Button className={styles.button} color="transparent">
+                  <Button padding="0" className={styles.button} color="transparent">
                     <Text color="lightGray">{label}</Text>
                   </Button>
                 </Link>
@@ -90,7 +104,7 @@ const Footers: React.FC = observer(() => {
           </div>
         </div>
         <div className={styles.copyrightBlock}>
-          <Text color="gray">Copyright © 2021 UI8 LLC. All rights reserved</Text>
+          <Text color="gray">Copyright © 2021 Lessnft LLC. All rights reserved</Text>
         </div>
       </div>
     </footer>

@@ -2,6 +2,13 @@
 
 .user {
   position: relative;
+  background-color: $color-primary;
+  background-size: cover;
+  padding: 52px 0;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 50%;
+  animation: up-to-down 80s linear infinite;
 
   &::after {
     content: '';
@@ -10,10 +17,27 @@
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 1;
     pointer-events: none;
+  }
+}
 
-    background-color: rgba(17, 25, 40, 0.3);
+@keyframes up-to-down {
+  0% {
+    background-position-y: 50%;
+  }
+  25% {
+    background-position-y: 100%;
+  }
+  50% {
+    background-position-y: 50%;
+  }
+  75% {
+    background-position-y: 0%;
+  }
+  100% {
+    background-position-y: 50%;
   }
 }
 
@@ -45,15 +69,16 @@
 }
 
 .user_buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  // display: grid;
+  // grid-template-columns: 1fr 1fr;
+  // gap: 8px;
 }
 
 .user_button {
   padding: 6px 33px;
   font-weight: 600;
   font-size: 16px;
+  gap: 8px;
   @include flexbox;
   @include forTablet {
     padding: 6px 12px;
@@ -84,5 +109,9 @@
     &__value {
       font-size: 16px;
     }
+  }
+
+  &_edit{
+    transform: translateY(2px);
   }
 }

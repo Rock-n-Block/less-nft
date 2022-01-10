@@ -1,18 +1,27 @@
 @import 'src/styles/helpers';
+@import 'src/styles/mixins/media.scss';
 
 .footerContent {
   margin: 0 auto;
-  // @include container;
   padding-bottom: 22px;
   border-top: 1px solid $color-neutral-30;
+}
 
-  // max-width: 1500px;
+.absolute{
+  position: absolute;
+  bottom:0;
+  left: 0;
+  right: 0;
+
+  @include m {
+    position: relative
+  }
 }
 
 .linksAndControls {
   @include flexbox(flex-start, space-between);
   @include container;
-  padding-top: 24px;
+  margin-top: 24px;
 }
 
 .footerLogo {
@@ -59,6 +68,12 @@
 
   & > * {
     margin-bottom: 20px;
+  }
+
+  @include b(mobile){
+    p {
+      text-align: center;
+    }
   }
 }
 

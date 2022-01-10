@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
-import { ArtCard, Carousel, H3, H4 } from 'components/index';
+import { ArtCard, Carousel, H3, Text } from 'components/index';
 import { useGetSlideToShow } from 'hooks';
 import { storeApi } from 'services';
 
@@ -25,6 +25,7 @@ interface IHotBidShorted {
   authorId: string;
   likesNumber: number;
   tags: string[];
+  collection: any;
 }
 
 const LiveAuction: React.FC<IProps> = ({ className }) => {
@@ -55,7 +56,7 @@ const LiveAuction: React.FC<IProps> = ({ className }) => {
           minimal_bid,
           asset: currency.symbol,
           inStockNumber: available,
-          author: creator.name,
+          author: creator?.name,
           authorAvatar: creator.avatar,
           authorId: creator.id,
           likesNumber: like_count,
@@ -90,10 +91,12 @@ const LiveAuction: React.FC<IProps> = ({ className }) => {
               authorId,
               likesNumber,
               tags,
+              collection,
             } = artCard;
             return (
               <div className={styles.liveCard}>
                 <ArtCard
+                  type={collection?.display_theme}
                   artId={id}
                   key={id}
                   imageMain={image}
@@ -112,7 +115,9 @@ const LiveAuction: React.FC<IProps> = ({ className }) => {
           })}
         </Carousel>
       ) : (
-        <H4 className={styles.noItems}>No Active Auctions</H4>
+        <Text size="xl" className={styles.noItems}>
+          There are no artowrks in this collection yet
+        </Text>
       )}
     </div>
   );

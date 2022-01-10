@@ -12,9 +12,19 @@ type Props = {
   isAuction: boolean;
   inStock: number;
   className?: string;
+  isSelling: boolean;
 };
 
-const SearchTag: VFC<Props> = ({ image, title, price, asset, isAuction, inStock, className }) => (
+const SearchTag: VFC<Props> = ({
+  image,
+  title,
+  price,
+  asset,
+  isAuction,
+  inStock,
+  className,
+  isSelling,
+}) => (
   <div className={cx(styles.searchTag, className)}>
     <div className={styles.searchTagFlexContainer}>
       <img className={styles.searchTagImg} src={image} alt="art" />
@@ -22,7 +32,14 @@ const SearchTag: VFC<Props> = ({ image, title, price, asset, isAuction, inStock,
         <Text size="m" weight="medium">
           {title}
         </Text>
-        <Text size="m" color="darkenGray">{`On sale for ${price} ${asset}`}</Text>
+        <Text size="m" color="darkenGray">
+        {/* eslint-disable */}
+          {isSelling
+            ? (isAuction
+              ? `On auction for ${price} ${asset}`
+              : `On sale for ${price} ${asset}`)
+            : 'Not sale'}
+        </Text>
       </div>
     </div>
     <div className={styles.searchTagInfo}>
@@ -31,7 +48,8 @@ const SearchTag: VFC<Props> = ({ image, title, price, asset, isAuction, inStock,
         weight="medium"
         className={cx(styles.typeText, { [styles.auction]: isAuction })}
       >
-        {isAuction ? 'Auction' : 'Sale'}
+        {/* eslint-disable */}
+        {isSelling ? (isAuction ? 'Auction' : 'Sale') : 'Not sale'}
       </Text>
       {!isAuction && <Text size="s">{`in stock: ${inStock}`}</Text>}
     </div>

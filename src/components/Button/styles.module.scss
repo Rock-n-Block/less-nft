@@ -26,6 +26,7 @@
 
     color: $color-neutral-0;
     background: $color-primary;
+    border: 1px solid $color-primary;
 
     & > svg {
       fill: $color-neutral-100;
@@ -174,14 +175,14 @@
   }
 }
 
-.large{
+.large {
   padding: 8px 32px;
-  @include forTablet{
+  @include forTablet {
     padding: 8px 24px;
   }
 }
 
-.small{
+.small {
   padding: 8px 16px;
 }
 
@@ -201,6 +202,5 @@
 }
 
 .loader {
-  position: static !important;
-  margin-left: 20px;
+  left: 80% !important;
 }

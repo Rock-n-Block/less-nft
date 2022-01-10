@@ -28,11 +28,11 @@
 export const selectOptions = [
   {
     label: 'Newest',
-    value: '-date',
+    value: '-created_at',
   },
   {
     label: 'Latest',
-    value: 'date',
+    value: 'created_at',
   },
   {
     label: 'Highest price',
