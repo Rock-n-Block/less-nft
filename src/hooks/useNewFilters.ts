@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { TNullable } from 'typings';
 
 const sortByFilters = [
   { value: '-created_at', label: 'Created' },
@@ -12,7 +13,11 @@ const sortByFilters = [
   { value: '-last_sale', label: 'Last Sale' },
 ];
 
-const useNewFilters = () => {
+interface IProps {
+  elementToScroll?: React.MutableRefObject<TNullable<HTMLDivElement>>;
+}
+
+const useNewFilters = (data?: IProps) => {
   const location = useLocation();
 
   // filter and text search from url
@@ -66,8 +71,17 @@ const useNewFilters = () => {
   }, [location]);
 
   useEffect(() => {
+    const { elementToScroll } = data || {};
     setPage(1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (elementToScroll) {
+      const scrolled = window.pageYOffset || document.documentElement.scrollTop;
+      const elementRect = elementToScroll.current?.getBoundingClientRect() || null;
+      const scrollTo = (elementRect ? elementRect.top : 0) + scrolled;
+      
+      window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [
     isOnSale,
     isOnAuction,
@@ -79,6 +93,7 @@ const useNewFilters = () => {
     activeCurrencies,
     sortBy,
     activeCollections,
+    data,
   ]);
 
   return {
