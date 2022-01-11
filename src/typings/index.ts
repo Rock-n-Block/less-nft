@@ -116,6 +116,7 @@ export interface INft {
   start_auction: TNullable<string>;
   end_auction: TNullable<string>;
   has_digital_key: boolean;
+  is_timed_auc_selling: boolean
 }
 
 export interface ITag {

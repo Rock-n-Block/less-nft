@@ -301,7 +301,7 @@ const PaymentComponent: FC<Props> = observer(
             </div>
           ) : null}
         </div>
-        {nft && nft?.start_auction && nft?.end_auction && (
+        {nft && nft?.start_auction && nft?.end_auction && nft.is_timed_auc_selling && (
           <div className={styles.right}>
             <Text size="m" className={styles.rightTitle}>
               Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
