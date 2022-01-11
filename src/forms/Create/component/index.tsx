@@ -384,7 +384,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                         Drag or choose your file to upload
                       </Text>
                       <Text className={styles.format} size="xxs" color="gray">
-                        (PNG, GIF, WEBP, MP4 or MP3. Max 5 Mb.)
+                        (PNG, GIF, WEBP, MP4, JPEG, SVG, WEBM, WAV, OGG, GLB, GLF or MP3. Max 5 Mb.)
                       </Text>
                     </div>
                   </div>
