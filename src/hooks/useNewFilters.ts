@@ -3,14 +3,22 @@ import { useLocation } from 'react-router-dom';
 import { TNullable } from 'typings';
 
 const sortByFilters = [
-  { value: '-created_at', label: 'Created' },
-  { value: '-price', label: 'Price' },
-  { value: '-likes', label: 'Likes' },
-  { value: '-views', label: 'Views' },
-  { value: '-sale', label: 'Sale' },
-  { value: '-transfer', label: 'Transfer' },
-  { value: '-auction_end', label: 'Auction End' },
-  { value: '-last_sale', label: 'Last Sale' },
+  { value: '-created_at', label: 'Recently Created' },
+  { value: 'created_at', label: 'Oldest' },
+  { value: '-price', label: 'Highest Price' },
+  { value: 'price', label: 'Lowest Price' },
+  { value: '-likes', label: 'Most Likes' },
+  { value: 'likes', label: 'Less Likes' },
+  { value: '-views', label: 'Most Views' },
+  { value: 'views', label: 'Less Views' },
+  { value: '-sale', label: 'Recently Sold' },
+  { value: 'sale', label: 'Oldest Sale' },
+  { value: '-transfer', label: 'Recently Transfered' },
+  { value: 'transfer', label: 'Oldest Transfer' },
+  { value: '-auction_end', label: 'Recently Auction Ended' },
+  { value: 'auction_end', label: 'Last Auction End' },
+  { value: '-last_sale', label: 'Recently Last Sale' },
+  { value: 'last_sale', label: 'Oldest Last Sale' },
 ];
 
 interface IProps {

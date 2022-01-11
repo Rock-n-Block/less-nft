@@ -29,7 +29,7 @@ const AuthorComponent: FC<Props> = ({ className, creator, owners, collection }) 
             <Text size="xl">{sliceString(creator?.name || '')}</Text>
           </div>
         </div>
-        {collection ? (
+        {collection && !collection.is_default ? (
           <div className={styles.user}>
             <Avatar
               className={styles.avatar}

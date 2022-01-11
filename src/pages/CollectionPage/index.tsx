@@ -92,7 +92,7 @@ const CollectionPage: React.FC = observer(() => {
         />
       </div>
 
-      <div className={styles.discover}>
+      <div className={cx(styles.discover, s.discoverFilters)}>
         <div className={cx(styles.filterAndCards, { [styles.open]: isFilterOpen })}>
           <div className={styles.stickyWrapper}>
             <div ref={filtersRef} className={styles.sticky}>
@@ -117,7 +117,7 @@ const CollectionPage: React.FC = observer(() => {
           >
             <>
               <div className={styles.header}>
-                <Text className={styles.total} tag="span">
+                <Text className={styles.total} tag="span" weight='bold' size='xl'>
                   {totalItems} results
                 </Text>
                 <Select

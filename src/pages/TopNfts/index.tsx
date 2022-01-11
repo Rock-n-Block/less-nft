@@ -24,6 +24,8 @@ import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
 import 'rc-pagination/assets/index.less';
 import { localeInfo } from 'locale';
+import { routes } from 'appConstants';
+import { Link, useParams } from 'react-router-dom';
 
 const timeOptions = [
   { symbol: 'Last 24 Hours', value: 'day', label: '24h' },
@@ -41,6 +43,7 @@ const pageOptions = [
 
 const TopNfts: VFC = observer(() => {
   const { nftTags } = useMst();
+  const { timeOption } = useParams<{ timeOption: string }>();
   const chainsOptions = [
     { symbol: 'All chains', image: allLogo },
     ...Object.values(chains).map((chain: any) => {
@@ -50,7 +53,9 @@ const TopNfts: VFC = observer(() => {
       };
     }),
   ];
-  const [time, setTime] = useState(timeOptions[0]);
+  const [time, setTime] = useState(
+    timeOptions.filter((option: any) => timeOption === option.value)[0] || timeOptions[0],
+  );
   const [tag, setTag] = useState({ symbol: 'All NFTs', image: iconAllNFTs });
   const [chain, setChain] = useState(chainsOptions[0]);
   const [pageValue, setPageValue] = useState(pageOptions[0]);
@@ -76,11 +81,11 @@ const TopNfts: VFC = observer(() => {
   );
 
   const { collections, totalItems } = useFetchTopCollections(
-    time.value,
+    time,
     chain.symbol === 'All chains' ? '' : chain.symbol,
     tag.symbol === 'All NFTs' ? '' : tag.symbol,
     currentPage,
-    pageValue.value
+    pageValue.value,
   );
 
   const handleTags = (value: any) => {
@@ -248,43 +253,45 @@ const TopNfts: VFC = observer(() => {
           <div className={styles.collectionsBody}>
             {collections.length ? (
               collections.map((nft: any, index: number) => (
-                <div className={styles.collection}>
-                  <div className={styles.collectionNumber}>
-                    <Text>{index + 1}</Text>
+                <Link to={routes.collection.link(nft.collection.id)}>
+                  <div className={styles.collection}>
+                    <div className={styles.collectionNumber}>
+                      <Text>{index + 1}</Text>
+                    </div>
+                    <div className={styles.collectionStart}>
+                      <img
+                        alt="avatar"
+                        className={styles.collectionAvatar}
+                        src={nft.collection.avatar}
+                      />
+                      <Text>{nft.collection.name}</Text>
+                    </div>
+                    <div className={styles.collectionStart}>
+                      <img alt="eth" src={iconEthSmall} />
+                      <Text>{nft.price}</Text>
+                    </div>
+                    <div className={styles.collectionStart}>
+                      <Text
+                        className={cn(styles.collectonDiff, {
+                          [styles.green]: nft.difference && nft.difference[0] === '+',
+                          [styles.red]: nft.difference && nft.difference[0] === '-',
+                        })}
+                      >
+                        {nft.difference ? `${nft.difference}` : '0'}%
+                      </Text>
+                    </div>
+                    <div className={styles.collectionStart}>
+                      <img alt="eth" src={iconEthSmall} />
+                      <Text>{nft.floor_price || 0}</Text>
+                    </div>
+                    <div className={styles.collectionStart}>
+                      <Text>{numberFormatter(nft.total_owners, 10)}</Text>
+                    </div>
+                    <div className={styles.collectionStart}>
+                      <Text>{numberFormatter(nft.total_items, 10)}</Text>
+                    </div>
                   </div>
-                  <div className={styles.collectionStart}>
-                    <img
-                      alt="avatar"
-                      className={styles.collectionAvatar}
-                      src={nft.collection.avatar}
-                    />
-                    <Text>{nft.collection.name}</Text>
-                  </div>
-                  <div className={styles.collectionStart}>
-                    <img alt="eth" src={iconEthSmall} />
-                    <Text>{nft.price}</Text>
-                  </div>
-                  <div className={styles.collectionStart}>
-                    <Text
-                      className={cn(styles.collectonDiff, {
-                        [styles.green]: nft.difference && nft.difference[0] === '+',
-                        [styles.red]: nft.difference && nft.difference[0] === '-',
-                      })}
-                    >
-                      {nft.difference ? `${nft.difference}` : '0'}%
-                    </Text>
-                  </div>
-                  <div className={styles.collectionStart}>
-                    <img alt="eth" src={iconEthSmall} />
-                    <Text>{nft.floor_price || 0}</Text>
-                  </div>
-                  <div className={styles.collectionStart}>
-                    <Text>{numberFormatter(nft.total_owners, 10)}</Text>
-                  </div>
-                  <div className={styles.collectionStart}>
-                    <Text>{numberFormatter(nft.total_items, 10)}</Text>
-                  </div>
-                </div>
+                </Link>
               ))
             ) : (
               <Text>No items</Text>

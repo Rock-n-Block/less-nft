@@ -46,6 +46,7 @@ export const routes = {
     root: '/soon',
   },
   topNfts: {
-    root: '/topnfts',
+    link: (time: string ): string => `topnfts/${time}`,
+    root: '/topnfts/:timeOption',
   },
 };

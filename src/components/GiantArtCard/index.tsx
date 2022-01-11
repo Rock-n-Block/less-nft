@@ -1,5 +1,5 @@
 import { FC, useCallback, useRef, useState } from 'react';
-import { Close, Zoom, IconLock } from 'assets/img';
+import { Close, IconLock,Zoom } from 'assets/img';
 import cx from 'classnames';
 import { EllipsisText, H2, Skeleton, Text } from 'components';
 import { useGetUserAccessForNft, useNoScroll } from 'hooks';
@@ -186,6 +186,7 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
             isUserCanEnterInAuction={isUserCanEnterInAuction}
             isUserCanPutOnSale={isUserCanPutOnSale}
             isOwner={isOwner}
+            className={styles.payment}
           />
         ) : null}
         <AuthorComponent creator={nft?.creator} owners={nft?.owners} collection={nft?.collection} />

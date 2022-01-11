@@ -59,3 +59,28 @@
   margin-top: 10px;
   gap: 15px;
 }
+
+.right {
+  @include flexbox(center, center);
+  flex-direction: column;
+  padding: 4px 8px;
+  border: 1px solid $color-neutral-10;
+  border-radius: 12px;
+  margin-left: 12px;
+
+  &Title {
+    font-weight: 500;
+    color: $color-neutral-100;
+    font-size: 15px;
+  }
+
+  &Times {
+    @include flexbox(flex-start, space-around);
+    width: 100%;
+
+    &Item {
+      @include flexbox(center, center);
+      flex-direction: column;
+    }
+  }
+}

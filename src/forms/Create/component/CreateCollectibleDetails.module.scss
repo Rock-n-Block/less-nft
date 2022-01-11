@@ -70,6 +70,10 @@
       width: 100%;
     }
   }
+
+  &Auc{
+    margin-bottom: 24px;
+  }
 }
 
 .note {
@@ -369,6 +373,7 @@
 }
 
 .clean {
+  margin-bottom: 12px;
   @include forDesktopBig {
     margin-bottom: 16px;
   }
@@ -392,6 +397,19 @@
   color: $color-neutral-100;
 }
 
+.startEndAuc {
+  @include flexbox(flex-start,space-between);
+  gap: 12px;
+  margin-top: 24px;
+  &Item {
+    width: 100%;
+  }
+  &Text {
+    margin-top: 32px;
+    margin-bottom: 8px;
+    color: $color-neutral-40 !important;
+  }
+}
 .details {
   margin-top: 16px;
 }

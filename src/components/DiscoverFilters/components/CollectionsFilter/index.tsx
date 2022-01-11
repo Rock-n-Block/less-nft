@@ -17,14 +17,11 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
   const [isOpened, setIsOpened] = useState(true);
 
   const filters = useNewFilters();
-  const [allPages, totalItems, nftCards] = useFetchNft({
+  const [,, nftCards] = useFetchNft({
     page: filters.page,
     type: 'collections',
     text: '',
   });
-  if (allPages && totalItems) {
-    console.log('');
-  }
 
   const handleToogleCollection = useCallback(
     (tagName: string) => {
@@ -37,7 +34,6 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
     [activeCollections, setActiveCollections],
   );
 
-  console.log(allPages, totalItems);
 
   return (
     <GroupWrapper
