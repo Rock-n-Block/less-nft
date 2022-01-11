@@ -216,7 +216,6 @@ const PaymentComponent: FC<Props> = observer(
     }, [user.address, nft, handleCheckAllowance]);
 
     useEffect(() => {
-      // if (nft) getTime(nft.end_auction || '');
       let timeInterval: any;
       if (nft) {
         const eventTime = moment(nft.end_auction).unix();
@@ -226,7 +225,7 @@ const PaymentComponent: FC<Props> = observer(
         const interval = 1000;
         timeInterval = setInterval(() => {
           duration = moment.duration(Number(duration) - interval, 'milliseconds');
-          setTime(moment(duration.asMilliseconds()).format('hh:mm:ss'));
+          setTime(moment(duration.asMilliseconds()));
         }, interval);
       }
 
@@ -303,8 +302,29 @@ const PaymentComponent: FC<Props> = observer(
         </div>
         {nft && nft?.start_auction && nft?.end_auction && (
           <div className={styles.right}>
-            <Text>Auction ending</Text>
-            <Text>Time: {time}</Text>
+            <Text size="m" className={styles.rightTitle}>
+              Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+            </Text>
+            <div className={styles.rightTimes}>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('hh')}
+                </Text>
+                <Text>Hours</Text>
+              </div>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('mm')}
+                </Text>
+                <Text>Minutes</Text>
+              </div>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('ss')}
+                </Text>
+                <Text>Seconds</Text>
+              </div>
+            </div>
           </div>
         )}
       </div>
