@@ -9,16 +9,18 @@ import ChainFilter from './components/ChainFilter';
 import CategoriesFilter from './components/CategoriesFilter';
 import OnSaleInFilter from './components/OnSaleInFilter';
 import PropertiesFilter from './components/PropertiesFilter';
-import { IProperties, useNewFilters } from 'hooks';
+import { IProperties, IRankings, useNewFilters } from 'hooks';
 
 import styles from './DiscoverFilters.module.scss';
 
 import { ArrowLeft } from 'assets/img';
+import RankingsFilter from './components/RankingsFilter';
 
 interface IFiltersConfig {
   needCollections?: boolean;
   needChains?: boolean;
   properties: IProperties;
+  rankings: IRankings;
 }
 interface IProps {
   isFilterOpen: boolean;
@@ -51,6 +53,8 @@ const DiscoverFilters: VFC<IProps> = ({
     setActiveCollections,
     activePerks,
     setActivePerks,
+    activeRankings,
+    setActiveRankigs,
   },
   config = { needCollections: true, needChains: true },
 }) => {
@@ -103,6 +107,11 @@ const DiscoverFilters: VFC<IProps> = ({
               properties={config.properties || {}}
               activePerks={activePerks}
               setActivePerks={setActivePerks}
+            />
+            <RankingsFilter
+              rankings={config.rankings || {}}
+              activeRankings={activeRankings}
+              setActiveRankigs={setActiveRankigs}
             />
           </div>
         </>

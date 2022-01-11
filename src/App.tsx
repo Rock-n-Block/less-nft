@@ -1,5 +1,4 @@
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Header } from 'components';
 import { Footer, Modals, Routes, ScrollToTop } from 'containers';
@@ -23,16 +22,14 @@ const App = () => {
         language="en"
       >
         <Provider value={rootStore}>
-          <Router>
-            <Connector>
-              <Header />
-              <ScrollToTop>
-                <Routes />
-                <Modals />
-              </ScrollToTop>
-              <Footer />
-            </Connector>
-          </Router>
+          <Connector>
+            <Header />
+            <ScrollToTop>
+              <Routes />
+              <Modals />
+            </ScrollToTop>
+            <Footer />
+          </Connector>
         </Provider>
       </GoogleReCaptchaProvider>
     </>

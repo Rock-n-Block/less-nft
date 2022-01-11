@@ -10,6 +10,13 @@ export interface IProperties {
   [key: string]: IProperty;
 }
 
+export interface IRankings {
+  [key: string]: {
+    min: string;
+    max: string;
+  };
+}
+
 export const useFetchCollection = (
   setLoading: (value: boolean) => void,
   page: number,
@@ -29,6 +36,7 @@ export const useFetchCollection = (
     tokens: Array<any>;
     description: TNullable<string>;
     properties: IProperties;
+    rankings: IRankings;
   }>({
     address: '',
     cover: '',
@@ -39,6 +47,7 @@ export const useFetchCollection = (
     creator: {},
     description: null,
     properties: {},
+    rankings: {},
   });
 
   const fetchSearch = () => {

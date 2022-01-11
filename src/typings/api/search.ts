@@ -1,8 +1,3 @@
-// type TSort = 'items' | 'users' | 'collections';
-// type TOrderByForTokens = 'data' | 'price' | 'likes';
-// type TOrderByForUsers = 'created' | 'followers' | 'tokens_created';
-// type TOrderBy = TOrderByForTokens | TOrderByForUsers;
-
 export interface IGetSearchResultParams {
   text?: string;
   type?: string;
@@ -23,4 +18,5 @@ export interface IGetSearchResultParams {
   network?: string;
   collections?: string;
   properties?: string;
+  rankings?: string;
 }

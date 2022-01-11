@@ -37,14 +37,15 @@ const CollectionPage: React.FC = observer(() => {
   const initialTab = useLocation().search?.replace('?tab=', '') || '';
   const { activeTab } = useTabs(tabs, initialTab);
   const [page] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const { collectionId } = useParams<{ collectionId: string }>();
   const [isFilterOpen, setFilterOpen] = useState(window.innerWidth >= 780);
   const [isSmallCards, setIsSmallCards] = useState(window.innerWidth >= 780);
 
   const { collection } = useFetchCollection(setIsLoading, page, collectionId, activeTab);
 
-  const filters = useNewFilters();
+  const pageTop = useRef<TNullable<HTMLDivElement>>(null);
+  const filters = useNewFilters({ elementToScroll: pageTop });
 
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
     page: filters.page,
@@ -61,6 +62,7 @@ const CollectionPage: React.FC = observer(() => {
     currency: filters.activeCurrencies.join(','),
     collections: collectionId,
     properties: filters.activePerks,
+    rankings: filters.activeRankings,
   });
 
   const likeAction = useCallback(
@@ -75,8 +77,6 @@ const CollectionPage: React.FC = observer(() => {
 
   const anchorRef = useInfiniteScroll(filters.page, allPages, filters.handlePage, isNftsLoading);
   const filtersRef = useRef<TNullable<HTMLDivElement>>(null);
-
-  console.log(isLoading);
 
   return (
     <section className={s.page}>
@@ -104,11 +104,13 @@ const CollectionPage: React.FC = observer(() => {
                   needCollections: false,
                   needChains: false,
                   properties: collection.properties,
+                  rankings: collection.rankings,
                 }}
               />
             </div>
           </div>
           <div
+            ref={pageTop}
             className={cx(styles.filterResultsContainer, {
               [styles.withFilter]: isFilterOpen,
             })}
@@ -153,9 +155,6 @@ const CollectionPage: React.FC = observer(() => {
                     </>
                   ) : (
                     nftCards.map((artCard: any) => {
-                      if (isNftsLoading && filters.page === 1) {
-                        return <ArtCardSkeleton />;
-                      }
                       const {
                         media,
                         name,
@@ -171,6 +170,13 @@ const CollectionPage: React.FC = observer(() => {
                         bids,
                         is_liked,
                       } = artCard;
+                      if (isNftsLoading && filters.page === 1) {
+                        return (
+                          <ArtCardSkeleton
+                            key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
+                          />
+                        );
+                      }
                       return (
                         <ArtCard
                           artId={id}
