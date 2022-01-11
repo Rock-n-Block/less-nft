@@ -17,10 +17,11 @@ interface IProps {
   elementToScroll?: React.MutableRefObject<TNullable<HTMLDivElement>>;
 }
 
-const useNewFilters = (data?: IProps) => {
+const useNewFilters = (config?: IProps) => {
   const location = useLocation();
 
   // filter and text search from url
+  // TODO: new URLSearchParams() - переписать на эту реализацию?
   const tag = location.search.includes('?filter=') && location.search.replace('?filter=', '');
   const text = location.search.includes('?text=') && location.search.replace('?text=', '');
 
@@ -36,6 +37,7 @@ const useNewFilters = (data?: IProps) => {
   const [textSearch, setTextSearch] = useState(text || '');
   const [sortBy, setSortBy] = useState(sortByFilters[0]);
   const [activePerks, setActivePerks] = useState('{}');
+  const [activeRankings, setActiveRankigs] = useState('{}');
 
   const [page, setPage] = useState(1);
   const handlePage = useCallback((value: number) => {
@@ -55,6 +57,7 @@ const useNewFilters = (data?: IProps) => {
     setMaxPrice('');
     setTextSearch('');
     setActivePerks('{}');
+    setActiveRankigs('{}');
   }, []);
 
   useEffect(() => {
@@ -71,13 +74,13 @@ const useNewFilters = (data?: IProps) => {
   }, [location]);
 
   useEffect(() => {
-    const { elementToScroll } = data || {};
+    const { elementToScroll } = config || {};
     setPage(1);
     if (elementToScroll) {
       const scrolled = window.pageYOffset || document.documentElement.scrollTop;
       const elementRect = elementToScroll.current?.getBoundingClientRect() || null;
       const scrollTo = (elementRect ? elementRect.top : 0) + scrolled;
-      
+
       window.scrollTo({ top: scrollTo, behavior: 'smooth' });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -93,7 +96,9 @@ const useNewFilters = (data?: IProps) => {
     activeCurrencies,
     sortBy,
     activeCollections,
-    data,
+    config,
+    activeRankings,
+    activePerks,
   ]);
 
   return {
@@ -125,6 +130,8 @@ const useNewFilters = (data?: IProps) => {
     setActiveCollections,
     activePerks,
     setActivePerks,
+    activeRankings,
+    setActiveRankigs,
   };
 };
 

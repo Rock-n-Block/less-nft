@@ -53,6 +53,8 @@ const DiscoverFilters: VFC<IProps> = ({
     setActiveCollections,
     activePerks,
     setActivePerks,
+    activeRankings,
+    setActiveRankigs,
   },
   config = { needCollections: true, needChains: true },
 }) => {
@@ -106,7 +108,11 @@ const DiscoverFilters: VFC<IProps> = ({
               activePerks={activePerks}
               setActivePerks={setActivePerks}
             />
-            <RankingsFilter rankings={config.rankings || {}} />
+            <RankingsFilter
+              rankings={config.rankings || {}}
+              activeRankings={activeRankings}
+              setActiveRankigs={setActiveRankigs}
+            />
           </div>
         </>
       ) : (

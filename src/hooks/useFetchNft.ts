@@ -27,6 +27,7 @@ interface IProps {
   on_timed_auc_sale?: boolean;
   network?: string;
   properties?: string;
+  rankings?: string;
 }
 
 export const useFetchNft = (
@@ -42,7 +43,6 @@ export const useFetchNft = (
     max_price,
     min_price,
     currency,
-    is_verified,
     creator,
     owner,
     on_sale,
@@ -54,8 +54,10 @@ export const useFetchNft = (
     on_auc_sale,
     on_timed_auc_sale,
     network,
+    is_verified,
     collections,
     properties,
+    rankings,
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
@@ -95,6 +97,7 @@ export const useFetchNft = (
           network,
           collections,
           properties,
+          rankings,
         })
         .then(({ data: { results, total, total_pages } }: any) => {
           setTotalItems(() => total);
@@ -133,9 +136,12 @@ export const useFetchNft = (
       type,
       min_price,
       network,
+      rankings,
       collections,
     ],
   );
+
+  // TODO: сделать нормальный дебаунс
 
   const debouncedFetch = useRef(
     debounce((value) => {

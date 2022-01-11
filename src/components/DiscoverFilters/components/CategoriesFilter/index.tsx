@@ -14,7 +14,7 @@ interface IProps {
 }
 
 const CategoriesFilter: VFC<IProps> = observer(({ activeTags, setActiveTags }) => {
-  const [isOpened, setIsOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(false);
   const { nftTags } = useMst();
 
   const handleToogleTag = useCallback(

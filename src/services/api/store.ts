@@ -88,6 +88,7 @@ export default {
     network,
     collections,
     properties,
+    rankings,
   }: IGetSearchResultParams) => {
     return axios.get(`/store/search/`, {
       params: {
@@ -98,18 +99,19 @@ export default {
         on_sale,
         currency,
         is_verified,
-        max_price,
         page,
         creator,
         tags,
         has_bids,
         bids_by,
-        text,
+        collections,
         min_price,
+        max_price,
+        text,
         on_auc_sale,
         on_timed_auc_sale,
-        collections,
-        properties,
+        ...(properties !== '{}' && { properties }),
+        ...(rankings !== '{}' && { rankings }),
       },
     });
   },

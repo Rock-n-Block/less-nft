@@ -62,6 +62,7 @@ const CollectionPage: React.FC = observer(() => {
     currency: filters.activeCurrencies.join(','),
     collections: collectionId,
     properties: filters.activePerks,
+    rankings: filters.activeRankings,
   });
 
   const likeAction = useCallback(
@@ -154,9 +155,6 @@ const CollectionPage: React.FC = observer(() => {
                     </>
                   ) : (
                     nftCards.map((artCard: any) => {
-                      if (isNftsLoading && filters.page === 1) {
-                        return <ArtCardSkeleton />;
-                      }
                       const {
                         media,
                         name,
@@ -172,6 +170,13 @@ const CollectionPage: React.FC = observer(() => {
                         bids,
                         is_liked,
                       } = artCard;
+                      if (isNftsLoading && filters.page === 1) {
+                        return (
+                          <ArtCardSkeleton
+                            key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
+                          />
+                        );
+                      }
                       return (
                         <ArtCard
                           artId={id}
