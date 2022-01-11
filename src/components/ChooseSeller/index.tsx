@@ -14,7 +14,6 @@ const ChooseSeller: React.FC = () => {
 
   const handleChooseSeller = React.useCallback(
     (sellerId: string | number) => {
-      console.log('sell', sell)
       sell.chooseSeller.close();
       sell.checkout.open(sellerId);
     },

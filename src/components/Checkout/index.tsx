@@ -16,7 +16,6 @@ const Checkout: React.FC = observer(() => {
     modals: { sell },
     user,
   } = useMst();
-  console.log('sell.nft.sellerId', sell.nft.sellerId);
   const { walletService } = useWalletConnectorContext();
   const tokenAvailable =
     sell?.nft?.standart === 'ERC721'
