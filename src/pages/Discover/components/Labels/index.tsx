@@ -37,6 +37,7 @@ const Labels: VFC<IProps> = ({
     activePerks,
     setActivePerks,
     activeRankings,
+    setActiveRankigs,
   },
 }) => {
   const minMaxLabel = useMemo(() => {
@@ -61,6 +62,17 @@ const Labels: VFC<IProps> = ({
       setActivePerks(() => JSON.stringify(perks));
     },
     [activePerks, setActivePerks],
+  );
+
+  const handleDeleteRanking = useCallback(
+    (rankingTitle: string) => {
+      const newRankings = Object.fromEntries(
+        Object.entries(JSON.parse(activeRankings)).filter((ranking) => ranking[0] !== rankingTitle),
+      );
+
+      setActiveRankigs(JSON.stringify(newRankings));
+    },
+    [activeRankings, setActiveRankigs],
   );
 
   return (
@@ -125,7 +137,7 @@ const Labels: VFC<IProps> = ({
         <FilterLabel
           key={`${rankingTitle}`}
           title={`${rankingTitle}: ${activeRanks[rankingTitle].min} to ${activeRanks[rankingTitle].max}`}
-          onClick={() => {}}
+          onClick={() => handleDeleteRanking(rankingTitle)}
         />
       ))}
       <button type="button" className={s.button} onClick={setDefaultFilters}>
