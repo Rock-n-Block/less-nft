@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 // import { growth as growthImg } from 'assets/img';
 import BigNumber from 'bignumber.js/bignumber';
 import cx from 'classnames';
@@ -12,6 +12,7 @@ import { INft, TNullable } from 'typings';
 
 import styles from './styles.module.scss';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 
 type Props = {
   className?: string;
@@ -40,6 +41,7 @@ const PaymentComponent: FC<Props> = observer(
 
     const [isApproved, setApproved] = React.useState<boolean>(false);
     const [isApproving, setApproving] = React.useState<boolean>(false);
+    const [time, setTime] = useState<any>();
     const [isEndingAuction, setIsEndingAuction] = useState(false);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -213,74 +215,118 @@ const PaymentComponent: FC<Props> = observer(
       }
     }, [user.address, nft, handleCheckAllowance]);
 
+    useEffect(() => {
+      let timeInterval: any;
+      if (nft) {
+        const eventTime = moment(nft.end_auction).unix();
+        const currentTime = moment().unix();
+        const diffTime = eventTime - currentTime;
+        let duration = moment.duration(diffTime * 1000, 'milliseconds');
+        const interval = 1000;
+        timeInterval = setInterval(() => {
+          duration = moment.duration(Number(duration) - interval, 'milliseconds');
+          setTime(moment(duration.asMilliseconds()));
+        }, interval);
+      }
+
+      return () => clearInterval(timeInterval);
+    }, [nft]);
+
     return (
       <div className={cx(className, { [styles.paymentSell]: nftSellingType === 'sell' })}>
-        <div className={styles.priceWrapper}>
-          <div>
-            {nftSellingType === 'sell' ? <Text size="m">Current Price</Text> : null}
-            {nftSellingType === 'auction' && nft?.highest_bid ? (
-              <Text color="lightGray">Highest Bid</Text>
-            ) : null}
-            <div className={styles.priceAndGrowth}>
-              {currentPrice ? <H4>{`${currentPrice} ${nft?.currency?.symbol || ''}`}</H4> : ''}
-              {nftSellingType === 'sell' && nft?.USD_price !== undefined && (
-                <Text size="m">{nft.USD_price > 0.01 ? `$${nft.USD_price}` : '<$0.01'}</Text>
+        <div className={styles.left}>
+          <div className={styles.priceWrapper}>
+            <div>
+              {nftSellingType === 'sell' ? <Text size="m">Current Price</Text> : null}
+              {nftSellingType === 'auction' && nft?.highest_bid ? (
+                <Text color="lightGray">Highest Bid</Text>
+              ) : null}
+              <div className={styles.priceAndGrowth}>
+                {currentPrice ? <H4>{`${currentPrice} ${nft?.currency.symbol}`}</H4> : ''}
+                {nftSellingType === 'sell' && nft?.USD_price !== undefined && (
+                  <Text size="m">{nft.USD_price > 0.01 ? `$${nft.USD_price}` : '<$0.01'}</Text>
+                )}
+              </div>
+              {!!nft?.minimal_bid && (
+                <Text color="lightGray">{`Minimal bid ${nft.minimal_bid} ${nft?.currency.symbol}`}</Text>
               )}
             </div>
-            {!!nft?.minimal_bid && (
-              <Text color="lightGray">{`Minimal bid ${nft.minimal_bid} ${
-                nft?.currency?.symbol || ''
-              }`}</Text>
-            )}
           </div>
-        </div>
 
-        {user.address ? (
-          <div className={styles.sellBtnsWrapper}>
-            {!isApproved && isUserCanApprove && (nft?.is_selling || nft?.is_auc_selling) ? (
-              <Button
-                padding="custom"
-                loading={isApproving}
-                onClick={handleApproveToken}
-                className={styles.purchaseButton}
-              >
-                Approve Token
-              </Button>
-            ) : null}
-            {isUserCanEndAuction ? (
-              <Button
-                padding="custom"
-                onClick={handleEndAuction}
-                className={styles.purchaseButton}
-                disabled={isEndingAuction}
-                loading={isEndingAuction}
-              >
-                End Auction
-              </Button>
-            ) : null}
-            {isUserCanBuyNft && isApproved ? (
-              <Button padding="custom" onClick={handleBuyNft} className={styles.purchaseButton}>
-                Purchase Now
-              </Button>
-            ) : null}
-            {isUserCanEnterInAuction && isApproved ? (
-              <Button padding="custom" onClick={handlePlaceBid} className={styles.purchaseButton}>
-                Place a Bid
-              </Button>
-            ) : null}
-            {isUserCanPutOnSale ? (
-              <>
+          {user.address ? (
+            <div className={styles.sellBtnsWrapper}>
+              {!isApproved && isUserCanApprove && (nft?.is_selling || nft?.is_auc_selling) ? (
                 <Button
                   padding="custom"
-                  onClick={handlePutOnSale}
+                  loading={isApproving}
+                  onClick={handleApproveToken}
                   className={styles.purchaseButton}
                 >
-                  Put on Sale
+                  Approve Token
                 </Button>
-              </>
-            ) : null}
+              ) : null}
+              {isUserCanEndAuction ? (
+                <Button
+                  padding="custom"
+                  onClick={handleEndAuction}
+                  className={styles.purchaseButton}
+                  disabled={isEndingAuction}
+                  loading={isEndingAuction}
+                >
+                  End Auction
+                </Button>
+              ) : null}
+              {isUserCanBuyNft && isApproved ? (
+                <Button padding="custom" onClick={handleBuyNft} className={styles.purchaseButton}>
+                  Purchase Now
+                </Button>
+              ) : null}
+              {isUserCanEnterInAuction && isApproved ? (
+                <Button padding="custom" onClick={handlePlaceBid} className={styles.purchaseButton}>
+                  Place a Bid
+                </Button>
+              ) : null}
+              {isUserCanPutOnSale ? (
+                <>
+                  <Button
+                    padding="custom"
+                    onClick={handlePutOnSale}
+                    className={styles.purchaseButton}
+                  >
+                    Put on Sale
+                  </Button>
+                </>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+        {nft && nft?.start_auction && nft?.end_auction && (
+          <div className={styles.right}>
+            <Text size="m" className={styles.rightTitle}>
+              Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+            </Text>
+            <div className={styles.rightTimes}>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('hh')}
+                </Text>
+                <Text>Hours</Text>
+              </div>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('mm')}
+                </Text>
+                <Text>Minutes</Text>
+              </div>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('ss')}
+                </Text>
+                <Text>Seconds</Text>
+              </div>
+            </div>
           </div>
-        ) : null}
+        )}
       </div>
     );
   },

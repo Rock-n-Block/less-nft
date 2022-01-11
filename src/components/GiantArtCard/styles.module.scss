@@ -159,6 +159,10 @@
   padding-bottom: 24px;
 }
 
+.payment{
+  @include flexbox(center,space-between)
+}
+
 @include forDesktopBig() {
   .giantCard {
     flex-direction: column;

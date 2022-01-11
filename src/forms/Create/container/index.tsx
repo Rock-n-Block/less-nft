@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 
 import CreateForm, { ICreateForm } from '../component';
 import { routes } from 'appConstants';
+import { dateFormatter } from 'utils/dateFormatter';
 
 export default observer(({ isSingle }: any) => {
   const history = useHistory();
@@ -36,6 +37,9 @@ export default observer(({ isSingle }: any) => {
     isLoading: false,
     unlockOncePurchased: false,
     digitalKey: '',
+    isTimedAuction: false,
+    startAuction: 'Right after listing',
+    endAuction: '1 Day',
     externalLink: '',
     isNsfw: false,
   };
@@ -78,6 +82,10 @@ export default observer(({ isSingle }: any) => {
       }
       formData.append('creator_royalty', values.creatorRoyalty.toString());
       formData.append('collection', values.collection.toString());
+      if (values.isTimedAuction) {
+        formData.append('start_auction', dateFormatter(values.startAuction));
+        formData.append('end_auction', dateFormatter(values.endAuction));
+      }
       formData.append('external_link', values.externalLink);
       formData.append('is_nsfw', values.isNsfw.toString());
 

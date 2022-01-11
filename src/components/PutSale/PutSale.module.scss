@@ -99,14 +99,35 @@
   z-index: 2;
 }
 
-.head{
+.head {
   border: none;
   padding: 8px 33px 8px 16px;
-  &:hover{
+  &:hover {
     box-shadow: none;
   }
 
-  img{
+  img {
     right: 12px;
+  }
+}
+
+.itemAuc {
+  &Title {
+    @include flexbox(flex-start, space-between);
+    margin: 12px 0;
+  }
+}
+
+.startEndAuc {
+  @include flexbox(flex-start, space-between);
+  gap: 12px;
+  margin-top: 24px;
+  &Item {
+    width: 100%;
+  }
+  &Text {
+    margin-top: 32px;
+    margin-bottom: 8px;
+    color: $color-neutral-40 !important;
   }
 }
