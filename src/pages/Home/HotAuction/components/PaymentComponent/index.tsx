@@ -226,7 +226,6 @@ const PaymentComponent: FC<Props> = observer(
         const interval = 1000;
         timeInterval = setInterval(() => {
           duration = moment.duration(+duration - interval, 'milliseconds');
-          console.log('duration2', duration)
           setTime(moment(duration.asMilliseconds()));
         }, interval);
       }
