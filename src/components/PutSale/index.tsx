@@ -51,7 +51,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
   const balance = useUserBalance(user.address, currency || sell.nft.currency);
 
   const fetchRates = useCallback(() => {
-    ratesApi.getRates().then(({ data }: any) => {
+    ratesApi.getRates('undefined').then(({ data }: any) => {
       setRates(data);
       setCurrency(data[0]?.symbol);
     });

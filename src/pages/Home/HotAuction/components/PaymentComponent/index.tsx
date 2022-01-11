@@ -218,13 +218,15 @@ const PaymentComponent: FC<Props> = observer(
     useEffect(() => {
       let timeInterval: any;
       if (nft) {
-        const eventTime = moment(nft.end_auction).unix();
-        const currentTime = moment().unix();
+        const eventTime = +(nft.end_auction || 0) * 1000;
+        const date = new Date();
+        const currentTime = date.getTime() - date.getTimezoneOffset() * 60000;
         const diffTime = eventTime - currentTime;
-        let duration = moment.duration(diffTime * 1000, 'milliseconds');
+        let duration = moment.duration(diffTime, 'milliseconds');
         const interval = 1000;
         timeInterval = setInterval(() => {
-          duration = moment.duration(Number(duration) - interval, 'milliseconds');
+          duration = moment.duration(+duration - interval, 'milliseconds');
+          console.log('duration2', duration)
           setTime(moment(duration.asMilliseconds()));
         }, interval);
       }
@@ -308,7 +310,7 @@ const PaymentComponent: FC<Props> = observer(
             <div className={styles.rightTimes}>
               <div className={styles.rightTimesItem}>
                 <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('hh')}
+                  {moment(time).format('HH')}
                 </Text>
                 <Text>Hours</Text>
               </div>
