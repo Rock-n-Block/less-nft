@@ -53,7 +53,7 @@ export interface IBaseInfo {
   avatar: string;
   id: number;
   name: string;
-  display_theme: 'Padded' | 'Contained' | 'Covered'
+  display_theme: 'Padded' | 'Contained' | 'Covered';
 }
 
 export interface IBidder {
@@ -116,13 +116,21 @@ export interface INft {
   start_auction: TNullable<string>;
   end_auction: TNullable<string>;
   has_digital_key: boolean;
-  is_timed_auc_selling: boolean
+  is_timed_auc_selling: boolean;
 }
 
 export interface ITag {
   icon: string;
   image: string;
   title: string;
+}
+
+export interface INotableDrop {
+  image: string;
+  description: string;
+  collection_id: string;
+  name: string;
+  background_color: string | null;
 }
 
 export type TNullable<T> = T | null;

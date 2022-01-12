@@ -1,5 +1,5 @@
 import axios from 'core/axios';
-import { TNullable } from 'typings';
+import { INotableDrop, TNullable } from 'typings';
 import { IGetSearchResultParams } from '../../typings/api/search';
 
 export default {
@@ -222,5 +222,8 @@ export default {
     axios.get(`store/related/${id}/?network=${localStorage.lessnft_nft_chainName}`),
   setCollectionCover: (data: any) => {
     return axios.post(`/store/set_cover/?network=${localStorage.lessnft_nft_chainName}`, data);
+  },
+  getNotableDrops: (): Promise<{ data: Array<INotableDrop> }> => {
+    return axios.get('/store/drops/');
   },
 };

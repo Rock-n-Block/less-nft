@@ -117,7 +117,7 @@ const CollectionPage: React.FC = observer(() => {
           >
             <>
               <div className={styles.header}>
-                <Text className={styles.total} tag="span" weight='bold' size='xl'>
+                <Text className={styles.total} tag="span" weight="bold" size="xl">
                   {totalItems} results
                 </Text>
                 <Select
