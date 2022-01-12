@@ -1,9 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import { FC, useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import { H2, Text } from 'components';
-import mockImg from './mockImg.png';
-import mockImgAvatar from './mockImgAvatar.png';
 import TrandingItem from './TrendingItem';
 
 import styles from './styles.module.scss';
@@ -13,6 +12,7 @@ import { observer } from 'mobx-react-lite';
 import { iconAllNFTs } from 'assets/img';
 import { useMst } from 'store';
 import { storeApi } from 'services';
+import { routes } from 'appConstants';
 
 type Props = {
   className?: string;
@@ -20,7 +20,7 @@ type Props = {
 const Trending: FC<Props> = observer(({ className }) => {
   const { nftTags } = useMst();
   const [title, setTitle] = useState<any>({ title: 'All NFTs', icon: iconAllNFTs });
-  const [drops, setDrops] = useState<any[]>([]);
+  const [collections, setCollections] = useState<any[]>([]);
   const [numberOfSlide, setNumberOfSlide] = useState(3);
   const { width } = useWindowSize();
   const slidesToShow = (widthValue: number) => {
@@ -41,45 +41,16 @@ const Trending: FC<Props> = observer(({ className }) => {
     console.log('numberOfSlide', numberOfSlide);
   }, [numberOfSlide]);
 
-  const fetchCollections = useCallback((tag: string) => {
-    storeApi.getSearchResults({
-      type: 'collections',
-      tags: tag.toLowerCase() === 'all nfts' ? '' : tag,
-      order_by: 'price',
-    });
-  }, []);
+  const fetcTrendingCollections = useCallback(() => {
+    storeApi
+      .getTrendingCollections(title.title === 'All NFTs' ? '' : title.title)
+      .then(({ data }: any) => setCollections(data))
+      .catch((err: any) => console.log('error', err));
+  }, [title.title]);
 
   useEffect(() => {
-    fetchCollections(title.title);
-  }, [fetchCollections, title.title]);
-
-  const fetchNotableDrops = useCallback(() => {
-    //TODO: add fetchNotableDrops request
-    setDrops([
-      {
-        avatar: mockImg,
-        creator: { avatar: mockImgAvatar, name: 'Alethea_AI' },
-        name: 'iNFT Personality Pod Sale',
-        description: 'Bring your NFT to life using a iNFT Personality Pod by Alethea AI.',
-      },
-      {
-        avatar: mockImg,
-        creator: { avatar: mockImgAvatar, name: 'Alethea_AI' },
-        name: 'iNFT Personality Pod Sale',
-        description: 'Bring your NFT to life using a iNFT Personality Pod by Alethea AI.',
-      },
-      {
-        avatar: mockImg,
-        creator: { avatar: mockImgAvatar, name: 'Alethea_AI' },
-        name: 'iNFT Personality Pod Sale',
-        description: 'Bring your NFT to life using a iNFT Personality Pod by Alethea AI.',
-      },
-    ]);
-  }, []);
-
-  useEffect(() => {
-    fetchNotableDrops();
-  }, [fetchNotableDrops]);
+    fetcTrendingCollections();
+  }, [fetcTrendingCollections]);
   return (
     <div className={cx(styles.notableDrops, className)}>
       <H2 className={styles.title} align="center">
@@ -88,25 +59,25 @@ const Trending: FC<Props> = observer(({ className }) => {
           <TitleDropdown value={title} setValue={setTitle} options={nftTags.tags} />
         )}
       </H2>
-      {drops.length ? (
-        // <Carousel slidesToShow={numberOfSlide}>
+      {collections.length ? (
         <div className={styles.drops}>
-          {drops.map((drop) => {
+          {/* <Carousel slidesToShow={numberOfSlide}> */}
+          {collections.map((collection) => {
             return (
-              <div className={styles.drop}>
+              <Link to={routes.collection.link(collection.id)} className={styles.drop}>
                 <TrandingItem
-                  avatar={drop.avatar}
-                  creatorAvatar={drop.creator.avatar}
-                  creatorName={drop.creator.name}
-                  name={drop.name}
-                  description={drop.description}
+                  avatar={collection.avatar}
+                  creatorAvatar={collection.creator.avatar}
+                  creatorName={collection.creator.name}
+                  name={collection.name}
+                  description={collection.description}
                 />
-              </div>
+              </Link>
             );
           })}
+          {/* </Carousel> */}
         </div>
       ) : (
-        // </Carousel>
         <Text size="xl" className={styles.noItems}>
           There are no notable drops
         </Text>
