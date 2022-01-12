@@ -27,13 +27,13 @@ const TrendingItem: FC<IProps> = ({ avatar, creatorAvatar, creatorName, name, de
         <Text className={styles.creatorName} size="xl">
           By{' '}
           <Text size="xl" color="primary">
-            {sliceString(creatorName, 20, 0)}
+            {sliceString(creatorName, 10, 0)}
           </Text>
         </Text>
         <Text className={styles.description}>
           {description
             ? sliceString(description, 80, 0)
-            : `Explore the ${sliceString(creatorName, 20, 0)} collection`}
+            : `Explore the ${sliceString(creatorName, 10, 0)} collection`}
         </Text>
       </div>
     </div>

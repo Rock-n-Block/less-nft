@@ -9,7 +9,8 @@
   width: 100%;
   border: 1px solid $color-neutral-9;
   box-sizing: border-box;
-  height: 100%;
+  height: 450px;
+  margin: 0 auto;
 
   .button {
     margin-top: 35px;
@@ -51,11 +52,11 @@
 
 .avatar {
   width: 100%;
-  height: 100%;
+  height: 300px;
   border-radius: $border-radius $border-radius 0 0;
 
   &Wrapper {
     width: 100%;
-    height: 350px;
+    height: 300px;
   }
 }

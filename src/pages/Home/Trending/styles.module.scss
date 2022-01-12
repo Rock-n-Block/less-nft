@@ -4,6 +4,7 @@
   @include flexbox;
   gap: 16px;
   flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
 .notableDrops {
@@ -20,4 +21,9 @@
 .drop {
   max-width: 350px;
   width: 100%;
+}
+
+.swiper{
+  height: 500px;
+  padding: 0 30px;
 }
