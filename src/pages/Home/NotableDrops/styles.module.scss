@@ -5,13 +5,30 @@
   margin-top: 150px;
 }
 
-.drops{
-  display: flex;
-  justify-content: space-between;
+.drops {
   margin-top: 40px;
+
+  @include flexbox(space-between, normal);
+  flex-wrap: wrap;
+
+  margin: 0 -15px;
 }
 
 .drop {
-  max-width: 350px;
-  width: 100%;
+  @include flexbox(normal, center);
+  width: 33.33333%;
+
+  @include forDesktopMiddle {
+    width: 50%;
+    padding-bottom: 15px;
+  }
+
+  @include forTablet {
+    width: 100%;
+  }
+  padding: 0 15px;
+}
+
+.title {
+  margin-bottom: 15px;
 }

@@ -13,12 +13,14 @@ interface IProps {
 const NotableDrop: FC<IProps> = ({ avatar, name, description, link, color }) => {
   return (
     <div className={styles.notableDrop} style={{ backgroundColor: color }}>
-      <img src={avatar} className={styles.avatar} alt="" />
+      <div className={styles.image}>
+        <img src={avatar} className={styles.avatar} alt="" />
+      </div>
       <div className={styles.info}>
         <Text className={styles.name} size="xl" color="white">
           {name}
         </Text>
-        <Text className={styles.description} color="white">
+        <Text align="center" className={styles.description} color="white">
           {description}
         </Text>
         <Button href={link} className={styles.button} color="outline">
