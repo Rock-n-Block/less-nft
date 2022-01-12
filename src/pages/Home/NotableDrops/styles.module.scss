@@ -6,12 +6,10 @@
 }
 
 .drops {
-  margin-top: 40px;
-
-  @include flexbox(space-between, normal);
+  @include flexbox(normal, space-between);
   flex-wrap: wrap;
 
-  margin: 0 -15px;
+  margin: 40px -15px 0;
 }
 
 .drop {
@@ -27,8 +25,4 @@
     width: 100%;
   }
   padding: 0 15px;
-}
-
-.title {
-  margin-bottom: 15px;
 }
