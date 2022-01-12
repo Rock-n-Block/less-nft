@@ -223,6 +223,13 @@ export default {
   setCollectionCover: (data: any) => {
     return axios.post(`/store/set_cover/?network=${localStorage.lessnft_nft_chainName}`, data);
   },
+  getTrendingCollections: (tag: string) =>
+    axios.get(`/store/trending_collections/`, {
+      params: {
+        network: localStorage.lessnft_nft_chainName || '',
+        tag,
+      },
+    }),
   getNotableDrops: (): Promise<{ data: Array<INotableDrop> }> => {
     return axios.get('/store/drops/');
   },

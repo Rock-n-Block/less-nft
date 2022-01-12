@@ -3,12 +3,14 @@
 .trading {
   position: relative;
   max-width: 350px;
-  @include flexbox;
+  @include flexbox(center, flex-start);
   flex-direction: column;
   border-radius: $border-radius;
   width: 100%;
   border: 1px solid $color-neutral-9;
   box-sizing: border-box;
+  height: 450px;
+  margin: 0 auto;
 
   .button {
     margin-top: 35px;
@@ -24,14 +26,17 @@
   }
 }
 
-.creatorWrapper{
+.creatorWrapper {
   position: relative;
 }
 
-.creatorAvatar{
+.creatorAvatar {
   position: absolute;
   top: calc(50% - 24px);
   left: calc(50% - 24px);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
 }
 
 .creatorName {
@@ -47,4 +52,11 @@
 
 .avatar {
   width: 100%;
+  height: 300px;
+  border-radius: $border-radius $border-radius 0 0;
+
+  &Wrapper {
+    width: 100%;
+    height: 300px;
+  }
 }
