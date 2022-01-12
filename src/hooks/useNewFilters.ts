@@ -82,11 +82,10 @@ const useNewFilters = (config?: IProps) => {
   }, [location]);
 
   useEffect(() => {
-    const { elementToScroll } = config || {};
     setPage(1);
-    if (elementToScroll) {
+    if (config?.elementToScroll) {
       const scrolled = window.pageYOffset || document.documentElement.scrollTop;
-      const elementRect = elementToScroll.current?.getBoundingClientRect() || null;
+      const elementRect = config.elementToScroll.current?.getBoundingClientRect() || null;
       const scrollTo = (elementRect ? elementRect.top : 0) + scrolled;
 
       window.scrollTo({ top: scrollTo, behavior: 'smooth' });

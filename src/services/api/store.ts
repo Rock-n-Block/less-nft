@@ -1,5 +1,5 @@
 import axios from 'core/axios';
-import { TNullable } from 'typings';
+import { INotableDrop, TNullable } from 'typings';
 import { IGetSearchResultParams } from '../../typings/api/search';
 
 export default {
@@ -230,4 +230,7 @@ export default {
         tag,
       },
     }),
+  getNotableDrops: (): Promise<{ data: Array<INotableDrop> }> => {
+    return axios.get('/store/drops/');
+  },
 };
