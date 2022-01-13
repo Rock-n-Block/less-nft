@@ -1,7 +1,6 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import cx from 'classnames';
-import { Helmet } from 'react-helmet';
 
 import CollectionMainInfo from './CollectionMainInfo/index';
 
@@ -81,151 +80,142 @@ const CollectionPage: React.FC = observer(() => {
   const filtersRef = useRef<TNullable<HTMLDivElement>>(null);
 
   return (
-    <>
-      <Helmet>
-        <meta property="og:title" content={`${collection.name} - Collection | LessNft`} />
-        <meta property="og:description" content={collection.description || ''} />
-        <meta property="og:image" content={collection.avatar || ''} />
-      </Helmet>
-      <section className={s.page}>
-        <div className={s.page_user}>
-          <CollectionMainInfo
-            cover={collection.cover}
-            avatar={collection.avatar}
-            name={collection.name}
-            address={collection.address}
-            description={collection.description}
-            creator={collection.creator.id}
-            id={collection.id}
-          />
-        </div>
+    <section className={s.page}>
+      <div className={s.page_user}>
+        <CollectionMainInfo
+          cover={collection.cover}
+          avatar={collection.avatar}
+          name={collection.name}
+          address={collection.address}
+          description={collection.description}
+          creator={collection.creator.id}
+          id={collection.id}
+        />
+      </div>
 
-        <div ref={pageTop} className={cx(styles.discover, s.discoverFilters)}>
-          <div className={cx(styles.filterAndCards, { [styles.open]: isFilterOpen })}>
-            <div className={styles.stickyWrapper}>
-              <div ref={filtersRef} className={styles.sticky}>
-                <DiscoverFilters
-                  isFilterOpen={isFilterOpen}
-                  setFilterOpen={setFilterOpen}
-                  filters={filters}
-                  config={{
-                    needCollections: false,
-                    needChains: false,
-                    properties: collection.properties,
-                    rankings: collection.rankings,
-                    stats: collection.stats,
-                  }}
-                />
-              </div>
-            </div>
-            <div
-              className={cx(styles.filterResultsContainer, {
-                [styles.withFilter]: isFilterOpen,
-              })}
-            >
-              <>
-                <div className={styles.header}>
-                  <Text className={styles.total} tag="span" weight="bold" size="xl">
-                    {totalItems} results
-                  </Text>
-                  <Select
-                    className={styles.selectArea}
-                    onChange={filters.setSortBy as any}
-                    value={filters.sortBy}
-                    options={filters.sortByFilters}
-                    classNameSelect={styles.select}
-                  />
-                  <div className={styles.toogle_cards}>
-                    <button
-                      type="button"
-                      onClick={() => setIsSmallCards(false)}
-                      className={cx(styles.toogle_item, { [styles.active]: !isSmallCards })}
-                    >
-                      <FourSquares />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsSmallCards(true)}
-                      className={cx(styles.toogle_item, { [styles.active]: isSmallCards })}
-                    >
-                      <NineSquares />
-                    </button>
-                  </div>
-                </div>
-                <Labels filters={filters} />
-                <div className={styles.filterResults}>
-                  <div className={cx(styles.cards, { [styles.small]: isSmallCards })}>
-                    {isNftsLoading && nftCards.length === 0 ? (
-                      <>
-                        <ArtCardSkeleton />
-                        <ArtCardSkeleton />
-                        <ArtCardSkeleton />
-                      </>
-                    ) : (
-                      nftCards.map((artCard: any) => {
-                        const {
-                          media,
-                          name,
-                          price,
-                          currency,
-                          available,
-                          creator,
-                          like_count,
-                          tags,
-                          id,
-                          highest_bid,
-                          minimal_bid,
-                          bids,
-                          is_liked,
-                        } = artCard;
-                        if (isNftsLoading && filters.page === 1) {
-                          return (
-                            <ArtCardSkeleton
-                              key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
-                            />
-                          );
-                        }
-                        return (
-                          <ArtCard
-                            artId={id}
-                            key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
-                            imageMain={media}
-                            name={name}
-                            price={
-                              price ||
-                              (highest_bid && toFixed(highest_bid.amount, 3)) ||
-                              minimal_bid
-                            }
-                            asset={currency?.symbol.toUpperCase()}
-                            inStockNumber={available}
-                            author={creator.name}
-                            authorAvatar={creator.avatar}
-                            authorId={creator.id}
-                            likesNumber={like_count}
-                            tags={tags}
-                            bids={bids}
-                            isLiked={is_liked}
-                            likeAction={likeAction}
-                          />
-                        );
-                      })
-                    )}
-                    {isNftsLoading && filters.page >= 2 && (
-                      <>
-                        <ArtCardSkeleton />
-                        <ArtCardSkeleton />
-                        <ArtCardSkeleton />
-                      </>
-                    )}
-                  </div>
-                </div>
-              </>
+      <div ref={pageTop} className={cx(styles.discover, s.discoverFilters)}>
+        <div className={cx(styles.filterAndCards, { [styles.open]: isFilterOpen })}>
+          <div className={styles.stickyWrapper}>
+            <div ref={filtersRef} className={styles.sticky}>
+              <DiscoverFilters
+                isFilterOpen={isFilterOpen}
+                setFilterOpen={setFilterOpen}
+                filters={filters}
+                config={{
+                  needCollections: false,
+                  needChains: false,
+                  properties: collection.properties,
+                  rankings: collection.rankings,
+                  stats: collection.stats,
+                }}
+              />
             </div>
           </div>
-          <div ref={anchorRef as RefObject<HTMLDivElement>} />
+          <div
+            className={cx(styles.filterResultsContainer, {
+              [styles.withFilter]: isFilterOpen,
+            })}
+          >
+            <>
+              <div className={styles.header}>
+                <Text className={styles.total} tag="span" weight="bold" size="xl">
+                  {totalItems} results
+                </Text>
+                <Select
+                  className={styles.selectArea}
+                  onChange={filters.setSortBy as any}
+                  value={filters.sortBy}
+                  options={filters.sortByFilters}
+                  classNameSelect={styles.select}
+                />
+                <div className={styles.toogle_cards}>
+                  <button
+                    type="button"
+                    onClick={() => setIsSmallCards(false)}
+                    className={cx(styles.toogle_item, { [styles.active]: !isSmallCards })}
+                  >
+                    <FourSquares />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsSmallCards(true)}
+                    className={cx(styles.toogle_item, { [styles.active]: isSmallCards })}
+                  >
+                    <NineSquares />
+                  </button>
+                </div>
+              </div>
+              <Labels filters={filters} />
+              <div className={styles.filterResults}>
+                <div className={cx(styles.cards, { [styles.small]: isSmallCards })}>
+                  {isNftsLoading && nftCards.length === 0 ? (
+                    <>
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                    </>
+                  ) : (
+                    nftCards.map((artCard: any) => {
+                      const {
+                        media,
+                        name,
+                        price,
+                        currency,
+                        available,
+                        creator,
+                        like_count,
+                        tags,
+                        id,
+                        highest_bid,
+                        minimal_bid,
+                        bids,
+                        is_liked,
+                      } = artCard;
+                      if (isNftsLoading && filters.page === 1) {
+                        return (
+                          <ArtCardSkeleton
+                            key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
+                          />
+                        );
+                      }
+                      return (
+                        <ArtCard
+                          artId={id}
+                          key={`${id}-${like_count}-${highest_bid}-${name}-${price}-${currency}-${creator}`}
+                          imageMain={media}
+                          name={name}
+                          price={
+                            price || (highest_bid && toFixed(highest_bid.amount, 3)) || minimal_bid
+                          }
+                          asset={currency?.symbol.toUpperCase()}
+                          inStockNumber={available}
+                          author={creator.name}
+                          authorAvatar={creator.avatar}
+                          authorId={creator.id}
+                          likesNumber={like_count}
+                          tags={tags}
+                          bids={bids}
+                          isLiked={is_liked}
+                          likeAction={likeAction}
+                        />
+                      );
+                    })
+                  )}
+                  {isNftsLoading && filters.page >= 2 && (
+                    <>
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          </div>
         </div>
-      </section>
-    </>
+        <div ref={anchorRef as RefObject<HTMLDivElement>} />
+      </div>
+    </section>
   );
 });
 
