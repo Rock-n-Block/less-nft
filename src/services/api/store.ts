@@ -89,6 +89,7 @@ export default {
     collections,
     properties,
     rankings,
+    stats,
   }: IGetSearchResultParams) => {
     return axios.get(`/store/search/`, {
       params: {
@@ -112,6 +113,7 @@ export default {
         on_timed_auc_sale,
         ...(properties !== '{}' && { properties }),
         ...(rankings !== '{}' && { rankings }),
+        ...(stats !== '{}' && { stats }),
       },
     });
   },

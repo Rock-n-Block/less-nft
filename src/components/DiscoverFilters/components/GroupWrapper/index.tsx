@@ -11,9 +11,10 @@ interface IProps {
   title: string;
   isOpened: boolean;
   setIsOpened: () => void;
+  icon?: string;
 }
 
-const GroupWrapper: FC<IProps> = ({ children, title, isOpened, setIsOpened }) => {
+const GroupWrapper: FC<IProps> = ({ children, title, isOpened, setIsOpened, icon }) => {
   return (
     <div className={cn(s.group, { [s.active]: isOpened })}>
       <button
@@ -21,6 +22,7 @@ const GroupWrapper: FC<IProps> = ({ children, title, isOpened, setIsOpened }) =>
         onClick={() => setIsOpened()}
         className={cn(s.header, { [s.active]: isOpened })}
       >
+        {icon && <img src={icon} className={s.icon} alt={`${title} icon`} />}
         <H6 weight="medium" className={s.title}>
           {title}
         </H6>

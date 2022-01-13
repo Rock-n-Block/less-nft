@@ -38,6 +38,8 @@ const Labels: VFC<IProps> = ({
     setActivePerks,
     activeRankings,
     setActiveRankigs,
+    activeStats,
+    setActiveStats,
   },
 }) => {
   const minMaxLabel = useMemo(() => {
@@ -49,6 +51,7 @@ const Labels: VFC<IProps> = ({
 
   const activeProperties = useMemo(() => Object.keys(JSON.parse(activePerks)), [activePerks]);
   const activeRanks = useMemo(() => JSON.parse(activeRankings), [activeRankings]);
+  const activeStatsProps = useMemo(() => JSON.parse(activeStats), [activeStats]);
 
   const handleDeletePerk = useCallback(
     (propTitle: string, propName: string) => {
@@ -74,6 +77,21 @@ const Labels: VFC<IProps> = ({
     },
     [activeRankings, setActiveRankigs],
   );
+
+  const handleDeleteStat = useCallback(
+    (statTitle: string) => {
+      const newRankings = Object.fromEntries(
+        Object.entries(JSON.parse(activeStatsProps)).filter((stat) => stat[0] !== statTitle),
+      );
+
+      setActiveStats(JSON.stringify(newRankings));
+    },
+    [activeStatsProps, setActiveStats],
+  );
+
+  const getMinAndMaxTitle = useCallback((values: Array<string>) => {
+    return `${values[0] && `from ${values[0]}`} ${values[1] && `to ${values[1]}`}`;
+  }, []);
 
   return (
     <div className={s.labels}>
@@ -105,9 +123,11 @@ const Labels: VFC<IProps> = ({
       ))}
       {activeCollections.map((collection) => (
         <FilterLabel
-          key={collection}
-          title={collection}
-          onClick={() => setActiveCollections((prev) => prev.filter((el) => el !== collection))}
+          key={collection.id}
+          title={collection.name}
+          onClick={() =>
+            setActiveCollections((prev) => prev.filter((el) => el.id !== collection.id))
+          }
         />
       ))}
       {(minPrice || maxPrice) && (
@@ -132,12 +152,24 @@ const Labels: VFC<IProps> = ({
           />
         )),
       )}
-
       {Object.keys(activeRanks).map((rankingTitle) => (
         <FilterLabel
           key={`${rankingTitle}`}
-          title={`${rankingTitle}: ${activeRanks[rankingTitle].min} to ${activeRanks[rankingTitle].max}`}
+          title={`${rankingTitle}: ${getMinAndMaxTitle([
+            activeRanks[rankingTitle].min,
+            activeRanks[rankingTitle].max,
+          ])}`}
           onClick={() => handleDeleteRanking(rankingTitle)}
+        />
+      ))}
+      {Object.keys(activeStatsProps).map((statTitle) => (
+        <FilterLabel
+          key={`${statTitle}`}
+          title={`${statTitle}: ${getMinAndMaxTitle([
+            activeStatsProps[statTitle].min,
+            activeStatsProps[statTitle].max,
+          ])}`}
+          onClick={() => handleDeleteStat(activeStatsProps)}
         />
       ))}
       <button type="button" className={s.button} onClick={setDefaultFilters}>

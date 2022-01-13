@@ -6,6 +6,7 @@ import StatusFilter from './components/StatusFilter';
 import PriceFilter from './components/PriceFilter';
 import CollectionsFilter from './components/CollectionsFilter';
 import ChainFilter from './components/ChainFilter';
+import RankingsFilter from './components/RankingsFilter';
 import CategoriesFilter from './components/CategoriesFilter';
 import OnSaleInFilter from './components/OnSaleInFilter';
 import PropertiesFilter from './components/PropertiesFilter';
@@ -13,14 +14,14 @@ import { IProperties, IRankings, useNewFilters } from 'hooks';
 
 import styles from './DiscoverFilters.module.scss';
 
-import { ArrowLeft } from 'assets/img';
-import RankingsFilter from './components/RankingsFilter';
+import { ArrowLeft, iconStar, iconStats } from 'assets/img';
 
 interface IFiltersConfig {
   needCollections?: boolean;
   needChains?: boolean;
   properties: IProperties;
   rankings: IRankings;
+  stats: IRankings;
 }
 interface IProps {
   isFilterOpen: boolean;
@@ -55,6 +56,8 @@ const DiscoverFilters: VFC<IProps> = ({
     setActivePerks,
     activeRankings,
     setActiveRankigs,
+    activeStats,
+    setActiveStats,
   },
   config = { needCollections: true, needChains: true },
 }) => {
@@ -112,6 +115,14 @@ const DiscoverFilters: VFC<IProps> = ({
               rankings={config.rankings || {}}
               activeRankings={activeRankings}
               setActiveRankigs={setActiveRankigs}
+              icon={iconStar}
+            />
+            {/* LevelsFilter 👇 Same interface as RankingsFilter*/}
+            <RankingsFilter
+              rankings={config.stats || {}}
+              activeRankings={activeStats}
+              setActiveRankigs={setActiveStats}
+              icon={iconStats}
             />
           </div>
         </>

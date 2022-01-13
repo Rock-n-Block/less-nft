@@ -19,4 +19,5 @@ export interface IGetSearchResultParams {
   collections?: string;
   properties?: string;
   rankings?: string;
+  stats?: string;
 }

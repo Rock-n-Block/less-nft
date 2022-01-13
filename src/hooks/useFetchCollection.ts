@@ -37,6 +37,7 @@ export const useFetchCollection = (
     description: TNullable<string>;
     properties: IProperties;
     rankings: IRankings;
+    stats: IRankings;
   }>({
     address: '',
     cover: '',
@@ -48,6 +49,7 @@ export const useFetchCollection = (
     description: null,
     properties: {},
     rankings: {},
+    stats: {},
   });
 
   const fetchSearch = () => {

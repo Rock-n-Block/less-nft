@@ -7,33 +7,33 @@ import cn from 'classnames';
 import styles from './CollectionsFilter.module.scss';
 
 import { checkMark } from 'assets/img';
+import { ICollection } from 'hooks/useNewFilters';
 
 interface IProps {
-  activeCollections: Array<string>;
-  setActiveCollections: React.Dispatch<React.SetStateAction<string[]>>;
+  activeCollections: Array<ICollection>;
+  setActiveCollections: React.Dispatch<React.SetStateAction<ICollection[]>>;
 }
 
 const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollections }) => {
   const [isOpened, setIsOpened] = useState(true);
 
   const filters = useNewFilters();
-  const [,, nftCards] = useFetchNft({
+  const [, , collections] = useFetchNft({
     page: filters.page,
     type: 'collections',
     text: '',
   });
 
   const handleToogleCollection = useCallback(
-    (tagName: string) => {
-      if (activeCollections.includes(tagName)) {
-        setActiveCollections((prev) => prev.filter((el) => el !== tagName));
+    (collection: ICollection) => {
+      if (activeCollections.includes(collection)) {
+        setActiveCollections((prev) => prev.filter((el) => el.name !== collection.name));
       } else {
-        setActiveCollections((prev) => [...prev, tagName]);
+        setActiveCollections((prev) => [...prev, collection]);
       }
     },
     [activeCollections, setActiveCollections],
   );
-
 
   return (
     <GroupWrapper
@@ -42,15 +42,15 @@ const CollectionsFilter: VFC<IProps> = ({ activeCollections, setActiveCollection
       title="Collections"
     >
       <div className={styles.content}>
-        {nftCards
+        {collections
           .filter((col: any) => !col.is_default)
           .map((collection: any) => {
-            const isCollectionActive = activeCollections.includes(collection.id);
+            const isCollectionActive = activeCollections.some((col) => col.id === collection.id);
             return (
               <button
-                onClick={() => handleToogleCollection(collection.id)}
+                onClick={() => handleToogleCollection(collection)}
                 className={cn(styles.collection, { [styles.active]: isCollectionActive })}
-                key={collection.name}
+                key={collection.id}
                 type="button"
               >
                 <div className={styles.collection_ava}>

@@ -13,14 +13,26 @@ interface IProps {
   rankings: IRankings;
   activeRankings: string;
   setActiveRankigs: React.Dispatch<React.SetStateAction<string>>;
+  icon: string;
 }
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 
-const RankingsFilter: VFC<IProps> = ({ rankings, setActiveRankigs, activeRankings }) => {
-  const [isOpened, setIsOpened] = useState(true);
+const RankingsFilter: VFC<IProps> = ({ rankings, setActiveRankigs, activeRankings, icon }) => {
+  const [openedRankings, setOpenedRankings] = useState<Array<string>>([]);
   const activeRanks = useMemo(() => JSON.parse(activeRankings), [activeRankings]);
+
+  const handleToogleOpenedRankings = useCallback(
+    (name: string) => {
+      if (openedRankings.includes(name)) {
+        setOpenedRankings((prev) => prev.filter((prop) => prop !== name));
+      } else {
+        setOpenedRankings((prev) => [...prev, name]);
+      }
+    },
+    [openedRankings],
+  );
 
   const handleChangeRankings = useCallback(
     (rankingTitle: string, value: Array<string>) => {
@@ -40,20 +52,6 @@ const RankingsFilter: VFC<IProps> = ({ rankings, setActiveRankigs, activeRanking
           max: value[1],
         },
       };
-      // const notEmptyRankings = Object.fromEntries(
-      //   Object.entries(newRankings).map((ranking) => {
-      //     if (!ranking[1].min && !ranking[1].max) {
-      //       return [];
-      //     }
-      //     if (!ranking[1].min) {
-      //       return [ranking[0], { min: rankings[ranking[0]].min, max: ranking[1].max }];
-      //     }
-      //     if (!ranking[1].max) {
-      //       return [ranking[0], { min: ranking[1].min, max: rankings[ranking[0]].max }];
-      //     }
-      //     return ranking;
-      //   }),
-      // );
 
       setActiveRankigs(JSON.stringify(newRankings));
     },
@@ -65,9 +63,10 @@ const RankingsFilter: VFC<IProps> = ({ rankings, setActiveRankigs, activeRanking
       {Object.keys(rankings).map((ranking) => (
         <GroupWrapper
           key={ranking}
-          isOpened={isOpened}
-          setIsOpened={() => setIsOpened(!isOpened)}
+          isOpened={openedRankings.includes(ranking)}
+          setIsOpened={() => handleToogleOpenedRankings(ranking)}
           title={ranking}
+          icon={icon}
         >
           <div className={s.content}>
             <Range

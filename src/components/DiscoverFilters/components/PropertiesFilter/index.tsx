@@ -4,6 +4,8 @@ import { useCallback, useState, VFC } from 'react';
 import GroupWrapper from '../GroupWrapper';
 import Property from './Property';
 
+import { iconWeight } from 'assets/img';
+
 export interface IPropertiesToBackend {
   [key: string]: Array<string>;
 }
@@ -35,6 +37,7 @@ const PropertiesFilter: VFC<IProps> = ({ setActivePerks, properties, activePerks
           isOpened={activeProperties.includes(propertyName)}
           setIsOpened={() => handleToogleProperty(propertyName)}
           title={propertyName}
+          icon={iconWeight}
         >
           <Property
             propertiesToBacknend={JSON.parse(activePerks)}
