@@ -8,9 +8,14 @@
 
 .box {
   margin-top: 64px;
-  @include flexbox(flex-start, space-between);
   gap: 35px;
-  flex-wrap: wrap;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+
+  @include forDesktopMiddle {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
 }
 
 .resourcesBlock {
@@ -21,8 +26,6 @@
     border-radius: $border-radius;
   }
   .resourcesImageWrapper {
-    max-width: 350px;
-    max-height: 350px;
     aspect-ratio: 1/1;
     width: 100%;
     border: 1px solid $color-neutral-9;

@@ -8,9 +8,14 @@
 
 .box {
   margin-top: 64px;
-  @include flexbox(flex-start, space-between);
   gap: 35px;
-  flex-wrap: wrap;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+  @include forTablet {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }
 
 .tag {
@@ -43,4 +48,8 @@
     width: 100%;
     text-align: center;
   }
+}
+
+.image {
+  width: 100%;
 }

@@ -1,9 +1,12 @@
 @import '../../../../styles/helpers';
 
 .titleDropdown {
-  @include gradientText;
   position: relative;
   width: fit-content;
+}
+
+.gradientValue {
+  @include gradientText;
 }
 
 .selected {
