@@ -23,6 +23,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
     "@types/chart.js": "^2.9.34",
+    "@types/react-helmet": "^6.1.5",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "axios": "^0.21.1",
