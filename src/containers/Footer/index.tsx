@@ -3,7 +3,6 @@ import { routes } from 'appConstants';
 import { Button, Logo, Text, TextInput } from 'components';
 import { observer } from 'mobx-react';
 import cn from 'classnames';
-// import { useMst } from 'store';
 
 import styles from './styles.module.scss';
 import { useEffect, useState } from 'react';
@@ -13,22 +12,6 @@ const Footers: React.FC = observer(() => {
 
   const { pathname } = history;
   const [isClassName, setIsClassName] = useState(false);
-  // const { user } = useMst();
-
-  // const accountHelperObject = [
-  //   {
-  //     label: 'Download',
-  //     link: routes.profile.root,
-  //   },
-  //   {
-  //     label: 'Demos',
-  //     link: `${routes.profile.root}/favourite`,
-  //   },
-  //   {
-  //     label: 'Support',
-  //     link: `${routes.profile.root}/myCollectction`,
-  //   },
-  // ];
 
   const stacks = [
     {
@@ -77,22 +60,6 @@ const Footers: React.FC = observer(() => {
               );
             })}
           </div>
-          {/* {user.address && (
-            <div className={styles.linkBlock}>
-              <Text weight="bold" size="m">
-                Info
-              </Text>
-              {accountHelperObject.map(({ label, link }) => {
-                return (
-                  <Link to={link} key={label}>
-                    <Button className={styles.button} color="transparent">
-                      <Text color="lightGray">{label}</Text>
-                    </Button>
-                  </Link>
-                );
-              })}
-            </div>
-          )} */}
           <div className={styles.footerActions}>
             <Text color="black" weight="bold" size="m">
               Join Newsletter
@@ -104,7 +71,9 @@ const Footers: React.FC = observer(() => {
           </div>
         </div>
         <div className={styles.copyrightBlock}>
-          <Text color="gray">Copyright © 2021 Lessnft LLC. All rights reserved</Text>
+          <Text color="gray">
+            Copyright © {new Date().getFullYear()} Lessnft LLC. All rights reserved
+          </Text>
         </div>
       </div>
     </footer>
