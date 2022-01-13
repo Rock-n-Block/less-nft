@@ -18,7 +18,18 @@
   width: 100%;
 
   padding: 16px;
-  @include flexbox(normal, space-between);
+  @include flexbox(normal, center);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+
+  margin-right: 10px;
+}
+
+.title {
+  flex-grow: 1;
 }
 
 .content {

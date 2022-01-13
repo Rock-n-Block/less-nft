@@ -34,7 +34,7 @@ const Discover = observer(() => {
     on_timed_auc_sale: filters.isOnTimedAuction,
     network: filters.activeChains.join(','),
     currency: filters.activeCurrencies.join(','),
-    collections: filters.activeCollections.join(','),
+    collections: filters.activeCollections.map((el) => el.id).join(','),
   });
 
   const likeAction = useCallback(
@@ -68,7 +68,7 @@ const Discover = observer(() => {
         >
           <>
             <div className={styles.header}>
-              <Text className={styles.total} tag="span" weight='bold' size='xl'>
+              <Text className={styles.total} tag="span" weight="bold" size="xl">
                 {totalItems} results
               </Text>
               <Select

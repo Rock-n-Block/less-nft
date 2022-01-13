@@ -28,6 +28,7 @@ interface IProps {
   network?: string;
   properties?: string;
   rankings?: string;
+  stats?: string;
 }
 
 export const useFetchNft = (
@@ -58,6 +59,7 @@ export const useFetchNft = (
     collections,
     properties,
     rankings,
+    stats,
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
@@ -72,7 +74,6 @@ export const useFetchNft = (
       const refresh = page === 1;
       setLoading(true);
 
-      // const boolIsVerified = is_verified === 'All' ? undefined : is_verified === 'verified';
       const boolIsVerified = undefined;
       const formattedCurrency = currency === 'All' ? undefined : currency;
       const formattedTags = tags?.toLocaleLowerCase() === 'all nfts' ? undefined : tags;
@@ -98,6 +99,7 @@ export const useFetchNft = (
           collections,
           properties,
           rankings,
+          stats,
         })
         .then(({ data: { results, total, total_pages } }: any) => {
           setTotalItems(() => total);
@@ -128,6 +130,7 @@ export const useFetchNft = (
       owner,
       creator,
       bids_by,
+      stats,
       page,
       currency,
       properties,
@@ -188,6 +191,7 @@ export const useFetchNft = (
     on_timed_auc_sale,
     collections,
     properties,
+    stats,
   ]);
 
   return [allPages, totalItems, nftCards, isLoading, debouncedFetch];

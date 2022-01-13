@@ -63,6 +63,7 @@ const CollectionPage: React.FC = observer(() => {
     collections: collectionId,
     properties: filters.activePerks,
     rankings: filters.activeRankings,
+    stats: filters.activeStats,
   });
 
   const likeAction = useCallback(
@@ -92,7 +93,7 @@ const CollectionPage: React.FC = observer(() => {
         />
       </div>
 
-      <div className={cx(styles.discover, s.discoverFilters)}>
+      <div ref={pageTop} className={cx(styles.discover, s.discoverFilters)}>
         <div className={cx(styles.filterAndCards, { [styles.open]: isFilterOpen })}>
           <div className={styles.stickyWrapper}>
             <div ref={filtersRef} className={styles.sticky}>
@@ -105,12 +106,12 @@ const CollectionPage: React.FC = observer(() => {
                   needChains: false,
                   properties: collection.properties,
                   rankings: collection.rankings,
+                  stats: collection.stats,
                 }}
               />
             </div>
           </div>
           <div
-            ref={pageTop}
             className={cx(styles.filterResultsContainer, {
               [styles.withFilter]: isFilterOpen,
             })}

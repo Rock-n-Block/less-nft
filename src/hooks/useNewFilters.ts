@@ -21,6 +21,10 @@ const sortByFilters = [
   { value: 'last_sale', label: 'Oldest Last Sale' },
 ];
 
+export interface ICollection {
+  id: string | number;
+  name: string;
+}
 interface IProps {
   elementToScroll?: React.MutableRefObject<TNullable<HTMLDivElement>>;
 }
@@ -29,23 +33,26 @@ const useNewFilters = (config?: IProps) => {
   const location = useLocation();
 
   // filter and text search from url
-  // TODO: new URLSearchParams() - переписать на эту реализацию?
-  const tag = location.search.includes('?filter=') && location.search.replace('?filter=', '');
-  const text = location.search.includes('?text=') && location.search.replace('?text=', '');
+  const urlParams = new URLSearchParams(location.search);
+  const tagsFromSearch = urlParams.get('filter');
+  const textFromSearch = urlParams.get('text');
 
   const [isOnSale, setIsOnSale] = useState(false);
   const [isOnAuction, setIsOnAuction] = useState(false);
   const [isOnTimedAuction, setIsTimedOnAuction] = useState(false);
-  const [activeTags, setActiveTags] = useState<Array<string>>([tag || ''].filter((el) => el));
+  const [activeTags, setActiveTags] = useState<Array<string>>(
+    [tagsFromSearch || ''].filter((el) => el),
+  );
   const [activeChains, setActiveChains] = useState<Array<string>>([]);
   const [activeCurrencies, setActiveCurrencies] = useState<Array<string>>([]);
-  const [activeCollections, setActiveCollections] = useState<Array<string>>([]);
+  const [activeCollections, setActiveCollections] = useState<Array<ICollection>>([]);
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [textSearch, setTextSearch] = useState(text || '');
+  const [textSearch, setTextSearch] = useState(textFromSearch || '');
   const [sortBy, setSortBy] = useState(sortByFilters[0]);
   const [activePerks, setActivePerks] = useState('{}');
   const [activeRankings, setActiveRankigs] = useState('{}');
+  const [activeStats, setActiveStats] = useState('{}');
 
   const [page, setPage] = useState(1);
   const handlePage = useCallback((value: number) => {
@@ -66,20 +73,17 @@ const useNewFilters = (config?: IProps) => {
     setTextSearch('');
     setActivePerks('{}');
     setActiveRankigs('{}');
+    setActiveStats('{}');
   }, []);
 
   useEffect(() => {
-    const tagFromSearch =
-      location.search.includes('?filter=') && location.search.replace('?filter=', '');
-    const textFromSearch =
-      location.search.includes('?text=') && location.search.replace('?text=', '');
-    if (tagFromSearch) {
-      setActiveTags(() => [tagFromSearch]);
+    if (tagsFromSearch) {
+      setActiveTags(() => [tagsFromSearch]);
     }
     if (textFromSearch) {
       setTextSearch(textFromSearch);
     }
-  }, [location]);
+  }, [location, tagsFromSearch, textFromSearch]);
 
   useEffect(() => {
     setPage(1);
@@ -92,6 +96,8 @@ const useNewFilters = (config?: IProps) => {
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    // TODO: fix comment [useRef rerender too much]
+    // eslint-disable-next-line
   }, [
     isOnSale,
     isOnAuction,
@@ -103,9 +109,10 @@ const useNewFilters = (config?: IProps) => {
     activeCurrencies,
     sortBy,
     activeCollections,
-    config,
+    // config,
     activeRankings,
     activePerks,
+    activeStats,
   ]);
 
   return {
@@ -139,6 +146,8 @@ const useNewFilters = (config?: IProps) => {
     setActivePerks,
     activeRankings,
     setActiveRankigs,
+    activeStats,
+    setActiveStats,
   };
 };
 
