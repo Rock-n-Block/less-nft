@@ -38,6 +38,10 @@ export const useFetchCollection = (
     properties: IProperties;
     rankings: IRankings;
     stats: IRankings;
+    owners: string | number;
+    tokens_count: string | number;
+    volume_traded: string | number | null;
+    floor_price: string | number | null;
   }>({
     address: '',
     cover: '',
@@ -50,6 +54,10 @@ export const useFetchCollection = (
     properties: {},
     rankings: {},
     stats: {},
+    owners: 0,
+    tokens_count: 0,
+    volume_traded: null,
+    floor_price: null,
   });
 
   const fetchSearch = () => {

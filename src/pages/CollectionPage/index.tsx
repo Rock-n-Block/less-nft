@@ -86,10 +86,14 @@ const CollectionPage: React.FC = observer(() => {
           cover={collection.cover}
           avatar={collection.avatar}
           name={collection.name}
-          address={collection.address}
           description={collection.description}
           creator={collection.creator.id}
+          creatorName={collection.creator.display_name || collection.creator.id}
           id={collection.id}
+          owners={collection.owners}
+          tokens_count={collection.tokens_count}
+          volume_traded={collection.volume_traded}
+          floor_price={collection.floor_price}
         />
       </div>
 

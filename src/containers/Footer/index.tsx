@@ -14,15 +14,15 @@ const Footers: React.FC = observer(() => {
   const history = useLocation();
   const [email, setEmail] = useState('');
 
-  const saveUserEmailToDb = useCallback((email: string) => {
-    if (!email) return;
-    let emailSchema = yup.object().shape({
+  const saveUserEmailToDb = useCallback((address: string) => {
+    if (!address) return;
+    const emailSchema = yup.object().shape({
       email: yup.string().email().required(),
     });
 
-    emailSchema.isValid({ email }).then((valid) => {
+    emailSchema.isValid({ email: address }).then((valid) => {
       if (valid) {
-        userApi.saveEmailToDb(email).then((res) => {
+        userApi.saveEmailToDb(address).then((res) => {
           if (res.data.id) toast.success('Success!');
         });
       } else {
