@@ -56,7 +56,22 @@ export const chains: {
           },
         },
       },
-      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
+      TrustWallet: {
+        img: trustWalletImg,
+        name: 'WalletConnect',
+        useProvider: 'rpc',
+        provider: {
+          rpc: {
+            rpc: {
+              [is_production ? 1 : 4]: is_production
+                ? 'https://bsc-dataseed.binance.org/'
+                : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+            },
+            chainId: is_production ? 1 : 4,
+          },
+        },
+      },
+      // TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
     },
   },
   [chainsEnum['Binance-Smart-Chain']]: {
@@ -92,7 +107,22 @@ export const chains: {
           },
         },
       },
-      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
+      TrustWallet: {
+        img: trustWalletImg,
+        name: 'WalletConnect',
+        useProvider: 'rpc',
+        provider: {
+          rpc: {
+            rpc: {
+              [is_production ? 56 : 97]: is_production
+                ? 'https://bsc-dataseed.binance.org/'
+                : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+            },
+            chainId: is_production ? 56 : 97,
+          },
+        },
+      },
+      // TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
     },
     explorer: is_production ? 'https://bscscan.com' : 'https://testnet.bscscan.com',
   },
@@ -131,7 +161,22 @@ export const chains: {
           },
         },
       },
-      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
+      TrustWallet: {
+        img: trustWalletImg,
+        name: 'WalletConnect',
+        useProvider: 'rpc',
+        provider: {
+          rpc: {
+            rpc: {
+              [is_production ? 137 : 80001]: is_production
+                ? 'https://rpc-mainnet.maticvigil.com/'
+                : 'https://matic-mumbai.chainstacklabs.com',
+            },
+            chainId: is_production ? 137 : 80001,
+          },
+        },
+      },
+      // TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
     },
     explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
   },

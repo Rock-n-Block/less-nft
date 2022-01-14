@@ -7,14 +7,14 @@
   border-top: 1px solid $color-neutral-30;
 }
 
-.absolute{
+.absolute {
   position: absolute;
-  bottom:0;
+  bottom: 0;
   left: 0;
   right: 0;
 
-  @include m {
-    position: relative
+  @include forDesktopSm {
+    position: relative;
   }
 }
 
@@ -70,7 +70,7 @@
     margin-bottom: 20px;
   }
 
-  @include b(mobile){
+  @include b(mobile) {
     p {
       text-align: center;
     }
