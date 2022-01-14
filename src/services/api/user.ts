@@ -60,4 +60,5 @@ export default {
     ),
   getSelfCollections: () =>
     axios.get(`/account/self/collections/?network=${localStorage.lessnft_nft_chainName}`),
+  saveEmailToDb: (address: string) => axios.post('/account/save_email/', { address }),
 };
