@@ -16,6 +16,10 @@
   @include forDesktopSm {
     position: relative;
   }
+
+  @media (max-height: 864px) {
+    position: relative;
+  }
 }
 
 .linksAndControls {
