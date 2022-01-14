@@ -18,7 +18,7 @@ import {
   wMaticTestnetAbi,
 } from './abi';
 
-export const is_production = false;
+export const is_production = true;
 
 export const chains: {
   [key: string]: {
@@ -56,6 +56,7 @@ export const chains: {
           },
         },
       },
+      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
     },
   },
   [chainsEnum['Binance-Smart-Chain']]: {
@@ -91,6 +92,7 @@ export const chains: {
           },
         },
       },
+      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
     },
     explorer: is_production ? 'https://bscscan.com' : 'https://testnet.bscscan.com',
   },
@@ -129,7 +131,7 @@ export const chains: {
           },
         },
       },
-      TrustWallet: { name: 'MetaMask', img: trustWalletImg },
+      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
     },
     explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
   },

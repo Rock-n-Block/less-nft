@@ -7,6 +7,7 @@ import { useWalletConnectorContext } from 'services/walletConnect';
 import { chainsEnum } from 'typings';
 
 import styles from './ChooseWallet.module.scss';
+import { detectMobileDevice } from 'utils';
 
 const ChooseWallet: React.FC = () => {
   const { connect } = useWalletConnectorContext();
@@ -49,6 +50,7 @@ const ChooseWallet: React.FC = () => {
         </Text>
         <div className={styles.wallets}>
           {Object.keys(chains[activeChain].provider).map((wallet: any) => {
+            if (chains[activeChain].provider[wallet].isOnlyMobile && !detectMobileDevice()) return null;
             return (
               <div
                 className={cn(styles.item, styles.item_wallet)}
