@@ -50,11 +50,12 @@ const ChooseWallet: React.FC = () => {
         </Text>
         <div className={styles.wallets}>
           {Object.keys(chains[activeChain].provider).map((wallet: any) => {
-            if (chains[activeChain].provider[wallet].isOnlyMobile && !detectMobileDevice()) return null;
+            if (chains[activeChain].provider[wallet].isOnlyMobile && !detectMobileDevice())
+              return null;
             return (
               <div
                 className={cn(styles.item, styles.item_wallet)}
-                onClick={() => connect(activeChain, wallet)}
+                onClick={() => connect(activeChain, chains[activeChain].provider[wallet].name)}
                 onKeyDown={() => {}}
                 role="button"
                 tabIndex={0}
