@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { is_production } from '../config';
 
-axios.defaults.baseURL = !is_production
+axios.defaults.baseURL = is_production
   ? 'https://nft.less.xyz/api/v1'
   : 'https://lessnft2.rocknblock.io/api/v1';
 
