@@ -1,7 +1,5 @@
 import { ConnectWallet } from '@amfi/connect-wallet';
-import { IConnect, IError } from '@amfi/connect-wallet/dist/interface';
 import BigNumber from 'bignumber.js/bignumber';
-import { Observable } from 'rxjs';
 import { chainsEnum } from 'typings';
 import Web3 from 'web3';
 
@@ -78,7 +76,7 @@ export class WalletConnect {
     return result;
   }
 
-  public getAccount(): Observable<IConnect | IError> {
+  public getAccount() {
     return this.connectWallet.getAccounts();
   }
 
