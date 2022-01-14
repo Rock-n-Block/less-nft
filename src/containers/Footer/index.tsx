@@ -3,12 +3,33 @@ import { routes } from 'appConstants';
 import { Button, Logo, Text, TextInput } from 'components';
 import { observer } from 'mobx-react';
 import cn from 'classnames';
+import * as yup from 'yup';
 
 import styles from './styles.module.scss';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { userApi } from 'services';
 
 const Footers: React.FC = observer(() => {
   const history = useLocation();
+  const [email, setEmail] = useState('');
+
+  const saveUserEmailToDb = useCallback((email: string) => {
+    if (!email) return;
+    let emailSchema = yup.object().shape({
+      email: yup.string().email().required(),
+    });
+
+    emailSchema.isValid({ email }).then((valid) => {
+      if (valid) {
+        userApi.saveEmailToDb(email).then((res) => {
+          if (res.data.id) toast.success('Success!');
+        });
+      } else {
+        toast.error('Not valid email');
+      }
+    });
+  }, []);
 
   const { pathname } = history;
   const [isClassName, setIsClassName] = useState(false);
@@ -67,7 +88,14 @@ const Footers: React.FC = observer(() => {
             <Text color="lightGray" size="m">
               Subscribe our newsletter to get more free design course and resource
             </Text>
-            <TextInput isButton placeholder="Enter your email" type="text" />
+            <TextInput
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              isButton
+              placeholder="Enter your email"
+              type="text"
+              onButtonClick={() => saveUserEmailToDb(email)}
+            />
           </div>
         </div>
         <div className={styles.copyrightBlock}>
