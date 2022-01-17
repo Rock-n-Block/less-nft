@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import {
@@ -142,13 +142,13 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     const stringRatesValue = new BigNumber(
       rates.find((rate) => rate.symbol === values.currency)?.rate || 0,
     ).toFixed(2);
-    const currencyOptions = useMemo(() => {
-      return values.sellMethod === 'openForBids'
-        ? [...rates.map((rate) => rate.symbol)].filter(
-            (rateSymbol) => !['bnb', 'eth', 'matic'].includes(rateSymbol),
-          )
-        : rates.map((rate) => rate.symbol);
-    }, [rates, values.sellMethod]);
+    // const currencyOptions = useMemo(() => {
+    //   return values.sellMethod === 'openForBids'
+    //     ? [...rates.map((rate) => rate.symbol)].filter(
+    //         (rateSymbol) => !['bnb', 'eth', 'matic'].includes(rateSymbol),
+    //       )
+    //     : rates.map((rate) => rate.symbol);
+    // }, [rates, values.sellMethod]);
     const handleClearImg = () => {
       setFieldValue('media', '');
       setFieldValue('preview', '');
@@ -486,7 +486,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                       <RequiredMark />
                     </Text>
                     <div className={styles.inputs}>
-                      <Field
+                      {/* <Field
                         render={() => (
                           <Dropdown
                             name="currency"
@@ -496,7 +496,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                             value={values.currency}
                           />
                         )}
-                      />
+                      /> */}
                       <Field
                         render={() => {
                           if (values.sellMethod === 'fixedPrice') {

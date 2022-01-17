@@ -71,7 +71,7 @@ export default observer(({ isSingle }: any) => {
       if (!isSingle) {
         formData.append('total_supply', values.totalSupply.toString());
       }
-      formData.append('currency', values.currency);
+      formData.append('currency', 'less');
       if (values.description) {
         formData.append('description', values.description);
       }
