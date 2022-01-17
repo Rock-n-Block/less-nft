@@ -165,6 +165,18 @@ export const exchangeAddrs = {
     : '0x533a2e15a8c1aa96b47681c0af6cba7de724f48f',
 };
 
+export const tokenAddrs = {
+  [chainsEnum['Binance-Smart-Chain']]: !is_production
+    ? '0x826e9dd8c254c01f9d038db8f091ed47790707b6'
+    : '0xb698ac9bc82c718d8eba9590564b9a5aa53d58e6',
+  [chainsEnum.Ethereum]: !is_production
+    ? '0x87feef975fd65f32A0836f910Fd13d9Cf4553690'
+    : '0x62786eeacc9246b4018e0146cb7a3efeacd9459d',
+  [chainsEnum.Polygon]: !is_production
+    ? '0x4F788fD644688b14cFb5E15425Dc3Eb2480b158b'
+    : '0x155f60428d0eAF41b68525e1A781bcCD429E343f',
+};
+
 export const contracts: IContracts = {
   type: is_production ? 'mainnet' : 'testnet',
   names: ['Token', 'Staking', 'Presale', 'UsdtToken'],
@@ -188,6 +200,16 @@ export const contracts: IContracts = {
       testnet: {
         address: '',
         abi: bep20Abi,
+      },
+    },
+    LESS: {
+      mainnet: {
+        address: tokenAddrs[localStorage.lessnft_nft_chainName as chainsEnum],
+        abi: erc20Abi,
+      },
+      testnet: {
+        address: tokenAddrs[localStorage.lessnft_nft_chainName as chainsEnum],
+        abi: wethTestnetAbi,
       },
     },
     WETH: {
