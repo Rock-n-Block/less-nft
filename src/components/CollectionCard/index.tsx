@@ -57,13 +57,11 @@ const CollectionCard: FC<Props> = observer(
             <Text className={styles.user}>
               by{' '}
               <Link to={routes.profile.link(creator)} className={styles.userLink}>
-                {user.id === creator ? 'you' : creator}
+                {+user.id === +creator ? 'you' : creator}
               </Link>
             </Text>
             <Text className={styles.description} color="lightGray">
-              {description
-                ? sliceString(description, 80, 0)
-                : `Explore the ${sliceString(name, 20, 0)} collection`}
+              {description || `Explore the ${sliceString(name, 20, 0)} collection`}
             </Text>
             <Text className={styles.number} color="lightGray">
               {numberFormatter(+(itemsNumber || 0), 10)} items

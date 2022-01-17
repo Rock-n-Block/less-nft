@@ -116,6 +116,9 @@
   &__value {
     max-width: 50%;
 
+    &.closed {
+      @include multiplyRowsEllipsis(5);
+    }
     @include forDesktopSm {
       max-width: 100%;
     }
@@ -131,7 +134,8 @@
 }
 
 .collection_statistic {
-  @include flexbox;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   border: 1px solid $color-neutral-10;
 
   border-radius: $border-radius;
@@ -156,8 +160,27 @@
   & + & {
     border-left: 1px solid $color-neutral-10;
   }
+
+  &_value {
+  }
 }
 
 .link {
+  color: $color-primary;
+}
+
+.edit {
+  path {
+    stroke: #000;
+  }
+}
+
+.lessLogo {
+  width: 23px;
+  height: 23px;
+  margin-right: 5px;
+}
+
+.more_button {
   color: $color-primary;
 }

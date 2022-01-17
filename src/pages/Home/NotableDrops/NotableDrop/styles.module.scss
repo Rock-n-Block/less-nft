@@ -24,6 +24,10 @@
   flex-direction: column;
   padding: 30px 35px;
   height: 100%;
+
+  p {
+    @include multiplyRowsEllipsis(6);
+  }
 }
 
 .description {
