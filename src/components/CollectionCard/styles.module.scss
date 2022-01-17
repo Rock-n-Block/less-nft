@@ -18,7 +18,6 @@
   position: relative;
   height: 200px;
   width: 100%;
-
 }
 
 .imageBanner {
@@ -41,17 +40,32 @@
 .collectionCardInfo {
   padding: 32px 16px 16px;
   width: 100%;
-  line-height: 32px;
+  line-height: 1.5;
+
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  p {
+    @include multiplyRowsEllipsis(4);
+  }
 }
 
-.name, .user, .description, .number{
+.name,
+.user,
+.description,
+.number {
   text-align: center;
 }
 
-.userLink{
+.userLink {
   color: $color-primary;
 }
 
-.description{
-  height: 64px;
+.user {
+  margin-bottom: 15px;
+}
+
+.description {
+  flex-grow: 1;
+  margin-bottom: 10px;
 }

@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { H2, Text, Uploader } from 'components';
+import { Button, H2, Text, Uploader } from 'components';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
-import { iconEdit, profile_avatar_example, profile_page_bg_example } from 'assets/img';
+import { IconEdit, profile_avatar_example, profile_page_bg_example, iconChange } from 'assets/img';
 
 import s from './CollectionMainInfo.module.scss';
 import { TNullable } from 'typings';
@@ -10,6 +11,9 @@ import { useMst } from 'store';
 import { storeApi } from 'services';
 import { toast } from 'react-toastify';
 import { routes } from 'appConstants';
+import { numberFormatter } from 'utils';
+
+const MAX_DESCRIPTION_LENGTH = 450;
 
 interface ICollectionMainInfo {
   cover?: string;
@@ -39,6 +43,7 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
   floor_price,
 }) => {
   const [isFileLoading, setIsFileLoading] = useState(false);
+  const [isFullDesription, setIsFullDesctiption] = useState(false);
   const [collectionCover, setCollectionCover] = useState('');
   const { user } = useMst();
   const isSelf = user.id === creator;
@@ -83,7 +88,7 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
         <Text tag="p" className={s.user_info}>
           <Text tag="span">
             Created by{' '}
-            <Link className={s.link} to={routes.profile.link(creator)}>
+            <Link className={s.link} to={routes.profile.link(creator, 'collections')}>
               {creatorName}
             </Link>
           </Text>
@@ -99,7 +104,7 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
                 className={s.user_button}
               >
                 <div className={s.user_button}>
-                  <img src={iconEdit} alt="" />
+                  <IconEdit className={s.edit} />
                   <Text tag="span" color="black" weight="medium" className={s.user_edit}>
                     Edit Banner
                   </Text>
@@ -149,7 +154,8 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
                 tag="p"
                 size="xxl"
               >
-                {floor_price || 0}
+                <img src={iconChange} alt="dollar" className={s.lessLogo} />
+                {numberFormatter(Number(floor_price) || 0, 1)}
               </Text>
               <Text align="center" className={s.stat_title} color="lightGray" tag="p" size="s">
                 floor price
@@ -164,16 +170,31 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
                 tag="p"
                 size="xxl"
               >
-                {volume_traded || 0}
+                <img src={iconChange} alt="dollar" className={s.lessLogo} />
+                {numberFormatter(Number(volume_traded) || 0, 1)}
               </Text>
               <Text align="center" className={s.stat_title} color="lightGray" tag="p" size="s">
                 volume traded
               </Text>
             </div>
           </div>
-          {/* TODO: crop description if it's more that 500 symbols */}
-          {/* TODO: add button that will show full description */}
-          <div className={s.user_info__value}>{description}</div>
+          <div
+            className={cn(s.user_info__value, {
+              [s.closed]:
+                !isFullDesription && description && description?.length > MAX_DESCRIPTION_LENGTH,
+            })}
+          >
+            {description}
+          </div>
+          {description && description?.length > MAX_DESCRIPTION_LENGTH && (
+            <Button
+              className={s.more_button}
+              color="transparent"
+              onClick={() => setIsFullDesctiption(!isFullDesription)}
+            >
+              Show {isFullDesription ? 'less' : 'more'}
+            </Button>
+          )}
         </div>
       </div>
     </section>

@@ -23,6 +23,7 @@
   .description {
     margin-top: 10px;
     text-align: center;
+    @include multiplyRowsEllipsis(2);
   }
 }
 
