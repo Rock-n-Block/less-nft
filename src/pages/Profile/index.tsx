@@ -10,7 +10,6 @@ import { observer } from 'mobx-react';
 import { userApi } from 'services';
 import { useMst } from 'store';
 import { IExtendedInfo } from 'typings';
-import { LessLogo } from 'assets/img';
 
 import { About, Artworks, Collections, Favorited } from './Tabs';
 import UserMainInfo from './UserMainInfo';
@@ -165,7 +164,6 @@ const ProfilePage: FC = observer(() => {
                 nftCards={nftCards}
               />
             )}
-            <LessLogo />
             {activeTab === 'favorited' && (
               <Favorited
                 page={page}
