@@ -108,7 +108,7 @@ const Trending: FC<Props> = observer(({ className }) => {
         </div>
       ) : (
         <Text size="xl" align="center">
-          There are no notable drops
+          There are no trending collections yet
         </Text>
       )}
     </div>
