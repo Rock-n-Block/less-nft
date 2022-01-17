@@ -8,7 +8,7 @@ import CollectionsFilter from './components/CollectionsFilter';
 import ChainFilter from './components/ChainFilter';
 import RankingsFilter from './components/RankingsFilter';
 import CategoriesFilter from './components/CategoriesFilter';
-import OnSaleInFilter from './components/OnSaleInFilter';
+// import OnSaleInFilter from './components/OnSaleInFilter';
 import PropertiesFilter from './components/PropertiesFilter';
 import { IProperties, IRankings, useNewFilters } from 'hooks';
 
@@ -48,8 +48,8 @@ const DiscoverFilters: VFC<IProps> = ({
     setMaxPrice,
     minPrice,
     maxPrice,
-    activeCurrencies,
-    setActiveCurrencies,
+    // activeCurrencies,
+    // setActiveCurrencies,
     activeCollections,
     setActiveCollections,
     activePerks,
@@ -102,10 +102,10 @@ const DiscoverFilters: VFC<IProps> = ({
               <ChainFilter activeChains={activeChains} setActiveChains={setActiveChains} />
             )}
             <CategoriesFilter activeTags={activeTags} setActiveTags={setActiveTags} />
-            <OnSaleInFilter
+            {/* <OnSaleInFilter
               activeCurrencies={activeCurrencies}
               setActiveCurrencies={setActiveCurrencies}
-            />
+            /> */}
             <PropertiesFilter
               properties={config.properties || {}}
               activePerks={activePerks}

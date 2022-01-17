@@ -116,7 +116,7 @@ const LiveAuction: React.FC<IProps> = ({ className }) => {
         </Carousel>
       ) : (
         <Text size="xl" className={styles.noItems}>
-          There are no artowrks in this collection yet
+          There are no auctions
         </Text>
       )}
     </div>

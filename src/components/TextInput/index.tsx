@@ -32,6 +32,7 @@ interface Props {
   moreThanZero?: boolean;
   max?: number;
   min?: number;
+  onButtonClick?: () => void;
 }
 
 const TextInput: React.FC<Props> = ({
@@ -55,6 +56,7 @@ const TextInput: React.FC<Props> = ({
   max,
   min,
   type,
+  onButtonClick,
   ...props
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -164,7 +166,7 @@ const TextInput: React.FC<Props> = ({
           }
         />
         {isButton && (
-          <Button className={styles.inputButton}>
+          <Button onClick={onButtonClick} className={styles.inputButton}>
             <img src={arrowLeft} alt="" />
           </Button>
         )}

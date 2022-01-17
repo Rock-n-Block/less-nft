@@ -4,8 +4,7 @@
   @include container;
   overflow: hidden;
   padding-top: 24px;
-  padding-bottom: 25px;
-  margin-top: 24px;
+  margin-top: 88px;
   .title {
     text-align: center;
     margin-bottom: 24px;
@@ -21,8 +20,8 @@
 }
 .liveCard {
   margin-right: 15px;
-  div{
-    &:hover{
+  div {
+    &:hover {
       transform: none;
     }
   }
