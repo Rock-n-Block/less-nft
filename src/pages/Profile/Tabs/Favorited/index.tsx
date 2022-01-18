@@ -12,7 +12,6 @@ interface IProps {
   likeAction: (id: string | number) => Promise<any>;
   page: number;
   handlePage: (value: number) => void;
-  isFiltersLoading: boolean;
   allPages: number;
   isLickesLoading: boolean;
   totalItems: number;
@@ -20,22 +19,8 @@ interface IProps {
 }
 
 const Favorited: FC<IProps> = memo(
-  ({
-    likeAction,
-    page,
-    handlePage,
-    isFiltersLoading,
-    allPages,
-    isLickesLoading,
-    totalItems,
-    nftCards,
-  }) => {
-    const anchorRef = useInfiniteScroll(
-      page,
-      allPages,
-      handlePage,
-      isFiltersLoading || isLickesLoading,
-    );
+  ({ likeAction, page, handlePage, allPages, isLickesLoading, totalItems, nftCards }) => {
+    const anchorRef = useInfiniteScroll(page, allPages, handlePage, isLickesLoading);
 
     return (
       <>

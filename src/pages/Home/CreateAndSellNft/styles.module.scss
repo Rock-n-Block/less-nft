@@ -18,22 +18,17 @@
 
 .cardsWrapper {
   margin-top: 40px;
-  @include flexbox(flex-start, space-between);
-  flex-wrap: wrap;
+  display: grid;
+  // grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
 
-  @include b(mobile){
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    gap: 16px;
-  }
+  margin-bottom: 20px;
 }
 
 .howItWorksCard {
   @include flexbox(center, flex-start);
   flex-direction: column;
-
-  width: 292px;
 }
 
 .viewMoreBtnWrapper {
@@ -49,8 +44,9 @@
     padding-top: 20px;
   }
 
-  .howItWorksCard {
-    margin-bottom: 70px;
+  .cardsWrapper {
+    gap: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 }
 
@@ -59,7 +55,7 @@
   max-width: 200px;
   display: block;
 
-  @include b(mobile){
+  @include b(mobile) {
     margin-top: 24px;
   }
 }

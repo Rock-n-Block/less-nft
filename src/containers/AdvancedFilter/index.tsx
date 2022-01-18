@@ -2,12 +2,24 @@ import { FC, useEffect, useState } from 'react';
 import { cross } from 'assets/img';
 import cx from 'classnames';
 import { Button, H3, RangePicker, Select, Text } from 'components';
-import { TDefaultValues } from 'hooks/useFilters';
 import { IAppliedFilter, OptionType } from 'typings';
 
 import FilterTag from './FilterTag';
 
 import styles from './styles.module.scss';
+
+const DEFAULT_FILTER_STATE = {
+  type: 'items',
+  order_by: '-created_at',
+  tags: 'All NFTs',
+  max_price: 0,
+  currency: 'All',
+  page: 1,
+  is_verificated: 'All',
+  text: '',
+};
+
+type TDefaultValues = typeof DEFAULT_FILTER_STATE;
 
 const filterSelectArtistsOptions = [
   {

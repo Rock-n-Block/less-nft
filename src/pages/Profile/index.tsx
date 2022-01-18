@@ -5,7 +5,7 @@ import { routes } from 'appConstants';
 import { Art, Folders, Heart, List, Me, OffersMade, OffersReceived } from 'assets/img';
 import cn from 'classnames';
 import { Loader, TabLookingComponent, Text } from 'components';
-import { useFetchLiked, useFetchNft, useFilters, useTabs } from 'hooks';
+import { useFetchLiked, useFetchNft, useNewFilters, useTabs } from 'hooks';
 import { observer } from 'mobx-react';
 import { userApi } from 'services';
 import { useMst } from 'store';
@@ -87,20 +87,14 @@ const ProfilePage: FC = observer(() => {
     }
   }, [activeTab]);
 
-  const {
-    orderByFilter,
-    handleOrderByFilter,
-    page,
-    handlePage,
-    isLoading: isFiltersLoading,
-  } = useFilters();
+  const { sortBy, page, handlePage, setSortBy } = useNewFilters();
 
   const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft(
     {
       page,
       type: activeTab === 'collections' ? 'collections' : 'items',
       [creatorOrOwnerOrBids]: userId,
-      order_by: orderByFilter.value,
+      order_by: sortBy.value,
       isOnlyForOwnerOrCreator: true,
       is_verified: 'All',
       has_bids: activeTab === 'received',
@@ -156,11 +150,10 @@ const ProfilePage: FC = observer(() => {
                 page={page}
                 allPages={allPages}
                 handlePage={handlePage}
-                isFiltersLoading={isFiltersLoading}
                 isNftsLoading={isNftsLoading}
                 totalItems={totalItems}
-                orderByFilter={orderByFilter}
-                handleOrderByFilter={handleOrderByFilter}
+                orderByFilter={sortBy}
+                handleOrderByFilter={setSortBy}
                 nftCards={nftCards}
               />
             )}
@@ -168,7 +161,6 @@ const ProfilePage: FC = observer(() => {
               <Favorited
                 page={page}
                 handlePage={handlePage}
-                isFiltersLoading={isFiltersLoading}
                 likeAction={likeAction}
                 allPages={allPagesLiked}
                 isLickesLoading={isLickesLoading}
@@ -181,7 +173,6 @@ const ProfilePage: FC = observer(() => {
                 page={page}
                 allPages={allPages}
                 handlePage={handlePage}
-                isFiltersLoading={isFiltersLoading}
                 isNftsLoading={isNftsLoading}
                 // orderByFilter={orderByFilter}
                 // handleOrderByFilter={handleOrderByFilter}

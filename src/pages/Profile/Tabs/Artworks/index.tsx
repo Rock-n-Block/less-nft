@@ -14,7 +14,6 @@ interface IProps {
   page: number;
   allPages: number;
   handlePage: (value: number) => void;
-  isFiltersLoading: boolean;
   isNftsLoading: boolean;
   totalItems: number;
   orderByFilter: OptionType;
@@ -27,19 +26,13 @@ const Artworks: FC<IProps> = ({
   page,
   allPages,
   handlePage,
-  isFiltersLoading,
   isNftsLoading,
   totalItems,
   orderByFilter,
   handleOrderByFilter,
   nftCards,
 }) => {
-  const anchorRef = useInfiniteScroll(
-    page,
-    allPages,
-    handlePage,
-    isFiltersLoading || isNftsLoading,
-  );
+  const anchorRef = useInfiniteScroll(page, allPages, handlePage, isNftsLoading);
 
   return (
     <>
@@ -51,21 +44,6 @@ const Artworks: FC<IProps> = ({
 
       <div className={s.tab}>
         {nftCards.map((artCard: any) => {
-          // const {
-          //   media,
-          //   name,
-          //   price,
-          //   currency,
-          //   available,
-          //   creator,
-          //   like_count,
-          //   tags,
-          //   id,
-          //   highest_bid,
-          //   minimal_bid,
-          //   bids,
-          //   is_liked,
-          // } = artCard;
           const artPrice =
             artCard.price ||
             (artCard.highest_bid && toFixed(artCard.highest_bid.amount, 3)) ||
