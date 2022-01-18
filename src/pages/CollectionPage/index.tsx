@@ -47,24 +47,27 @@ const CollectionPage: React.FC = observer(() => {
   const pageTop = useRef<TNullable<HTMLDivElement>>(null);
   const filters = useNewFilters({ elementToScroll: pageTop });
 
-  const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
-    page: filters.page,
-    type: 'items',
-    order_by: filters.sortBy.value,
-    tags: filters.activeTags.join(','),
-    max_price: filters.maxPrice,
-    min_price: filters.minPrice,
-    text: filters.textSearch,
-    on_sale: filters.isOnSale,
-    on_auc_sale: filters.isOnAuction,
-    on_timed_auc_sale: filters.isOnTimedAuction,
-    network: filters.activeChains.join(','),
-    currency: filters.activeCurrencies.join(','),
-    collections: collectionId,
-    properties: filters.activePerks,
-    rankings: filters.activeRankings,
-    stats: filters.activeStats,
-  });
+  const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft(
+    {
+      page: filters.page,
+      type: 'items',
+      order_by: filters.sortBy.value,
+      tags: filters.activeTags.join(','),
+      max_price: filters.maxPrice,
+      min_price: filters.minPrice,
+      text: filters.textSearch,
+      on_sale: filters.isOnSale,
+      on_auc_sale: filters.isOnAuction,
+      on_timed_auc_sale: filters.isOnTimedAuction,
+      network: filters.activeChains.join(','),
+      currency: filters.activeCurrencies.join(','),
+      collections: collectionId,
+      properties: filters.activePerks,
+      rankings: filters.activeRankings,
+      stats: filters.activeStats,
+    },
+    true,
+  );
 
   const likeAction = useCallback(
     (id): Promise<any> => {

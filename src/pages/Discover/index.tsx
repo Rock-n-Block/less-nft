@@ -21,21 +21,24 @@ const Discover = observer(() => {
 
   const filters = useNewFilters();
 
-  const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft({
-    page: filters.page,
-    type: 'items',
-    order_by: filters.sortBy.value,
-    tags: filters.activeTags.join(','),
-    max_price: filters.maxPrice,
-    min_price: filters.minPrice,
-    text: filters.textSearch,
-    on_sale: filters.isOnSale,
-    on_auc_sale: filters.isOnAuction,
-    on_timed_auc_sale: filters.isOnTimedAuction,
-    network: filters.activeChains.join(','),
-    currency: filters.activeCurrencies.join(','),
-    collections: filters.activeCollections.map((el) => el.id).join(','),
-  });
+  const [allPages, totalItems, nftCards, isNftsLoading] = useFetchNft(
+    {
+      page: filters.page,
+      type: 'items',
+      order_by: filters.sortBy.value,
+      tags: filters.activeTags.join(','),
+      max_price: filters.maxPrice,
+      min_price: filters.minPrice,
+      text: filters.textSearch,
+      on_sale: filters.isOnSale,
+      on_auc_sale: filters.isOnAuction,
+      on_timed_auc_sale: filters.isOnTimedAuction,
+      network: filters.activeChains.join(','),
+      currency: filters.activeCurrencies.join(','),
+      collections: filters.activeCollections.map((el) => el.id).join(','),
+    },
+    true,
+  );
 
   const likeAction = useCallback(
     (id): Promise<any> => {
