@@ -171,9 +171,9 @@ const PutOnSale = types
       const parent: any = getParent(self);
       if (
         parent.nft.tokenId &&
-        parent.nft.currency &&
-        parent.nft.royalty &&
-        parent.nft.fee &&
+        // parent.nft.currency &&
+        // parent.nft.royalty &&
+        // parent.nft.fee &&
         parent.nft.collection &&
         self.isOpen
       ) {

@@ -113,7 +113,7 @@ const PaymentComponent: FC<Props> = observer(
         tokenId: nft?.id,
         standart: nft?.standart,
         tokenName: nft?.name,
-        fee: nft?.service_fee,
+        fee: nft?.service_fee || 0,
         price: nft?.price,
         currency: nft?.currency?.symbol || '',
         tokenAvailable: nft?.available,
