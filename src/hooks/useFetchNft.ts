@@ -18,7 +18,6 @@ interface IProps {
   creator?: string;
   owner?: string;
   text?: string;
-  isCanFetch?: boolean;
   isOnlyForOwnerOrCreator?: boolean;
   has_bids?: boolean;
   bids_by?: string;
@@ -35,164 +34,86 @@ export const useFetchNft = (
   props: IProps,
   isDebounce = false,
   isIntervalUpdate = false,
-): [number, number, INft[], boolean, (textValue: string) => void] => {
-  const {
-    page,
-    type,
-    order_by,
-    tags,
-    max_price,
-    min_price,
-    currency,
-    creator,
-    owner,
-    on_sale,
-    text,
-    has_bids = false,
-    bids_by,
-    isCanFetch = true,
-    isOnlyForOwnerOrCreator,
-    on_auc_sale,
-    on_timed_auc_sale,
-    network,
-    is_verified,
-    collections,
-    properties,
-    rankings,
-    stats,
-  } = props;
+): [number, number, INft[], boolean, (config: IProps) => void] => {
   const [isLoading, setLoading] = useState(false);
   const [allPages, setAllPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [nftCards, setNftCards] = useState<INft[]>([]);
 
-  const fetchSearch = useCallback(
-    (textInput = text) => {
-      if (!isCanFetch || (isOnlyForOwnerOrCreator && !owner && !creator && !bids_by)) {
-        return;
-      }
-      const refresh = page === 1;
-      setLoading(true);
+  const newFetchSearch = useCallback((config: IProps) => {
+    if (config.isOnlyForOwnerOrCreator && !config.owner && !config.creator && !config.bids_by) {
+      return;
+    }
 
-      const boolIsVerified = undefined;
-      const formattedCurrency = currency === 'All' ? undefined : currency;
-      const formattedTags = tags?.toLocaleLowerCase() === 'all nfts' ? undefined : tags;
-      storeApi
-        .getSearchResults({
-          type,
-          order_by,
-          tags: formattedTags,
-          max_price,
-          min_price,
-          currency: formattedCurrency,
-          page,
-          is_verified: boolIsVerified,
-          creator,
-          owner,
-          text: textInput,
-          has_bids,
-          bids_by,
-          on_sale: on_sale || '',
-          on_auc_sale: on_auc_sale || '',
-          on_timed_auc_sale: on_timed_auc_sale || '',
-          network,
-          collections,
-          properties,
-          rankings,
-          stats,
-        })
-        .then(({ data: { results, total, total_pages } }: any) => {
-          setTotalItems(() => total);
-          if (refresh) {
-            setNftCards(results);
-          } else {
-            setNftCards((prev: INft[]) => [...prev, ...results]);
-          }
-          if (!results && refresh) {
-            setNftCards([]);
-          }
-          setAllPages(Math.ceil(total_pages));
-        })
-        .catch((error: any) => console.error('error', error))
-        .finally(() => {
-          setLoading(false);
-        });
-    },
-    [
-      text,
-      isCanFetch,
-      isOnlyForOwnerOrCreator,
-      max_price,
-      on_sale,
-      on_auc_sale,
-      on_timed_auc_sale,
-      order_by,
-      owner,
-      creator,
-      bids_by,
-      stats,
-      page,
-      currency,
-      properties,
-      tags,
-      has_bids,
-      type,
-      min_price,
-      network,
-      rankings,
-      collections,
-    ],
-  );
+    const refresh = config.page === 1;
+    setLoading(true);
 
-  // TODO: сделать нормальный дебаунс
+    const boolIsVerified = undefined;
+    const formattedCurrency = config.currency === 'All' ? undefined : config.currency;
+    const formattedTags = config.tags?.toLocaleLowerCase() === 'all nfts' ? undefined : config.tags;
 
-  const debouncedFetch = useRef(
-    debounce((value) => {
-      if (value !== '') {
-        return fetchSearch(value);
-      }
-      setTotalItems(0);
-      setNftCards([]);
-      return () => {};
-    }, 1000),
-  ).current;
+    storeApi
+      .getSearchResults({
+        type: config.type,
+        order_by: config.order_by,
+        tags: formattedTags,
+        max_price: config.max_price,
+        min_price: config.min_price,
+        currency: formattedCurrency,
+        page: config.page,
+        is_verified: boolIsVerified,
+        creator: config.creator,
+        owner: config.owner,
+        text: config.text,
+        has_bids: config.has_bids,
+        bids_by: config.bids_by,
+        on_sale: config.on_sale || '',
+        on_auc_sale: config.on_auc_sale || '',
+        on_timed_auc_sale: config.on_timed_auc_sale || '',
+        network: config.network,
+        collections: config.collections,
+        properties: config.properties,
+        rankings: config.rankings,
+        stats: config.stats,
+      })
+      .then(({ data: { results, total, total_pages } }: any) => {
+        setTotalItems(() => total);
+        if (refresh) {
+          setNftCards(results);
+        } else {
+          setNftCards((prev: INft[]) => [...prev, ...results]);
+        }
+        if (!results && refresh) {
+          setNftCards([]);
+        }
+        setAllPages(Math.ceil(total_pages));
+      })
+      .catch((error: any) => console.error('error', error))
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  const newDebouncedFetch = useRef(debounce(newFetchSearch, 1000)).current;
 
   useEffect(() => {
     let interval: any = null;
     if (!isDebounce) {
-      fetchSearch();
+      newFetchSearch(props);
       if (isIntervalUpdate && !interval) {
-        interval = setInterval(fetchSearch, 60000);
+        interval = setInterval(newFetchSearch, 60000);
       }
+    } else {
+      newDebouncedFetch(props);
     }
     return () => {
       if (interval) {
         clearInterval(interval);
       }
     };
-  }, [
-    page,
-    order_by,
-    tags,
-    type,
-    max_price,
-    currency,
-    is_verified,
-    min_price,
-    creator,
-    on_sale,
-    text,
-    has_bids,
-    bids_by,
-    isDebounce,
-    fetchSearch,
-    isIntervalUpdate,
-    on_auc_sale,
-    on_timed_auc_sale,
-    collections,
-    properties,
-    stats,
-  ]);
+    // when passing PROPS directly to useEffect deps - rerender each time
+    // eslint-disable-next-line
+  }, [newDebouncedFetch, ...Object.values(props)]);
 
-  return [allPages, totalItems, nftCards, isLoading, debouncedFetch];
+  return [allPages, totalItems, nftCards, isLoading, newDebouncedFetch];
 };

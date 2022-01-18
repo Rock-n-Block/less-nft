@@ -70,7 +70,7 @@ const Labels: VFC<IProps> = ({
   const handleDeleteRanking = useCallback(
     (rankingTitle: string) => {
       const newRankings = Object.fromEntries(
-        Object.entries(JSON.parse(activeRankings)).filter((ranking) => ranking[0] !== rankingTitle),
+        Object.entries(activeRankings).filter((ranking) => ranking[0] !== rankingTitle),
       );
 
       setActiveRankigs(JSON.stringify(newRankings));
@@ -81,7 +81,7 @@ const Labels: VFC<IProps> = ({
   const handleDeleteStat = useCallback(
     (statTitle: string) => {
       const newRankings = Object.fromEntries(
-        Object.entries(JSON.parse(activeStatsProps)).filter((stat) => stat[0] !== statTitle),
+        Object.entries(activeStatsProps).filter((stat) => stat[0] !== statTitle),
       );
 
       setActiveStats(JSON.stringify(newRankings));
@@ -169,7 +169,7 @@ const Labels: VFC<IProps> = ({
             activeStatsProps[statTitle].min,
             activeStatsProps[statTitle].max,
           ])}`}
-          onClick={() => handleDeleteStat(activeStatsProps)}
+          onClick={() => handleDeleteStat(statTitle)}
         />
       ))}
       <button type="button" className={s.button} onClick={setDefaultFilters}>
