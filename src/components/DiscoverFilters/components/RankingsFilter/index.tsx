@@ -36,20 +36,20 @@ const RankingsFilter: VFC<IProps> = ({ rankings, setActiveRankigs, activeRanking
 
   const handleChangeRankings = useCallback(
     (rankingTitle: string, value: Array<string>) => {
-      const isValueInRange =
-        +value[0] <= +value[1] &&
-        +value[0] >= +rankings[rankingTitle].min &&
-        +value[1] <= +rankings[rankingTitle].max;
+      // const isValueInRange =
+      //   +value[0] <= +value[1] &&
+      //   +value[0] >= +rankings[rankingTitle].min &&
+      //   +value[1] <= +rankings[rankingTitle].max;
 
-      if (value[0] && value[1] && !isValueInRange) {
-        return;
-      }
+      // if (value[0] && value[1] && !isValueInRange) {
+      //   return;
+      // }
 
       const newRankings: IRankings = {
         ...activeRanks,
         [rankingTitle as string]: {
-          min: value[0],
-          max: value[1],
+          min: value[0] < rankings[rankingTitle].min ? rankings[rankingTitle].min : value[0],
+          max: value[1] > rankings[rankingTitle].max ? rankings[rankingTitle].max : value[1],
         },
       };
 
