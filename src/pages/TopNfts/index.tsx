@@ -13,7 +13,7 @@ import {
   iconArrowPageLeft,
   iconArrowPageRight,
   iconArrowPurple,
-  iconEthSmall,
+  iconChange,
 } from 'assets/img';
 import OutsideClickHandler from 'react-outside-click-handler';
 import nextId from 'react-id-generator';
@@ -267,7 +267,7 @@ const TopNfts: VFC = observer(() => {
                       <Text>{nft.collection.name}</Text>
                     </div>
                     <div className={styles.collectionStart}>
-                      <img alt="eth" src={iconEthSmall} />
+                      <img alt="eth" className={styles.usdIcon} src={iconChange} />
                       <Text>{nft.price}</Text>
                     </div>
                     <div className={styles.collectionStart}>
@@ -281,7 +281,7 @@ const TopNfts: VFC = observer(() => {
                       </Text>
                     </div>
                     <div className={styles.collectionStart}>
-                      <img alt="eth" src={iconEthSmall} />
+                      <img alt="eth" className={styles.usdIcon} src={iconChange} />
                       <Text>{nft.floor_price || 0}</Text>
                     </div>
                     <div className={styles.collectionStart}>
