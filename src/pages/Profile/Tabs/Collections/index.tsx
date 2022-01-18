@@ -17,7 +17,6 @@ interface IProps {
   page: number;
   allPages: number;
   handlePage: (value: number) => void;
-  isFiltersLoading: boolean;
   isNftsLoading: boolean;
   orderByFilter?: OptionType;
   handleOrderByFilter?: (value: OptionType) => void;
@@ -31,22 +30,16 @@ const Collections: FC<IProps> = ({
   page,
   allPages,
   handlePage,
-  isFiltersLoading,
   isNftsLoading,
   orderByFilter,
   handleOrderByFilter,
   nftCards,
-  authorId
+  authorId,
 }) => {
   const history = useHistory();
   const [isTooltipVisible, setTooltipVisible] = useState(false);
   const [type, setType] = useState('Single');
-  const anchorRef = useInfiniteScroll(
-    page,
-    allPages,
-    handlePage,
-    isFiltersLoading || isNftsLoading,
-  );
+  const anchorRef = useInfiniteScroll(page, allPages, handlePage, isNftsLoading);
 
   const handleSetType = (value: string) => {
     setType(value);
@@ -117,12 +110,13 @@ const Collections: FC<IProps> = ({
                 itemsNumber={tokens?.length}
                 description={description}
                 imageBanner={cover}
+                key={`${avatar}-${name}-${description}-${id}`}
                 authorId={authorId}
               />
             );
           })
         ) : (
-          <Text size='xl'>No Collections</Text>
+          <Text size="xl">No Collections</Text>
         )}
       </div>
       <div ref={anchorRef as RefObject<HTMLDivElement>} />
