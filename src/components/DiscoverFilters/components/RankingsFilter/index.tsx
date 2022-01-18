@@ -36,20 +36,20 @@ const RankingsFilter: VFC<IProps> = ({ rankings, setActiveRankigs, activeRanking
 
   const handleChangeRankings = useCallback(
     (rankingTitle: string, value: Array<string>) => {
-      const isValueInRange =
-        value[0] <= value[1] &&
-        value[0] >= rankings[rankingTitle].min &&
-        value[1] <= rankings[rankingTitle].max;
+      // const isValueInRange =
+      //   +value[0] <= +value[1] &&
+      //   +value[0] >= +rankings[rankingTitle].min &&
+      //   +value[1] <= +rankings[rankingTitle].max;
 
-      if (value[0] && value[1] && !isValueInRange) {
-        return;
-      }
+      // if (value[0] && value[1] && !isValueInRange) {
+      //   return;
+      // }
 
       const newRankings: IRankings = {
         ...activeRanks,
         [rankingTitle as string]: {
-          min: value[0],
-          max: value[1],
+          min: value[0] < rankings[rankingTitle].min ? rankings[rankingTitle].min : value[0],
+          max: value[1] > rankings[rankingTitle].max ? rankings[rankingTitle].max : value[1],
         },
       };
 
@@ -72,12 +72,12 @@ const RankingsFilter: VFC<IProps> = ({ rankings, setActiveRankigs, activeRanking
             <Range
               className={s.range}
               min={+rankings[ranking].min}
-              onAfterChange={(data) => handleChangeRankings(ranking, data.map(String))}
+              onChange={(data) => handleChangeRankings(ranking, data.map(String))}
               step={0.1}
               max={+rankings[ranking].max}
               disabled={+rankings[ranking].max === +rankings[ranking].min}
               tipFormatter={(data) => <span className="tooltip">{data}</span>}
-              defaultValue={[
+              value={[
                 +activeRanks[ranking]?.min || +rankings[ranking].min,
                 +activeRanks[ranking]?.max || +rankings[ranking].max,
               ]}

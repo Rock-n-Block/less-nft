@@ -1,6 +1,5 @@
 export { default as useWindowSize } from './useWindowSize';
 export { default as useGetSlideToShow } from './useGetSlideToShow';
-export { default as useFilters } from './useFilters';
 export { default as useNewFilters } from './useNewFilters';
 export { default as useUserBalance } from './useUserBalance';
 export { default as useFetchPriceHistory } from './useFetchPriceHistory';
