@@ -8,6 +8,10 @@
   border-bottom: 2px solid $color-neutral-10;
 }
 
+.usdIcon {
+  margin-right: 5px;
+}
+
 .content {
   @include container;
   padding: 45px 15px;
@@ -238,7 +242,7 @@
 
         .option {
           @include flexbox(center, center);
-          .text{
+          .text {
             margin-left: 0;
           }
         }
