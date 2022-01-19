@@ -53,7 +53,7 @@ const NotableDrops: FC<Props> = ({ className }) => {
           })}
         </div>
       ) : (
-        <Text size="xl" className={styles.noItems}>
+        <Text size="xl" align='center' className={styles.noItems}>
           There are no notable drops
         </Text>
       )}
