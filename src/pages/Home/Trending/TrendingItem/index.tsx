@@ -21,16 +21,16 @@ const TrendingItem: FC<IProps> = ({ avatar, creatorAvatar, creatorName, name, de
         <img src={creatorAvatar} className={styles.creatorAvatar} alt="creator" />
       </div>
       <div className={styles.info}>
-        <Text className={styles.name} size="xl">
+        <Text className={styles.name} weight="bold" size="xl">
           {name}
         </Text>
         <Text className={styles.creatorName} size="xl">
           By{' '}
-          <Text size="xl" color="primary">
+          <Text tag="span" size="xl" color="primary">
             {sliceString(creatorName, 10, 0)}
           </Text>
         </Text>
-        <Text className={styles.description}>
+        <Text className={styles.description} color="lightGray">
           {description
             ? sliceString(description, 80, 0)
             : `Explore the ${sliceString(creatorName, 10, 0)} collection`}
