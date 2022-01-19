@@ -51,7 +51,7 @@ const Routes = observer(() => {
       <GuardedRoute
         auth={user.isAuth}
         path={routes.create.single}
-        render={() => <Page component={<CreateCollection />} />}
+        render={() => <Page component={<CreateToken />} />}
       />
       <GuardedRoute
         auth={user.isAuth}
