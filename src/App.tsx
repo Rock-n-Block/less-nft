@@ -1,7 +1,7 @@
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { ToastContainer } from 'react-toastify';
 import { Header } from 'components';
-import { Footer, Modals, Routes, ScrollToTop } from 'containers';
+import { Modals, Routes, ScrollToTop } from 'containers';
 import { useFetchTags, useFetchNetworks } from 'hooks';
 
 import Connector from './services/walletConnect';
@@ -28,7 +28,6 @@ const App = () => {
               <Routes />
               <Modals />
             </ScrollToTop>
-            <Footer />
           </Connector>
         </Provider>
       </GoogleReCaptchaProvider>
