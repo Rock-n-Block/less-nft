@@ -28,7 +28,6 @@ const App = () => {
               <Routes />
               <Modals />
             </ScrollToTop>
-            <Footer />
           </Connector>
         </Provider>
       </GoogleReCaptchaProvider>
