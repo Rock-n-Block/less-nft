@@ -69,6 +69,11 @@ const Checkout: React.FC = observer(() => {
                 description: 'Something went wrong',
               });
               console.error(error);
+              storeApi.rejectTransaction({
+                id: sell.nft.tokenId,
+                type: 'token',
+                owner: sell.nft.sellerId,
+              });
             })
             .finally(() => setIsLoading(false));
         })
