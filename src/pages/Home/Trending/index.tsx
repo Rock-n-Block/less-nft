@@ -91,17 +91,19 @@ const Trending: FC<Props> = observer(({ className }) => {
           ) : (
             collections.map((collection) => {
               return (
-                <SwiperSlide key={collection.id}>
-                  <Link to={routes.collection.link(collection.id)} className={styles.drop}>
-                    <TrandingItem
-                      avatar={collection.avatar}
-                      creatorAvatar={collection.creator.avatar}
-                      creatorName={collection.creator.name}
-                      name={collection.name}
-                      description={collection.description}
-                    />
-                  </Link>
-                </SwiperSlide>
+                <Link
+                  key={collection.id}
+                  to={routes.collection.link(collection.id)}
+                  className={styles.drop}
+                >
+                  <TrandingItem
+                    avatar={collection.avatar}
+                    creatorAvatar={collection.creator.avatar}
+                    creatorName={collection.creator.name}
+                    name={collection.name}
+                    description={collection.description}
+                  />
+                </Link>
               );
             })
           )}
