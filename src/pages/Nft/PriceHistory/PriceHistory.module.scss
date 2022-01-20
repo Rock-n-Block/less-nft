@@ -2,10 +2,8 @@
 @import 'src/styles/mixins/media';
 
 .wrapper {
-  margin-top: 40px;
+  margin-top: 44px;
   max-height: 550px;
-  gap: 24px;
-  @include flexbox(stretch, space-between);
 }
 
 .chartWrapper {
@@ -37,7 +35,6 @@
 
 .chart {
   margin-top: 20px;
-  max-width: 650px;
 
   @include forDesktopBig {
     max-width: none;

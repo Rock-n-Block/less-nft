@@ -68,3 +68,8 @@ export { ReactComponent as ArrowLeft } from './icon-arrow-left.svg';
 export { ReactComponent as FourSquares } from './4-squares.svg';
 export { ReactComponent as NineSquares } from './9-squares.svg';
 export { ReactComponent as IconEdit } from './icon-edit.svg';
+export { ReactComponent as IconProperties } from './icon-properties.svg';
+export { ReactComponent as IconLevels } from './icon-levels.svg';
+export { ReactComponent as IconStats } from './icon-stats-section.svg';
+export { ReactComponent as IconTradingHistory } from './icon-trading-history.svg';
+export { ReactComponent as IconArrow } from './icon-grey-arrow.svg';

@@ -1,7 +1,7 @@
-import { FC, useMemo, useState } from 'react';
-import { Select, Text, Chart, TradingHistory } from 'components';
+import { FC, useState } from 'react';
+import { Select, Text, Chart } from 'components';
 import styles from './PriceHistory.module.scss';
-import { ICurrency, IHistoryItem, OptionType, TPriceHistoryPeriod } from 'typings';
+import { ICurrency, OptionType, TPriceHistoryPeriod } from 'typings';
 import { useFetchPriceHistory } from 'hooks';
 
 const chartOptionsFilter: OptionType[] = [
@@ -26,19 +26,14 @@ const chartOptionsFilter: OptionType[] = [
 interface IProps {
   tokenId: string;
   currency: ICurrency;
-  history: IHistoryItem[];
 }
 
-const PriceHistory: FC<IProps> = ({ tokenId, currency, history }) => {
+const PriceHistory: FC<IProps> = ({ tokenId, currency }) => {
   const [currentFilterOption, setCurrentFilterOption] = useState(chartOptionsFilter[0]);
   const { priceHistory } = useFetchPriceHistory({
     id: tokenId,
     period: currentFilterOption.value as TPriceHistoryPeriod,
   });
-
-  const TradingTableHeader = useMemo(() => {
-    return [{ Header: 'Event', accessor: 'method' }, { Header: 'Price', accessor: 'price' }, { Header: 'Buyer', accessor: 'name' }]
-  }, [])
 
   return (
     <div className={styles.wrapper}>
@@ -46,7 +41,9 @@ const PriceHistory: FC<IProps> = ({ tokenId, currency, history }) => {
         <div className={styles.chartFilter}>
           <Text size="l">Price History </Text>
           <div className={styles.chartSelect}>
-            <Text weight="medium" size="m">Filter Period</Text>
+            <Text weight="medium" size="m">
+              Filter Period
+            </Text>
             {/* TODO: разобраться что тут с типами */}
             <Select
               className={styles.chartSelect}
@@ -66,13 +63,6 @@ const PriceHistory: FC<IProps> = ({ tokenId, currency, history }) => {
             />
           </>
         )}
-      </div>
-      <div className={styles.tradingHistoryWrapper}>
-        <TradingHistory
-          columns={TradingTableHeader}
-          tableData={history}
-          currency={currency}
-        />
       </div>
     </div>
   );

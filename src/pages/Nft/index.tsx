@@ -15,6 +15,10 @@ import { ICurrency, INft, TNullable } from 'typings';
 import PriceHistory from './PriceHistory';
 
 import styles from './styles.module.scss';
+import PropertiesSection from './PropertiesSection';
+import LevelsSection from './LevelsSection';
+import StatsSection from './StatsSection';
+import TradingHistorySection from './TradingHistorySection';
 
 const breadcrumbs = [
   {
@@ -83,20 +87,22 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
       <div className={styles.detailArtworkContent}>
         <Control item={breadcrumbs} />
         <GiantCard name={nft?.name || ''} isFetching={isFetching} nft={nft} onUpdateNft={getItem} />
-        <PriceHistory
-          tokenId={id}
-          history={nft?.history || []}
-          currency={nft?.currency as ICurrency}
-        />
+        <div className={styles.properties}>
+          <div className={styles.propsSections}>
+            <PropertiesSection properties={nft?.properties || {}} />
+            <LevelsSection />
+            <StatsSection />
+          </div>
+          <div className={styles.history}>
+            <TradingHistorySection
+              history={nft?.history || []}
+              currency={nft?.currency as ICurrency}
+            />
+          </div>
+        </div>
+        <PriceHistory tokenId={id} currency={nft?.currency as ICurrency} />
         <div className={styles.relatedArtwork}>
           <H3>Related Artwork</H3>
-          {/* <LoadMore
-            itemsLength={nftCards.length}
-            isLoading={isLoading}
-            currentPage={page}
-            allPages={allPages}
-            handleLoadMore={handleLoadMore}
-          > */}
           {Array.isArray(nftCards) && nftCards.length ? (
             <div ref={wrapRef} className={styles.artCardsWrapper}>
               <GridLayer
@@ -154,7 +160,6 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
               There are no artowrks in this collection yet
             </Text>
           )}
-          {/* </LoadMore> */}
         </div>
       </div>
     </div>
