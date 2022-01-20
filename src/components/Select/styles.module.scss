@@ -92,6 +92,7 @@
     font-weight: 500;
     position: relative;
     color: $color-neutral-80;
+    max-width: calc(100% - 2px);
     top: 12px;
   }
 }
