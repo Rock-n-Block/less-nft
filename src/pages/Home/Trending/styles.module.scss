@@ -12,18 +12,24 @@
   margin-top: 88px;
 }
 
-.drops{
+.drops {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   margin-top: 40px;
 }
 
 .drop {
   max-width: 350px;
   width: 100%;
+
+  &Double {
+    & + & {
+      margin-left: 24px;
+    }
+  }
 }
 
-.swiper{
+.swiper {
   height: 500px;
   padding: 0 30px;
 }
