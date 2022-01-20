@@ -1,15 +1,31 @@
 import { useState, VFC } from 'react';
 
-import { CollapsingSection } from 'components';
+import { CollapsingSection, Text } from 'components';
+
+import s from './StatsSection.module.scss';
 
 import { IconStats } from 'assets/img';
+import { INftStat } from 'typings';
 
-const StatsSection: VFC = () => {
+interface IProps {
+  stats: Array<INftStat>;
+}
+
+const StatsSection: VFC<IProps> = ({ stats }) => {
   const [isOpened, setIsOpened] = useState(false);
 
   return (
     <CollapsingSection isOpened={isOpened} setIsOpened={setIsOpened} icon={IconStats} title="Stats">
-      stats
+      {stats.map((stat) => (
+        <div key={stat.display_type} className={s.stat}>
+          <Text tag="span" size="m" className={s.value}>
+            {stat.trait_type}
+          </Text>
+          <Text tag="span" size="m" color="primary" className={s.fromTo}>
+            {stat.value} of {stat.max_value}
+          </Text>
+        </div>
+      ))}
     </CollapsingSection>
   );
 };

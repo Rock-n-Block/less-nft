@@ -78,6 +78,13 @@ export interface INftProperty {
   display_type: string;
   frequency: number;
 }
+
+export interface INftStat {
+  value: number | string;
+  max_value: number | string;
+  display_type: string;
+  trait_type: string;
+}
 export interface INft {
   USD_price: number;
   available: number;
@@ -125,6 +132,7 @@ export interface INft {
   has_digital_key: boolean;
   is_timed_auc_selling: boolean;
   properties: { [key: string]: INftProperty };
+  stats: Array<INftStat>;
 }
 
 export interface ITag {

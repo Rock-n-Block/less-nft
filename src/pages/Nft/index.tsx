@@ -91,7 +91,7 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
           <div className={styles.propsSections}>
             <PropertiesSection properties={nft?.properties || {}} />
             <LevelsSection />
-            <StatsSection />
+            <StatsSection stats={nft?.stats || []} />
           </div>
           <div className={styles.history}>
             <TradingHistorySection
