@@ -1,9 +1,9 @@
 import { INetwork } from '@amfi/connect-wallet/dist/interface';
 import {
   bnbLogo,
-  ethLogo,
+  // ethLogo,
   metamaskImg,
-  polygonLogo,
+  // polygonLogo,
   walletConnectImg,
   trustWalletImg,
 } from 'assets/img';
@@ -18,7 +18,7 @@ import {
   wMaticTestnetAbi,
 } from './abi';
 
-export const is_production = false;
+export const is_production = true;
 
 export const chains: {
   [key: string]: {
@@ -31,34 +31,34 @@ export const chains: {
     explorer: string;
   };
 } = {
-  [chainsEnum.Ethereum]: {
-    name: chainsEnum.Ethereum,
-    network: {
-      chainName: chainsEnum.Ethereum,
-      chainID: is_production ? 1 : 4,
-    },
-    img: ethLogo,
-    explorer: is_production ? '' : '',
-    provider: {
-      MetaMask: { name: 'MetaMask', img: metamaskImg },
-      WalletConnect: {
-        img: walletConnectImg,
-        name: 'WalletConnect',
-        useProvider: 'rpc',
-        provider: {
-          rpc: {
-            rpc: {
-              [is_production ? 1 : 4]: is_production
-                ? 'https://bsc-dataseed.binance.org/'
-                : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
-            },
-            chainId: is_production ? 1 : 4,
-          },
-        },
-      },
-      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
-    },
-  },
+  // [chainsEnum.Ethereum]: {
+  //   name: chainsEnum.Ethereum,
+  //   network: {
+  //     chainName: chainsEnum.Ethereum,
+  //     chainID: is_production ? 1 : 4,
+  //   },
+  //   img: ethLogo,
+  //   explorer: is_production ? '' : '',
+  //   provider: {
+  //     MetaMask: { name: 'MetaMask', img: metamaskImg },
+  //     WalletConnect: {
+  //       img: walletConnectImg,
+  //       name: 'WalletConnect',
+  //       useProvider: 'rpc',
+  //       provider: {
+  //         rpc: {
+  //           rpc: {
+  //             [is_production ? 1 : 4]: is_production
+  //               ? 'https://bsc-dataseed.binance.org/'
+  //               : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+  //           },
+  //           chainId: is_production ? 1 : 4,
+  //         },
+  //       },
+  //     },
+  //     TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
+  //   },
+  // },
   [chainsEnum['Binance-Smart-Chain']]: {
     name: chainsEnum['Binance-Smart-Chain'],
     network: {
@@ -96,45 +96,45 @@ export const chains: {
     },
     explorer: is_production ? 'https://bscscan.com' : 'https://testnet.bscscan.com',
   },
-  [chainsEnum.Polygon]: {
-    name: chainsEnum.Polygon,
-    network: {
-      chainID: is_production ? 137 : 80001,
-      chainName: chainsEnum.Polygon,
-      nativeCurrency: {
-        name: 'MATIC',
-        symbol: 'MATIC',
-        decimals: 18,
-      },
-      rpc: is_production
-        ? 'https://rpc-mainnet.maticvigil.com/'
-        : 'https://matic-mumbai.chainstacklabs.com',
-      blockExplorerUrl: is_production
-        ? 'https://explorer.matic.network/'
-        : 'https://mumbai.polygonscan.com/',
-    },
-    img: polygonLogo,
-    provider: {
-      MetaMask: { name: 'MetaMask', img: metamaskImg },
-      WalletConnect: {
-        img: walletConnectImg,
-        name: 'WalletConnect',
-        useProvider: 'rpc',
-        provider: {
-          rpc: {
-            rpc: {
-              [is_production ? 137 : 80001]: is_production
-                ? 'https://rpc-mainnet.maticvigil.com/'
-                : 'https://matic-mumbai.chainstacklabs.com',
-            },
-            chainId: is_production ? 137 : 80001,
-          },
-        },
-      },
-      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
-    },
-    explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
-  },
+  // [chainsEnum.Polygon]: {
+  //   name: chainsEnum.Polygon,
+  //   network: {
+  //     chainID: is_production ? 137 : 80001,
+  //     chainName: chainsEnum.Polygon,
+  //     nativeCurrency: {
+  //       name: 'MATIC',
+  //       symbol: 'MATIC',
+  //       decimals: 18,
+  //     },
+  //     rpc: is_production
+  //       ? 'https://rpc-mainnet.maticvigil.com/'
+  //       : 'https://matic-mumbai.chainstacklabs.com',
+  //     blockExplorerUrl: is_production
+  //       ? 'https://explorer.matic.network/'
+  //       : 'https://mumbai.polygonscan.com/',
+  //   },
+  //   img: polygonLogo,
+  //   provider: {
+  //     MetaMask: { name: 'MetaMask', img: metamaskImg },
+  //     WalletConnect: {
+  //       img: walletConnectImg,
+  //       name: 'WalletConnect',
+  //       useProvider: 'rpc',
+  //       provider: {
+  //         rpc: {
+  //           rpc: {
+  //             [is_production ? 137 : 80001]: is_production
+  //               ? 'https://rpc-mainnet.maticvigil.com/'
+  //               : 'https://matic-mumbai.chainstacklabs.com',
+  //           },
+  //           chainId: is_production ? 137 : 80001,
+  //         },
+  //       },
+  //     },
+  //     TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
+  //   },
+  //   explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
+  // },
 };
 
 export const connectWallet = (

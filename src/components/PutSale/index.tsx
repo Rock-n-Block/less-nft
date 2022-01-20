@@ -35,11 +35,12 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
     user,
     modals: { sell },
   } = useMst();
+  const currency =  sell.nft.currency|| 'less'
   const [price, setPrice] = useState(
-    sell.nft.currency.toUpperCase() === 'BNB' ||
-      sell.nft.currency.toUpperCase() === 'ETH' ||
-      sell.nft.currency.toUpperCase() === 'MATIC' ||
-      sell.nft.currency.toUpperCase() === 'TRX',
+    currency.toUpperCase() === 'BNB' ||
+      currency.toUpperCase() === 'ETH' ||
+      currency.toUpperCase() === 'MATIC' ||
+      currency.toUpperCase() === 'TRX',
   );
   const [priceValue, setPriceValue] = useState('');
   // const [currency, setCurrency] = useState('');
@@ -48,7 +49,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isTimedAuction, setIsTimedAuction] = useState(false);
   // const [rates, setRates] = useState<IRate[]>([]);
-  const balance = useUserBalance(user.address, sell.nft.currency);
+  const balance = useUserBalance(user.address, currency);
 
   // const fetchRates = useCallback(() => {
   //   ratesApi.getRates().then(({ data }: any) => {
@@ -108,7 +109,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
             sell.nft.tokenId ? +sell.nft.tokenId : 0,
             priceValue ? +priceValue : 0,
             price,
-            sell.nft.currency,
+            currency,
             !price && isTimedAuction ? dateFormatter(startAuction) : '',
             !price && isTimedAuction ? dateFormatter(endAuction) : '',
           )
@@ -139,7 +140,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
     sell.putOnSale,
     priceValue,
     price,
-    sell.nft.currency,
+    currency,
     isTimedAuction,
     startAuction,
     endAuction,
@@ -191,7 +192,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
             // prefixClassName={styles.prefix}
             positiveOnly
           />
-          {/* <div className={styles.col}>{sell.nft.currency.toUpperCase()}</div> */}
+          {/* <div className={styles.col}>{currency.toUpperCase()}</div> */}
         </div>
         {sell.nft.standart === 'ERC721' && !price && (
           <div className={styles.itemAuc}>
@@ -240,7 +241,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
         <div className={styles.row}>
           <div className={styles.col}>Your balance</div>
           <div className={styles.col}>
-            {balance} {sell.nft.currency.toUpperCase()}
+            {balance} {currency.toUpperCase()}
           </div>
         </div>
         <div className={styles.row}>
@@ -257,7 +258,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
                   100
                 ).toString(),
               ).toString(10)}{' '}
-              {sell.nft.currency.toUpperCase()}
+              {currency.toUpperCase()}
             </div>
           ) : (
             ''
