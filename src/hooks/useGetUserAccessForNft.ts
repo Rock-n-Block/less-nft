@@ -79,7 +79,13 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
   }, [nft, userId, isOwner, isWrongChain]);
 
   const isUserCanEnterInAuction = React.useMemo(() => {
-    if (userId && nft && !isWrongChain && nft.is_auc_selling && nft.available !== 0) {
+    if (
+      userId &&
+      nft &&
+      !isWrongChain &&
+      (nft.is_auc_selling || nft.is_timed_auc_selling) &&
+      nft.available !== 0
+    ) {
       if (nft.standart === 'ERC721' && !isOwner) {
         return true;
       }
@@ -95,7 +101,15 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
   }, [nft, isOwner, userId, isWrongChain]);
 
   const isUserCanEndAuction = React.useMemo(() => {
-    if (userId && nft && !isWrongChain && nft.is_auc_selling && nft.bids.length && isOwner) {
+    if (
+      userId &&
+      nft &&
+      !isWrongChain &&
+      nft.is_auc_selling &&
+      !nft.is_timed_auc_selling &&
+      nft.bids.length &&
+      isOwner
+    ) {
       if (nft.standart === 'ERC721') {
         return true;
       }
