@@ -153,7 +153,8 @@
 }
 
 :root .menu {
-  border: 2px solid $color-neutral-20;
+  border-radius: $border-radius;
+  overflow: hidden;
 }
 
 :root .menuList {
@@ -164,8 +165,10 @@
 
 :root .option {
   @include flexbox(center, flex-start);
-  margin: -2px 0;
+  // margin: -2px 0;
   padding: 10px 20px;
+
+  font-weight: 400;
 
   background-color: none;
   transition: $transition;
@@ -185,7 +188,7 @@
 :root .optionText,
 :root .noOptionsMessage {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .indicatorsContainer {

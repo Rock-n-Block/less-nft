@@ -17,7 +17,7 @@ const NotableDrop: FC<IProps> = ({ avatar, name, description, link, color }) => 
         <img src={avatar} className={styles.avatar} alt="" />
       </div>
       <div className={styles.info}>
-        <Text className={styles.name} size="xl" color="white">
+        <Text align='center' className={styles.name} size="xl" color="white">
           {name}
         </Text>
         <Text align="center" className={styles.description} color="white">
