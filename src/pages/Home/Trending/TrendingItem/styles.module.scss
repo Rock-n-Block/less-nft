@@ -61,3 +61,7 @@
     height: 300px;
   }
 }
+
+.name {
+  @include multiplyRowsEllipsis(1);
+}

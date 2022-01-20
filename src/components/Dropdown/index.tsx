@@ -17,7 +17,7 @@ interface IDropdownProps {
   name?: string;
   suffix?: string;
   headClassName?: string;
-  bodyClassName?: string
+  bodyClassName?: string;
 }
 
 const Dropdown: FC<IDropdownProps> = ({
@@ -30,7 +30,7 @@ const Dropdown: FC<IDropdownProps> = ({
   name,
   suffix = '',
   headClassName,
-  bodyClassName
+  bodyClassName,
 }) => {
   const [visible, setVisible] = useState(false);
 
