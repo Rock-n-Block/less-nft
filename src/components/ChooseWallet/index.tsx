@@ -11,7 +11,7 @@ import { detectMobileDevice } from 'utils';
 
 const ChooseWallet: React.FC = () => {
   const { connect } = useWalletConnectorContext();
-  const [activeChain, setActiveChain] = React.useState<chainsEnum>(chains[chainsEnum.Polygon].name);
+  const [activeChain, setActiveChain] = React.useState<chainsEnum>(chains[chainsEnum['Binance-Smart-Chain']].name);
 
   const hancleChangeActiveChain = React.useCallback((name: chainsEnum) => {
     setActiveChain(name);
