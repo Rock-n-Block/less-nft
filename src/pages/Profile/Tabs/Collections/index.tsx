@@ -100,21 +100,23 @@ const Collections: FC<IProps> = ({
 
       <div className={s.tab}>
         {nftCards.length ? (
-          nftCards.map((artCard: any) => {
-            const { avatar, name, id, tokens, description, cover } = artCard;
-            return (
-              <CollectionCard
-                imageMain={avatar}
-                name={name}
-                collectionId={id}
-                itemsNumber={tokens?.length}
-                description={description}
-                imageBanner={cover}
-                key={`${avatar}-${name}-${description}-${id}`}
-                authorId={authorId}
-              />
-            );
-          })
+          nftCards
+            .filter((col: any) => !col.is_default)
+            .map((artCard: any) => {
+              const { avatar, name, id, tokens, description, cover } = artCard;
+              return (
+                <CollectionCard
+                  imageMain={avatar}
+                  name={name}
+                  collectionId={id}
+                  itemsNumber={tokens?.length}
+                  description={description}
+                  imageBanner={cover}
+                  key={`${avatar}-${name}-${description}-${id}`}
+                  authorId={authorId}
+                />
+              );
+            })
         ) : (
           <Text size="xl">No Collections</Text>
         )}
