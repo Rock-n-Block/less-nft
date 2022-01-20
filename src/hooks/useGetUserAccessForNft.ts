@@ -137,7 +137,7 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
         nft.standart === 'ERC721' &&
         !nft.is_selling &&
         !nft.is_auc_selling &&
-        !nft.is_timed_auc_selling
+        !nft.start_auction
       ) {
         return true;
       }
