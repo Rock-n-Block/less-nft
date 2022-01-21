@@ -23,23 +23,26 @@ const CollapsingSection: FC<IProps> = ({
 }) => {
   return (
     <section className={s.section}>
-      <div className={cn(s.header, { [s.active]: isOpened })}>
-        <div className={s.icon}>
-          <SectionIcon />
+      <div
+        tabIndex={0}
+        role="button"
+        onKeyDown={() => {}}
+        onClick={() => setIsOpened((prev) => !prev)}
+        className={cn(s.header, { [s.active]: isOpened })}
+      >
+        <div className={s.inner}>
+          <div className={s.icon}>
+            <SectionIcon />
+          </div>
+          <div className={s.title}>
+            <Text tag="span" size="m" weight="bold">
+              {title}
+            </Text>
+          </div>
+          <div className={cn(s.arrow, { [s.active]: isOpened })}>
+            <IconArrow width="24px" height="24px" />
+          </div>
         </div>
-        <div className={s.title}>
-          <Text tag="span" size="m" weight="bold">
-            {title}
-          </Text>
-        </div>
-        <Button
-          padding="0"
-          color="transparent"
-          onClick={() => setIsOpened((prev) => !prev)}
-          className={cn(s.arrow, { [s.active]: isOpened })}
-        >
-          <IconArrow width="24px" height="24px" />
-        </Button>
       </div>
       {isOpened && <div className={s.content}>{children}</div>}
     </section>

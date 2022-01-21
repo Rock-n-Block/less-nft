@@ -19,16 +19,24 @@ const LevelsSection: VFC<IProps> = ({ levels }) => {
       isOpened={isOpened}
       setIsOpened={setIsOpened}
       icon={IconLevels}
-      title="Levels"
+      title="Rankings"
     >
       {levels.map((stat) => (
-        <div key={`${stat.value}-${stat.trait_type}-${stat.max_value}`} className={s.stat}>
-          <Text tag="span" size="m" className={s.value}>
-            {stat.trait_type}
-          </Text>
-          <Text tag="span" size="m" color="primary" className={s.fromTo}>
-            {stat.value} of {stat.max_value}
-          </Text>
+        <div className={s.level}>
+          <div key={`${stat.value}-${stat.trait_type}-${stat.max_value}`} className={s.stat}>
+            <Text tag="span" size="m" className={s.value}>
+              {stat.trait_type}
+            </Text>
+            <Text tag="span" size="m" color="primary" className={s.fromTo}>
+              {stat.value} of {stat.max_value}
+            </Text>
+          </div>
+          <div className={s.bar}>
+            <div
+              className={s.bar_line}
+              style={{ width: `${(+stat.value / +stat.max_value) * 100}%` }}
+            />
+          </div>
         </div>
       ))}
     </CollapsingSection>

@@ -1,7 +1,6 @@
 @import 'src/styles/helpers';
 
 .chartInfo {
-  margin-top: 24px;
   @include flexbox(center, space-between);
   flex-wrap: wrap;
 }

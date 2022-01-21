@@ -3,23 +3,28 @@
 .section {
   border: 1px solid $color-neutral-10;
   border-radius: $border-radius;
+}
+
+.inner {
+  @include flexbox(center, normal);
 
   padding: 32px;
-
   @include forTablet {
     padding: 20px;
   }
-  //  delete
-  color: #000;
+}
+
+.content {
+  padding: 32px;
+  @include forTablet {
+    padding: 20px;
+  }
 }
 
 .header {
-  @include flexbox(center, normal);
-
+  cursor: pointer;
   &.active {
-    padding-bottom: 24px;
     border-bottom: 1px solid $color-neutral-10;
-    margin-bottom: 24px;
   }
 }
 
