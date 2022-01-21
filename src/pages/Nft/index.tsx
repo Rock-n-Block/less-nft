@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { routes } from 'appConstants';
 import cx from 'classnames';
@@ -12,13 +12,12 @@ import { storeApi } from 'services/api';
 import { useMst } from 'store';
 import { ICurrency, INft, TNullable } from 'typings';
 
-import PriceHistory from './PriceHistory';
-
 import styles from './styles.module.scss';
 import PropertiesSection from './PropertiesSection';
 import LevelsSection from './LevelsSection';
 import StatsSection from './StatsSection';
 import TradingHistorySection from './TradingHistorySection';
+import PriceHistorySection from './PriceHistorySection';
 
 const breadcrumbs = [
   {
@@ -82,16 +81,34 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
     sell.putOnSale.isSuccess,
   ]);
 
+  const isNftHasStats = useMemo(() => {
+    if (nft?.stats && nft.stats.length > 0) return true;
+    return false;
+  }, [nft]);
+
+  const isNftHasLevels = useMemo(() => {
+    if (nft?.rankings && nft.rankings.length > 0) return true;
+    return false;
+  }, [nft]);
+
+  const isNftHasProperties = useMemo(() => {
+    return Object.keys(nft?.properties || {}).length > 0;
+  }, [nft]);
+
   return (
     <div className={cx(styles.detailArtwork, className)}>
       <div className={styles.detailArtworkContent}>
         <Control item={breadcrumbs} />
         <GiantCard name={nft?.name || ''} isFetching={isFetching} nft={nft} onUpdateNft={getItem} />
-        <div className={styles.properties}>
+        <div
+          className={cx(styles.properties, {
+            [styles.onlyHistory]: !isNftHasLevels && !isNftHasProperties && !isNftHasStats,
+          })}
+        >
           <div className={styles.propsSections}>
-            <PropertiesSection properties={nft?.properties || {}} />
-            <LevelsSection />
-            <StatsSection stats={nft?.stats || []} />
+            {isNftHasProperties && <PropertiesSection properties={nft?.properties || {}} />}
+            {isNftHasLevels && <LevelsSection levels={nft?.rankings || []} />}
+            {isNftHasStats && <StatsSection stats={nft?.stats || []} />}
           </div>
           <div className={styles.history}>
             <TradingHistorySection
@@ -100,7 +117,8 @@ const DetailArtwork: FC<Props> = observer(({ className }) => {
             />
           </div>
         </div>
-        <PriceHistory tokenId={id} currency={nft?.currency as ICurrency} />
+        <PriceHistorySection tokenId={id} currency={nft?.currency as ICurrency} />
+
         <div className={styles.relatedArtwork}>
           <H3>Related Artwork</H3>
           {Array.isArray(nftCards) && nftCards.length ? (

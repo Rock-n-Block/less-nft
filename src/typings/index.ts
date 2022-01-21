@@ -133,6 +133,7 @@ export interface INft {
   is_timed_auc_selling: boolean;
   properties: { [key: string]: INftProperty };
   stats: Array<INftStat>;
+  rankings: Array<INftStat>;
 }
 
 export interface ITag {

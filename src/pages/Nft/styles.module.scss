@@ -17,12 +17,17 @@
 
 .properties {
   margin-top: 44px;
+  margin-bottom: 44px;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 
   @include forDesktopMiddle {
+    display: block;
+  }
+
+  &.onlyHistory {
     display: block;
   }
 }

@@ -72,4 +72,5 @@ export { ReactComponent as IconProperties } from './icon-properties.svg';
 export { ReactComponent as IconLevels } from './icon-levels.svg';
 export { ReactComponent as IconStats } from './icon-stats-section.svg';
 export { ReactComponent as IconTradingHistory } from './icon-trading-history.svg';
+export { ReactComponent as IconPriceHistory } from './icon-price-history.svg';
 export { ReactComponent as IconArrow } from './icon-grey-arrow.svg';

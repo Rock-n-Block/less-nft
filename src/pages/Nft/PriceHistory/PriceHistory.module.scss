@@ -2,15 +2,7 @@
 @import 'src/styles/mixins/media';
 
 .wrapper {
-  margin-top: 44px;
   max-height: 550px;
-}
-
-.chartWrapper {
-  padding: 32px;
-  border: 1px solid $color-neutral-10;
-  flex: 0 0 60%;
-  border-radius: $border-radius;
 }
 
 .tradingHistoryWrapper {

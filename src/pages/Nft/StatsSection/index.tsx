@@ -17,7 +17,7 @@ const StatsSection: VFC<IProps> = ({ stats }) => {
   return (
     <CollapsingSection isOpened={isOpened} setIsOpened={setIsOpened} icon={IconStats} title="Stats">
       {stats.map((stat) => (
-        <div key={stat.display_type} className={s.stat}>
+        <div key={`${stat.value}-${stat.trait_type}-${stat.max_value}`} className={s.stat}>
           <Text tag="span" size="m" className={s.value}>
             {stat.trait_type}
           </Text>

@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Select, Text, Chart } from 'components';
+import { Chart } from 'components';
 import styles from './PriceHistory.module.scss';
 import { ICurrency, OptionType, TPriceHistoryPeriod } from 'typings';
 import { useFetchPriceHistory } from 'hooks';
@@ -38,21 +38,6 @@ const PriceHistory: FC<IProps> = ({ tokenId, currency }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.chartWrapper}>
-        <div className={styles.chartFilter}>
-          <Text size="l">Price History </Text>
-          <div className={styles.chartSelect}>
-            <Text weight="medium" size="m">
-              Filter Period
-            </Text>
-            {/* TODO: разобраться что тут с типами */}
-            <Select
-              className={styles.chartSelect}
-              value={currentFilterOption}
-              options={chartOptionsFilter}
-              onChange={(value) => setCurrentFilterOption(value as any)}
-            />
-          </div>
-        </div>
         {priceHistory.length && (
           <>
             <Chart
@@ -60,6 +45,7 @@ const PriceHistory: FC<IProps> = ({ tokenId, currency }) => {
               className={styles.chart}
               data={priceHistory}
               period={currentFilterOption.value as TPriceHistoryPeriod}
+              onCurrentFilterChange={setCurrentFilterOption}
             />
           </>
         )}
