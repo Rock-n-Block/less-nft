@@ -40,6 +40,7 @@
 .propsSections {
   display: grid;
   gap: 24px;
+  grid-auto-rows: min-content;
 }
 
 .loader {
