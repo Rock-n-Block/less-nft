@@ -52,9 +52,9 @@ const DescriptionAndTagsComponent: FC<Props> = ({
           <Text>Hover to read more</Text>
           <Cursor aria-label="hover" className={styles.cursor} />
         </div>
-        {body}
+        <Text>{body}</Text>
       </div>
-      {tags.length && (
+      {tags.length > 0 && (
         <div className={styles.tagWrapper}>
           <Text size="m" className={styles.tagTitle}>
             Tags:
