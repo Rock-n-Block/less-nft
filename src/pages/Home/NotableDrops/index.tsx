@@ -19,7 +19,7 @@ const NotableDrops: FC<Props> = ({ className }) => {
 
       const finalDrops = data.map((el) => ({
         avatar: el.image,
-        color: el.background_color || '#674df6',
+        color: el.background_color || '#018DF0',
         link: routes.collection.link(el.collection_id),
         description: el.description,
         name: el.name,

@@ -1,11 +1,13 @@
 import { INetwork } from '@amfi/connect-wallet/dist/interface';
 import {
   bnbLogo,
-  // ethLogo,
+  ethLogo,
   metamaskImg,
-  // polygonLogo,
+  polygonLogo,
   walletConnectImg,
   trustWalletImg,
+  tronChain,
+  tronLink,
 } from 'assets/img';
 import { chainsEnum, IConnectWallet, IContracts } from 'typings';
 
@@ -18,7 +20,7 @@ import {
   wMaticTestnetAbi,
 } from './abi';
 
-export const is_production = true;
+export const is_production = false;
 
 export const chains: {
   [key: string]: {
@@ -31,34 +33,34 @@ export const chains: {
     explorer: string;
   };
 } = {
-  // [chainsEnum.Ethereum]: {
-  //   name: chainsEnum.Ethereum,
-  //   network: {
-  //     chainName: chainsEnum.Ethereum,
-  //     chainID: is_production ? 1 : 4,
-  //   },
-  //   img: ethLogo,
-  //   explorer: is_production ? '' : '',
-  //   provider: {
-  //     MetaMask: { name: 'MetaMask', img: metamaskImg },
-  //     WalletConnect: {
-  //       img: walletConnectImg,
-  //       name: 'WalletConnect',
-  //       useProvider: 'rpc',
-  //       provider: {
-  //         rpc: {
-  //           rpc: {
-  //             [is_production ? 1 : 4]: is_production
-  //               ? 'https://bsc-dataseed.binance.org/'
-  //               : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
-  //           },
-  //           chainId: is_production ? 1 : 4,
-  //         },
-  //       },
-  //     },
-  //     TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
-  //   },
-  // },
+  [chainsEnum.Ethereum]: {
+    name: chainsEnum.Ethereum,
+    network: {
+      chainName: chainsEnum.Ethereum,
+      chainID: is_production ? 1 : 4,
+    },
+    img: ethLogo,
+    explorer: is_production ? '' : '',
+    provider: {
+      MetaMask: { name: 'MetaMask', img: metamaskImg },
+      WalletConnect: {
+        img: walletConnectImg,
+        name: 'WalletConnect',
+        useProvider: 'rpc',
+        provider: {
+          rpc: {
+            rpc: {
+              [is_production ? 1 : 4]: is_production
+                ? 'https://bsc-dataseed.binance.org/'
+                : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+            },
+            chainId: is_production ? 1 : 4,
+          },
+        },
+      },
+      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
+    },
+  },
   [chainsEnum['Binance-Smart-Chain']]: {
     name: chainsEnum['Binance-Smart-Chain'],
     network: {
@@ -96,45 +98,57 @@ export const chains: {
     },
     explorer: is_production ? 'https://bscscan.com' : 'https://testnet.bscscan.com',
   },
-  // [chainsEnum.Polygon]: {
-  //   name: chainsEnum.Polygon,
-  //   network: {
-  //     chainID: is_production ? 137 : 80001,
-  //     chainName: chainsEnum.Polygon,
-  //     nativeCurrency: {
-  //       name: 'MATIC',
-  //       symbol: 'MATIC',
-  //       decimals: 18,
-  //     },
-  //     rpc: is_production
-  //       ? 'https://rpc-mainnet.maticvigil.com/'
-  //       : 'https://matic-mumbai.chainstacklabs.com',
-  //     blockExplorerUrl: is_production
-  //       ? 'https://explorer.matic.network/'
-  //       : 'https://mumbai.polygonscan.com/',
-  //   },
-  //   img: polygonLogo,
-  //   provider: {
-  //     MetaMask: { name: 'MetaMask', img: metamaskImg },
-  //     WalletConnect: {
-  //       img: walletConnectImg,
-  //       name: 'WalletConnect',
-  //       useProvider: 'rpc',
-  //       provider: {
-  //         rpc: {
-  //           rpc: {
-  //             [is_production ? 137 : 80001]: is_production
-  //               ? 'https://rpc-mainnet.maticvigil.com/'
-  //               : 'https://matic-mumbai.chainstacklabs.com',
-  //           },
-  //           chainId: is_production ? 137 : 80001,
-  //         },
-  //       },
-  //     },
-  //     TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
-  //   },
-  //   explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
-  // },
+  [chainsEnum.Polygon]: {
+    name: chainsEnum.Polygon,
+    network: {
+      chainID: is_production ? 137 : 80001,
+      chainName: chainsEnum.Polygon,
+      nativeCurrency: {
+        name: 'MATIC',
+        symbol: 'MATIC',
+        decimals: 18,
+      },
+      rpc: is_production
+        ? 'https://rpc-mainnet.maticvigil.com/'
+        : 'https://matic-mumbai.chainstacklabs.com',
+      blockExplorerUrl: is_production
+        ? 'https://explorer.matic.network/'
+        : 'https://mumbai.polygonscan.com/',
+    },
+    img: polygonLogo,
+    provider: {
+      MetaMask: { name: 'MetaMask', img: metamaskImg },
+      WalletConnect: {
+        img: walletConnectImg,
+        name: 'WalletConnect',
+        useProvider: 'rpc',
+        provider: {
+          rpc: {
+            rpc: {
+              [is_production ? 137 : 80001]: is_production
+                ? 'https://rpc-mainnet.maticvigil.com/'
+                : 'https://matic-mumbai.chainstacklabs.com',
+            },
+            chainId: is_production ? 137 : 80001,
+          },
+        },
+      },
+      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
+    },
+    explorer: is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/',
+  },
+  [chainsEnum.Tron]: {
+    name: chainsEnum.Tron,
+    network: {
+      chainName: chainsEnum.Tron,
+      chainID: 0,
+    },
+    img: tronChain,
+    provider: {
+      TronLink: { name: 'TronLink', img: tronLink },
+    },
+    explorer: is_production ? 'https://tronscan.org' : 'https://shasta.tronscan.org',
+  },
 };
 
 export const connectWallet = (
@@ -163,18 +177,7 @@ export const exchangeAddrs = {
   [chainsEnum.Polygon]: !is_production
     ? '0xE303dD7146E67D3Bd438e54971ebd9076908e7d5'
     : '0x533a2e15a8c1aa96b47681c0af6cba7de724f48f',
-};
-
-export const tokenAddrs = {
-  [chainsEnum['Binance-Smart-Chain']]: !is_production
-    ? '0x826e9dd8c254c01f9d038db8f091ed47790707b6'
-    : '0xb698ac9bc82c718d8eba9590564b9a5aa53d58e6',
-  [chainsEnum.Ethereum]: !is_production
-    ? '0x87feef975fd65f32A0836f910Fd13d9Cf4553690'
-    : '0x62786eeacc9246b4018e0146cb7a3efeacd9459d',
-  [chainsEnum.Polygon]: !is_production
-    ? '0x4F788fD644688b14cFb5E15425Dc3Eb2480b158b'
-    : '0x155f60428d0eAF41b68525e1A781bcCD429E343f',
+  [chainsEnum.Tron]: !is_production ? 'TWSrxkCTYAYg1mqHpoYxbDkW2DkYNzLwML' : '',
 };
 
 export const contracts: IContracts = {
@@ -200,16 +203,6 @@ export const contracts: IContracts = {
       testnet: {
         address: '',
         abi: bep20Abi,
-      },
-    },
-    LESS: {
-      mainnet: {
-        address: tokenAddrs[localStorage.lessnft_nft_chainName as chainsEnum],
-        abi: erc20Abi,
-      },
-      testnet: {
-        address: tokenAddrs[localStorage.lessnft_nft_chainName as chainsEnum],
-        abi: wethTestnetAbi,
       },
     },
     WETH: {

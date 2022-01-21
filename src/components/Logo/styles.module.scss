@@ -20,7 +20,7 @@
 // }
 
 .logo .logoText {
-  @include sora;
+  @include monument-extended;
   @include forTablet{
     font-size: 14px;
   }

@@ -49,6 +49,35 @@
       }
     }
   }
+  &.blue {
+    height: 40px;
+    font-weight: 600;
+    font-size: 16px;
+
+    color: $color-neutral-0;
+    background: $color-primary;
+
+    & > svg {
+      fill: $color-neutral-100;
+    }
+
+    &:hover {
+      background: $color-action-hovered;
+    }
+
+    &:active {
+      background: $color-action-pressed;
+    }
+
+    &.disabled {
+      color: $color-neutral-20;
+      background: $color-action-disabled;
+
+      & > svg {
+        fill: $color-neutral-20;
+      }
+    }
+  }
 
   &.pink {
     height: 40px;

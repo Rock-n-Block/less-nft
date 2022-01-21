@@ -5,6 +5,7 @@ import { Text } from 'components';
 import { chains } from 'config';
 import { useWalletConnectorContext } from 'services/walletConnect';
 import { chainsEnum } from 'typings';
+import { connectTron } from 'services';
 
 import styles from './ChooseWallet.module.scss';
 import { detectMobileDevice } from 'utils';
@@ -55,7 +56,7 @@ const ChooseWallet: React.FC = () => {
             return (
               <div
                 className={cn(styles.item, styles.item_wallet)}
-                onClick={() => connect(activeChain, chains[activeChain].provider[wallet].name)}
+                onClick={wallet === 'TronLink' ? connectTron : () => connect(activeChain, chains[activeChain].provider[wallet].name)}
                 onKeyDown={() => {}}
                 role="button"
                 tabIndex={0}

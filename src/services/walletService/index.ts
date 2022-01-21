@@ -1,8 +1,11 @@
 import { ConnectWallet } from '@amfi/connect-wallet';
 import BigNumber from 'bignumber.js/bignumber';
 import { chainsEnum } from 'typings';
+import { getTronContract } from 'utils';
 import Web3 from 'web3';
 
+import abiERC721 from 'appConstants/abiERC721.json';
+import abiERC1155 from 'appConstants/abiERC1155.json';
 import {
   connectWallet as connectWalletConfig,
   contracts,
@@ -10,13 +13,22 @@ import {
   exchangeAddrs,
 } from '../../config';
 
+const MS_RETRY_TRON = 2000;
+const trxFeeLimit = 100000000;
+
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 export class WalletConnect {
   public connectWallet: ConnectWallet;
+  
+  public tronWeb: any;
 
   public walletAddress = '';
 
   constructor() {
     this.connectWallet = new ConnectWallet();
+    this.tronWeb = null;
+    this.connectTronWeb();
   }
 
   public async initWalletConnect(
@@ -48,8 +60,24 @@ export class WalletConnect {
   public Web3(): Web3 {
     return this.connectWallet.currentWeb3();
   }
+  
+  async connectTronWeb() {
+    try {
+      if (!window.tronWeb?.defaultAddress?.base58) {
+        await delay(MS_RETRY_TRON);
+      }
+      this.tronWeb = window.tronWeb;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   public async getTokenBalance(contractAbi: string) {
+    if (contractAbi === 'WTRX') {
+      const { address } = contracts.params[contractAbi][is_production ? 'mainnet' : 'testnet'];
+      const contract = await getTronContract(address);
+      return contract.balanceOf(this.walletAddress).call();
+    }
     const contract = this.connectWallet.getContract({
       address: contracts.params[contractAbi][is_production ? 'mainnet' : 'testnet'].address,
       abi: contracts.params[contractAbi][is_production ? 'mainnet' : 'testnet'].abi,
@@ -60,6 +88,26 @@ export class WalletConnect {
 
   public setAccountAddress(address: string) {
     this.walletAddress = address;
+  }
+  
+  async checkNftTrxTokenAllowance(tokenAddress: string, userAddress: string) {
+    const data = {
+      contractAddress: tokenAddress,
+      feeLimit: trxFeeLimit,
+      function: 'isApprovedForAll(address,address)',
+      options: {},
+      parameter: [
+        { type: 'address', value: userAddress },
+        {
+          type: 'address',
+          value: contracts.params.EXCHANGE[is_production ? 'mainnet' : 'testnet'].address,
+        },
+      ],
+    };
+
+    const result = await this.trxCreateTransaction(data, userAddress);
+
+    return result.result;
   }
 
   async checkNftTokenAllowance(tokenAddress: string) {
@@ -139,6 +187,46 @@ export class WalletConnect {
     });
   }
 
+  async trxCreateTransaction(data: any, address: string) {
+    const { transaction } = await this.tronWeb.transactionBuilder.triggerSmartContract(
+      data.contractAddress,
+      data.function,
+      data.options,
+      data.parameter,
+      address,
+    );
+    console.log('transaction', transaction);
+
+    const isTransferOrBurn =
+      data.function.toLowerCase().includes('transfer') || data.function.includes('burn');
+
+    if (isTransferOrBurn) {
+      const abiSelecteor = data.is1155 ? abiERC1155 : abiERC721;
+      const methodName = data.function.replace(/\(.*/, '');
+      const params = data.parameter.map((param: any) => param.value);
+      const contract = await this.tronWeb.contract(abiSelecteor, data.contractAddress);
+      const result = await contract[methodName](...params).send({
+        from: address,
+      });
+
+      return { result };
+    }
+
+    return this.trxSendTransaction(transaction);
+  }
+
+  async trxSendTransaction(transaction: any) {
+    let receipt;
+    try {
+      const signedMsg = await this.tronWeb.trx.sign(transaction);
+      receipt = await window.tronWeb.trx.sendRawTransaction(signedMsg);
+    } catch (err: any) {
+      console.log(err);
+    }
+
+    return receipt;
+  }
+  
   async totalSupply(tokenAddress: string, abi: Array<any>, tokenDecimals: number) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

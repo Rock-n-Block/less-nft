@@ -126,7 +126,7 @@ const HeaderLinks: FC<IHeaderLinksProps> = observer(({ className, toggleMenu }) 
           return (
             <Popover position="center" key={title}>
               <Popover.Button className={`${styles.linkBtn} ${active && styles.active}`}>
-                <Text className={styles.linkTitle} size="m" color={active ? 'purple' : 'black'}>
+                <Text className={styles.linkTitle} size="m" color={active ? 'primary' : 'black'}>
                   {title}
                 </Text>
               </Popover.Button>
@@ -149,7 +149,7 @@ const HeaderLinks: FC<IHeaderLinksProps> = observer(({ className, toggleMenu }) 
               onClick={() => handleMenuItemClick(url)}
               className={`${styles.linkBtn} ${active && styles.active}`}
             >
-              <Text weight="medium" size="m" color={active ? 'purple' : 'black'}>
+              <Text weight="medium" size="m" color={active ? 'primary' : 'black'}>
                 {title}
               </Text>
             </Button>
