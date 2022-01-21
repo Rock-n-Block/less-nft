@@ -101,7 +101,7 @@ export const useFetchNft = (
     if (!isDebounce) {
       newFetchSearch(props);
       if (isIntervalUpdate && !interval) {
-        interval = setInterval(() => newFetchSearch(props), 1000);
+        interval = setInterval(() => newFetchSearch(props), 60000);
       }
     } else {
       newDebouncedFetch(props);
