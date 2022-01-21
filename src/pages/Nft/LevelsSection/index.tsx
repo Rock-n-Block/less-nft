@@ -22,8 +22,8 @@ const LevelsSection: VFC<IProps> = ({ levels }) => {
       title="Rankings"
     >
       {levels.map((stat) => (
-        <div className={s.level}>
-          <div key={`${stat.value}-${stat.trait_type}-${stat.max_value}`} className={s.stat}>
+        <div key={`${stat.value}-${stat.trait_type}-${stat.max_value}`} className={s.level}>
+          <div className={s.stat}>
             <Text tag="span" size="m" className={s.value}>
               {stat.trait_type}
             </Text>

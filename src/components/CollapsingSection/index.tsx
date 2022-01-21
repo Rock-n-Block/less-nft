@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
-import { Button, Text } from 'components';
+import { Text } from 'components';
 
 import s from './CollapsingSection.module.scss';
 
