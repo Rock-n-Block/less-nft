@@ -103,7 +103,7 @@ export default {
         page,
         creator,
         tags,
-        has_bids,
+        ...(has_bids && {has_bids}),
         bids_by,
         collections,
         min_price,
