@@ -52,7 +52,7 @@ const PaymentComponent: FC<Props> = observer(
         if (nft.is_selling) {
           return nft.price;
         }
-        if (nft.is_auc_selling && nft.highest_bid) {
+        if ((nft.is_auc_selling || nft.is_timed_auc_selling) && nft.highest_bid) {
           return new BigNumber(nft.highest_bid.amount).toFixed();
         }
       }
@@ -64,7 +64,7 @@ const PaymentComponent: FC<Props> = observer(
         if (nft.is_selling) {
           return 'sell';
         }
-        if (nft.is_auc_selling) {
+        if (nft.is_auc_selling || nft.is_timed_auc_selling) {
           return 'auction';
         }
       }
@@ -98,7 +98,9 @@ const PaymentComponent: FC<Props> = observer(
         setApproving(true);
         walletService
           .approveToken(nft.currency.symbol.toUpperCase(), 18, ExchangeAddress)
-          .then(() => {
+          .then((res) => {
+            console.log(res);
+            debugger;
             setApproved(true);
           })
           .catch((err: any) => {
@@ -117,7 +119,7 @@ const PaymentComponent: FC<Props> = observer(
         price: nft?.price,
         currency: nft?.currency?.symbol || '',
         tokenAvailable: nft?.available,
-        aucTokenAvailable: nft?.auction_amount || 0,
+        aucTokenAvailable: nft?.auction_amount || Number(nft?.is_timed_auc_selling) || 0,
         sellers: nft?.sellers.filter((seller) => seller.id !== user.id),
         media: nft?.media,
         minimalBid:
@@ -256,7 +258,9 @@ const PaymentComponent: FC<Props> = observer(
 
           {user.address ? (
             <div className={styles.sellBtnsWrapper}>
-              {!isApproved && isUserCanApprove && (nft?.is_selling || nft?.is_auc_selling) ? (
+              {!isApproved &&
+              isUserCanApprove &&
+              (nft?.is_selling || nft?.is_auc_selling || nft?.is_timed_auc_selling) ? (
                 <Button
                   padding="custom"
                   loading={isApproving}

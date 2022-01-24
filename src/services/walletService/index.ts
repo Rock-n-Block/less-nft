@@ -181,7 +181,8 @@ export class WalletConnect {
         result === '0'
           ? null
           : +new BigNumber(result).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
-      if (result && new BigNumber(result).minus(totalSupply).isPositive()) {
+      // if (result && new BigNumber(result).minus(totalSupply).isPositive()) {
+      if (result) {
         return true;
       }
       return false;
