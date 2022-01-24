@@ -102,7 +102,6 @@ export default observer(({ isSingle, onClose }: any) => {
           }
         })
         .catch(({ response }) => {
-          console.log(response);
           if (response && response.data && response.data.name) {
             toast.error(response.data.name);
           } else {

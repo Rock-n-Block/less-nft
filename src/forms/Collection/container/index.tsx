@@ -9,8 +9,11 @@ import * as Yup from 'yup';
 
 import CreateCollectionForm, { ICreateCollectionForm } from '../component';
 import { routes } from 'appConstants';
+import { chainsEnum } from 'typings';
+import { useMst } from 'store';
 
 export default observer(({ isSingle }: any) => {
+  const { user } = useMst();
   const history = useHistory();
   const walletConnector = useWalletConnectorContext();
   const props: ICreateCollectionForm = {
@@ -69,26 +72,50 @@ export default observer(({ isSingle }: any) => {
       storeApi
         .createCollection(formData)
         .then(({ data }) => {
-          walletConnector.walletService
-            .sendTransaction(data.initial_tx)
-            .on('transactionHash', (txHash: string) => {
-              toast.info(<ToastContentWithTxHash txHash={txHash} />);
-              history.push(`${isSingle ? routes.create.single : routes.create.multiple}`);
-            })
-            .then(() => {
-              toast.success('Collection Created');
-            })
-            .catch(({ response }: any) => {
-              if (response && response.data && response.data.name) {
-                toast.error(response.data.name);
-              } else {
-                toast.error('Create Collection failed');
-              }
-              storeApi.rejectTransaction({ type: 'collection', id: data.token.id });
-            })
-            .finally(() => {
-              setFieldValue('isLoading', false);
-            });
+          if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+            walletConnector.walletService
+              .trxCreateTransaction(data.initial_tx, user.address)
+              .then((res: any) => {
+                if (res.result) {
+                  toast.success('Collection Created');
+                  toast.info(<ToastContentWithTxHash txHash={res.transaction.txID} />);
+                  history.push(`${isSingle ? routes.create.single : routes.create.multiple}`);
+                }
+              })
+              .catch(({ response }) => {
+                if (response && response.data && response.data.name) {
+                  toast.error(response.data.name);
+                } else {
+                  toast.error('Create Collection failed');
+                }
+                storeApi.rejectTransaction({ type: 'collection', id: data.collection.id });
+                console.error('Wallet Create collection failure', response);
+              })
+              .finally(() => {
+                setFieldValue('isLoading', false);
+              });
+          } else {
+            walletConnector.walletService
+              .sendTransaction(data.initial_tx)
+              .on('transactionHash', (txHash: string) => {
+                toast.info(<ToastContentWithTxHash txHash={txHash} />);
+                history.push(`${isSingle ? routes.create.single : routes.create.multiple}`);
+              })
+              .then(() => {
+                toast.success('Collection Created');
+              })
+              .catch(({ response }: any) => {
+                if (response && response.data && response.data.name) {
+                  toast.error(response.data.name);
+                } else {
+                  toast.error('Create Collection failed');
+                }
+                storeApi.rejectTransaction({ type: 'collection', id: data.token.id });
+              })
+              .finally(() => {
+                setFieldValue('isLoading', false);
+              });
+          }
         })
         .catch(({ response }) => {
           if (response.data && response.data.name) {
