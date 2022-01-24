@@ -1,5 +1,5 @@
 import { FC, useCallback, useRef, useState } from 'react';
-import { Close, IconLock,Zoom } from 'assets/img';
+import { Close, IconLock, Zoom } from 'assets/img';
 import cx from 'classnames';
 import { EllipsisText, H2, Skeleton, Text } from 'components';
 import { useGetUserAccessForNft, useNoScroll } from 'hooks';

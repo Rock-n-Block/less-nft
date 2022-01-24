@@ -38,7 +38,6 @@
 }
 
 .priceAndGrowth {
-  @include flexbox();
   margin: 5px 0;
   & > * {
     &:first-child {
