@@ -1,6 +1,6 @@
 import { useMemo, useState, VFC } from 'react';
 
-import { CollapsingSection, TradingHistory } from 'components';
+import { CollapsingSection, TradingHistory, Text } from 'components';
 
 import { IconTradingHistory } from 'assets/img';
 import { ICurrency, IHistoryItem } from 'typings';
@@ -28,7 +28,11 @@ const TradingHistorySection: VFC<IProps> = ({ history, currency }) => {
       icon={IconTradingHistory}
       title="Trading History"
     >
-      <TradingHistory columns={TradingTableHeader} tableData={history} currency={currency} />
+      {history.length > 0 ? (
+        <TradingHistory columns={TradingTableHeader} tableData={history} currency={currency} />
+      ) : (
+        <Text>No trading history</Text>
+      )}
     </CollapsingSection>
   );
 };
