@@ -65,7 +65,7 @@
 
     &.active {
       opacity: 1;
-      .mediaContent{
+      .mediaContent {
         border-radius: 0;
       }
     }
@@ -159,8 +159,8 @@
   padding-bottom: 24px;
 }
 
-.payment{
-  @include flexbox(center,space-between)
+.payment {
+  @include flexbox(flex-end, space-between);
 }
 
 @include forDesktopBig() {
@@ -177,7 +177,7 @@
       width: 100%;
     }
 
-    .overlay{
+    .overlay {
       border-radius: $border-radius $border-radius 0 0 !important;
     }
   }
