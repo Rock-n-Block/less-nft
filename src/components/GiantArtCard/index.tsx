@@ -43,8 +43,6 @@ const GiantCard: FC<Props> = ({ isFetching, className, nft, onUpdateNft }) => {
     isUserCanSeeUnlockableContent,
   } = useGetUserAccessForNft(nft, user.id, user.address);
 
-  console.log(isUserCanEnterInAuction);
-
   const togglePreview = useCallback(
     (state: boolean) => {
       setScroll(state);

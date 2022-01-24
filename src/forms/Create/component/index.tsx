@@ -720,7 +720,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                 </div> */}
               </div>
             </div>
-            {values.sellMethod === 'openForBids' && (
+            {values.sellMethod === 'openForBids' && values.isSingle &&(
               <div className={cn(styles.item, styles.itemAuc)}>
                 <H6 className={styles.fieldsetTitle}>
                   Make timed auction

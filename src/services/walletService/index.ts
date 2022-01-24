@@ -171,11 +171,11 @@ export class WalletConnect {
         )
         .call();
 
-      const totalSupply = await this.totalSupply(
-        contracts.params[contractName][is_production ? 'mainnet' : 'testnet'].address,
-        contracts.params[contractName][is_production ? 'mainnet' : 'testnet'].abi,
-        tokenDecimals,
-      );
+      // const totalSupply = await this.totalSupply(
+      //   contracts.params[contractName][is_production ? 'mainnet' : 'testnet'].address,
+      //   contracts.params[contractName][is_production ? 'mainnet' : 'testnet'].abi,
+      //   tokenDecimals,
+      // );
 
       result =
         result === '0'

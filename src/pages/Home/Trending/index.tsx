@@ -94,7 +94,7 @@ const Trending: FC<Props> = observer(({ className }) => {
                 <Link
                   key={collection.id}
                   to={routes.collection.link(collection.id)}
-                  className={styles.drop}
+                  className={cx(styles.drop, styles.dropDouble)}
                 >
                   <TrandingItem
                     avatar={collection.avatar}
