@@ -34,12 +34,22 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
     ) {
       return false;
     }
+    if (
+      nft?.network.name === chainsEnum.Tron &&
+      localStorage.nftcrowd_nft_chainName === chainsEnum.Tron
+    ) {
+      return false;
+    }
     return true;
   }, [nft, userAddress]);
 
   const isUserCanRemoveFromSale = React.useMemo(() => {
     if (userId && nft && !isWrongChain) {
-      if (nft.standart === 'ERC721' && (nft.is_selling || nft.is_auc_selling) && isOwner) {
+      if (
+        nft.standart === 'ERC721' &&
+        (nft.is_selling || nft.is_auc_selling || nft.is_timed_auc_selling) &&
+        isOwner
+      ) {
         return true;
       }
       if (
@@ -83,7 +93,7 @@ export default (nft: TNullable<INft>, userId: string | number, userAddress: stri
       userId &&
       nft &&
       !isWrongChain &&
-      (nft.is_auc_selling || nft.is_timed_auc_selling) &&
+      (nft.is_auc_selling || nft?.is_timed_auc_selling) &&
       nft.available !== 0
     ) {
       if (nft.standart === 'ERC721' && !isOwner) {

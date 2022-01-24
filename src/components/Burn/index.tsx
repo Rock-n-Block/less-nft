@@ -9,6 +9,7 @@ import { useWalletConnectorContext } from 'services/walletConnect';
 import { useMst } from 'store';
 
 import styles from './Burn.module.scss';
+import { chainsEnum } from 'typings';
 
 interface IBurnProps {
   className?: string;
@@ -16,6 +17,7 @@ interface IBurnProps {
 
 const Burn: React.FC<IBurnProps> = ({ className }) => {
   const {
+    user,
     modals: { burn },
   } = useMst();
   const history = useHistory();
@@ -27,21 +29,36 @@ const Burn: React.FC<IBurnProps> = ({ className }) => {
     storeApi
       .burnToken(burn.tokenId.toString() || '', amount)
       .then(({ data }: any) => {
-        walletConnector.walletService
-          .sendTransaction(data.initial_tx)
-          .then(() => {
-            burn.success();
-            burn.close();
-            toast.success('Token Burned');
-            history.push('/');
-          })
-          .finally(() => setIsLoading(false));
+        if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+          walletConnector.walletService
+            .trxCreateTransaction(data.initial_tx, user.address)
+            .then((res: any) => {
+              if (res) {
+                burn.success();
+                burn.close();
+                toast.success('Token Burned');
+                history.push('/');
+              } else {
+                toast.error('Something went wrong');
+              }
+            });
+        } else {
+          walletConnector.walletService
+            .sendTransaction(data.initial_tx)
+            .then(() => {
+              burn.success();
+              burn.close();
+              toast.success('Token Burned');
+              history.push('/');
+            })
+            .finally(() => setIsLoading(false));
+        }
       })
       .catch(() => {
         toast.error('Bid modal sendTranscation');
         setIsLoading(false);
       });
-  }, [burn, amount, walletConnector.walletService, history]);
+  }, [burn, amount, walletConnector.walletService, user.address, history]);
 
   return (
     <div className={cn(className, styles.transfer)}>

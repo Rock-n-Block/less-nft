@@ -1,7 +1,7 @@
 import { ConnectWallet } from '@amfi/connect-wallet';
 import BigNumber from 'bignumber.js/bignumber';
 import { chainsEnum } from 'typings';
-import { getTronContract } from 'utils';
+import { getTokenAmount, getTokenAmountDisplay, getTronContract } from 'utils';
 import Web3 from 'web3';
 
 import abiERC721 from 'appConstants/abiERC721.json';
@@ -20,7 +20,7 @@ const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export class WalletConnect {
   public connectWallet: ConnectWallet;
-  
+
   public tronWeb: any;
 
   public walletAddress = '';
@@ -60,7 +60,7 @@ export class WalletConnect {
   public Web3(): Web3 {
     return this.connectWallet.currentWeb3();
   }
-  
+
   async connectTronWeb() {
     try {
       if (!window.tronWeb?.defaultAddress?.base58) {
@@ -89,7 +89,7 @@ export class WalletConnect {
   public setAccountAddress(address: string) {
     this.walletAddress = address;
   }
-  
+
   async checkNftTrxTokenAllowance(tokenAddress: string, userAddress: string) {
     const data = {
       contractAddress: tokenAddress,
@@ -226,7 +226,7 @@ export class WalletConnect {
 
     return receipt;
   }
-  
+
   async totalSupply(tokenAddress: string, abi: Array<any>, tokenDecimals: number) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -278,6 +278,32 @@ export class WalletConnect {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  async trxTotalSupply(contract: any) {
+    const { _hex } = await contract.totalSupply().call();
+    const totalSupply = new BigNumber(_hex).toString();
+    return +getTokenAmountDisplay(totalSupply, 6);
+  }
+
+  async trxCheckAllowance(contractName: string, approvedAddress: string, walletAddress: string) {
+    try {
+      const contract = await this.tronWeb.contract().at(WalletConnect.getAddress(contractName));
+
+      const { _hex } = await contract.allowance(walletAddress, approvedAddress).call();
+      let result: number | string | null = new BigNumber(_hex).toString();
+      const totalSupply = await this.trxTotalSupply(contract);
+
+      result = result === '0' ? null : +getTokenAmount(result, 6);
+      if (result && new BigNumber(result).minus(totalSupply).isPositive()) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.log('Allowance error', error);
+      return false;
+    }
+  }
+
   async approveToken(
     contractName: string,
     tokenDecimals: number,
@@ -301,6 +327,20 @@ export class WalletConnect {
         data: approveSignature,
       });
     } catch (error) {
+      return error;
+    }
+  }
+
+  async trxApproveToken(contractName: string, approvedAddress: string) {
+    try {
+      const contract = await this.tronWeb.contract().at(WalletConnect.getAddress(contractName));
+
+      const amount = WalletConnect.calcTransactionAmount(90071992000.5474099, 6);
+      const res = await contract.approve(approvedAddress, amount).send({ feeLimit: trxFeeLimit });
+      console.log('res', res);
+      return true;
+    } catch (error) {
+      console.log('Approve error', error);
       return error;
     }
   }

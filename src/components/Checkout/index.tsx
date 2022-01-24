@@ -10,6 +10,7 @@ import { useWalletConnectorContext } from '../../services/walletConnect';
 import { useMst } from '../../store';
 
 import styles from './Checkout.module.scss';
+import { chainsEnum } from 'typings';
 
 const Checkout: React.FC = observer(() => {
   const {
@@ -45,37 +46,66 @@ const Checkout: React.FC = observer(() => {
           sell.nft.standart === 'ERC721' ? '' : sell.nft.sellerId,
         )
         .then(({ data }) => {
-          walletService
-            .sendTransaction(data.initial_tx)
-            .then((res: any) => {
-              toast.success('Successful purchase of nft');
-              storeApi
-                .trackTransaction(
-                  res.transactionHash,
-                  sell.nft.tokenId,
-                  sell.nft.sellerId,
-                  sell.nft.standart === 'ERC721' ? 0 : +amount,
-                )
-                .then(() => {
-                  setTimeout(() => {
-                    sell.checkout.success();
-                    sell.checkout.close();
-                  }, 1000);
+          if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+            walletService
+              .trxCreateTransaction(data.initial_tx, user.address)
+              .then((res: any) => {
+                console.log('data', data);
+                if (res) {
+                  toast.success('success');
+                  storeApi
+                    .trackTransaction(
+                      res.transactionHash,
+                      sell.nft.tokenId,
+                      sell.nft.sellerId,
+                      sell.nft.standart === 'ERC721' ? 0 : +amount,
+                    )
+                    .then(() => {
+                      setTimeout(() => {
+                        sell.checkout.success();
+                        sell.checkout.close();
+                      }, 1000);
+                    });
+                } else {
+                  toast.error('Something went wrong');
+                }
+              })
+              .catch((error: any) => {
+                toast.error({
+                  message: 'Error',
+                  description: 'Something went wrong',
                 });
-            })
-            .catch((error: any) => {
-              toast.error({
-                message: 'Error',
-                description: 'Something went wrong',
-              });
-              console.error(error);
-              storeApi.rejectTransaction({
-                id: sell.nft.tokenId,
-                type: 'token',
-                owner: sell.nft.sellerId,
-              });
-            })
-            .finally(() => setIsLoading(false));
+                console.error(error);
+              })
+              .finally(() => setIsLoading(false));
+          } else {
+            walletService
+              .sendTransaction(data.initial_tx)
+              .then((res: any) => {
+                toast.success('success');
+                storeApi
+                  .trackTransaction(
+                    res.transactionHash,
+                    sell.nft.tokenId,
+                    sell.nft.sellerId,
+                    sell.nft.standart === 'ERC721' ? 0 : +amount,
+                  )
+                  .then(() => {
+                    setTimeout(() => {
+                      sell.checkout.success();
+                      sell.checkout.close();
+                    }, 1000);
+                  });
+              })
+              .catch((error: any) => {
+                toast.error({
+                  message: 'Error',
+                  description: 'Something went wrong',
+                });
+                console.error(error);
+              })
+              .finally(() => setIsLoading(false));
+          }
         })
         .catch((error: any) => {
           toast.error({
@@ -86,7 +116,16 @@ const Checkout: React.FC = observer(() => {
           setIsLoading(false);
         });
     }
-  }, [walletService, quantity, user.id, sell]);
+  }, [
+    user.id,
+    user.address,
+    quantity,
+    sell.nft.tokenId,
+    sell.nft.standart,
+    sell.nft.sellerId,
+    sell.checkout,
+    walletService,
+  ]);
 
   const userWillPay = React.useMemo(() => {
     return new BigNumber(price || 0)

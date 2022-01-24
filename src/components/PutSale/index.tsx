@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js/bignumber';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { observer } from 'mobx-react-lite';
 
 import { Button, Switch, TextInput, Text, Dropdown, H6, RequiredMark } from 'components';
-import { storeApi, useWalletConnectorContext } from 'services';
+import { ratesApi, storeApi, useWalletConnectorContext } from 'services';
 import { useMst } from 'store';
 import { chainsEnum } from 'typings';
 import { useUserBalance } from 'hooks';
@@ -19,11 +19,11 @@ interface IPutSaleProps {
   className?: string;
 }
 
-// interface IRate {
-//   rate: string;
-//   symbol: string;
-//   image: string;
-// }
+interface IRate {
+  rate: string;
+  symbol: string;
+  image: string;
+}
 
 const startAuctionOptions = ['Right after listing', 'After 1 hour', 'After 6 hours'];
 const endAuctionOptions = ['1 Day', '3 Days', '1 Week'];
@@ -35,58 +35,84 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
     user,
     modals: { sell },
   } = useMst();
-  const currency =  sell.nft.currency|| 'less'
   const [price, setPrice] = useState(
-    currency.toUpperCase() === 'BNB' ||
-      currency.toUpperCase() === 'ETH' ||
-      currency.toUpperCase() === 'MATIC' ||
-      currency.toUpperCase() === 'TRX',
+    sell.nft.currency.toUpperCase() === 'BNB' ||
+      sell.nft.currency.toUpperCase() === 'ETH' ||
+      sell.nft.currency.toUpperCase() === 'MATIC' ||
+      sell.nft.currency.toUpperCase() === 'TRX',
   );
   const [priceValue, setPriceValue] = useState('');
-  // const [currency, setCurrency] = useState('');
+  const [currency, setCurrency] = useState('');
   const [startAuction, setStartAuction] = useState(startAuctionOptions[0]);
   const [endAuction, setEndAuction] = useState(endAuctionOptions[0]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTimedAuction, setIsTimedAuction] = useState(false);
-  // const [rates, setRates] = useState<IRate[]>([]);
+  const [rates, setRates] = useState<IRate[]>([]);
   const balance = useUserBalance(user.address, currency);
 
-  // const fetchRates = useCallback(() => {
-  //   ratesApi.getRates().then(({ data }: any) => {
-  //     setRates(data);
-  //     setCurrency(data[0]?.symbol);
-  //   });
-  // }, []);
+  const fetchRates = useCallback(() => {
+    ratesApi.getRates().then(({ data }: any) => {
+      setRates(data);
+      setCurrency(data[0]?.symbol);
+    });
+  }, []);
 
-  // const currencyOptions = useMemo(() => {
-  //   return !price
-  //     ? [...rates.map((rate: any) => rate.symbol)].filter(
-  //         (rateSymbol) => !['bnb', 'eth', 'matic'].includes(rateSymbol),
-  //       )
-  //     : rates.map((rate) => rate.symbol);
-  // }, [rates, price]);
+  const currencyOptions = useMemo(() => {
+    return !price
+      ? [...rates.map((rate: any) => rate.symbol)].filter(
+          (rateSymbol) => !['bnb', 'eth', 'matic'].includes(rateSymbol),
+        )
+      : rates.map((rate) => rate.symbol);
+  }, [rates, price]);
 
   const handleCheckApproveNft = useCallback(async () => {
     try {
-      const result = await walletService.checkNftTokenAllowance(sell.nft.collection.address);
+      let result;
+      if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+        result = await walletService.checkNftTrxTokenAllowance(
+          sell.nft.collection.address,
+          user.address,
+        );
+      } else {
+        result = await walletService.checkNftTokenAllowance(sell.nft.collection.address);
+      }
       return result;
     } catch (err) {
       console.error(err);
       return false;
     }
-  }, [sell.nft.collection.address, walletService]);
+  }, [sell.nft.collection.address, user.address, walletService]);
 
   const handleApproveNft = useCallback(async () => {
     try {
       const isAppr = await handleCheckApproveNft();
       if (!isAppr) {
-        await walletService.createTransaction(
-          'setApprovalForAll',
-          [ExchangeAddress, true],
-          'NFT',
-          false,
-          sell.nft.collection.address,
-        );
+        if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+          await walletService.trxCreateTransaction(
+            {
+              contractAddress: sell.nft.collection.address,
+              feeLimit: 100000000,
+              function: 'setApprovalForAll(address,bool)',
+              options: {},
+              parameter: [
+                {
+                  type: 'address',
+                  value: ExchangeAddress,
+                },
+                { type: 'bool', value: true },
+              ],
+            },
+            user.address,
+          );
+        } else {
+          await walletService.createTransaction(
+            'setApprovalForAll',
+            [ExchangeAddress, true],
+            'NFT',
+            false,
+            sell.nft.collection.address,
+          );
+        } 
       }
     } catch (err) {
       throw Error;
@@ -150,9 +176,9 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
     sell.putOnSale.close();
   }, [sell.putOnSale]);
 
-  // useEffect(() => {
-  //   fetchRates();
-  // }, [fetchRates]);
+  useEffect(() => {
+    fetchRates();
+  }, [fetchRates]);
 
   return (
     <div className={cn(className, styles.sale)}>
@@ -179,17 +205,17 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
             placeholder={price ? 'Enter instant sale price' : 'Enter bid'}
             value={priceValue}
             onChange={(e) => setPriceValue(e.target.value)}
-            // prefix={
-            //   <Dropdown
-            //     value={currency}
-            //     setValue={setCurrency}
-            //     options={currencyOptions}
-            //     className={styles.dropdown}
-            //     headClassName={styles.head}
-            //     bodyClassName={styles.body}
-            //   />
-            // }
-            // prefixClassName={styles.prefix}
+            prefix={
+              <Dropdown
+                value={currency}
+                setValue={setCurrency}
+                options={currencyOptions}
+                className={styles.dropdown}
+                headClassName={styles.head}
+                bodyClassName={styles.body}
+              />
+            }
+            prefixClassName={styles.prefix}
             positiveOnly
           />
           {/* <div className={styles.col}>{currency.toUpperCase()}</div> */}

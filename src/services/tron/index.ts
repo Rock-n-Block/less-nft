@@ -36,7 +36,7 @@ export async function getTronBalance(address: string) {
 
 async function setConnect() {
   if (window.tronWeb) {
-    const address = window.tronWeb.defaultAddress?.base58 || '';
+    const address = await window.tronWeb.defaultAddress?.base58 || '';
 
     const payload: TronState = {
       address,

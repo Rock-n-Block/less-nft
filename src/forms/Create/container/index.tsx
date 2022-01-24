@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import CreateForm, { ICreateForm } from '../component';
 import { routes } from 'appConstants';
 import { dateFormatter } from 'utils/dateFormatter';
+import { chainsEnum } from 'typings';
 
 export default observer(({ isSingle }: any) => {
   const history = useHistory();
@@ -121,29 +122,49 @@ export default observer(({ isSingle }: any) => {
       storeApi
         .createToken(formData)
         .then(({ data }) => {
-          walletConnector.walletService
-            .sendTransaction(data.initial_tx)
-            .on('transactionHash', (txHash: string) => {
-              toast.info(<ToastContentWithTxHash txHash={txHash} />);
-              history.push(`${routes.profile.link(user.id)}?tab=created`);
-            })
-            .then(() => {
-              toast.success('Token Created');
-            })
-            .catch(({ response }: any) => {
-              if (response && response.data && response.data.name) {
-                toast.error(response.data.name);
-              } else {
-                toast.error('Create Token failed');
-              }
-              storeApi.rejectTransaction({ type: 'token', id: data.token.id });
-            })
-            .finally(() => {
-              setFieldValue('isLoading', false);
-            });
+          if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+            walletConnector.walletService
+              .trxCreateTransaction(data.initial_tx, user.address)
+              .then((res: any) => {
+                if (res.result) {
+                  toast.success('Token Created');
+                  toast.info(<ToastContentWithTxHash txHash={res.transaction.txID} />);
+                  history.push(`${routes.profile.link(user.id)}?tab=owned`);
+                }
+              })
+              .catch((response: any) => {
+                if (response && response.data && response.data.name) {
+                  toast.error(response.data.name);
+                } else {
+                  toast.error('Create Token failed');
+                }
+                storeApi.rejectTransaction({ type: 'token', id: data.token.id });
+              });
+          } else {
+            walletConnector.walletService
+              .sendTransaction(data.initial_tx)
+              .on('transactionHash', (txHash: string) => {
+                toast.info(<ToastContentWithTxHash txHash={txHash} />);
+                history.push(`${routes.profile.link(user.id)}?tab=created`);
+              })
+              .then(() => {
+                toast.success('Token Created');
+              })
+              .catch(({ response }: any) => {
+                if (response && response.data && response.data.name) {
+                  toast.error(response.data.name);
+                } else {
+                  toast.error('Create Token failed');
+                }
+                storeApi.rejectTransaction({ type: 'token', id: data.token.id });
+              })
+              .finally(() => {
+                setFieldValue('isLoading', false);
+              });
+          }
         })
-        .catch(({ response }) => {
-          if (response.data && response.data.name) {
+        .catch(({ response }: any) => {
+          if (response && response.data && response.data.name) {
             toast.error(response.data.name);
           } else {
             toast.error('Create Token failed');
