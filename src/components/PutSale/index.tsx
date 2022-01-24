@@ -29,7 +29,7 @@ const startAuctionOptions = ['Right after listing', 'After 1 hour', 'After 6 hou
 const endAuctionOptions = ['1 Day', '3 Days', '1 Week'];
 
 const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
-  const ExchangeAddress = exchangeAddrs[localStorage.lessnft_nft_chainName as chainsEnum];
+  const ExchangeAddress = exchangeAddrs[localStorage.nftcrowd_nft_chainName as chainsEnum];
   const { walletService } = useWalletConnectorContext();
   const {
     user,

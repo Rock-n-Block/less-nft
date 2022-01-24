@@ -229,7 +229,7 @@ const CreateCollectionForm: FC<FormikProps<ICreateCollectionForm> & ICreateColle
                         label="URL"
                         subtitle={
                           <>
-                            Customize your URL on Less-Nft. Must only contain lowercase
+                            Customize your URL on Nftcrowd. Must only contain lowercase
                             letters,numbers, and hyphens.
                           </>
                         }

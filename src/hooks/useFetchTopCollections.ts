@@ -3,7 +3,7 @@ import { activityApi } from 'services';
 
 export const useFetchTopCollections = (
   period: any,
-  network = localStorage.lessnft_nft_chainName,
+  network = localStorage.nftcrowd_nft_chainName,
   tags = '',
   page = 1,
   items_per_page= 15

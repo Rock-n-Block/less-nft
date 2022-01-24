@@ -98,7 +98,7 @@ const ProfilePage: FC = observer(() => {
       isOnlyForOwnerOrCreator: true,
       is_verified: 'All',
       has_bids: activeTab === 'received',
-      network: localStorage.getItem('lessnft_nft_chainName') || undefined,
+      network: localStorage.getItem('nftcrowd_nft_chainName') || undefined,
     },
     false,
     true,

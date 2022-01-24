@@ -101,7 +101,7 @@ const Profile: FC<FormikProps<IProfile>> = observer(
                       onBlur={(e: SyntheticEvent) => handleBlur(e)}
                       type="text"
                       placeholder="Your custom URL"
-                      prefix="lessnft.com/"
+                      prefix="nftcrowd.io/"
                     />
                   )}
                 />

@@ -190,7 +190,7 @@ const TopNfts: VFC = observer(() => {
           Top NFTs
         </H2>
         <Text className={styles.subtitle} color="lightGray">
-          The top NFTs on Less-Nft, ranked by volume, floor price and other statistics.
+          The top NFTs on Nftcrowd, ranked by volume, floor price and other statistics.
         </Text>
       </div>
       <div className={styles.content}>

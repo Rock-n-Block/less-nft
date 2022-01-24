@@ -18,6 +18,7 @@ import {
   wbnbTestnetAbi,
   wethTestnetAbi,
   wMaticTestnetAbi,
+  wTrx,
 } from './abi';
 
 export const is_production = false;
@@ -217,11 +218,11 @@ export const contracts: IContracts = {
     },
     EXCHANGE: {
       mainnet: {
-        address: exchangeAddrs[localStorage.lessnft_nft_chainName as chainsEnum],
+        address: exchangeAddrs[localStorage.nftcrowd_nft_chainName as chainsEnum],
         abi: [],
       },
       testnet: {
-        address: exchangeAddrs[localStorage.lessnft_nft_chainName as chainsEnum],
+        address: exchangeAddrs[localStorage.nftcrowd_nft_chainName as chainsEnum],
         abi: [],
       },
     },
@@ -243,6 +244,16 @@ export const contracts: IContracts = {
       testnet: {
         address: '0xCF1177e9f54eE20C6E80570D678462363d56C1E5',
         abi: wMaticTestnetAbi,
+      },
+    },
+    WTRX: {
+      mainnet: {
+        address: '41891cdb91d149f23b1a45d9c5ca78a88d0cb44c18',
+        abi: wTrx,
+      },
+      testnet: {
+        address: 'TLi1ygS2MEr926gyFUWYNxeBJ24yVGDZse',
+        abi: wTrx,
       },
     },
   },

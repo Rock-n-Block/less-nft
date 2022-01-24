@@ -20,7 +20,7 @@ let MAIN: string;
 let WRAP: 'WBNB' | 'WETH' | 'NFT' | 'BEP20' | 'WMATIC' | 'WTRX';
 
 const WalletBody: FC = observer(() => {
-  switch (localStorage.lessnft_nft_chainName) {
+  switch (localStorage.nftcrowd_nft_chainName) {
     case 'Binance-Smart-Chain':
       MAIN = 'BNB';
       WRAP = 'WBNB';
@@ -44,8 +44,8 @@ const WalletBody: FC = observer(() => {
   const { closePopover } = usePopover();
 
   const imageSrc =
-    chains[chains[chainsEnum[localStorage.lessnft_nft_chainName as chainsEnum]].name].provider[
-      localStorage.lessnft_nft_providerName
+    chains[chains[chainsEnum[localStorage.nftcrowd_nft_chainName as chainsEnum]].name].provider[
+      localStorage.nftcrowd_nft_providerName
     ].img;
   const balanceMain = useUserBalance(user.address, MAIN, swap.refresh, true);
   user.setBalance(balanceMain, 'eth');
@@ -68,7 +68,7 @@ const WalletBody: FC = observer(() => {
         <div className={styles.walletLogo}>
           <img src={imageSrc} alt="Wallet Logo" />
           <Text className={styles.provider} size="m">
-            {localStorage.lessnft_nft_providerName}
+            {localStorage.nftcrowd_nft_providerName}
           </Text>
         </div>
         <Text size="s" className={styles.balanceTitle}>
@@ -77,17 +77,17 @@ const WalletBody: FC = observer(() => {
         <div className={styles.balance}>
           <H6 className={styles.title}>
             <EllipsisText>
-              <Text tag="span">{toFixed(balanceMain, 5)} </Text>
+              <Text tag="span">{balanceMain ? toFixed(balanceMain, 5) : '0'}</Text>
             </EllipsisText>
-            <Text tag="span">{MAIN}</Text>
+            <Text tag="span"> {MAIN}</Text>
           </H6>
         </div>
         <div className={styles.balance}>
           <H6 className={styles.title}>
             <EllipsisText>
-              <Text tag="span">{toFixed(balanceWrap, 5)} </Text>
+              <Text tag="span">{balanceWrap ? toFixed(balanceWrap, 5) : '0'}</Text>
             </EllipsisText>
-            <Text tag="span">{WRAP}</Text>
+            <Text tag="span"> {WRAP}</Text>
           </H6>
         </div>
         <Button className={styles.button} color="outline" onClick={handleOpenModal}>

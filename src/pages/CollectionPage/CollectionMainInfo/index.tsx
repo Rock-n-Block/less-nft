@@ -154,7 +154,7 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
                 tag="p"
                 size="xxl"
               >
-                <img src={iconChange} alt="dollar" className={s.lessLogo} />
+                <img src={iconChange} alt="dollar" className={s.crowdLogo} />
                 {numberFormatter(Number(floor_price) || 0, 1)}
               </Text>
               <Text align="center" className={s.stat_title} color="lightGray" tag="p" size="s">
@@ -170,7 +170,7 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
                 tag="p"
                 size="xxl"
               >
-                <img src={iconChange} alt="dollar" className={s.lessLogo} />
+                <img src={iconChange} alt="dollar" className={s.crowdLogo} />
                 {numberFormatter(Number(volume_traded) || 0, 1)}
               </Text>
               <Text align="center" className={s.stat_title} color="lightGray" tag="p" size="s">

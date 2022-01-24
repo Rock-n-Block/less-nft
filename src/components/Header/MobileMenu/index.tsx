@@ -24,7 +24,7 @@ const MobileMenu: FC<Props> = ({ className, toggleMenu }) => {
       </div>
       <IconLinks className={styles.mobileMenuIconLinks} />
       <Text align="center" className={styles.bottomText} size="xs" color="lightGray">
-        Copyright © 2021 Lessnft LLC. All rights reserved
+        Copyright © 2021 Nftcrowd LLC. All rights reserved
       </Text>
     </div>
   );

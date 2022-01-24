@@ -4,15 +4,15 @@ import { is_production } from '../config';
 
 axios.defaults.baseURL = is_production
   ? 'https://nft.less.xyz/api/v1'
-  : 'https://lessnft2.rocknblock.io/api/v1';
+  : 'https://nftcrowd.rocknblock.io/api/v1';
 
 axios.interceptors.request.use(
   (config) => {
     config.headers.common = {
       ...config.headers.common,
       Authorization: `${
-        localStorage.getItem('lessnft_nft_token')
-          ? `Token ${localStorage.getItem('lessnft_nft_token')}`
+        localStorage.getItem('nftcrowd_nft_token')
+          ? `Token ${localStorage.getItem('nftcrowd_nft_token')}`
           : ''
       }`,
     };
