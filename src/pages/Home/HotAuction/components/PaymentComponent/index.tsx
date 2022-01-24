@@ -99,8 +99,6 @@ const PaymentComponent: FC<Props> = observer(
         walletService
           .approveToken(nft.currency.symbol.toUpperCase(), 18, ExchangeAddress)
           .then((res) => {
-            console.log(res);
-            debugger;
             setApproved(true);
           })
           .catch((err: any) => {
