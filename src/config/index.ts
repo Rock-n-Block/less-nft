@@ -258,3 +258,8 @@ export const contracts: IContracts = {
     },
   },
 };
+
+export const tronChainNode = {
+  chainUrl: is_production ? '?' : 'https://api.shasta.trongrid.io',
+  chainName: is_production ? 'Tron Mainnet' : 'Tron Shasta Testnet',
+};

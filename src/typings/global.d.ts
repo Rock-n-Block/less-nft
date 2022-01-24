@@ -1,5 +1,8 @@
 interface Window {
   tronWeb: {
+    fullNode: {
+      host: string;
+    };
     defaultAddress?: {
       base58: string;
       name: string;
@@ -30,7 +33,7 @@ interface Window {
       callback?: () => void,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => Promise<any[]>;
-    transactionBuilder: any
+    transactionBuilder: any;
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tronLinkInitialData: {

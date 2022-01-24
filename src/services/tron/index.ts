@@ -1,4 +1,6 @@
+import { toast } from 'react-toastify';
 import { routes, TronStatus } from 'appConstants';
+import { tronChainNode } from 'config';
 import { userApi } from 'services';
 import { rootStore } from 'store';
 import { TronState } from 'typings/tron';
@@ -36,7 +38,11 @@ export async function getTronBalance(address: string) {
 
 async function setConnect() {
   if (window.tronWeb) {
-    const address = await window.tronWeb.defaultAddress?.base58 || '';
+    const address = (await window.tronWeb.defaultAddress?.base58) || '';
+    if (window.tronWeb.fullNode.host !== tronChainNode.chainUrl) {
+      toast.error(`Please connect to ${tronChainNode.chainName}`);
+      return;
+    }
 
     const payload: TronState = {
       address,
@@ -81,6 +87,7 @@ export async function connectTron() {
       await delay(MS_RETRY_TRON);
     }
     await setConnect();
+
     history.push(routes.home.root);
   } catch (err) {
     console.error(err);
