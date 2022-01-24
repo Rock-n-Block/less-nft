@@ -148,11 +148,12 @@
 
 .artCardAuthor {
   margin-left: 8px;
+  margin-right: 8px;
 
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 200px;
+  max-width: 150px;
 }
 
 .artCardHeart {
