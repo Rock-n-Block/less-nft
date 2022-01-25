@@ -18,7 +18,7 @@ import {
   wMaticTestnetAbi,
 } from './abi';
 
-export const is_production = true;
+export const is_production = false;
 
 export const chains: {
   [key: string]: {
