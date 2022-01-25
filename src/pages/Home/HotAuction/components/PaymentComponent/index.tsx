@@ -280,7 +280,7 @@ const PaymentComponent: FC<Props> = observer(
 
           {user.address ? (
             <div className={styles.sellBtnsWrapper}>
-              {!isApproved && isUserCanApprove && (nft?.is_selling || nft?.is_auc_selling) ? (
+              {!isApproved && isUserCanApprove && (nft?.is_selling || nft?.is_auc_selling || nft?.is_timed_auc_selling) ? (
                 <Button
                   padding="custom"
                   loading={isApproving}

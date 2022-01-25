@@ -165,6 +165,11 @@ const ViewsAndControlsComponent: FC<Props> = ({
       <div className={cx(styles.viewsAndControls, className)}>
         <Text size="m" color="gray" className={styles.viewsData}>{`Views: ${nft?.views}`}</Text>
         {inStock ? <Text size="m" color="gray">{`In Stock: ${inStock}`}</Text> : null}
+        <Text size="m" color="gray" className={styles.network}>
+          Network:{' '}
+          <img alt="network" src={nft?.network.ipfs_icon} className={styles.networkImage} />{' '}
+          {`${nft?.network.name}`}{' '}
+        </Text>
         <div className={styles.controls}>
           <Button
             className={cx(styles.button, styles.likeButton, { [styles.likeButtonActive]: isLike })}
