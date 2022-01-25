@@ -163,7 +163,10 @@ const ViewsAndControlsComponent: FC<Props> = ({
   return (
     <>
       <div className={cx(styles.viewsAndControls, className)}>
-        <Text size="m" color="gray" className={styles.viewsData}>{`Views: ${nft?.views}`}</Text>
+        <Text size="m" color="gray" className={styles.viewsData}>{`Views: ${numberFormatter(
+          nft?.views || 0,
+          1000,
+        )}`}</Text>
         {inStock ? <Text size="m" color="gray">{`In Stock: ${inStock}`}</Text> : null}
         <Text size="m" color="gray" className={styles.network}>
           Network:{' '}
