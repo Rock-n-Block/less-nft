@@ -211,8 +211,8 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     );
 
     const sliceStr = (str: string, end = 16) => {
-      return str.length > end ? `${str.slice(0,end)}...` : str
-    }
+      return str.length > end ? `${str.slice(0, end)}...` : str;
+    };
 
     const getDetailItem = useCallback((item: any) => {
       switch (item.display_type) {
@@ -720,7 +720,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                 </div> */}
               </div>
             </div>
-            {values.sellMethod === 'openForBids' && values.isSingle &&(
+            {values.sellMethod === 'openForBids' && values.isSingle && (
               <div className={cn(styles.item, styles.itemAuc)}>
                 <H6 className={styles.fieldsetTitle}>
                   Make timed auction
@@ -872,7 +872,9 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                   !values.collection ||
                   (values.sellMethod === 'fixedPrice' && !values.price) ||
                   (values.sellMethod === 'openForBids' && !values.minimalBid) ||
-                  !!Object.keys(errors).length
+                  !!Object.keys(errors).length ||
+                  !values.media ||
+                  ((values.format === 'video' || values.format === 'audio') && !values.cover)
                 }
               >
                 Create item
