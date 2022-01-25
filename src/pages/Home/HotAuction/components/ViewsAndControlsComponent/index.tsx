@@ -167,11 +167,13 @@ const ViewsAndControlsComponent: FC<Props> = ({
           nft?.views || 0,
           1000,
         )}`}</Text>
-        {inStock ? <Text size="m" color="gray">{`In Stock: ${inStock}`}</Text> : null}
+        {inStock ? (
+          <Text size="m" className={styles.in_stock} color="gray">{`In Stock: ${inStock}`}</Text>
+        ) : null}
         <Text size="m" color="gray" className={styles.network}>
           Network:{' '}
           <img alt="network" src={nft?.network.ipfs_icon} className={styles.networkImage} />{' '}
-          {`${nft?.network.name}`}{' '}
+          {`${nft?.network.short_name || nft?.network.name}`}{' '}
         </Text>
         <div className={styles.controls}>
           <Button

@@ -125,6 +125,7 @@ export interface INft {
     name: string;
     native_symbol: string;
     ipfs_icon: string;
+    short_name: string | null;
   };
   currency_service_fee: number;
   views: number;

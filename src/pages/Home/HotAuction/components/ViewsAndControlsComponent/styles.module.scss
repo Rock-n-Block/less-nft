@@ -1,9 +1,10 @@
-@import "src/styles/helpers.scss";
+@import 'src/styles/helpers.scss';
 
 .viewsAndControls {
   width: 100%;
   margin-top: 10px;
   @include flexbox(center, space-between);
+  flex-wrap: wrap;
 }
 
 .viewsData {
@@ -19,7 +20,7 @@
     min-width: 38px;
   }
 
-  .button{
+  .button {
     border-color: $color-neutral-10;
   }
 }
@@ -35,10 +36,10 @@
   svg {
     margin-right: 5px;
   }
-  & p{
-   line-height: 1;
-   position: relative;
-   top: 2px;
+  & p {
+    line-height: 1;
+    position: relative;
+    top: 2px;
   }
   &Active {
     svg {
@@ -63,10 +64,12 @@
   }
 }
 
-.network{
-  margin-left: 24px;
+.in_stock {
+  margin-right: 24px;
+}
 
-  &Image{
+.network {
+  &Image {
     width: 12px;
   }
 }
