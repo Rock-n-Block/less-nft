@@ -75,7 +75,7 @@ const LiveAuction: React.FC<IProps> = ({ className }) => {
     <div className={cn(className, styles.liveAuction)}>
       <H3 className={styles.title}>Live Auction Today</H3>
       {auctions.length ? (
-        <Carousel slidesToShow={numberOfSlide}>
+        <Carousel classNameProp={styles.cards} slidesToShow={numberOfSlide}>
           {auctions.map((artCard) => {
             const {
               id,

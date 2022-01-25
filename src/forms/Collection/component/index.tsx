@@ -439,7 +439,11 @@ const CreateCollectionForm: FC<FormikProps<ICreateCollectionForm> & ICreateColle
                 <Button
                   className={cn('button', styles.button, styles.submitBtn)}
                   onClick={onSubmit}
-                  disabled={values.isLoading || !!Object.keys(errors).length}
+                  disabled={
+                    values.isLoading ||
+                    !!Object.keys(errors).length ||
+                    (!values.media && !values.cover)
+                  }
                 >
                   Create
                 </Button>
