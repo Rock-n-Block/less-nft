@@ -61,7 +61,7 @@ const Trending: FC<Props> = observer(({ className }) => {
         )}
       </H2>
       {collections.length ? (
-        <div className={styles.drops}>
+        <div className={cx(styles.drops, {[styles.row]: collections.length <= 2 })}>
           {collections.length > 2 ? (
             <Swiper
               spaceBetween={30}
