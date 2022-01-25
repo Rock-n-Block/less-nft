@@ -82,7 +82,7 @@ const CollectionMainInfo: React.FC<ICollectionMainInfo> = ({
         <div className={s.user_avatar}>
           <img src={avatar || profile_avatar_example} alt="profile_avatar_example" />
         </div>
-        <H2 color="black" className={s.user_name}>
+        <H2 color="black" align="center" className={s.user_name}>
           {name}
         </H2>
         <Text tag="p" className={s.user_info}>
