@@ -106,6 +106,12 @@ const Discover = observer(() => {
                     <ArtCardSkeleton />
                     <ArtCardSkeleton />
                     <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
+                    <ArtCardSkeleton />
                   </>
                 ) : (
                   nftCards.map((artCard: any) => {
