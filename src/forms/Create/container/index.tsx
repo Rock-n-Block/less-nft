@@ -139,6 +139,9 @@ export default observer(({ isSingle }: any) => {
                   toast.error('Create Token failed');
                 }
                 storeApi.rejectTransaction({ type: 'token', id: data.token.id });
+              })
+              .finally(() => {
+                setFieldValue('isLoading', false);
               });
           } else {
             walletConnector.walletService
