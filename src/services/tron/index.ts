@@ -70,6 +70,29 @@ async function setConnect() {
     localStorage.nftcrowd_nft_providerName = 'TronLink';
     rootStore.user.setAddress(payload.address);
     rootStore.user.getMe();
+
+    const disconnect = () => {
+      delete localStorage.nftcrowd_nft_chainName;
+      delete localStorage.nftcrowd_nft_providerName;
+      delete localStorage.walletconnect;
+      delete localStorage.nftcrowd_nft_token;
+      rootStore.user.disconnect();
+
+      this.props.history.push('/');
+    };
+    window.addEventListener('message', function (e) {
+      if (e.data.message && e.data.message.action === 'setNode') {
+        if (e.data.message.data.node.fullNode !== tronChainNode.chainUrl) {
+          toast.error(`Please connect to ${tronChainNode.chainName}`);
+          disconnect();
+        }
+      }
+      if (e.data.message && e.data.message.action === 'setAccount') {
+        if (e.data.message.data.address !== rootStore.user.address) {
+          disconnect();
+        }
+      }
+    });
   } else {
     const payload: TronState = {
       address: '',
