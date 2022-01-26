@@ -4,7 +4,7 @@ import { tronChainNode } from 'config';
 import { userApi } from 'services';
 import { rootStore } from 'store';
 import { TronState } from 'typings/tron';
-import { history } from 'utils';
+import { History } from 'history';
 
 /* eslint-disable no-await-in-loop */
 const MS_RETRY_TRON = 2000;
@@ -36,7 +36,7 @@ export async function getTronBalance(address: string) {
   throw new Error('Get Balance failed');
 }
 
-async function setConnect() {
+async function setConnect(history: History<unknown>) {
   if (window.tronWeb) {
     const address = (await window.tronWeb.defaultAddress?.base58) || '';
     if (window.tronWeb.fullNode.host !== tronChainNode.chainUrl) {
@@ -78,7 +78,7 @@ async function setConnect() {
       delete localStorage.nftcrowd_nft_token;
       rootStore.user.disconnect();
 
-      this.props.history.push('/');
+      history.push(routes.home.root);
     };
     window.addEventListener('message', function (e) {
       if (e.data.message && e.data.message.action === 'setNode') {
@@ -104,14 +104,12 @@ async function setConnect() {
   }
 }
 
-export async function connectTron() {
+export async function connectTron(history: History<unknown>) {
   try {
     if (!window.tronWeb?.defaultAddress?.base58) {
       await delay(MS_RETRY_TRON);
     }
-    await setConnect();
-
-    history.push(routes.home.root);
+    await setConnect(history);
   } catch (err) {
     console.error(err);
   }

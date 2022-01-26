@@ -9,10 +9,14 @@ import { connectTron } from 'services';
 
 import styles from './ChooseWallet.module.scss';
 import { detectMobileDevice } from 'utils';
+import { useHistory } from 'react-router-dom';
 
 const ChooseWallet: React.FC = () => {
   const { connect } = useWalletConnectorContext();
-  const [activeChain, setActiveChain] = React.useState<chainsEnum>(chains[chainsEnum['Binance-Smart-Chain']].name);
+  const history = useHistory();
+  const [activeChain, setActiveChain] = React.useState<chainsEnum>(
+    chains[chainsEnum['Binance-Smart-Chain']].name,
+  );
 
   const hancleChangeActiveChain = React.useCallback((name: chainsEnum) => {
     setActiveChain(name);
@@ -56,7 +60,11 @@ const ChooseWallet: React.FC = () => {
             return (
               <div
                 className={cn(styles.item, styles.item_wallet)}
-                onClick={wallet === 'TronLink' ? connectTron : () => connect(activeChain, chains[activeChain].provider[wallet].name)}
+                onClick={
+                  wallet === 'TronLink'
+                    ? () => connectTron(history)
+                    : () => connect(activeChain, chains[activeChain].provider[wallet].name)
+                }
                 onKeyDown={() => {}}
                 role="button"
                 tabIndex={0}

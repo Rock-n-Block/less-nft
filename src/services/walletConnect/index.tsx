@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { is_production, tronChainNode } from 'config';
+import { is_production } from 'config';
 import { observer } from 'mobx-react';
 import { connectTron, userApi } from 'services';
 import { WalletConnect } from 'services/walletService';
@@ -48,7 +48,7 @@ class Connector extends React.Component<
     if (window.ethereum || window.tronWeb) {
       if (localStorage.nftcrowd_nft_chainName && localStorage.nftcrowd_nft_providerName) {
         if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
-          connectTron();
+          connectTron(this.props.history);
         } else {
           this.connect(localStorage.nftcrowd_nft_chainName, localStorage.nftcrowd_nft_providerName);
         }
