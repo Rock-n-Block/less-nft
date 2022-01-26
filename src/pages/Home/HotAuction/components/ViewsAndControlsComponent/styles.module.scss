@@ -63,6 +63,14 @@
   }
 }
 
+.network{
+  margin-left: 24px;
+
+  &Image{
+    width: 12px;
+  }
+}
+
 .actions {
   &Item {
     @include flexbox(center, flex-start);

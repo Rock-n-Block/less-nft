@@ -49,14 +49,6 @@ class Connector extends React.Component<
       if (localStorage.nftcrowd_nft_chainName && localStorage.nftcrowd_nft_providerName) {
         if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
           connectTron();
-          window.addEventListener('message', function (e) {
-            if (e.data.message && e.data.message.action === 'setNode') {
-              if (e.data.message.data.node.fullNode !== tronChainNode.chainUrl) {
-                rootStore.user.disconnect();
-                toast.error(`Please connect to ${tronChainNode.chainName}`);
-              }
-            }
-          });
         } else {
           this.connect(localStorage.nftcrowd_nft_chainName, localStorage.nftcrowd_nft_providerName);
         }

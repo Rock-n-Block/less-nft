@@ -160,6 +160,11 @@ const CollectionPage: React.FC = observer(() => {
                       <ArtCardSkeleton />
                       <ArtCardSkeleton />
                       <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
+                      <ArtCardSkeleton />
                     </>
                   ) : (
                     nftCards.map((artCard: any) => {
