@@ -196,6 +196,7 @@ export class WalletConnect {
   async approveToken(
     contractName: string,
     tokenDecimals: number,
+    price: string | number,
     approvedAddress?: string,
     walletAddress?: string,
   ) {
@@ -207,7 +208,7 @@ export class WalletConnect {
 
       const approveSignature = this.encodeFunctionCall(approveMethod, [
         approvedAddress || walletAddress || this.walletAddress,
-        WalletConnect.calcTransactionAmount(90071992000.5474099, tokenDecimals),
+        WalletConnect.calcTransactionAmount(price, tokenDecimals),
       ]);
 
       return this.sendTransaction({
