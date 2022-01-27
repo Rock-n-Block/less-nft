@@ -97,7 +97,15 @@ const PaymentComponent: FC<Props> = observer(
       if (nft) {
         setApproving(true);
         walletService
-          .approveToken(nft.currency.symbol.toUpperCase(), 18, nft.price, ExchangeAddress)
+          .approveToken(
+            nft.currency.symbol.toUpperCase(),
+            18,
+            nft?.price ||
+              +new BigNumber(nft?.highest_bid?.amount || 0).toFixed() ||
+              nft?.minimal_bid ||
+              0,
+            ExchangeAddress,
+          )
           .then(() => {
             setApproved(true);
           })
