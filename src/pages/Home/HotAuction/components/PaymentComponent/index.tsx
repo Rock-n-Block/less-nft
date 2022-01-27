@@ -97,7 +97,7 @@ const PaymentComponent: FC<Props> = observer(
       if (nft) {
         setApproving(true);
         walletService
-          .approveToken(nft.currency.symbol.toUpperCase(), 18, nft.price , ExchangeAddress)
+          .approveToken(nft.currency.symbol.toUpperCase(), 18, nft.price, ExchangeAddress)
           .then(() => {
             setApproved(true);
           })
@@ -235,6 +235,33 @@ const PaymentComponent: FC<Props> = observer(
 
     return (
       <div className={cx(className, { [styles.paymentSell]: nftSellingType === 'sell' })}>
+        {nft && nft?.start_auction && nft?.end_auction && nft.is_timed_auc_selling && (
+          <div className={styles.right}>
+            <Text size="m" className={styles.rightTitle}>
+              Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+            </Text>
+            <div className={styles.rightTimes}>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('HH')}
+                </Text>
+                <Text>Hours</Text>
+              </div>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('mm')}
+                </Text>
+                <Text>Minutes</Text>
+              </div>
+              <div className={styles.rightTimesItem}>
+                <Text size="xl" weight="bold" className={styles.rightTimes}>
+                  {moment(time).format('ss')}
+                </Text>
+                <Text>Seconds</Text>
+              </div>
+            </div>
+          </div>
+        )}
         <div className={styles.left}>
           <div className={styles.priceWrapper}>
             <div>
@@ -303,33 +330,6 @@ const PaymentComponent: FC<Props> = observer(
             </div>
           ) : null}
         </div>
-        {nft && nft?.start_auction && nft?.end_auction && nft.is_timed_auc_selling && (
-          <div className={styles.right}>
-            <Text size="m" className={styles.rightTitle}>
-              Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
-            </Text>
-            <div className={styles.rightTimes}>
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('HH')}
-                </Text>
-                <Text>Hours</Text>
-              </div>
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('mm')}
-                </Text>
-                <Text>Minutes</Text>
-              </div>
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('ss')}
-                </Text>
-                <Text>Seconds</Text>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     );
   },
