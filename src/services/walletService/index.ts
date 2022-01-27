@@ -10,6 +10,7 @@ import {
   exchangeAddrs,
 } from '../../config';
 
+const APPROVE_AMOUNT = 90071992000.5474099;
 export class WalletConnect {
   public connectWallet: ConnectWallet;
 
@@ -171,20 +172,13 @@ export class WalletConnect {
         )
         .call();
 
-      const totalSupply = await this.totalSupply(
-        contracts.params[contractName][is_production ? 'mainnet' : 'testnet'].address,
-        contracts.params[contractName][is_production ? 'mainnet' : 'testnet'].abi,
-        tokenDecimals,
-      );
-
-      console.log('result', result, 'totalSupply', totalSupply);
-
       result =
         result === '0'
           ? null
           : +new BigNumber(result).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
       // if (result && new BigNumber(result).minus(totalSupply).isPositive()) {
-      if (result) {
+
+      if (result && new BigNumber(result).minus(APPROVE_AMOUNT).isPositive()) {
         return true;
       }
       return false;
@@ -196,7 +190,6 @@ export class WalletConnect {
   async approveToken(
     contractName: string,
     tokenDecimals: number,
-    price: string | number,
     approvedAddress?: string,
     walletAddress?: string,
   ) {
@@ -208,7 +201,7 @@ export class WalletConnect {
 
       const approveSignature = this.encodeFunctionCall(approveMethod, [
         approvedAddress || walletAddress || this.walletAddress,
-        WalletConnect.calcTransactionAmount(price, tokenDecimals),
+        WalletConnect.calcTransactionAmount(APPROVE_AMOUNT, tokenDecimals),
       ]);
 
       const gasPrice = await this.connectWallet.currentWeb3().eth.getGasPrice();
@@ -218,7 +211,7 @@ export class WalletConnect {
         to: contracts.params[contractName][is_production ? 'mainnet' : 'testnet'].address,
         data: approveSignature,
         gasPrice: new BigNumber(gasPrice).multipliedBy(
-          localStorage.lessnft_nft_chainName === 'Polygon' ? 2 : 1,
+          localStorage.lessnft_nft_chainName === 'Polygon' ? 3 : 1,
         ),
       });
     } catch (error) {
