@@ -162,6 +162,11 @@
 .payment {
   @include flexbox(flex-start, flex-start);
   flex-direction: column;
+  background: $color-neutral-7;
+  border: 1px solid $color-neutral-10;
+  box-sizing: border-box;
+  border-radius: 12px;
+  padding: 24px;
 }
 
 @include forDesktopBig() {

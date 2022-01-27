@@ -13,6 +13,7 @@
 
 .controls {
   margin-left: auto;
+  margin-top: 12px;
   @include flexbox;
   gap: 10px;
 
