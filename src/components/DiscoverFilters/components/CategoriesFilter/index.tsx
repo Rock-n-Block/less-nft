@@ -31,22 +31,24 @@ const CategoriesFilter: VFC<IProps> = observer(({ activeTags, setActiveTags }) =
   return (
     <GroupWrapper isOpened={isOpened} setIsOpened={() => setIsOpened(!isOpened)} title="Categories">
       <div className={styles.content}>
-        {nftTags.tags.map((tag) => {
-          const isTagActive = activeTags.includes(tag.title);
-          return (
-            <button
-              key={tag.title}
-              type="button"
-              onClick={() => handleToogleTag(tag.title)}
-              className={styles.tag}
-            >
-              <div className={styles.icon}>
-                <img src={isTagActive ? checkMark : tag.icon} alt="tag" />
-              </div>
-              <div className={styles.title}>{tag.title}</div>
-            </button>
-          );
-        })}
+        {nftTags.tags
+          .filter((nftTag) => nftTag.title.toLowerCase() !== 'all nfts')
+          .map((tag) => {
+            const isTagActive = activeTags.includes(tag.title);
+            return (
+              <button
+                key={tag.title}
+                type="button"
+                onClick={() => handleToogleTag(tag.title)}
+                className={styles.tag}
+              >
+                <div className={styles.icon}>
+                  <img src={isTagActive ? checkMark : tag.icon} alt="tag" />
+                </div>
+                <div className={styles.title}>{tag.title}</div>
+              </button>
+            );
+          })}
       </div>
     </GroupWrapper>
   );
