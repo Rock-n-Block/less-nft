@@ -177,7 +177,7 @@ export class WalletConnect {
         tokenDecimals,
       );
 
-      console.log('result',result, 'totalSupply', totalSupply)
+      console.log('result', result, 'totalSupply', totalSupply);
 
       result =
         result === '0'
@@ -211,10 +211,15 @@ export class WalletConnect {
         WalletConnect.calcTransactionAmount(price, tokenDecimals),
       ]);
 
+      const gasPrice = await this.connectWallet.currentWeb3().eth.getGasPrice();
+
       return this.sendTransaction({
         from: walletAddress || this.walletAddress,
         to: contracts.params[contractName][is_production ? 'mainnet' : 'testnet'].address,
         data: approveSignature,
+        gasPrice: new BigNumber(gasPrice).multipliedBy(
+          localStorage.lessnft_nft_chainName === 'Polygon' ? 2 : 1,
+        ),
       });
     } catch (error) {
       return error;
