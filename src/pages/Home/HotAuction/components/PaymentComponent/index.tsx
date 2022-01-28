@@ -42,6 +42,7 @@ const PaymentComponent: FC<Props> = observer(
     const [isApproved, setApproved] = React.useState<boolean>(false);
     const [isApproving, setApproving] = React.useState<boolean>(false);
     const [time, setTime] = useState<any>();
+    const [days, setDays] = useState(0);
     const [isEndingAuction, setIsEndingAuction] = useState(false);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -250,6 +251,7 @@ const PaymentComponent: FC<Props> = observer(
         const interval = 1000;
         timeInterval = setInterval(() => {
           duration = moment.duration(+duration - interval, 'milliseconds');
+          setDays(Math.trunc(duration.asDays()));
           setTime(moment(duration.asMilliseconds()));
         }, interval);
       }
@@ -257,8 +259,71 @@ const PaymentComponent: FC<Props> = observer(
       return () => clearInterval(timeInterval);
     }, [nft]);
 
+    useEffect(() => {
+      if (
+        days <= 0 &&
+        moment(time).hours() === 0 &&
+        moment(time).minutes() === 0 &&
+        moment(time).seconds() === 0 &&
+        onUpdateNft
+      ) {
+        setTimeout(() => {
+          onUpdateNft();
+        }, 500);
+      }
+    }, [days, onUpdateNft, time]);
+
     return (
       <div className={cx(className, { [styles.paymentSell]: nftSellingType === 'sell' })}>
+        {nft &&
+          nft?.start_auction &&
+          nft?.end_auction &&
+          (nft?.is_timed_auc_selling ? (
+            <div className={styles.right}>
+              <Text size="m" className={styles.rightTitle}>
+                Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+              </Text>
+              <div className={styles.rightTimes}>
+                {days >= 1 ? (
+                  <div className={styles.rightTimesItem}>
+                    <Text size="xl" weight="bold" className={styles.rightTimes}>
+                      {days}
+                    </Text>
+                    <Text>Days</Text>
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <div className={styles.rightTimesItem}>
+                  <Text size="xl" weight="bold" className={styles.rightTimes}>
+                    {moment(time).format('HH')}
+                  </Text>
+                  <Text>Hours</Text>
+                </div>
+                <div className={styles.rightTimesItem}>
+                  <Text size="xl" weight="bold" className={styles.rightTimes}>
+                    {moment(time).format('mm')}
+                  </Text>
+                  <Text>Minutes</Text>
+                </div>
+                <div className={styles.rightTimesItem}>
+                  <Text size="xl" weight="bold" className={styles.rightTimes}>
+                    {moment(time).format('ss')}
+                  </Text>
+                  <Text>Seconds</Text>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className={styles.right}>
+              <Text size="m" className={styles.rightTitle}>
+                Sale starts at {moment(nft.start_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+              </Text>
+              <Text size="m" className={styles.rightTitle}>
+                Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+              </Text>
+            </div>
+          ))}
         <div className={styles.left}>
           <div className={styles.priceWrapper}>
             <div>
@@ -280,7 +345,9 @@ const PaymentComponent: FC<Props> = observer(
 
           {user.address ? (
             <div className={styles.sellBtnsWrapper}>
-              {!isApproved && isUserCanApprove && (nft?.is_selling || nft?.is_auc_selling || nft?.is_timed_auc_selling) ? (
+              {!isApproved &&
+              isUserCanApprove &&
+              (nft?.is_selling || nft?.is_auc_selling || nft?.is_timed_auc_selling) ? (
                 <Button
                   padding="custom"
                   loading={isApproving}
@@ -325,33 +392,6 @@ const PaymentComponent: FC<Props> = observer(
             </div>
           ) : null}
         </div>
-        {nft && nft?.start_auction && nft?.end_auction && nft.is_timed_auc_selling && (
-          <div className={styles.right}>
-            <Text size="m" className={styles.rightTitle}>
-              Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
-            </Text>
-            <div className={styles.rightTimes}>
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('HH')}
-                </Text>
-                <Text>Hours</Text>
-              </div>
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('mm')}
-                </Text>
-                <Text>Minutes</Text>
-              </div>
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('ss')}
-                </Text>
-                <Text>Seconds</Text>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     );
   },
