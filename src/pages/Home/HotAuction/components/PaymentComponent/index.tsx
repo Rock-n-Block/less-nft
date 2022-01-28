@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { storeApi } from 'services/api';
 import { useWalletConnectorContext } from 'services/walletConnect';
 import { useMst } from 'store';
-import { INft, TNullable } from 'typings';
+import { chainsEnum, INft, TNullable } from 'typings';
 
 import styles from './styles.module.scss';
 import { toast } from 'react-toastify';
@@ -46,7 +46,7 @@ const PaymentComponent: FC<Props> = observer(
     const [isEndingAuction, setIsEndingAuction] = useState(false);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const ExchangeAddress = exchangeAddrs[localStorage.lessnft_nft_chainName as chainsEnum];
+    const ExchangeAddress = exchangeAddrs[localStorage.nftcrowd_nft_chainName as chainsEnum];
 
     const currentPrice = React.useMemo(() => {
       if (nft) {
@@ -82,30 +82,54 @@ const PaymentComponent: FC<Props> = observer(
           setApproved(true);
           return;
         }
-        walletService
-          .checkTokenAllowance(nft.currency.symbol.toUpperCase(), 18, ExchangeAddress)
-          .then((res: boolean) => {
-            setApproved(res);
-          })
-          .catch((err: any) => {
-            setApproved(false);
-            console.error(err, 'check');
-          });
+        if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+          walletService
+            .trxCheckAllowance(nft.currency.symbol.toUpperCase(), ExchangeAddress, user.address)
+            .then((res: boolean) => {
+              setApproved(res);
+            })
+            .catch((err: any) => {
+              setApproved(false);
+              console.error(err, 'check');
+            });
+        } else {
+          walletService
+            .checkTokenAllowance(nft.currency.symbol.toUpperCase(), 18, ExchangeAddress)
+            .then((res: boolean) => {
+              setApproved(res);
+            })
+            .catch((err: any) => {
+              setApproved(false);
+              console.error(err, 'check');
+            });
+        }
       }
-    }, [nft, walletService, ExchangeAddress]);
+    }, [nft, walletService, ExchangeAddress, user.address]);
 
     const handleApproveToken = React.useCallback(() => {
       if (nft) {
         setApproving(true);
-        walletService
-          .approveToken(nft.currency.symbol.toUpperCase(), 18, ExchangeAddress)
-          .then(() => {
-            setApproved(true);
-          })
-          .catch((err: any) => {
-            console.error(err, 'err approve');
-          })
-          .finally(() => setApproving(false));
+        if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+          walletService
+            .trxApproveToken(nft.currency.symbol.toUpperCase(), ExchangeAddress)
+            .then(() => {
+              setApproved(true);
+            })
+            .catch((err: any) => {
+              console.error(err, 'err approve');
+            })
+            .finally(() => setApproving(false));
+        } else {
+          walletService
+            .approveToken(nft.currency.symbol.toUpperCase(), 18, ExchangeAddress)
+            .then(() => {
+              setApproved(true);
+            })
+            .catch((err: any) => {
+              console.error(err, 'err approve');
+            })
+            .finally(() => setApproving(false));
+        }
       }
     }, [ExchangeAddress, nft, walletService]);
 
@@ -246,7 +270,7 @@ const PaymentComponent: FC<Props> = observer(
         setTimeout(() => {
           onUpdateNft();
         }, 500);
-      };
+      }
     }, [days, onUpdateNft, time]);
 
     return (
