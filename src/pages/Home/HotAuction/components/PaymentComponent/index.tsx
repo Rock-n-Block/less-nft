@@ -42,6 +42,7 @@ const PaymentComponent: FC<Props> = observer(
     const [isApproved, setApproved] = React.useState<boolean>(false);
     const [isApproving, setApproving] = React.useState<boolean>(false);
     const [time, setTime] = useState<any>();
+    const [days, setDays] = useState(0);
     const [isEndingAuction, setIsEndingAuction] = useState(false);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -226,6 +227,7 @@ const PaymentComponent: FC<Props> = observer(
         const interval = 1000;
         timeInterval = setInterval(() => {
           duration = moment.duration(+duration - interval, 'milliseconds');
+          setDays(Math.trunc(duration.asDays()));
           setTime(moment(duration.asMilliseconds()));
         }, interval);
       }
@@ -241,6 +243,16 @@ const PaymentComponent: FC<Props> = observer(
               Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
             </Text>
             <div className={styles.rightTimes}>
+              {days > 1 ? (
+                <div className={styles.rightTimesItem}>
+                  <Text size="xl" weight="bold" className={styles.rightTimes}>
+                    {days}
+                  </Text>
+                  <Text>Days</Text>
+                </div>
+              ) : (
+                <></>
+              )}
               <div className={styles.rightTimesItem}>
                 <Text size="xl" weight="bold" className={styles.rightTimes}>
                   {moment(time).format('HH')}
