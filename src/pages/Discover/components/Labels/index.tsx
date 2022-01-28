@@ -100,13 +100,15 @@ const Labels: VFC<IProps> = ({
       {isOnTimedAuction && (
         <FilterLabel title="Has Offers" onClick={() => setIsTimedOnAuction(false)} />
       )}
-      {activeTags.map((tag) => (
-        <FilterLabel
-          key={tag}
-          title={tag}
-          onClick={() => setActiveTags((prev) => prev.filter((el) => el !== tag))}
-        />
-      ))}
+      {activeTags
+        .filter((nftTag) => nftTag.toLowerCase() !== 'all nfts')
+        .map((tag) => (
+          <FilterLabel
+            key={tag}
+            title={tag}
+            onClick={() => setActiveTags((prev) => prev.filter((el) => el !== tag))}
+          />
+        ))}
       {activeChains.map((chain) => (
         <FilterLabel
           key={chain}
