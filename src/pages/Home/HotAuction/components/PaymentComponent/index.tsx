@@ -235,45 +235,71 @@ const PaymentComponent: FC<Props> = observer(
       return () => clearInterval(timeInterval);
     }, [nft]);
 
+    useEffect(() => {
+      if (
+        days <= 0 &&
+        moment(time).hours() === 0 &&
+        moment(time).minutes() === 0 &&
+        moment(time).seconds() === 0 &&
+        onUpdateNft
+      ) {
+        setTimeout(() => {
+          onUpdateNft();
+        }, 500);
+      };
+    }, [days, onUpdateNft, time]);
+
     return (
       <div className={cx(className, { [styles.paymentSell]: nftSellingType === 'sell' })}>
-        {nft && nft?.start_auction && nft?.end_auction && nft.is_timed_auc_selling && (
-          <div className={styles.right}>
-            <Text size="m" className={styles.rightTitle}>
-              Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
-            </Text>
-            <div className={styles.rightTimes}>
-              {days > 1 ? (
+        {nft &&
+          nft?.start_auction &&
+          nft?.end_auction &&
+          (nft?.is_timed_auc_selling ? (
+            <div className={styles.right}>
+              <Text size="m" className={styles.rightTitle}>
+                Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+              </Text>
+              <div className={styles.rightTimes}>
+                {days >= 1 ? (
+                  <div className={styles.rightTimesItem}>
+                    <Text size="xl" weight="bold" className={styles.rightTimes}>
+                      {days}
+                    </Text>
+                    <Text>Days</Text>
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <div className={styles.rightTimesItem}>
                   <Text size="xl" weight="bold" className={styles.rightTimes}>
-                    {days}
+                    {moment(time).format('HH')}
                   </Text>
-                  <Text>Days</Text>
+                  <Text>Hours</Text>
                 </div>
-              ) : (
-                <></>
-              )}
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('HH')}
-                </Text>
-                <Text>Hours</Text>
-              </div>
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('mm')}
-                </Text>
-                <Text>Minutes</Text>
-              </div>
-              <div className={styles.rightTimesItem}>
-                <Text size="xl" weight="bold" className={styles.rightTimes}>
-                  {moment(time).format('ss')}
-                </Text>
-                <Text>Seconds</Text>
+                <div className={styles.rightTimesItem}>
+                  <Text size="xl" weight="bold" className={styles.rightTimes}>
+                    {moment(time).format('mm')}
+                  </Text>
+                  <Text>Minutes</Text>
+                </div>
+                <div className={styles.rightTimesItem}>
+                  <Text size="xl" weight="bold" className={styles.rightTimes}>
+                    {moment(time).format('ss')}
+                  </Text>
+                  <Text>Seconds</Text>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className={styles.right}>
+              <Text size="m" className={styles.rightTitle}>
+                Sale starts at {moment(nft.start_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+              </Text>
+              <Text size="m" className={styles.rightTitle}>
+                Sale ends at {moment(nft.end_auction, 'X').format('MMMM Do YYYY, h:mm a')}
+              </Text>
+            </div>
+          ))}
         <div className={styles.left}>
           <div className={styles.priceWrapper}>
             <div>
