@@ -60,6 +60,7 @@ export const chains: {
   //   },
   // },
 
+  
   [chainsEnum['Binance-Smart-Chain']]: {
     name: chainsEnum['Binance-Smart-Chain'],
     network: {
