@@ -1,7 +1,7 @@
 import { INetwork } from '@amfi/connect-wallet/dist/interface';
 import {
   bnbLogo,
-  // ethLogo,
+  ethLogo,
   metamaskImg,
   polygonLogo,
   walletConnectImg,
@@ -31,34 +31,34 @@ export const chains: {
     explorer: string;
   };
 } = {
-  // [chainsEnum.Ethereum]: {
-  //   name: chainsEnum.Ethereum,
-  //   network: {
-  //     chainName: chainsEnum.Ethereum,
-  //     chainID: is_production ? 1 : 4,
-  //   },
-  //   img: ethLogo,
-  //   explorer: is_production ? '' : '',
-  //   provider: {
-  //     MetaMask: { name: 'MetaMask', img: metamaskImg },
-  //     WalletConnect: {
-  //       img: walletConnectImg,
-  //       name: 'WalletConnect',
-  //       useProvider: 'rpc',
-  //       provider: {
-  //         rpc: {
-  //           rpc: {
-  //             [is_production ? 1 : 4]: is_production
-  //               ? 'https://bsc-dataseed.binance.org/'
-  //               : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
-  //           },
-  //           chainId: is_production ? 1 : 4,
-  //         },
-  //       },
-  //     },
-  //     TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
-  //   },
-  // },
+  [chainsEnum.Ethereum]: {
+    name: chainsEnum.Ethereum,
+    network: {
+      chainName: chainsEnum.Ethereum,
+      chainID: is_production ? 1 : 4,
+    },
+    img: ethLogo,
+    explorer: is_production ? '' : '',
+    provider: {
+      MetaMask: { name: 'MetaMask', img: metamaskImg },
+      WalletConnect: {
+        img: walletConnectImg,
+        name: 'WalletConnect',
+        useProvider: 'rpc',
+        provider: {
+          rpc: {
+            rpc: {
+              [is_production ? 1 : 4]: is_production
+                ? 'https://bsc-dataseed.binance.org/'
+                : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+            },
+            chainId: is_production ? 1 : 4,
+          },
+        },
+      },
+      TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
+    },
+  },
   [chainsEnum['Binance-Smart-Chain']]: {
     name: chainsEnum['Binance-Smart-Chain'],
     network: {
