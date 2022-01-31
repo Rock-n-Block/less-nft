@@ -189,19 +189,14 @@ export default {
       data,
     );
   },
-  removeFromSale: (id: string | number, price?: null, minimal_bid?: null) => {
-    const data: {
-      selling: false;
-      price?: null;
-      minimal_bid?: null;
-    } = {
-      selling: false,
-    };
-    if (price === null) {
-      data.price = price;
-    }
-    if (minimal_bid === null) {
-      data.minimal_bid = minimal_bid;
+  removeFromSale: (id: string | number) => {
+    const data = {
+      id,
+      price: null,
+      minimal_bid: null,
+      currency: 'less',
+      start_auc: 0,
+      end_auc: 0,
     }
     return axios.patch(`/store/${id}/?network=${localStorage.lessnft_nft_chainName}`, data);
   },
