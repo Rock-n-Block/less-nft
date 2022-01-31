@@ -197,6 +197,7 @@ export default {
       currency: 'less',
       start_auc: 0,
       end_auc: 0,
+      selling: false,
     }
     return axios.patch(`/store/${id}/?network=${localStorage.lessnft_nft_chainName}`, data);
   },
