@@ -59,6 +59,7 @@ export const chains: {
   //     TrustWallet: { name: 'MetaMask', img: trustWalletImg, isOnlyMobile: true },
   //   },
   // },
+
   [chainsEnum['Binance-Smart-Chain']]: {
     name: chainsEnum['Binance-Smart-Chain'],
     network: {
