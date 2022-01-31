@@ -6,6 +6,11 @@
   @include flexbox(center, space-between);
 }
 
+.views{
+  width: 100%;
+  @include flexbox(flex-start, space-between);
+}
+
 .viewsData {
   margin-right: 32px;
 }
