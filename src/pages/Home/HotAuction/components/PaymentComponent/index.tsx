@@ -245,7 +245,7 @@ const PaymentComponent: FC<Props> = observer(
       ) {
         setTimeout(() => {
           onUpdateNft();
-        }, 500);
+        }, 1000);
       };
     }, [days, onUpdateNft, time]);
 
