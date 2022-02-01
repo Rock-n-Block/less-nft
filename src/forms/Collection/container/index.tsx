@@ -84,7 +84,7 @@ export default observer(({ isSingle }: any) => {
               } else {
                 toast.error('Create Collection failed');
               }
-              storeApi.rejectTransaction({ type: 'collection', id: data.token.id });
+              storeApi.rejectTransaction({ type: 'collection', id: data.collection.id });
             })
             .finally(() => {
               setFieldValue('isLoading', false);
