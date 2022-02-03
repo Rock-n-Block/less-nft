@@ -20,6 +20,7 @@
 // }
 
 .logo .logoText {
+  margin-left: 4px;
   @include monument-extended;
   @include forTablet{
     font-size: 14px;

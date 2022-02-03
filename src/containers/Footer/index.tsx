@@ -64,7 +64,9 @@ const Footers: React.FC = observer(() => {
 
   const LinkBody = ({ title }: { title: string }) => (
     <Button color="transparent" padding="0" className={styles.footerBtnLink}>
-      <Text color="lightGray">{title}</Text>
+      <Text color="lightGray" weight="medium">
+        {title}
+      </Text>
     </Button>
   );
 
