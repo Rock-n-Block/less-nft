@@ -454,14 +454,14 @@
   &Wrapper {
     @include flexbox(center, flex-start);
     flex-direction: row;
-    margin-top: 32px;
+    margin: 16px 0 32px;
     flex-wrap: wrap;
     gap: 15px;
   }
 }
 
 .rankings {
-  margin-top: 32px;
+  margin: 16px 0 32px;
   border-radius: $border-radius;
   border: 1px solid $color-primary;
   padding: 20px 30px;
