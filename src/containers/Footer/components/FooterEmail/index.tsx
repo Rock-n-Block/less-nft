@@ -15,11 +15,14 @@ const FooterEmail: FC<Props> = ({ className }) => {
   const saveEmail = useCallback(() => {
     userApi
       .saveEmailToDb(email)
-      .then(() => toast.success('Email saved'))
+      .then(() => {
+        toast.success('Email saved');
+        setEmail('');
+      })
       .catch(({ response }) => {
         toast.error(
-          response && response.data && response.data.address
-            ? `${response.data.address}`
+          response && response.data
+            ? `${response.data.address || response.data}`
             : 'Something went wrong',
         );
         console.error(response);
@@ -41,6 +44,7 @@ const FooterEmail: FC<Props> = ({ className }) => {
         className={styles.button}
         onChange={(e: any) => setEmail(e.target.value)}
         onButtonClick={saveEmail}
+        value={email}
       />
     </div>
   );
