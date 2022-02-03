@@ -53,4 +53,5 @@ export { default as GradientBlock } from './GradientBlock';
 export { default as Details } from './Details';
 export { default as CollectionCard } from './CollectionCard';
 export { default as DiscoverFilters } from './DiscoverFilters';
+export { default as CollapsingSection } from './CollapsingSection';
 export * from './Typography';
