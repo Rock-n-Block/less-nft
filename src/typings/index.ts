@@ -71,6 +71,20 @@ export interface IOwner extends Omit<IBaseInfo, 'address'> {
   currency: ICurrency;
 }
 
+export interface INftProperty {
+  value: string;
+  max_value: string;
+  trait_type: string;
+  display_type: string;
+  frequency: number;
+}
+
+export interface INftStat {
+  value: number | string;
+  max_value: number | string;
+  display_type: string;
+  trait_type: string;
+}
 export interface INft {
   USD_price: number;
   available: number;
@@ -111,7 +125,7 @@ export interface INft {
     name: string;
     native_symbol: string;
     ipfs_icon: string;
-    short_name: string
+    short_name: string | null;
   };
   currency_service_fee: number;
   views: number;
@@ -119,6 +133,9 @@ export interface INft {
   end_auction: TNullable<string>;
   has_digital_key: boolean;
   is_timed_auc_selling: boolean;
+  properties: { [key: string]: INftProperty };
+  stats: Array<INftStat>;
+  rankings: Array<INftStat>;
 }
 
 export interface ITag {
