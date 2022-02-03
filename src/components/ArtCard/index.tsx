@@ -71,7 +71,7 @@ const ArtCard: FC<Props> = ({
       const img = imgRef.current;
       const mouseMoveEvent = (e: any) => {
         const moveX = 100 - ((e.offsetX - offset) / div.offsetWidth) * 100;
-        const moveY = 100 - ((e.offsetX - offset) / div.offsetHeight) * 100;
+        const moveY = 100 - ((e.offsetY - offset) / div.offsetHeight) * 100;
         img.style.objectPosition = `${moveX}% ${moveY}%`;
       };
       div.addEventListener('mousemove', mouseMoveEvent);
