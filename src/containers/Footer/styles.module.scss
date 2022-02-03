@@ -7,6 +7,7 @@
 .footerContent {
   @include container;
   padding-top: 60px;
+  max-width: 1640px;
 }
 
 .controlAndSocial {
@@ -56,6 +57,7 @@
       .footerBtnLink {
         margin: 4px 0;
         @include flexbox(center, flex-start);
+        @include poppins;
       }
 
       & > * {
