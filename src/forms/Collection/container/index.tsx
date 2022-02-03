@@ -41,7 +41,7 @@ export default observer(({ isSingle }: any) => {
     mapPropsToValues: () => props,
 
     validationSchema: Yup.object().shape({
-      name: Yup.string().min(2, 'Too short!').max(50, 'Too long!'),
+      name: Yup.string().min(2, 'Too short!').max(50, 'Too long!').required(),
       symbol: Yup.string().min(2, 'Too Short!').max(6, 'Too Long!').required(),
       description: Yup.string().max(500, 'Too long!'),
       site: Yup.string().url(),

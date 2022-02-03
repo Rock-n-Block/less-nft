@@ -71,7 +71,7 @@
     }
   }
 
-  &Auc{
+  &Auc {
     margin-bottom: 24px;
   }
 }
@@ -398,7 +398,7 @@
 }
 
 .startEndAuc {
-  @include flexbox(flex-start,space-between);
+  @include flexbox(flex-start, space-between);
   gap: 12px;
   margin-top: 24px;
   &Item {
@@ -486,7 +486,11 @@
   }
 }
 
-.explicit{
+.explicit {
   @include flexbox(center, space-between);
   margin-top: 32px;
+}
+
+.error {
+  text-transform: uppercase;
 }
