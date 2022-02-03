@@ -15,7 +15,7 @@ const FooterEmail: FC<Props> = ({ className }) => (
     </Text>
     <Text size="m" color="white" className={styles.text}>
       Join our mailing list to stay in the loop with our newest feature releases, NFT drops, and
-      tips and tricks for navigating Less-Nft.
+      tips and tricks for navigating Nftcrowd.
     </Text>
     <TextInput isButton placeholder="Enter your email" type="text" className={styles.button} />
   </div>

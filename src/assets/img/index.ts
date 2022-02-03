@@ -54,6 +54,5 @@ export { ReactComponent as Art } from './Art.svg';
 export { ReactComponent as Folders } from './folders.svg';
 export { ReactComponent as Heart } from './heart.svg';
 export { ReactComponent as Me } from './me.svg';
-export { ReactComponent as LessLogo } from './less-logo.svg';
 export { default as tronChain } from './tronChain.svg';
 export { default as tronLink } from './tronLink.svg';
