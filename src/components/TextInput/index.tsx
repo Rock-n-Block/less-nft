@@ -166,7 +166,10 @@ const TextInput: React.FC<Props> = ({
           }
         />
         {isButton && (
-          <Button onClick={onButtonClick} className={styles.inputButton}>
+          <Button
+            onClick={onButtonClick ? () => onButtonClick() : () => {}}
+            className={styles.inputButton}
+          >
             <img src={arrowLeft} alt="" />
           </Button>
         )}
