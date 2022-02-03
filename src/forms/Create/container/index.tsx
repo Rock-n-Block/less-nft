@@ -25,7 +25,7 @@ export default observer(({ isSingle }: any) => {
     description: '',
     price: 0,
     minimalBid: 0,
-    creatorRoyalty: 10,
+    royalties: 10,
     collection: 25,
     details: [{ name: '', amount: '' }],
     selling: true,
@@ -49,7 +49,7 @@ export default observer(({ isSingle }: any) => {
     mapPropsToValues: () => props,
 
     validationSchema: Yup.object().shape({
-      name: Yup.string().min(2, 'Too short!').max(50, 'Too long!'),
+      name: Yup.string().min(2, 'Too short!').max(50, 'Too long!').required(),
       totalSupply: Yup.number().min(1, 'Minimal amount equal to 1!').max(100, 'Too much!'),
       description: Yup.string().max(500, 'Too long!'),
       minimalBid: Yup.number().when('sellMethod', {
@@ -60,7 +60,7 @@ export default observer(({ isSingle }: any) => {
         is: 'fixedPrice',
         then: Yup.number().min(0.0001),
       }),
-      creatorRoyalty: Yup.number().min(0, 'Minimal royalties equal to 0!').max(80, 'Too much!'),
+      royalties: Yup.number().min(0, 'Minimal royalties equal to 0!').max(80, 'Too much!').required(),
       externalLink: Yup.string().url(),
     }),
     handleSubmit: (values, { setFieldValue }) => {
@@ -81,7 +81,7 @@ export default observer(({ isSingle }: any) => {
       } else {
         formData.append('minimal_bid', values.minimalBid.toString());
       }
-      formData.append('creator_royalty', values.creatorRoyalty.toString());
+      formData.append('creator_royalty', values.royalties.toString());
       formData.append('collection', values.collection.toString());
       if (values.isTimedAuction) {
         formData.append('start_auction', dateFormatter(values.startAuction));

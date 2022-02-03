@@ -202,7 +202,11 @@ const CreateCollectionForm: FC<FormikProps<ICreateCollectionForm> & ICreateColle
                       />
                     )}
                   />
-                  {touched.name && errors.name && <Text color="red">{errors.name}</Text>}
+                  {touched.name && errors.name && (
+                    <Text color="red" className={styles.error}>
+                      {errors.name}
+                    </Text>
+                  )}
                   <Field
                     render={() => (
                       <TextInput
@@ -213,7 +217,7 @@ const CreateCollectionForm: FC<FormikProps<ICreateCollectionForm> & ICreateColle
                         }
                         name="symbol"
                         type="text"
-                        placeholder="Enter Token symbol"
+                        placeholder="Enter Collection symbol"
                         value={values.symbol}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -222,7 +226,11 @@ const CreateCollectionForm: FC<FormikProps<ICreateCollectionForm> & ICreateColle
                       />
                     )}
                   />
-                  {touched.symbol && errors.symbol && <Text color="red">{errors.symbol}</Text>}
+                  {touched.symbol && errors.symbol && (
+                    <Text color="red" className={styles.error}>
+                      {errors.symbol}
+                    </Text>
+                  )}
                   <Field
                     render={() => (
                       <TextInput
@@ -245,7 +253,9 @@ const CreateCollectionForm: FC<FormikProps<ICreateCollectionForm> & ICreateColle
                     )}
                   />
                   {touched.shortUrl && errors.shortUrl && (
-                    <Text color="red">{errors.shortUrl}</Text>
+                    <Text color="red" className={styles.error}>
+                      {errors.shortUrl}
+                    </Text>
                   )}
                   <Field
                     name="description"
@@ -262,13 +272,19 @@ const CreateCollectionForm: FC<FormikProps<ICreateCollectionForm> & ICreateColle
                     )}
                   />
                   {touched.description && errors.description && (
-                    <Text color="red">{errors.description}</Text>
+                    <Text color="red" className={styles.error}>
+                      {errors.description}
+                    </Text>
                   )}
                 </div>
               </div>
               <div className={styles.item}>
                 <div className={styles.socials}>
-                  {touched.site && errors.site && <Text color="red">{errors.site}</Text>}
+                  {touched.site && errors.site && (
+                    <Text color="red" className={styles.error}>
+                      {errors.site}
+                    </Text>
+                  )}
                   <div className={styles.social}>
                     <Site />
 

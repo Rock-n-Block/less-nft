@@ -61,7 +61,7 @@ export interface ICreateForm {
   description: string;
   price: number;
   minimalBid: number;
-  creatorRoyalty: number;
+  royalties: number;
   collection: number;
   details: IProperti[];
   selling: boolean;
@@ -145,7 +145,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
     const currencyOptions = useMemo(() => {
       return values.sellMethod === 'openForBids'
         ? [...rates.map((rate) => rate.symbol)].filter(
-            (rateSymbol) => !['bnb', 'eth', 'matic'].includes(rateSymbol),
+            (rateSymbol) => !['bnb', 'eth', 'matic', 'trx'].includes(rateSymbol.toLowerCase()),
           )
         : rates.map((rate) => rate.symbol);
     }, [rates, values.sellMethod]);
@@ -437,6 +437,11 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     />
                   )}
                 />
+                {touched.name && errors.name && (
+                  <Text color="red" className={styles.error}>
+                    {errors.name}
+                  </Text>
+                )}
                 <Field
                   render={() => (
                     <TextInput
@@ -460,7 +465,9 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                   )}
                 />
                 {touched.externalLink && errors.externalLink && (
-                  <Text color="red">{errors.externalLink}</Text>
+                  <Text color="red" className={styles.error}>
+                    {errors.externalLink}
+                  </Text>
                 )}
                 <Field
                   name="description"
@@ -477,7 +484,9 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                   )}
                 />
                 {touched.description && errors.description && (
-                  <Text color="red">{errors.description}</Text>
+                  <Text color="red" className={styles.error}>
+                    {errors.description}
+                  </Text>
                 )}
                 <div className={styles.fieldsetRow}>
                   <div className={cn(styles.price, styles.fieldsetRowColumn)}>
@@ -530,7 +539,11 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                         }}
                       />
                     </div>
-                    {touched.price && errors.price && <Text color="red">{errors.price}</Text>}
+                    {touched.price && errors.price && (
+                      <Text color="red" className={styles.error}>
+                        {errors.price}
+                      </Text>
+                    )}
                     <div className={styles.postfix}>
                       {/* change dynamically */}
                       <Text color="middleGray">
@@ -561,7 +574,9 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                         )}
                       />
                       {touched.totalSupply && errors.totalSupply && (
-                        <Text color="red">{errors.totalSupply}</Text>
+                        <Text color="red" className={styles.error}>
+                          {errors.totalSupply}
+                        </Text>
                       )}
                     </div>
                   )}
@@ -572,10 +587,10 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     <Field
                       render={() => (
                         <TextInput
-                          name="creatorRoyalty"
+                          name="royalties"
                           type="number"
                           placeholder="e.g. 10"
-                          value={`${values.creatorRoyalty}`}
+                          value={`${values.royalties}`}
                           className={styles.royalties}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -588,8 +603,10 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                       )}
                     />
 
-                    {touched.creatorRoyalty && errors.creatorRoyalty && (
-                      <Text color="red">{errors.creatorRoyalty}</Text>
+                    {touched.royalties && errors.royalties && (
+                      <Text color="red" className={styles.error}>
+                        {errors.royalties}
+                      </Text>
                     )}
                   </div>
                 </div>
@@ -819,7 +836,9 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                     )}
                   />
                   {touched.description && errors.description && (
-                    <Text color="red">{errors.description}</Text>
+                    <Text color="red" className={styles.error}>
+                      {errors.description}
+                    </Text>
                   )}
                 </>
               )}
