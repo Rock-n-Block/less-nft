@@ -93,6 +93,38 @@ const Labels: VFC<IProps> = ({
     return `${values[0] && `from ${values[0]}`} ${values[1] && `to ${values[1]}`}`;
   }, []);
 
+  const isShowClearButton = useMemo(() => {
+    return (
+      isOnSale ||
+      isOnAuction ||
+      isOnTimedAuction ||
+      activeTags.filter((nftTag) => nftTag.toLowerCase() !== 'all nfts').length ||
+      activeChains.length ||
+      activeCurrencies.length ||
+      activeCollections.length ||
+      minPrice ||
+      maxPrice ||
+      textSearch ||
+      activeProperties.length ||
+      Object.keys(activeRanks).length ||
+      Object.keys(activeStatsProps).length
+    );
+  }, [
+    activeChains.length,
+    activeCollections.length,
+    activeCurrencies.length,
+    activeProperties.length,
+    activeRanks,
+    activeStatsProps,
+    activeTags,
+    isOnAuction,
+    isOnSale,
+    isOnTimedAuction,
+    maxPrice,
+    minPrice,
+    textSearch,
+  ]);
+
   return (
     <div className={s.labels}>
       {isOnSale && <FilterLabel title="Buy now" onClick={() => setIsOnSale(false)} />}
@@ -174,9 +206,11 @@ const Labels: VFC<IProps> = ({
           onClick={() => handleDeleteStat(statTitle)}
         />
       ))}
-      <button type="button" className={s.button} onClick={setDefaultFilters}>
-        Clear All
-      </button>
+      {isShowClearButton && (
+        <button type="button" className={s.button} onClick={setDefaultFilters}>
+          Clear All
+        </button>
+      )}
     </div>
   );
 };

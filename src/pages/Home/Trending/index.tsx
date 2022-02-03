@@ -45,7 +45,7 @@ const Trending: FC<Props> = observer(({ className }) => {
   const fetcTrendingCollections = useCallback(() => {
     storeApi
       .getTrendingCollections(title.title === 'All NFTs' ? '' : title.title)
-      .then(({ data }: any) => setCollections(data))
+      .then(({ data }: any) => setCollections(data.filter((col: any) => !col.is_default)))
       .catch((err: any) => console.log('error', err));
   }, [title.title]);
 
