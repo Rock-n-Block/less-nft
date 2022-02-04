@@ -113,7 +113,7 @@ export const useFetchNft = (
     };
     // when passing PROPS directly to useEffect deps - rerender each time
     // eslint-disable-next-line
-  }, [newDebouncedFetch, ...Object.values(props)]);
+  }, [newDebouncedFetch, ...Object.keys(props)]);
 
   return [allPages, totalItems, nftCards, isLoading, newDebouncedFetch];
 };

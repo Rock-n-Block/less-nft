@@ -277,6 +277,7 @@ const Remove = types
   .model({
     tokenId: types.optional(types.number, 0),
     isSuccess: types.optional(types.boolean, false),
+    currency: types.optional(types.string, ''),
   })
   .views((self) => ({
     get getIsOpen() {
@@ -292,8 +293,9 @@ const Remove = types
       close: () => {
         applySnapshot(self, initialState);
       },
-      open: (tokenId: number) => {
+      open: (tokenId: number, currency: string) => {
         self.tokenId = tokenId;
+        self.currency = currency;
       },
       success: () => {
         self.isSuccess = true;
