@@ -43,12 +43,14 @@
 }
 
 .type_h1,
-.type_h2,
+.type_h2{
+  @include monument-extended;
+}
 .type_h3,
 .type_h4,
 .type_h5,
 .type_h6 {
-  @include monument-extended;
+  @include epilogue;
 }
 
 .align_center {

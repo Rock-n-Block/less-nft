@@ -51,6 +51,7 @@
 
   &Row {
     font-size: 40px !important;
+    @include monument-extended;
     &_small {
       text-transform: none;
     }
