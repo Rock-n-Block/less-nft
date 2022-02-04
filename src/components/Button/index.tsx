@@ -52,7 +52,7 @@ type Props = {
  */
 
 const Button: FC<PropsWithChildren<Props>> = ({
-  color = 'blue',
+  color = 'purple',
   size = 'normal',
   isFullWidth = false,
   onClick = () => { },

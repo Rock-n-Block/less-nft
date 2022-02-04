@@ -34,6 +34,7 @@ import ChooseCollection from './ChooseCollection';
 
 import styles from './CreateCollectibleDetails.module.scss';
 import { useMst } from 'store';
+import { numberFormatter } from 'utils';
 
 interface IRate {
   rate: string;
@@ -235,7 +236,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                   {sliceStr(item.trait_type)}
                 </Text>
                 <Text className={styles.rankingsText}>
-                  {item.value} of {item.max_value}
+                  {numberFormatter(item.value, 10)} of {numberFormatter(item.max_value, 10)}
                 </Text>
               </div>
               <div className={styles.rankingsBar}>
@@ -264,7 +265,7 @@ const CreateForm: FC<FormikProps<ICreateForm> & ICreateForm> = observer(
                   {sliceStr(item.trait_type)}
                 </Text>
                 <Text className={styles.rankingsText}>
-                  {item.value} of {item.max_value}
+                  {numberFormatter(item.value, 10)} of {numberFormatter(item.max_value, 10)}
                 </Text>
               </div>
             </div>
