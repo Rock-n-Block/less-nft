@@ -1,4 +1,4 @@
-import { H6 } from 'components';
+import { EllipsisText, H6 } from 'components';
 import { FC } from 'react';
 
 import cn from 'classnames';
@@ -23,9 +23,11 @@ const GroupWrapper: FC<IProps> = ({ children, title, isOpened, setIsOpened, icon
         className={cn(s.header, { [s.active]: isOpened })}
       >
         {icon && <img src={icon} className={s.icon} alt={`${title} icon`} />}
-        <H6 weight="medium" className={s.title}>
-          {title}
-        </H6>
+        <EllipsisText>
+          <H6 weight="medium" className={s.title}>
+            {title}
+          </H6>
+        </EllipsisText>
         <div className={cn(s.arrow, { [s.active]: isOpened })}>
           <img src={arrowLeft} alt="arrowLeft" />
         </div>
