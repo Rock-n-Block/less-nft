@@ -189,12 +189,12 @@ export default {
       data,
     );
   },
-  removeFromSale: (id: string | number, currency: string) => {
+  removeFromSale: (id: string | number) => {
     const data = {
       id,
       price: null,
       minimal_bid: null,
-      currency,
+      currency: null,
       start_auc: 0,
       end_auc: 0,
       selling: false,
