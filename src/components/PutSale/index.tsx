@@ -60,7 +60,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
   const currencyOptions = useMemo(() => {
     return !price
       ? [...rates.map((rate: any) => rate.symbol)].filter(
-          (rateSymbol) => !['bnb', 'eth', 'matic'].includes(rateSymbol),
+          (rateSymbol) => !['bnb', 'eth', 'matic', 'trx'].includes(rateSymbol.toLowerCase()),
         )
       : rates.map((rate) => rate.symbol);
   }, [rates, price]);
