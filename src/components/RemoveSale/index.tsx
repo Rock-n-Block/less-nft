@@ -20,7 +20,7 @@ const RemoveSale: React.FC<IRemoveSaleProps> = ({ className }) => {
 
   const removeFromSale = React.useCallback(async () => {
     try {
-      await storeApi.removeFromSale(remove.tokenId);
+      await storeApi.removeFromSale(remove.tokenId, remove.currency);
       remove.success();
       remove.close();
       toast.success('Token Removed from sale');

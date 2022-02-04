@@ -79,7 +79,7 @@ const ViewsAndControlsComponent: FC<Props> = ({
   }, [burn, nft, isOwner, user.id]);
 
   const handleRemoveFromSale = useCallback(() => {
-    remove.open(nft?.id || 0);
+    remove.open(nft?.id || 0, nft?.currency.symbol.toLowerCase() || '');
   }, [remove, nft]);
 
   const handleChangePrice = useCallback(() => {
