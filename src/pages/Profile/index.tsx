@@ -99,6 +99,7 @@ const ProfilePage: FC = observer(() => {
       is_verified: 'All',
       has_bids: activeTab === 'received',
       network: localStorage.getItem('nftcrowd_nft_chainName') || undefined,
+      hasOwner: activeTab === 'owned'
     },
     false,
     true,

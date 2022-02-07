@@ -63,6 +63,11 @@
 
   &.open {
     grid-template-columns: 380px 1fr;
+
+    .stickyWrapper {
+      border-right: none;
+      margin-right: 0;
+    }
   }
 
   @include forDesktopSm() {
@@ -133,6 +138,10 @@
   }
 
   .filterAndCards {
+    .stickyWrapper {
+      border-right: none;
+      margin-right: 0;
+    }
     .filterResultsContainer {
       &.withFilter {
         flex-basis: 100%;
@@ -273,6 +282,8 @@
 }
 
 .stickyWrapper {
+  border-right: 1px solid $color-neutral-10;
+  margin-right: 20px;
 }
 
 .sticky {

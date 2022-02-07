@@ -52,7 +52,7 @@ const Profile: FC<FormikProps<IProfile>> = observer(
                       isImgOnly
                       formikValue="avatar"
                       isButton
-                      colorButton='black'
+                      colorButton="black"
                       className={styles.fileUpload}
                     />
                   )}
@@ -209,6 +209,7 @@ const Profile: FC<FormikProps<IProfile>> = observer(
                 loading={values.isLoading}
                 color="purple"
                 type="submit"
+                disabled={!!Object.keys(errors).length}
               >
                 <Text size="m" color="white" weight="bold">
                   Update Profile

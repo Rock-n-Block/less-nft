@@ -52,7 +52,7 @@ const Checkout: React.FC = observer(() => {
               .then((res: any) => {
                 console.log('data', data);
                 if (res) {
-                  toast.success('success');
+                  toast.success('Success! You`ve just bought a token!');
                   storeApi
                     .trackTransaction(
                       res.transactionHash,
@@ -82,7 +82,7 @@ const Checkout: React.FC = observer(() => {
             walletService
               .sendTransaction(data.initial_tx)
               .then((res: any) => {
-                toast.success('success');
+                toast.success('Success! You`ve just bought a token!');
                 storeApi
                   .trackTransaction(
                     res.transactionHash,
