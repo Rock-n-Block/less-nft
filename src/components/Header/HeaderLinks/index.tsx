@@ -83,9 +83,9 @@ const HeaderLinks: FC<IHeaderLinksProps> = observer(({ className, toggleMenu }) 
         title: 'Explore',
         active: location.pathname.includes(routes.discover.root),
         disabled: false,
-        isNested: width > 768,
+        isNested: width > 900,
         internalLinks: nftTags.getTags,
-        url: width < 768 ? routes.discover.root : '',
+        url: width < 900 ? routes.discover.root : '',
       },
 
       {
