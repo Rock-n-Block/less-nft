@@ -2,10 +2,6 @@
 
 .wallet {
   position: relative;
-
-  @include m {
-    position: static;
-  }
 }
 
 .avatar {
@@ -24,10 +20,6 @@
 }
 
 .wallet {
-
-  @include m {
-    display: none;
-  }
 
   &Img{
     height: 60px;

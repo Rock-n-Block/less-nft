@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { TNullable } from 'typings';
 
 const sortByFilters = [
@@ -31,6 +31,7 @@ interface IProps {
 
 const useNewFilters = (config?: IProps) => {
   const location = useLocation();
+  const history = useHistory();
 
   // filter and text search from url
   const urlParams = new URLSearchParams(location.search);
@@ -74,7 +75,10 @@ const useNewFilters = (config?: IProps) => {
     setActivePerks('{}');
     setActiveRankigs('{}');
     setActiveStats('{}');
-  }, []);
+    if (tagsFromSearch) {
+      history.replace({ search: '?filter=All NFTs' });
+    }
+  }, [history, tagsFromSearch]);
 
   useEffect(() => {
     if (tagsFromSearch) {
