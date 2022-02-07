@@ -1,8 +1,9 @@
 import { VFC } from 'react';
 
-import { EllipsisText, Text } from 'components';
+import { Text } from 'components';
 
 import s from './Property.module.scss';
+import { sliceString } from 'utils';
 
 interface IProps {
   title: string;
@@ -13,13 +14,12 @@ interface IProps {
 const Property: VFC<IProps> = ({ title, value, chance }) => {
   return (
     <div className={s.property}>
-      <EllipsisText>
-        <Text size="s" align="center" color="primary" weight="bold" className={s.title}>
-          {title}
-        </Text>
-      </EllipsisText>
+      <Text size="s" align="center" color="primary" weight="bold" className={s.title}>
+        {sliceString(title, 10, 0)}
+      </Text>
+
       <Text size="m" align="center" weight="bold" className={s.value}>
-        {value}
+        {sliceString(value, 10, 0)}
       </Text>
       <Text size="xs" color="lightGray" align="center" className={s.chance}>
         {chance}% have this trait

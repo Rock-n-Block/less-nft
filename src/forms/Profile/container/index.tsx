@@ -56,7 +56,7 @@ const ProfileForm: React.FC = () => {
         .then(({ data }) => {
           toast.success('Profile updated');
           user.update(data);
-          history.push(routes.profile.link(user.id));
+          history.push(routes.profile.link(user.id, 'about'));
         })
         .catch(({ response }) => {
           toast.error('Profile update failed');

@@ -24,7 +24,7 @@ const GroupWrapper: FC<IProps> = ({ children, title, isOpened, setIsOpened, icon
       >
         {icon && <img src={icon} className={s.icon} alt={`${title} icon`} />}
         <EllipsisText>
-          <H6 weight="medium" className={s.title}>
+          <H6 weight="bold" className={s.title}>
             {title}
           </H6>
         </EllipsisText>

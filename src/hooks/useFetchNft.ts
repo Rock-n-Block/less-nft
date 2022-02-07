@@ -28,6 +28,7 @@ interface IProps {
   properties?: string;
   rankings?: string;
   stats?: string;
+  hasOwner?: boolean
 }
 
 export const useFetchNft = (
@@ -113,7 +114,7 @@ export const useFetchNft = (
     };
     // when passing PROPS directly to useEffect deps - rerender each time
     // eslint-disable-next-line
-  }, [newDebouncedFetch, ...Object.keys(props)]);
+  }, [newDebouncedFetch, ...Object.values(props)]);
 
   return [allPages, totalItems, nftCards, isLoading, newDebouncedFetch];
 };
