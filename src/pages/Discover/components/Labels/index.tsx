@@ -70,12 +70,12 @@ const Labels: VFC<IProps> = ({
   const handleDeleteRanking = useCallback(
     (rankingTitle: string) => {
       const newRankings = Object.fromEntries(
-        Object.entries(activeRankings).filter((ranking) => ranking[0] !== rankingTitle),
+        Object.entries(activeRanks).filter((ranking) => ranking[0] !== rankingTitle),
       );
 
       setActiveRankigs(JSON.stringify(newRankings));
     },
-    [activeRankings, setActiveRankigs],
+    [activeRanks, setActiveRankigs],
   );
 
   const handleDeleteStat = useCallback(
