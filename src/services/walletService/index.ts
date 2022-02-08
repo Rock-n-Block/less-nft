@@ -91,6 +91,7 @@ export class WalletConnect {
   }
 
   async checkNftTrxTokenAllowance(tokenAddress: string, userAddress: string) {
+    const ExchangeAddress = exchangeAddrs[localStorage.nftcrowd_nft_chainName as chainsEnum];
     const data = {
       contractAddress: tokenAddress,
       feeLimit: trxFeeLimit,
@@ -100,11 +101,10 @@ export class WalletConnect {
         { type: 'address', value: userAddress },
         {
           type: 'address',
-          value: contracts.params.EXCHANGE[is_production ? 'mainnet' : 'testnet'].address,
+          value: ExchangeAddress,
         },
       ],
     };
-
     const result = await this.trxCreateTransaction(data, userAddress);
 
     return result.result;
@@ -195,7 +195,6 @@ export class WalletConnect {
       data.parameter,
       address,
     );
-    console.log('transaction', transaction);
 
     const isTransferOrBurn =
       data.function.toLowerCase().includes('transfer') || data.function.includes('burn');
@@ -223,7 +222,6 @@ export class WalletConnect {
     } catch (err: any) {
       console.log(err);
     }
-
     return receipt;
   }
 

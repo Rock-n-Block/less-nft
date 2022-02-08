@@ -88,7 +88,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
       const isAppr = await handleCheckApproveNft();
       if (!isAppr) {
         if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
-          await walletService.trxCreateTransaction(
+          const result = await walletService.trxCreateTransaction(
             {
               contractAddress: sell.nft.collection.address,
               feeLimit: 100000000,
@@ -104,6 +104,7 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
             },
             user.address,
           );
+          console.log('result', result);
         } else {
           await walletService.createTransaction(
             'setApprovalForAll',
@@ -112,9 +113,10 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
             false,
             sell.nft.collection.address,
           );
-        } 
+        }
       }
     } catch (err) {
+      console.log(err);
       throw Error;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,28 +131,35 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
   const fetchStore = useCallback(() => {
     setIsLoading(true);
     handleApproveNft()
-      .then(() => {
-        storeApi
-          .putOnSale(
-            sell.nft.tokenId ? +sell.nft.tokenId : 0,
-            priceValue ? +priceValue : 0,
-            price,
-            currency,
-            !price && isTimedAuction ? dateFormatter(startAuction) : '',
-            !price && isTimedAuction ? dateFormatter(endAuction) : '',
-          )
-          .then(() => {
-            sell.putOnSale.success();
-            sell.putOnSale.close();
-            toast.success('Token Put on sale');
-          })
-          .catch((err: any) => {
-            toast.error({
-              message: 'Error',
-              description: 'Something went wrong',
+      .then((res: any) => {
+        if (res) {
+          storeApi
+            .putOnSale(
+              sell.nft.tokenId ? +sell.nft.tokenId : 0,
+              priceValue ? +priceValue : 0,
+              price,
+              currency,
+              !price && isTimedAuction ? dateFormatter(startAuction) : '',
+              !price && isTimedAuction ? dateFormatter(endAuction) : '',
+            )
+            .then(() => {
+              sell.putOnSale.success();
+              sell.putOnSale.close();
+              toast.success('Token Put on sale');
+            })
+            .catch((err: any) => {
+              toast.error({
+                message: 'Error',
+                description: 'Something went wrong',
+              });
+              console.error(err);
             });
-            console.error(err);
+        } else {
+          toast.error({
+            message: 'Error',
+            description: 'Something went wrong',
           });
+        }
       })
       .catch((err: any) => {
         toast.error({
