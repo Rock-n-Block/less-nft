@@ -14,7 +14,7 @@
   animation: showUser 0.4s forwards;
   border-radius: $border-radius;
 
-  @include m{
+  @include t{
     min-width: 150px;
   }
 
