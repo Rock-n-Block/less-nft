@@ -83,7 +83,7 @@ const Search: VFC<Props> = ({ isDesktop = true, className, classNameDropdown }) 
                     price,
                     highest_bid,
                     minimal_bid,
-                    currency: { symbol },
+                    currency,
                     total_supply,
                     is_auc_selling,
                     id,
@@ -101,7 +101,7 @@ const Search: VFC<Props> = ({ isDesktop = true, className, classNameDropdown }) 
                             minimal_bid ||
                             ''
                           }
-                          asset={symbol}
+                          asset={currency}
                           isAuction={is_auc_selling}
                           inStock={total_supply}
                           isSelling={selling}
