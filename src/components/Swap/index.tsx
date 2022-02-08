@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { IconSwap } from 'assets/img';
-import { Button, Text, TextInput, ToastContentWithTxHash } from 'components';
+import { Button, EllipsisText, Text, TextInput, ToastContentWithTxHash } from 'components';
 import { useUserBalance } from 'hooks';
 import { observer } from 'mobx-react';
 import { useWalletConnectorContext, WalletConnect } from 'services';
@@ -152,9 +152,11 @@ const Swap: React.FC = observer(() => {
           <Text tag="span" className={styles.label} size="m" weight="medium">
             You pay
           </Text>
-          <Text tag="span" className={styles.amount} color="gray" size="m" weight="medium">
-            Max amount is {swappingCurrency[0] === 'main' ? balanceMain : balanceWrap}
-          </Text>
+          <EllipsisText>
+            <Text tag="span" className={styles.amount} color="gray" size="m" weight="medium">
+              Max amount is {swappingCurrency[0] === 'main' ? balanceMain : balanceWrap}
+            </Text>
+          </EllipsisText>
         </div>
         <TextInput
           className={styles.input}
