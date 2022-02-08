@@ -8,7 +8,7 @@ type Props = {
   image: string;
   title: string;
   price: string | number;
-  asset: string;
+  asset: any;
   isAuction: boolean;
   inStock: number;
   className?: string;
@@ -36,8 +36,8 @@ const SearchTag: VFC<Props> = ({
         {/* eslint-disable */}
           {isSelling
             ? (isAuction
-              ? `On auction for ${price} ${asset}`
-              : `On sale for ${price} ${asset}`)
+              ? `On auction for ${price} ${asset?.symbol}`
+              : `On sale for ${price} ${asset?.symbol}`)
             : 'Not sale'}
         </Text>
       </div>
