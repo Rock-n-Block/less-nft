@@ -66,8 +66,8 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
   }, [rates, price]);
 
   const handleCheckApproveNft = useCallback(async () => {
+    let result;
     try {
-      let result;
       if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
         result = await walletService.checkNftTrxTokenAllowance(
           sell.nft.collection.address,
@@ -76,19 +76,20 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
       } else {
         result = await walletService.checkNftTokenAllowance(sell.nft.collection.address);
       }
-      return result;
     } catch (err) {
       console.error(err);
-      return false;
+      result = false;
     }
+    return result;
   }, [sell.nft.collection.address, user.address, walletService]);
 
   const handleApproveNft = useCallback(async () => {
+    let result;
     try {
       const isAppr = await handleCheckApproveNft();
-      if (!isAppr) {
-        if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
-          const result = await walletService.trxCreateTransaction(
+      if (localStorage.nftcrowd_nft_chainName === chainsEnum.Tron) {
+        if (isAppr) {
+          result = await walletService.trxCreateTransaction(
             {
               contractAddress: sell.nft.collection.address,
               feeLimit: 100000000,
@@ -104,9 +105,11 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
             },
             user.address,
           );
-          console.log('result', result);
-        } else {
-          await walletService.createTransaction(
+        }
+      } else {
+        // eslint-disable-next-line no-lonely-if
+        if (!isAppr) {
+          result = await walletService.createTransaction(
             'setApprovalForAll',
             [ExchangeAddress, true],
             'NFT',
@@ -116,9 +119,10 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
         }
       }
     } catch (err) {
-      console.log(err);
+      console.log('err', err);
       throw Error;
     }
+    return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     handleCheckApproveNft,
@@ -128,47 +132,77 @@ const PutSale: React.FC<IPutSaleProps> = ({ className }) => {
     ExchangeAddress,
   ]);
 
-  const fetchStore = useCallback(() => {
+  const fetchStore = useCallback(async () => {
     setIsLoading(true);
-    handleApproveNft()
-      .then((res: any) => {
-        if (res) {
-          storeApi
-            .putOnSale(
-              sell.nft.tokenId ? +sell.nft.tokenId : 0,
-              priceValue ? +priceValue : 0,
-              price,
-              currency,
-              !price && isTimedAuction ? dateFormatter(startAuction) : '',
-              !price && isTimedAuction ? dateFormatter(endAuction) : '',
-            )
-            .then(() => {
-              sell.putOnSale.success();
-              sell.putOnSale.close();
-              toast.success('Token Put on sale');
-            })
-            .catch((err: any) => {
-              toast.error({
-                message: 'Error',
-                description: 'Something went wrong',
-              });
-              console.error(err);
-            });
-        } else {
+    const res = await handleApproveNft();
+    if (res) {
+      storeApi
+        .putOnSale(
+          sell.nft.tokenId ? +sell.nft.tokenId : 0,
+          priceValue ? +priceValue : 0,
+          price,
+          currency,
+          !price && isTimedAuction ? dateFormatter(startAuction) : '',
+          !price && isTimedAuction ? dateFormatter(endAuction) : '',
+        )
+        .then(() => {
+          sell.putOnSale.success();
+          sell.putOnSale.close();
+          toast.success('Token Put on sale');
+        })
+        .catch((err: any) => {
           toast.error({
             message: 'Error',
             description: 'Something went wrong',
           });
-        }
-      })
-      .catch((err: any) => {
-        toast.error({
-          message: 'Error',
-          description: 'Something went wrong',
+          console.error(err);
         });
-        console.error(err);
-      })
-      .finally(() => setIsLoading(false));
+    } else {
+      toast.error({
+        message: 'Error',
+        description: 'Something went wrong',
+      });
+    }
+    setIsLoading(false);
+    // handleApproveNft()
+    //   .then(() => {
+    //     if (res) {
+    //       storeApi
+    //         .putOnSale(
+    //           sell.nft.tokenId ? +sell.nft.tokenId : 0,
+    //           priceValue ? +priceValue : 0,
+    //           price,
+    //           currency,
+    //           !price && isTimedAuction ? dateFormatter(startAuction) : '',
+    //           !price && isTimedAuction ? dateFormatter(endAuction) : '',
+    //         )
+    //         .then(() => {
+    //           sell.putOnSale.success();
+    //           sell.putOnSale.close();
+    //           toast.success('Token Put on sale');
+    //         })
+    //         .catch((err: any) => {
+    //           toast.error({
+    //             message: 'Error',
+    //             description: 'Something went wrong',
+    //           });
+    //           console.error(err);
+    //         });
+    //     } else {
+    //       toast.error({
+    //         message: 'Error',
+    //         description: 'Something went wrong',
+    //       });
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     toast.error({
+    //       message: 'Error',
+    //       description: 'Something went wrong',
+    //     });
+    //     console.error(err);
+    //   })
+    //   .finally(() => setIsLoading(false));
   }, [
     handleApproveNft,
     sell.nft.tokenId,

@@ -32,7 +32,7 @@ const Discover = observer(() => {
       text: filters.textSearch,
       on_sale: filters.isOnSale,
       on_auc_sale: filters.isOnAuction,
-      on_timed_auc_sale: filters.isOnTimedAuction,
+      has_bids: filters.isOnTimedAuction,
       network: filters.activeChains.join(','),
       currency: filters.activeCurrencies.join(','),
       collections: filters.activeCollections.map((el) => el.id).join(','),
