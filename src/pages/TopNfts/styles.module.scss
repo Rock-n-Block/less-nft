@@ -23,6 +23,10 @@
 .dropdowns {
   display: flex;
   gap: 50px;
+
+  @include d{
+    padding-top: 16px;
+  }
 }
 
 .title {
@@ -65,7 +69,7 @@
   border-radius: $border-radius;
 
   height: 42px;
-  @include epilogue;
+  // @include epilogue;
   font-size: 16px;
   line-height: 160%;
 
@@ -228,7 +232,7 @@
     }
     &Dropdown {
       .head {
-        border-radius: 0;
+        border-radius: $border-radius;
         padding: 2px 0 0 8px;
         width: 51px;
         height: 32px;
@@ -237,7 +241,7 @@
         right: 4px;
       }
       .body {
-        border-radius: 0;
+        border-radius: $border-radius;
         width: 52px;
 
         .option {

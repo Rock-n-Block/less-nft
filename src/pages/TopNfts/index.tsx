@@ -80,7 +80,7 @@ const TopNfts: VFC = observer(() => {
     [time.label],
   );
 
-  const { collections, totalItems } = useFetchTopCollections(
+  const { collections, totalItems, totalPages } = useFetchTopCollections(
     time,
     chain.symbol === 'All chains' ? '' : chain.symbol,
     tag.symbol === 'All NFTs' ? '' : tag.symbol,
@@ -302,7 +302,7 @@ const TopNfts: VFC = observer(() => {
               className={styles.pagination}
               defaultCurrent={1}
               current={currentPage}
-              total={totalItems}
+              total={totalPages}
               locale={localeInfo}
               defaultPageSize={1}
               prevIcon={<img alt="" src={iconArrowPageLeft} className={styles.pageArrow} />}
