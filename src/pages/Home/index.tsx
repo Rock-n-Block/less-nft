@@ -2,11 +2,11 @@ import { FC } from 'react';
 import { observer } from 'mobx-react';
 
 import Banner from './Banner';
-import CreateAndSell from './CreateAndSellNft';
+// import CreateAndSell from './CreateAndSellNft';
 import NotableDrops from './NotableDrops';
 import TopCollections from './TopCollections';
 import Trending from './Trending';
-import ResourceForGettingStarted from './ResourceForGettingStarted';
+// import ResourceForGettingStarted from './ResourceForGettingStarted';
 import BrowseByCategory from './BrowseByCategory';
 
 import styles from './Home.module.scss';
@@ -21,10 +21,10 @@ const Home: FC = observer(() => {
       <Trending />
       <GradientBlock color="orange" align="right" />
       <LiveAuction />
-      <ResourceForGettingStarted />
+      {/* <ResourceForGettingStarted /> */}
       <BrowseByCategory />
       <GradientBlock color="purple" align="left" />
-      <CreateAndSell />
+      {/* <CreateAndSell /> */}
     </div>
   );
 });
